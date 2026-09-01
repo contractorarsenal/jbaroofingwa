@@ -1,0 +1,80 @@
+---
+/**
+ * Used on individual maintenance-journey service pages (roof-maintenance,
+ * roof-cleaning, roof-inspection) to surface maintenance plans in context.
+ * The homepage uses the merged ProtectYourRoof section instead of this.
+ */
+import { getActiveMaintenancePlans } from '@lib/content';
+import Button from '@components/ui/Button.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
+
+const plans = await getActiveMaintenancePlans();
+---
+
+<section class="section section--light maintenance-teaser">
+  <div class="container maintenance-teaser__layout">
+    <div class="maintenance-teaser__art">
+      <MediaSlot tone="light" variant={2} label="Roof cleaning and maintenance photography pending" />
+    </div>
+    <div>
+      <p class="eyebrow">Roof Cleaning &amp; Maintenance</p>
+      <h2 class="h2">Don't Wait For The Roof To <span class="accent-text">Fail.</span></h2>
+      <p class="text-muted maintenance-teaser__lede">
+        Western Washington's climate is hard on shingles. Moss buildup, debris, and
+        clogged gutters don't show up as a leak until the damage is already done.
+        Routine cleaning and inspection catches minor problems before they become
+        bigger work.
+      </p>
+
+      {plans.length > 0 ? (
+        <ul class="maintenance-teaser__plans">
+          {plans.map((plan) => (
+            <li>
+              <span class="maintenance-teaser__plan-name">{plan.data.planName}</span>
+              <span class="text-muted">
+                {plan.data.price.verified && plan.data.price.display ? plan.data.price.display : 'Pricing available on request'}
+              </span>
+            </li>
+          ))}
+        </ul>
+      ) : null}
+
+      <div class="maintenance-teaser__actions">
+        <Button href="/assessment/?need=maintenance" analyticsEvent="maintenance_plan_clicked" analyticsLocation="service_page_teaser">
+          Book Roof Maintenance
+        </Button>
+        <Button href="/maintenance-plans/" variant="outline">
+          View Maintenance Plans
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .maintenance-teaser__layout {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .maintenance-teaser__art { aspect-ratio: 4 / 3; border: 1px solid var(--color-border); border-radius: var(--radius-md); overflow: hidden; }
+  .maintenance-teaser__lede { margin-block: var(--space-3) var(--space-5); max-width: 52ch; }
+  .maintenance-teaser__plans {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-5);
+    padding: var(--space-4);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+  }
+  .maintenance-teaser__plans li { display: flex; justify-content: space-between; gap: var(--space-3); }
+  .maintenance-teaser__plan-name { font-weight: 700; }
+  .maintenance-teaser__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+
+  @media (min-width: 900px) {
+    .maintenance-teaser__layout { grid-template-columns: 1fr 1fr; }
+  }
+</style>

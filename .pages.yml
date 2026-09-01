@@ -1,0 +1,940 @@
+# Pages CMS configuration for JBA Construction.
+#
+# This file controls WHAT content an editor can change (text, images,
+# services, projects, reviews, etc). It does NOT give editors control over
+# layout, spacing, fonts, or colors — that's owned by the Astro codebase in
+# src/components and src/styles, on purpose. See ARCHITECTURE.md.
+#
+# If Pages CMS ever reports a schema error on a field below, check the
+# current docs at https://pagescms.org/docs/configuration — their field
+# syntax has changed across versions and this file was written against the
+# schema documented there as of 2026.
+
+media:
+  input: public/images
+  output: /images
+
+content:
+  # ------------------------------------------------------------------
+  # BUSINESS SETTINGS (single file, site-wide)
+  # ------------------------------------------------------------------
+  - name: business-settings
+    label: Business Settings
+    type: file
+    path: src/content/settings/global.yaml
+    fields:
+      - name: global
+        label: Business Settings
+        type: object
+        fields:
+          - name: businessName
+            label: Business Name
+            type: string
+            description: Shown in the header, footer, and browser tab.
+          - name: legalBusinessName
+            label: Legal Business Name
+            type: string
+            description: Full legal name, shown in the footer copyright line.
+          - name: primaryPhone
+            label: Phone Number (for click-to-call)
+            type: string
+            description: "Format: +1 followed by the 10-digit number, e.g. +12065551234. This is what phones dial — it is not shown to visitors."
+          - name: primaryPhoneDisplay
+            label: Phone Number (as displayed)
+            type: string
+            description: "Format however you want it to look, e.g. (206) 474-5996."
+          - name: emergencyPhone
+            label: Emergency Phone Number (optional)
+            type: string
+            required: false
+          - name: email
+            label: Email Address
+            type: string
+          - name: primaryServiceArea
+            label: Primary Service Area
+            type: string
+            description: "e.g. King County, WA"
+          - name: secondaryServiceAreas
+            label: Other Service Areas
+            type: string
+            list: true
+          - name: contractorLicense
+            label: WA Contractor License
+            type: object
+            description: Only turn "Verified" on once you've confirmed the exact license number — it will not show on the site until then.
+            fields:
+              - name: value
+                label: License Number
+                type: string
+                required: false
+              - name: verified
+                label: Verified — OK to show publicly
+                type: boolean
+                default: false
+          - name: gafMasterElite
+            label: GAF Master Elite Certification
+            type: object
+            description: Only turn this on once GAF Master Elite status is confirmed — it will not be claimed anywhere on the site until then.
+            fields:
+              - name: verified
+                label: Verified — OK to show publicly
+                type: boolean
+                default: false
+          - name: insuranceBonded
+            label: Insurance / Bonding
+            type: object
+            fields:
+              - name: value
+                label: Details (e.g. "Licensed & Insured")
+                type: string
+                required: false
+              - name: verified
+                label: Verified — OK to show publicly
+                type: boolean
+                default: false
+          - name: emergencyAvailability
+            label: Emergency Availability Claim
+            type: object
+            description: "e.g. '24/7 Emergency Service' — only enable once this is actually true."
+            fields:
+              - name: value
+                label: Details
+                type: string
+                required: false
+              - name: verified
+                label: Verified — OK to show publicly
+                type: boolean
+                default: false
+          - name: yearsExperience
+            label: Years of Experience Claim
+            type: object
+            fields:
+              - name: value
+                label: Details (e.g. "10+ years combined crew experience")
+                type: string
+                required: false
+              - name: verified
+                label: Verified — OK to show publicly
+                type: boolean
+                default: false
+          - name: googleRating
+            label: Google Star Rating
+            type: number
+            description: "e.g. 5 or 4.9 — update this periodically to match your live Google Business Profile."
+            required: false
+          - name: googleReviewCount
+            label: Google Review Count
+            type: number
+            required: false
+          - name: googleBusinessProfileUrl
+            label: Google Business Profile Link
+            type: string
+            required: false
+          - name: primaryCtaLabel
+            label: Main Button Text (site-wide)
+            type: string
+            description: "e.g. 'Get a Free Roof Assessment' — shown in the header and most call-to-action buttons."
+          - name: primaryCtaDestination
+            label: Main Button Link
+            type: string
+          - name: emergencyCtaLabel
+            label: Emergency Button Text
+            type: string
+            required: false
+          - name: financingUrl
+            label: Financing Page/Partner Link
+            type: string
+            required: false
+          - name: financingVerified
+            label: Financing Info Confirmed — OK to show publicly
+            type: boolean
+            default: false
+          - name: socialUrls
+            label: Social Media Links
+            type: object
+            fields:
+              - name: facebook
+                label: Facebook URL
+                type: string
+                required: false
+              - name: instagram
+                label: Instagram URL
+                type: string
+                required: false
+              - name: google
+                label: Google Business Profile URL
+                type: string
+                required: false
+              - name: yelp
+                label: Yelp URL
+                type: string
+                required: false
+              - name: bbb
+                label: BBB Profile URL
+                type: string
+                required: false
+          - name: defaultSeoTitle
+            label: Default SEO Page Title
+            type: string
+            description: Used on any page that doesn't set its own SEO title.
+          - name: defaultMetaDescription
+            label: Default Meta Description
+            type: text
+          - name: defaultOgImage
+            label: Default Social Share Image
+            type: image
+          - name: logo
+            label: Logo (light backgrounds)
+            type: image
+          - name: logoDark
+            label: Logo (dark backgrounds)
+            type: image
+            required: false
+          - name: favicon
+            label: Favicon (browser tab icon)
+            type: image
+          - name: footerDescription
+            label: Footer Description
+            type: text
+          - name: businessHours
+            label: Business Hours
+            type: object
+            list: true
+            fields:
+              - name: days
+                label: Day(s)
+                type: string
+              - name: hours
+                label: Hours
+                type: string
+          - name: leadWebhookUrl
+            label: Lead Notification Webhook URL
+            type: string
+            required: false
+            description: "Technical — set only by the developer/agency. Leave blank unless instructed."
+          - name: analyticsId
+            label: Analytics ID
+            type: string
+            required: false
+            description: "Technical — set only by the developer/agency."
+
+  # ------------------------------------------------------------------
+  # SERVICES
+  # ------------------------------------------------------------------
+  - name: services
+    label: Services
+    type: collection
+    path: src/content/services
+    extension: md
+    filename:
+      template: "{fields.title}.md"
+      field: create
+    view:
+      primary: title
+      fields: [title, journey, published, featured]
+    fields:
+      - name: title
+        label: Service Name
+        type: string
+      - name: navigationLabel
+        label: Menu Label
+        type: string
+        required: false
+        description: Short label shown in the site navigation. Falls back to Service Name if left blank.
+      - name: shortDescription
+        label: Short Description
+        type: text
+        description: One or two sentences — used in navigation menus and listing cards.
+      - name: category
+        label: Category
+        type: select
+        options:
+          values: [repair, maintenance, replacement, other]
+      - name: journey
+        label: Customer Journey
+        type: select
+        description: Which of the three main customer paths this belongs to. Controls which page layout is used.
+        options:
+          values:
+            - name: repair
+              label: Repair (urgent)
+            - name: maintenance
+              label: Maintenance (preventative)
+            - name: replacement
+              label: Replacement (planned)
+        required: false
+      - name: featured
+        label: Feature on Homepage
+        type: boolean
+        default: false
+      - name: published
+        label: Published
+        type: boolean
+        default: false
+        description: Turn ON to make this live on the website.
+      - name: heroEyebrow
+        label: Hero Small Label
+        type: string
+        required: false
+      - name: heroTitle
+        label: Hero Headline
+        type: string
+      - name: heroDescription
+        label: Hero Description
+        type: text
+      - name: heroImage
+        label: Hero Image
+        type: image
+        required: false
+      - name: primaryCta
+        label: Primary Button
+        type: object
+        required: false
+        fields:
+          - { name: label, label: Button Text, type: string }
+          - { name: href, label: Button Link, type: string }
+      - name: secondaryCta
+        label: Secondary Button
+        type: object
+        required: false
+        fields:
+          - { name: label, label: Button Text, type: string }
+          - { name: href, label: Button Link, type: string }
+      - name: problemStatement
+        label: Problem Statement
+        type: text
+        required: false
+        description: Explains the core problem this service solves.
+      - name: problemsSolved
+        label: Problems This Solves
+        type: string
+        list: true
+      - name: benefits
+        label: Key Benefits
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Benefit Title, type: string }
+          - { name: description, label: Benefit Description, type: text }
+      - name: process
+        label: How It Works — Steps
+        type: object
+        list: true
+        fields:
+          - { name: step, label: Step Number, type: string }
+          - { name: title, label: Step Title, type: string }
+          - { name: description, label: Step Description, type: text }
+      - name: gallery
+        label: Photo Gallery
+        type: object
+        list: true
+        fields:
+          - { name: image, label: Image, type: image }
+          - { name: alt, label: Alt Text (for accessibility), type: string }
+          - { name: caption, label: Caption, type: string, required: false }
+      - name: relatedProjectIds
+        label: Related Projects
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: projects
+      - name: relatedFaqIds
+        label: Related FAQs
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: faqs
+      - name: relatedReviewIds
+        label: Related Reviews
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: reviews
+      - name: relatedLocationIds
+        label: Related Service Areas
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: locations
+      - name: faqHeading
+        label: FAQ Section Heading
+        type: string
+        required: false
+      - name: ctaHeading
+        label: Bottom Call-to-Action Heading
+        type: string
+        required: false
+      - name: ctaDescription
+        label: Bottom Call-to-Action Description
+        type: text
+        required: false
+      - name: schemaServiceName
+        label: SEO Service Name
+        type: string
+        required: false
+        description: Used in search engine data. Leave blank to reuse Service Name.
+      - name: seo
+        label: Search Engine Settings (SEO)
+        type: object
+        fields:
+          - { name: title, label: SEO Page Title, type: string, required: false }
+          - { name: description, label: Meta Description, type: text, required: false }
+          - { name: ogImage, label: Social Share Image, type: image, required: false }
+          - { name: canonicalUrl, label: Canonical URL, type: string, required: false }
+          - { name: noindex, label: Hide From Search Engines, type: boolean, default: false }
+      - name: body
+        label: Full Description
+        type: rich-text
+        required: false
+        description: Longer-form content shown in the body of the page, below the main sections.
+
+  # ------------------------------------------------------------------
+  # PROJECTS
+  # ------------------------------------------------------------------
+  - name: projects
+    label: Projects
+    type: collection
+    path: src/content/projects
+    extension: md
+    filename:
+      template: "{fields.projectName}.md"
+      field: create
+    view:
+      primary: projectName
+      fields: [projectName, city, published, featured]
+    fields:
+      - name: projectName
+        label: Project Name
+        type: string
+      - name: published
+        label: Published
+        type: boolean
+        default: false
+      - name: featured
+        label: Feature on Homepage
+        type: boolean
+        default: false
+      - name: city
+        label: City
+        type: string
+      - name: neighborhood
+        label: Neighborhood
+        type: string
+        required: false
+      - name: zip
+        label: ZIP Code
+        type: string
+        required: false
+      - name: service
+        label: Service Performed
+        type: reference
+        required: false
+        options:
+          collection: services
+      - name: relatedServices
+        label: Related Services
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: services
+      - name: relatedLocation
+        label: Service Area
+        type: reference
+        required: false
+        options:
+          collection: locations
+      - name: roofType
+        label: Roof Type
+        type: string
+        required: false
+      - name: roofMaterial
+        label: Roof Material
+        type: string
+        required: false
+      - name: manufacturer
+        label: Manufacturer
+        type: string
+        required: false
+      - name: projectSummary
+        label: Project Summary
+        type: text
+        description: One or two sentences describing the job.
+      - name: customerProblem
+        label: The Problem
+        type: text
+        required: false
+        description: What the customer noticed or was concerned about.
+      - name: inspectionFindings
+        label: What We Found
+        type: text
+        required: false
+      - name: solution
+        label: The Solution
+        type: text
+        required: false
+      - name: beforeImages
+        label: Before Photos
+        type: image
+        list: true
+      - name: duringImages
+        label: During Photos
+        type: image
+        list: true
+      - name: afterImages
+        label: After Photos
+        type: image
+        list: true
+      - name: droneImages
+        label: Drone Photos
+        type: image
+        list: true
+      - name: completionDate
+        label: Completion Date
+        type: date
+        required: false
+      - name: relatedReview
+        label: Customer Review
+        type: reference
+        required: false
+        options:
+          collection: reviews
+      - name: seo
+        label: Search Engine Settings (SEO)
+        type: object
+        fields:
+          - { name: title, label: SEO Page Title, type: string, required: false }
+          - { name: description, label: Meta Description, type: text, required: false }
+          - { name: ogImage, label: Social Share Image, type: image, required: false }
+          - { name: canonicalUrl, label: Canonical URL, type: string, required: false }
+          - { name: noindex, label: Hide From Search Engines, type: boolean, default: false }
+      - name: body
+        label: Full Project Story
+        type: rich-text
+        required: false
+
+  # ------------------------------------------------------------------
+  # SERVICE AREAS (LOCATIONS)
+  # ------------------------------------------------------------------
+  - name: locations
+    label: Service Areas
+    type: collection
+    path: src/content/locations
+    extension: md
+    filename:
+      template: "{fields.cityName}.md"
+      field: create
+    view:
+      primary: cityName
+      fields: [cityName, tier, published]
+    fields:
+      - name: cityName
+        label: City / County Name
+        type: string
+      - name: published
+        label: Published
+        type: boolean
+        default: false
+        description: Keep OFF for cities that are still strategy/draft pages — see CLIENT-CONTENT-NEEDED.md.
+      - name: tier
+        label: Page Type
+        type: select
+        options:
+          values:
+            - { name: county, label: County (broad service area) }
+            - { name: city, label: City (specific local page) }
+        default: city
+      - name: county
+        label: County
+        type: string
+        required: false
+      - name: heroTitle
+        label: Hero Headline
+        type: string
+      - name: heroDescription
+        label: Hero Description
+        type: text
+      - name: heroImage
+        label: Hero Image
+        type: image
+        required: false
+      - name: localIntro
+        label: Local Introduction
+        type: text
+        required: false
+        description: Unique, locally-specific paragraph — do not copy/paste between cities.
+      - name: servicesAvailable
+        label: Services Offered Here
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: services
+      - name: neighborhoods
+        label: Neighborhoods Served
+        type: string
+        list: true
+      - name: localRoofingConsiderations
+        label: Local Roofing Notes
+        type: text
+        required: false
+        description: "e.g. local permit rules, common local roof styles, climate notes specific to this area."
+      - name: nearbyAreas
+        label: Nearby Service Areas
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: locations
+      - name: uniqueFaqIds
+        label: Local FAQs
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: faqs
+      - name: mapEmbedUrl
+        label: Map Embed URL
+        type: string
+        required: false
+      - name: cta
+        label: Call-to-Action Button
+        type: object
+        required: false
+        fields:
+          - { name: label, label: Button Text, type: string }
+          - { name: href, label: Button Link, type: string }
+      - name: seo
+        label: Search Engine Settings (SEO)
+        type: object
+        fields:
+          - { name: title, label: SEO Page Title, type: string, required: false }
+          - { name: description, label: Meta Description, type: text, required: false }
+          - { name: ogImage, label: Social Share Image, type: image, required: false }
+          - { name: canonicalUrl, label: Canonical URL, type: string, required: false }
+          - { name: noindex, label: Hide From Search Engines, type: boolean, default: false }
+      - name: body
+        label: Additional Local Content
+        type: rich-text
+        required: false
+
+  # ------------------------------------------------------------------
+  # REVIEWS
+  # ------------------------------------------------------------------
+  - name: reviews
+    label: Reviews
+    type: collection
+    path: src/content/reviews
+    extension: yaml
+    filename:
+      template: "{fields.customerName}.yaml"
+      field: create
+    view:
+      primary: customerName
+      fields: [customerName, rating, city, published, featured]
+    fields:
+      - name: customerName
+        label: Customer Name
+        type: string
+      - name: rating
+        label: Star Rating
+        type: number
+        options: { min: 1, max: 5 }
+      - name: reviewText
+        label: Review Text
+        type: text
+        description: Only enter real reviews — never invented or paraphrased ones.
+      - name: reviewSource
+        label: Review Source
+        type: select
+        options:
+          values: [google, bbb, yelp, facebook, direct]
+      - name: reviewUrl
+        label: Link to Original Review
+        type: string
+        required: false
+      - name: reviewDate
+        label: Review Date
+        type: date
+        required: false
+      - name: service
+        label: Related Service
+        type: reference
+        required: false
+        options:
+          collection: services
+      - name: city
+        label: Customer's City
+        type: string
+        required: false
+      - name: relatedProject
+        label: Related Project
+        type: reference
+        required: false
+        options:
+          collection: projects
+      - name: featured
+        label: Feature Prominently
+        type: boolean
+        default: false
+      - name: published
+        label: Published
+        type: boolean
+        default: false
+
+  # ------------------------------------------------------------------
+  # FAQs
+  # ------------------------------------------------------------------
+  - name: faqs
+    label: FAQs
+    type: collection
+    path: src/content/faqs
+    extension: yaml
+    filename:
+      template: "{fields.question}.yaml"
+      field: create
+    view:
+      primary: question
+      fields: [question, category, published]
+    fields:
+      - name: question
+        label: Question
+        type: string
+      - name: answer
+        label: Answer
+        type: text
+      - name: category
+        label: Category
+        type: select
+        options:
+          values: [repair, maintenance, replacement, general, financing, permits]
+      - name: relatedServices
+        label: Shows On These Services
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: services
+      - name: relatedLocations
+        label: Shows On These Service Areas
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: locations
+      - name: featured
+        label: Feature Prominently
+        type: boolean
+        default: false
+      - name: schemaEligible
+        label: Include in Search Engine FAQ Data
+        type: boolean
+        default: true
+      - name: published
+        label: Published
+        type: boolean
+        default: true
+
+  # ------------------------------------------------------------------
+  # TEAM
+  # ------------------------------------------------------------------
+  - name: team
+    label: Team
+    type: collection
+    path: src/content/team
+    extension: md
+    filename:
+      template: "{fields.name}.md"
+      field: create
+    view:
+      primary: name
+      fields: [name, role, published]
+    fields:
+      - name: name
+        label: Full Name
+        type: string
+      - name: role
+        label: Role / Title
+        type: string
+      - name: photo
+        label: Photo
+        type: image
+        required: false
+      - name: shortBio
+        label: Short Bio
+        type: text
+      - name: certifications
+        label: Certifications
+        type: string
+        list: true
+      - name: featured
+        label: Feature Prominently
+        type: boolean
+        default: false
+      - name: published
+        label: Published
+        type: boolean
+        default: false
+      - name: socialProfile
+        label: Social Profile Link
+        type: string
+        required: false
+      - name: body
+        label: Full Bio
+        type: rich-text
+        required: false
+
+  # ------------------------------------------------------------------
+  # MAINTENANCE PLANS
+  # ------------------------------------------------------------------
+  - name: maintenance
+    label: Maintenance Plans
+    type: collection
+    path: src/content/maintenance
+    extension: md
+    filename:
+      template: "{fields.planName}.md"
+      field: create
+    view:
+      primary: planName
+      fields: [planName, published, recommended]
+    fields:
+      - name: planName
+        label: Plan Name
+        type: string
+      - name: published
+        label: Published
+        type: boolean
+        default: false
+      - name: price
+        label: Pricing
+        type: object
+        fields:
+          - name: value
+            label: Price (number, optional)
+            type: number
+            required: false
+          - name: display
+            label: Price Display Text
+            type: string
+            required: false
+            description: "e.g. '$299/year' — leave blank until pricing is confirmed."
+          - name: verified
+            label: Pricing Confirmed — OK to show publicly
+            type: boolean
+            default: false
+      - name: billingFrequency
+        label: Billing Frequency
+        type: string
+        required: false
+      - name: shortDescription
+        label: Short Description
+        type: text
+      - name: features
+        label: What's Included
+        type: string
+        list: true
+      - name: recommended
+        label: Highlight as Recommended
+        type: boolean
+        default: false
+      - name: badge
+        label: Badge Text
+        type: string
+        required: false
+        description: "e.g. 'Most Popular'"
+      - name: cta
+        label: Button
+        type: object
+        required: false
+        fields:
+          - { name: label, label: Button Text, type: string }
+          - { name: href, label: Button Link, type: string }
+      - name: finePrint
+        label: Fine Print
+        type: text
+        required: false
+      - name: order
+        label: Display Order
+        type: number
+        default: 0
+        description: Lower numbers show first.
+      - name: body
+        label: Additional Details
+        type: rich-text
+        required: false
+
+  # ------------------------------------------------------------------
+  # RESOURCES / ARTICLES
+  # ------------------------------------------------------------------
+  - name: articles
+    label: Resources / Articles
+    type: collection
+    path: src/content/articles
+    extension: md
+    filename:
+      template: "{year}-{month}-{day}-{fields.title}.md"
+      field: create
+    view:
+      primary: title
+      fields: [title, published, publishDate]
+    fields:
+      - name: title
+        label: Article Title
+        type: string
+      - name: published
+        label: Published
+        type: boolean
+        default: false
+      - name: excerpt
+        label: Excerpt / Summary
+        type: text
+      - name: featuredImage
+        label: Featured Image
+        type: image
+        required: false
+      - name: author
+        label: Author
+        type: string
+        required: false
+      - name: publishDate
+        label: Publish Date
+        type: date
+      - name: updatedDate
+        label: Last Updated Date
+        type: date
+        required: false
+      - name: category
+        label: Category
+        type: string
+        required: false
+      - name: relatedServices
+        label: Related Services
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: services
+      - name: relatedLocations
+        label: Related Service Areas
+        type: reference
+        list: true
+        required: false
+        options:
+          collection: locations
+      - name: seo
+        label: Search Engine Settings (SEO)
+        type: object
+        fields:
+          - { name: title, label: SEO Page Title, type: string, required: false }
+          - { name: description, label: Meta Description, type: text, required: false }
+          - { name: ogImage, label: Social Share Image, type: image, required: false }
+          - { name: canonicalUrl, label: Canonical URL, type: string, required: false }
+          - { name: noindex, label: Hide From Search Engines, type: boolean, default: false }
+      - name: body
+        label: Article Content
+        type: rich-text

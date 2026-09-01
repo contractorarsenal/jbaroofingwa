@@ -1,0 +1,49 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  review: CollectionEntry<'reviews'>;
+  'data-reveal'?: string;
+}
+
+const { review, ...rest } = Astro.props;
+const { data } = review;
+---
+
+<figure class="review-card" {...rest}>
+  <div class="review-card__stars" aria-label={`${data.rating} out of 5 stars`}>
+    {Array.from({ length: 5 }).map((_, i) => (
+      <svg width="16" height="16" viewBox="0 0 20 20" fill={i < data.rating ? 'currentColor' : 'none'} stroke="currentColor" aria-hidden="true">
+        <path stroke-width="1.2" d="M10 1.5l2.6 5.6 6.1.6-4.6 4.1 1.3 6-5.4-3.1-5.4 3.1 1.3-6-4.6-4.1 6.1-.6L10 1.5z"/>
+      </svg>
+    ))}
+  </div>
+  <blockquote class="review-card__text">{data.reviewText}</blockquote>
+  <figcaption class="review-card__meta">
+    <span class="review-card__name">{data.customerName}</span>
+    {data.city && <span class="text-muted"> · {data.city}</span>}
+    {data.reviewSource && <span class="text-muted"> · via {data.reviewSource === 'google' ? 'Google' : data.reviewSource}</span>}
+  </figcaption>
+</figure>
+
+<style>
+  .review-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-5);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+    background: var(--color-charcoal);
+    height: 100%;
+    transition: border-color 220ms var(--ease-out);
+  }
+  .review-card:hover { border-color: var(--color-accent); }
+  .review-card__stars { display: flex; gap: 2px; color: var(--color-accent); }
+  .review-card__text {
+    font-size: 0.9375rem;
+    line-height: var(--leading-normal);
+    color: var(--color-text-inverse-muted);
+  }
+  .review-card__name { font-weight: 700; color: var(--color-text-inverse); }
+</style>

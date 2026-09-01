@@ -1,0 +1,106 @@
+---
+import { getEntry } from 'astro:content';
+import Button from '@components/ui/Button.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
+
+const service = await getEntry('services', 'roof-replacement');
+
+const signs = [
+  'Repeated leaks',
+  'Missing or damaged shingles',
+  'Visible wear or curling',
+  'An older roofing system',
+  'Multiple repairs in the same areas',
+  'Interior water damage',
+];
+---
+
+<section class="section section--black primary-service" data-nav-theme="dark">
+  <span class="primary-service__ghost" aria-hidden="true">01</span>
+  <div class="container primary-service__layout">
+    <div class="primary-service__art" data-reveal="image">
+      <MediaSlot image={service?.data.heroImage} alt="Completed roof replacement" tone="dark" variant={3} />
+    </div>
+    <div>
+      <p class="eyebrow eyebrow--inverse" data-reveal="up">Our #1 Service</p>
+      <h2 class="h2" data-reveal="up">When Repairs Aren't Enough, <span class="accent-text">Replace It Right.</span></h2>
+      <p class="text-muted primary-service__body" data-reveal="up">
+        A full roof replacement is the right call for a worn or aging roof, repeated
+        leaks, or storm damage extensive enough that patching isn't practical.
+        Roof replacement is JBA's primary service — with a free estimate and
+        financing available for qualifying homeowners.
+      </p>
+
+      <ul class="primary-service__signs" data-reveal="up">
+        <p class="primary-service__signs-label">Signs it may be time:</p>
+        {signs.map((sign) => (
+          <li>
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {sign}
+          </li>
+        ))}
+      </ul>
+
+      <div class="primary-service__actions" data-reveal="up">
+        <Button href="/assessment/?need=replacement" analyticsEvent="quote_started" analyticsLocation="primary_service">
+          Get a Free Roof Estimate
+        </Button>
+        <Button href="/services/roof-replacement/" variant="outline">
+          Roof Replacement →
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .primary-service { position: relative; overflow: hidden; }
+  .primary-service__ghost {
+    position: absolute;
+    top: -0.15em;
+    right: var(--space-6);
+    font-family: var(--font-display);
+    font-size: clamp(8rem, 6rem + 10vw, 16rem);
+    font-weight: 800;
+    line-height: 1;
+    color: var(--color-text-inverse);
+    opacity: 0.035;
+    pointer-events: none;
+    user-select: none;
+    z-index: 0;
+  }
+  .primary-service__layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .primary-service__art {
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .primary-service__body { margin-block: var(--space-3) var(--space-5); max-width: 54ch; }
+  .primary-service__signs-label { font-weight: 700; margin-bottom: var(--space-2); }
+  .primary-service__signs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2) var(--space-4);
+    margin-bottom: var(--space-6);
+  }
+  .primary-service__signs li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-inverse-muted);
+    font-size: 0.9rem;
+  }
+  .primary-service__signs svg { color: var(--color-accent); flex-shrink: 0; }
+  .primary-service__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
+
+  @media (min-width: 900px) {
+    .primary-service__layout { grid-template-columns: 1.2fr 1fr; }
+  }
+</style>

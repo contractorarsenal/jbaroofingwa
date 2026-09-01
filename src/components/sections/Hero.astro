@@ -1,0 +1,161 @@
+---
+import { getGlobalSettings } from '@lib/content';
+import { getEntry } from 'astro:content';
+import Button from '@components/ui/Button.astro';
+import TrustBar from '@components/global/TrustBar.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
+
+const settings = await getGlobalSettings();
+// Roof Replacement is the primary service — if it has a hero image, the
+// homepage hero reflects that; otherwise MediaSlot falls back gracefully.
+const replacementService = await getEntry('services', 'roof-replacement');
+const heroImage = replacementService?.data.heroImage;
+---
+
+<section class="hero" data-nav-theme="dark">
+  <div class="container hero__inner">
+    <div class="hero__content">
+      <p class="eyebrow eyebrow--inverse hero__anim hero__anim--1">Roofing &amp; Remodeling · Shoreline, WA</p>
+      <h1 class="h1 hero__headline hero__anim hero__anim--2">A Better Roof Starts With The <span class="accent-text">Right Roofer.</span></h1>
+      <p class="hero__sub hero__anim hero__anim--3">
+        Roof replacement, repair, maintenance, and roof care for homeowners across
+        King, Snohomish, and Skagit counties.
+      </p>
+      <div class="hero__actions hero__anim hero__anim--4">
+        <Button href={settings.primaryCtaDestination} analyticsEvent="quote_started" analyticsLocation="hero_primary">
+          {settings.primaryCtaLabel}
+        </Button>
+        <Button href={`tel:${settings.primaryPhone}`} variant="outline" analyticsEvent="phone_click" analyticsLocation="hero_secondary">
+          Call Now
+        </Button>
+      </div>
+      <div class="hero__trust hero__anim hero__anim--5">
+        <TrustBar variant="dark" mode="hero" />
+      </div>
+    </div>
+
+    <div class="hero__visual hero__anim hero__anim--media">
+      <MediaSlot image={heroImage} alt="JBA Roofing & Remodeling" tone="dark" variant={1} />
+      <div class="hero__visual-frame" aria-hidden="true"></div>
+    </div>
+  </div>
+
+  <div class="hero__scroll">
+    <span class="hero__scroll-line" aria-hidden="true"></span>
+    <span>SCROLL</span>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    background: var(--color-black);
+    color: var(--color-text-inverse);
+    min-height: min(92vh, 860px);
+    display: flex;
+    align-items: center;
+    padding-block: var(--space-8);
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-accent) 50%, transparent);
+    opacity: 0.6;
+  }
+
+  /* entrance sequence — plays once on load, independent of scroll */
+  @keyframes heroRise {
+    from { opacity: 0; transform: translateY(26px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes heroMediaReveal {
+    from { opacity: 0; transform: scale(1.035); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .hero__anim { animation: heroRise 700ms var(--ease-out) both; }
+  .hero__anim--1 { animation-delay: 100ms; }
+  .hero__anim--2 { animation-delay: 200ms; }
+  .hero__anim--3 { animation-delay: 420ms; }
+  .hero__anim--4 { animation-delay: 500ms; }
+  .hero__anim--5 { animation-delay: 600ms; }
+  .hero__anim--media { animation: heroMediaReveal 950ms var(--ease-out) both; animation-delay: 380ms; }
+  .hero__inner {
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+    width: 100%;
+    height: 100%;
+  }
+  .hero__content { max-width: 600px; }
+  .hero__headline {
+    margin-top: var(--space-3);
+  }
+  .hero__sub {
+    margin-top: var(--space-4);
+    font-size: 1.05rem;
+    font-family: var(--font-body);
+    color: var(--color-text-inverse-muted);
+    max-width: 480px;
+    line-height: var(--leading-normal);
+  }
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+  .hero__trust {
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border-dark);
+  }
+
+  .hero__visual {
+    display: none;
+    position: relative;
+    align-self: center;
+    aspect-ratio: 4 / 5;
+    max-height: 560px;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    border: 1px solid var(--color-border-dark);
+  }
+  .hero__visual :global(.media-slot) { min-height: 100%; }
+  .hero__visual-frame {
+    position: absolute;
+    inset: 0;
+    box-shadow: inset 0 0 0 1px rgba(209, 155, 42, 0.15), inset 0 -80px 100px -40px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+  }
+
+  .hero__scroll {
+    position: absolute;
+    bottom: var(--space-5);
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    color: var(--color-text-inverse-muted);
+  }
+  .hero__scroll-line {
+    width: 1px;
+    height: 32px;
+    background: linear-gradient(180deg, var(--color-accent), transparent);
+  }
+
+  @media (min-width: 860px) {
+    .hero__inner { grid-template-columns: 1.25fr 1fr; }
+    .hero__visual { display: block; }
+    .hero__scroll { display: flex; }
+  }
+</style>

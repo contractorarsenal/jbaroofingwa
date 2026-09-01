@@ -1,0 +1,85 @@
+---
+import Button from '@components/ui/Button.astro';
+
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  image?: string;
+  primaryCta?: Cta;
+  secondaryCta?: Cta;
+  tone?: 'urgent' | 'default';
+}
+
+const { eyebrow, title, description, image, primaryCta, secondaryCta, tone = 'default' } = Astro.props;
+---
+
+<section class:list={['page-hero', tone === 'urgent' && 'page-hero--urgent']}>
+  {image && (
+    <div class="page-hero__media">
+      <img src={image} alt="" />
+    </div>
+  )}
+  <div class="container page-hero__content">
+    {eyebrow && <p class="eyebrow eyebrow--inverse">{eyebrow}</p>}
+    <h1 class="h2 page-hero__title">{title}</h1>
+    {description && <p class="page-hero__desc">{description}</p>}
+    {(primaryCta || secondaryCta) && (
+      <div class="page-hero__actions">
+        {primaryCta && (
+          <Button href={primaryCta.href} variant={tone === 'urgent' ? 'urgent' : 'primary'} analyticsEvent="quote_started" analyticsLocation="service_hero_primary">
+            {primaryCta.label}
+          </Button>
+        )}
+        {secondaryCta && (
+          <Button href={secondaryCta.href} variant="outline">
+            {secondaryCta.label}
+          </Button>
+        )}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .page-hero {
+    position: relative;
+    background: var(--color-black);
+    color: var(--color-text-inverse);
+    min-height: 380px;
+    display: flex;
+    align-items: flex-end;
+  }
+  .page-hero__media { position: absolute; inset: 0; }
+  .page-hero__media img { width: 100%; height: 100%; object-fit: cover; }
+  .page-hero__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(8, 8, 8, 0.4) 0%, rgba(8, 8, 8, 0.92) 100%);
+  }
+  .page-hero__content {
+    position: relative;
+    z-index: 1;
+    padding-block: var(--space-7) var(--space-6);
+    max-width: 720px;
+  }
+  .page-hero__title { margin-top: var(--space-2); }
+  .page-hero__desc {
+    margin-top: var(--space-3);
+    font-size: var(--step-0);
+    color: var(--color-text-inverse-muted);
+    max-width: 55ch;
+  }
+  .page-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+</style>

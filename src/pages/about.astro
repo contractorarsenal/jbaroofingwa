@@ -1,0 +1,110 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
+import FinalCTA from '@components/sections/FinalCTA.astro';
+import { getPublishedTeam, getGlobalSettings } from '@lib/content';
+
+const team = await getPublishedTeam();
+const settings = await getGlobalSettings();
+
+const credentials = [
+  settings.gafMasterElite.verified && 'GAF Master Elite® Certified',
+  settings.contractorLicense.verified && settings.contractorLicense.value && `WA Contractor License #${settings.contractorLicense.value}`,
+  settings.insuranceBonded.verified && 'Licensed & Insured',
+].filter(Boolean) as string[];
+---
+
+<BaseLayout
+  title="About JBA Roofing & Remodeling"
+  description="JBA Roofing & Remodeling is a roofing contractor serving King, Snohomish, and Skagit counties, Washington."
+>
+  <PageHero eyebrow="About JBA" title="Roofing, run the way we'd want it run on our own house." />
+
+  <section class="section container container--narrow about-intro">
+    <p>
+      JBA Roofing &amp; Remodeling is a Washington-based roofing and construction
+      company focused on high-quality roofing systems, craftsmanship, and
+      long-term protection. We serve homeowners across King, Snohomish, and
+      Skagit counties — with roof replacement, repair, inspection, cleaning,
+      and rejuvenation, plus siding installation and replacement.
+    </p>
+    <p>
+      Our approach is simple: inspect first, document what we find, and give
+      you a straight recommendation instead of defaulting to whichever job is
+      bigger.
+    </p>
+    <ul class="about-intro__facts">
+      {settings.yearsExperience.verified && settings.yearsExperience.value && <li>{settings.yearsExperience.value} Experience</li>}
+      <li>Free Estimates</li>
+      {settings.financingVerified && <li>Financing Available</li>}
+      {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && <li>{settings.emergencyAvailability.value}</li>}
+    </ul>
+  </section>
+
+  {credentials.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <p class="eyebrow">Credentials</p>
+        <ul class="about-credentials">
+          {credentials.map((c) => <li class="badge">{c}</li>)}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="section">
+    <div class="container about-team">
+      <p class="eyebrow">Team</p>
+      <h2 class="h2">Who you'll actually work with.</h2>
+      {team.length > 0 ? (
+        <div class="grid grid--3 about-team__grid">
+          {team.map((member) => (
+            <div class="team-card">
+              <div class="team-card__photo">
+                {member.data.photo ? (
+                  <img src={member.data.photo} alt={member.data.name} />
+                ) : (
+                  <MediaSlot tone="light" variant={2} label={`${member.data.name} — photo pending`} />
+                )}
+              </div>
+              <h3 class="team-card__name">{member.data.name}</h3>
+              <p class="text-muted">{member.data.role}</p>
+              <p class="team-card__bio">{member.data.shortBio}</p>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p class="text-muted about-team__empty">
+          Team photos and bios are being added — check back soon, or ask us
+          directly who'll be on your job when you request an assessment.
+        </p>
+      )}
+    </div>
+  </section>
+
+  <FinalCTA />
+</BaseLayout>
+
+<style>
+  .about-intro p { font-size: var(--step-1); line-height: var(--leading-normal); margin-bottom: var(--space-4); }
+  .about-intro__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
+  .about-intro__facts li {
+    font-weight: 700;
+    padding: 0.5em 1em;
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-sm);
+  }
+  .about-credentials { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
+  .about-team__grid { margin-top: var(--space-6); }
+  .about-team__empty { max-width: 60ch; margin-top: var(--space-4); }
+  .team-card__photo { aspect-ratio: 1; margin-bottom: var(--space-3); border: 1px solid var(--color-border-dark); border-radius: var(--radius-md); overflow: hidden; }
+  .team-card__photo img { width: 100%; height: 100%; object-fit: cover; }
+  .team-card__name { font-size: var(--step-1); }
+  .team-card__bio { margin-top: var(--space-2); }
+</style>

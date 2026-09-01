@@ -1,0 +1,120 @@
+---
+interface Step {
+  step: string;
+  title: string;
+  description: string;
+}
+
+interface Props {
+  steps?: Step[];
+  heading?: string;
+  eyebrow?: string;
+}
+
+const defaultSteps: Step[] = [
+  { step: '01', title: 'Book', description: 'Tell us where the property is and what you need — online or by phone.' },
+  { step: '02', title: 'Inspect', description: 'We take a look and document the actual condition of the roof.' },
+  { step: '03', title: 'Review Options', description: 'A clear, written estimate with the reasoning behind it — not just a price.' },
+  { step: '04', title: 'Complete The Work', description: 'Property protected during the work, cleaned up and documented when we finish.' },
+];
+
+const { steps = defaultSteps, heading = 'From First Call To Finished Roof', eyebrow = 'Our Process' } = Astro.props;
+---
+
+<section class="section section--black process" data-nav-theme="dark">
+  <div class="process__motif" aria-hidden="true"></div>
+  <div class="container">
+    <p class="eyebrow eyebrow--inverse eyebrow--center" data-reveal="up">{eyebrow}</p>
+    <h2 class="h2 process__heading" data-reveal="up">{heading}</h2>
+
+    <div class="process__list-wrap">
+      <div class="process__rail" aria-hidden="true"></div>
+      <ol class="process__list" data-reveal="timeline" style={`--step-count: ${steps.length}`}>
+        {steps.map((step, i) => (
+          <li class="process__item" style={`--i: ${i}`}>
+            <div class="process__marker">
+              <span class="process__circle">{step.step}</span>
+              {i < steps.length - 1 && <span class="process__connector" aria-hidden="true"></span>}
+            </div>
+            <h3 class="process__title">{step.title}</h3>
+            <p class="text-muted">{step.description}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .process { position: relative; overflow: hidden; }
+  .process__motif {
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    background-image: repeating-linear-gradient(-135deg, var(--color-accent) 0px, var(--color-accent) 1px, transparent 1px, transparent 46px);
+    pointer-events: none;
+  }
+  .process > .container { position: relative; z-index: 1; }
+  .process__heading { text-align: center; margin-top: var(--space-2); max-width: 720px; margin-inline: auto; }
+
+  .process__list {
+    display: grid;
+    gap: var(--space-6);
+    margin-top: var(--space-8);
+  }
+  .process__item {
+    text-align: center;
+  }
+  .process__marker {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--space-4);
+  }
+  .process__circle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 999px;
+    border: 2px solid var(--color-accent);
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-accent);
+    background: var(--color-bg-dark);
+    flex-shrink: 0;
+    z-index: 1;
+  }
+  .process__connector {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 1px;
+    background: var(--color-accent);
+    opacity: 0.5;
+    transform: translateY(-50%);
+  }
+  .process__title {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    margin-bottom: var(--space-1);
+    color: var(--color-text-inverse);
+  }
+  .process__item .text-muted { max-width: 32ch; margin-inline: auto; font-size: 0.9rem; }
+
+  @media (min-width: 900px) {
+    .process__list {
+      grid-template-columns: repeat(var(--step-count), 1fr);
+      gap: var(--space-4);
+    }
+    .process__connector { display: block; }
+  }
+</style>

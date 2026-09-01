@@ -1,0 +1,11 @@
+question: "Do you offer roof repairs?"
+answer: >-
+  Yes. We repair leaks, damaged flashing, storm damage, and other localized
+  roof issues — and we'll tell you honestly if a repair is enough or if
+  replacement makes more sense.
+category: repair
+relatedServices: [roof-repair]
+relatedLocations: []
+featured: true
+schemaEligible: true
+published: true

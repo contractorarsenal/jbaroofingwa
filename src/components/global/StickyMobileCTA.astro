@@ -1,0 +1,80 @@
+---
+import { getGlobalSettings } from '@lib/content';
+
+const settings = await getGlobalSettings();
+---
+
+<div class="sticky-cta" data-sticky-cta>
+  <a
+    href={`tel:${settings.primaryPhone}`}
+    class="sticky-cta__call"
+    data-analytics-event="phone_click"
+    data-analytics-location="sticky_mobile_cta"
+  >
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    Call Now
+  </a>
+  <a
+    href={settings.primaryCtaDestination}
+    class="sticky-cta__quote"
+    data-analytics-event="quote_started"
+    data-analytics-location="sticky_mobile_cta"
+  >
+    {settings.primaryCtaLabel}
+  </a>
+</div>
+
+<style>
+  .sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: var(--z-sticky-cta);
+    display: grid;
+    grid-template-columns: auto 1fr;
+    background: var(--color-bg-ink);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    padding: env(safe-area-inset-bottom, 0) 0 0 0;
+    transform: translateY(0);
+    transition: transform 320ms var(--ease-out);
+  }
+  /* hidden only while the Hero is on-screen, so its own CTAs aren't duplicated —
+     defaults to visible so it still works with JS disabled or before hydration */
+  .sticky-cta.sticky-cta--hero-visible { transform: translateY(100%); }
+  @media (prefers-reduced-motion: reduce) {
+    .sticky-cta { transition: none; }
+  }
+  .sticky-cta__call,
+  .sticky-cta__quote {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-4);
+    font-weight: 700;
+    font-size: var(--step--1);
+    min-height: 56px;
+  }
+  .sticky-cta__call {
+    color: var(--color-text-inverse);
+    border-right: 1px solid var(--color-border-dark);
+  }
+  .sticky-cta__quote {
+    background: var(--color-accent);
+    color: var(--color-black);
+    font-weight: 800;
+  }
+
+  .sticky-cta[hidden] { display: none; }
+
+  @media (min-width: 1080px) {
+    .sticky-cta { display: none; }
+  }
+</style>
+
+<script>
+  document.body.style.setProperty('--sticky-cta-height', '56px');
+</script>

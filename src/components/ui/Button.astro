@@ -1,0 +1,36 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'outline' | 'urgent';
+  block?: boolean;
+  analyticsEvent?: string;
+  analyticsLocation?: string;
+  class?: string;
+  type?: 'button' | 'submit';
+}
+
+const {
+  href,
+  variant = 'primary',
+  block = false,
+  analyticsEvent,
+  analyticsLocation,
+  class: className = '',
+  type = 'button',
+  ...rest
+} = Astro.props;
+
+const classes = ['btn', `btn--${variant}`, block ? 'btn--block' : '', className]
+  .filter(Boolean)
+  .join(' ');
+---
+
+{href ? (
+  <a href={href} class={classes} data-analytics-event={analyticsEvent} data-analytics-location={analyticsLocation} {...rest}>
+    <slot />
+  </a>
+) : (
+  <button type={type} class={classes} data-analytics-event={analyticsEvent} data-analytics-location={analyticsLocation} {...rest}>
+    <slot />
+  </button>
+)}

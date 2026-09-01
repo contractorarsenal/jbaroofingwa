@@ -1,0 +1,25 @@
+---
+import Accordion from '@components/ui/Accordion.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  faqs: CollectionEntry<'faqs'>[];
+  heading?: string;
+}
+
+const { faqs, heading = 'Straight Answers About Your Roof' } = Astro.props;
+---
+
+{faqs.length > 0 && (
+  <section class="section section--off-white faq-section" data-nav-theme="light">
+    <div class="container">
+      <p class="eyebrow eyebrow--center" data-reveal="up">Homeowner Questions</p>
+      <h2 class="h2 faq-section__heading" data-reveal="up">{heading}</h2>
+      <Accordion items={faqs.map((f) => ({ question: f.data.question, answer: f.data.answer }))} columns />
+    </div>
+  </section>
+)}
+
+<style>
+  .faq-section__heading { text-align: center; margin-bottom: var(--space-6); max-width: 720px; margin-inline: auto; }
+</style>

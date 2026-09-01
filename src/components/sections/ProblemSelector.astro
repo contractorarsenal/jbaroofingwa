@@ -1,0 +1,126 @@
+---
+/**
+ * Signature UX section #2 — "What are you seeing?"
+ * Routes a symptom straight into the Roof Assessment funnel, pre-answered,
+ * so an anxious visitor doesn't have to read a page before getting help.
+ */
+import { getGlobalSettings } from '@lib/content';
+
+const settings = await getGlobalSettings();
+
+const symptoms = [
+  { label: 'Active Leak', value: 'leak', icon: 'M12 2s7 7.5 7 12a7 7 0 1 1-14 0c0-4.5 7-12 7-12z' },
+  { label: 'Missing Shingles', value: 'missing-shingles', icon: 'M3 12l9-8 9 8M5 10v10h14V10' },
+  { label: 'Storm / Wind Damage', value: 'storm-damage', icon: 'M9 2v6m6-6v6M3 10h18l-2 5H5l-2-5zM12 16v6' },
+  { label: 'Flashing Issue', value: 'flashing', icon: 'M13 2L4 14h6l-1 8 9-12h-6l1-8z' },
+  { label: 'Ceiling Water Stain', value: 'water-stain', icon: 'M12 3a6 6 0 0 1 6 6c0 3-3 5-6 9-3-4-6-6-6-9a6 6 0 0 1 6-6z' },
+  { label: 'Not Sure', value: 'unsure', icon: 'M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.9.4-1.5 1.1-1.5 2.2M12 18h.01' },
+];
+---
+
+<section class="section section--ink problem-selector">
+  <div class="container">
+    <p class="eyebrow eyebrow--inverse">Roof Repair</p>
+    <h2 class="h2">What Are You <span class="accent-text">Seeing?</span></h2>
+    <p class="text-muted problem-selector__lede">
+      Pick what's closest — we'll route you straight into the right part of the assessment.
+    </p>
+
+    <div class="problem-selector__grid">
+      {symptoms.map((symptom) => (
+        <a
+          href={`/assessment/?need=repair&symptom=${symptom.value}`}
+          class="problem-chip"
+          data-analytics-event="quote_started"
+          data-analytics-location={`problem_selector_${symptom.value}`}
+        >
+          <span class="problem-chip__icon" aria-hidden="true">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d={symptom.icon} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+          <span class="problem-chip__label">{symptom.label}</span>
+          <svg class="problem-chip__arrow" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      ))}
+    </div>
+
+    <p class="problem-selector__urgent">
+      Water actively coming in?
+      <a
+        href={`tel:${settings.primaryPhone}`}
+        class="link-underline problem-selector__call"
+        data-analytics-event="emergency_clicked"
+        data-analytics-location="problem_selector"
+      >
+        Call {settings.primaryPhoneDisplay} now
+      </a>
+      instead of filling out a form.
+    </p>
+  </div>
+</section>
+
+<style>
+  .problem-selector__lede { max-width: 52ch; margin-top: var(--space-2); }
+  .problem-selector__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  .problem-chip {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    text-align: left;
+    padding: var(--space-4);
+    min-width: 0;
+    border: 1.5px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+    background: var(--color-charcoal);
+    font-weight: 600;
+    font-size: 0.9rem;
+    min-height: 72px;
+    transition: border-color var(--duration-base) var(--ease-out), background-color var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  }
+  .problem-chip__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: var(--radius-sm);
+    background: var(--color-charcoal-raised);
+    color: var(--color-accent);
+    transition: background-color var(--duration-base) var(--ease-out), color var(--duration-base) var(--ease-out);
+  }
+  .problem-chip__label { flex: 1; min-width: 0; }
+  .problem-chip__arrow {
+    flex-shrink: 0;
+    color: var(--color-text-inverse-muted);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  }
+  .problem-chip:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+  .problem-chip:hover .problem-chip__icon {
+    background: var(--color-accent);
+    color: var(--color-black);
+  }
+  .problem-chip:hover .problem-chip__arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--color-accent);
+  }
+  .problem-selector__urgent {
+    margin-top: var(--space-5);
+    color: var(--color-text-inverse-muted);
+  }
+  .problem-selector__call { color: var(--color-accent-light); font-weight: 700; }
+
+  @media (min-width: 720px) {
+    .problem-selector__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

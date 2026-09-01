@@ -1,0 +1,92 @@
+---
+import { getGlobalSettings } from '@lib/content';
+import Button from '@components/ui/Button.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  description?: string;
+}
+
+const settings = await getGlobalSettings();
+const {
+  eyebrow = 'Ready When You Are',
+  heading = 'Ready To Talk About Your Roof?',
+  description = `Free estimates for homeowners across ${settings.primaryServiceArea.replace(', WA', '')}, ${settings.secondaryServiceAreas.map((a) => a.replace(', WA', '')).join(', and ')}.`,
+} = Astro.props;
+
+const footnote = [
+  settings.emergencyAvailability.verified && settings.emergencyAvailability.value,
+  settings.financingVerified && 'Financing Available',
+]
+  .filter(Boolean)
+  .join(' · ');
+---
+
+<section class="section section--black section--flagship final-cta" data-nav-theme="dark">
+  <div class="final-cta__bg" data-reveal="image" aria-hidden="true">
+    <MediaSlot tone="dark" variant={1} />
+  </div>
+  <div class="container final-cta__inner" data-reveal-group>
+    <span class="badge final-cta__eyebrow" data-reveal="up">{eyebrow}</span>
+    <h2 class="h2 final-cta__heading" data-reveal="up">{heading}</h2>
+    <p class="text-muted final-cta__desc" data-reveal="up">{description}</p>
+    <div class="final-cta__actions" data-reveal="up">
+      <Button href={settings.primaryCtaDestination} analyticsEvent="quote_started" analyticsLocation="final_cta">
+        {settings.primaryCtaLabel}
+      </Button>
+      <Button href={`tel:${settings.primaryPhone}`} variant="outline" analyticsEvent="phone_click" analyticsLocation="final_cta">
+        Call {settings.primaryPhoneDisplay}
+      </Button>
+    </div>
+    {footnote && <p class="final-cta__footnote" data-reveal="up">{footnote}</p>}
+  </div>
+</section>
+
+<style>
+  .final-cta { position: relative; overflow: hidden; }
+  .final-cta__bg {
+    position: absolute;
+    inset: 0;
+    opacity: 0.35;
+  }
+  .final-cta__bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(8, 8, 8, 0.4) 0%, var(--color-black) 90%);
+  }
+  .final-cta__inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 720px;
+    margin-inline: auto;
+  }
+  .final-cta__eyebrow {
+    margin-bottom: var(--space-4);
+    color: var(--color-accent);
+    border-color: var(--color-border-dark);
+  }
+  .final-cta__heading { margin-bottom: var(--space-3); }
+  .final-cta__desc { max-width: 48ch; }
+  .final-cta__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  .final-cta__footnote {
+    margin-top: var(--space-5);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-inverse-muted);
+  }
+</style>

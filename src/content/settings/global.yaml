@@ -1,0 +1,71 @@
+global:
+  businessName: JBA Roofing & Remodeling
+  legalBusinessName: JBA Roofing & Remodeling LLC
+  primaryPhone: "+12064745996"
+  primaryPhoneDisplay: (206) 474-5996
+  email: contact.jbaroofing@gmail.com
+
+  businessAddress:
+    street: "18553 8th Ave NE"
+    city: Shoreline
+    state: WA
+    zip: ""
+    displayPublicly: true
+
+  primaryServiceArea: King County, WA
+  secondaryServiceAreas:
+    - Snohomish County, WA
+    - Skagit County, WA
+
+  contractorLicense:
+    value: ""
+    verified: false
+
+  gafMasterElite:
+    verified: false
+
+  insuranceBonded:
+    value: ""
+    verified: false
+
+  emergencyAvailability:
+    value: "24-Hour Service"
+    verified: true
+
+  yearsExperience:
+    value: "8+ Years"
+    verified: true
+
+  googleRating: 5.0
+  googleReviewCount: 101
+  googleBusinessProfileUrl: ""
+
+  primaryCtaLabel: Book an Appointment
+  primaryCtaDestination: /assessment/
+  emergencyCtaLabel: Call Now
+
+  financingUrl: ""
+  financingVerified: true
+
+  socialUrls:
+    facebook: ""
+    instagram: ""
+    google: ""
+    yelp: ""
+    bbb: ""
+
+  defaultSeoTitle: "JBA Roofing & Remodeling | Roof Replacement & Repair in King County, WA"
+  defaultMetaDescription: "JBA Roofing & Remodeling provides roof replacement, repair, inspection, cleaning, and rejuvenation across King, Snohomish, and Skagit counties in Washington. Free estimates, financing available."
+  defaultOgImage: /images/og/default-og.jpg
+  logo: /images/brand/jba-logo.svg
+  logoDark: /images/brand/jba-logo-dark.svg
+  favicon: /favicon.svg
+
+  footerDescription: "JBA Roofing & Remodeling is a Washington-based roofing and construction company serving King, Snohomish, and Skagit counties with roofing systems, craftsmanship, and long-term protection."
+
+  businessHours:
+    - days: "Every day"
+      hours: "24 Hours"
+
+  leadWebhookUrl: ""
+  analyticsId: ""

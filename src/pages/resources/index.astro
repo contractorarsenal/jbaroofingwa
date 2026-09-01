@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import { getPublishedArticles } from '@lib/content';
+
+const articles = await getPublishedArticles();
+---
+
+<BaseLayout title="Resources" description="Guides on roof maintenance, replacement, permits, and Pacific Northwest roofing conditions.">
+  <PageHero eyebrow="Resources" title="Straight answers on roofing in the Pacific Northwest." />
+
+  <section class="section section--light">
+    <div class="container">
+      {articles.length > 0 ? (
+        <div class="grid grid--3">
+          {articles.map((article) => (
+            <a href={`/resources/${article.id}/`} class="article-tile">
+              <h2 class="article-tile__title">{article.data.title}</h2>
+              <p class="text-muted">{article.data.excerpt}</p>
+            </a>
+          ))}
+        </div>
+      ) : (
+        <p class="text-muted">
+          We're building out this section with guides on permits, maintenance, and materials —
+          check back soon.
+        </p>
+      )}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .article-tile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    transition: border-color var(--duration-base) var(--ease-out);
+  }
+  .article-tile:hover { border-color: var(--color-accent); }
+  .article-tile__title { font-family: var(--font-display); font-size: var(--step-2); text-transform: uppercase; }
+</style>

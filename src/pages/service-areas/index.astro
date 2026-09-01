@@ -1,0 +1,54 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import FinalCTA from '@components/sections/FinalCTA.astro';
+import { getPublishedLocations, getGlobalSettings } from '@lib/content';
+
+const locations = await getPublishedLocations();
+const settings = await getGlobalSettings();
+---
+
+<BaseLayout title="Service Areas" description={`Roofing services across ${settings.primaryServiceArea} and surrounding counties in Washington.`}>
+  <PageHero eyebrow="Service Areas" title={`Working throughout ${settings.primaryServiceArea.replace(', WA', '')} and beyond.`} />
+
+  <section class="section section--light">
+    <div class="container">
+      <div class="grid grid--3">
+        {locations.map((location) => (
+          <a href={`/service-areas/${location.id}/`} class="location-tile">
+            <p class="eyebrow">{location.data.tier === 'county' ? 'County' : location.data.county}</p>
+            <h2 class="location-tile__title">{location.data.cityName}</h2>
+            <span class="location-tile__link">View Details →</span>
+          </a>
+        ))}
+      </div>
+
+      <p class="text-muted service-areas__note">
+        Don't see your specific city listed? We likely still cover it — <a href="/contact/" class="link-underline">reach out with your address</a> to confirm.
+      </p>
+    </div>
+  </section>
+
+  <FinalCTA />
+</BaseLayout>
+
+<style>
+  .location-tile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    transition: border-color var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  }
+  .location-tile:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .location-tile__title {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    text-transform: uppercase;
+  }
+  .location-tile__link { margin-top: auto; padding-top: var(--space-2); font-weight: 700; color: var(--color-accent-dark); }
+  .service-areas__note { margin-top: var(--space-6); }
+</style>

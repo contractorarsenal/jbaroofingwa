@@ -1,0 +1,112 @@
+---
+import { getGlobalSettings } from '@lib/content';
+import Button from '@components/ui/Button.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
+
+const settings = await getGlobalSettings();
+
+const proofPoints = [
+  settings.yearsExperience.verified && settings.yearsExperience.value,
+  settings.emergencyAvailability.verified && settings.emergencyAvailability.value,
+  'Free Estimates',
+  settings.financingVerified && 'Financing Available',
+].filter(Boolean) as string[];
+---
+
+<section class="section section--white company-intro" data-nav-theme="light">
+  <div class="container company-intro__layout">
+    <div class="company-intro__art" data-reveal="image">
+      <MediaSlot tone="light" variant={2} label="JBA Roofing & Remodeling — crew and project photography pending" />
+    </div>
+    <div>
+      <p class="eyebrow" data-reveal="up">JBA Roofing &amp; Remodeling</p>
+      <h2 class="h2" data-reveal="up">Roofing Built For <span class="accent-text">Northwest Homes.</span></h2>
+      <p class="text-muted company-intro__body" data-reveal="up">
+        JBA Roofing &amp; Remodeling is a Washington-based roofing and construction
+        company focused on high-quality roofing systems, craftsmanship, and
+        long-term protection.
+      </p>
+      <p class="text-muted company-intro__body" data-reveal="up">
+        We serve homeowners across King, Snohomish, and Skagit counties — with
+        roof replacement as our primary focus, alongside repair, inspection,
+        cleaning, and rejuvenation.
+      </p>
+
+      {proofPoints.length > 0 && (
+        <ul class="company-intro__proof" data-reveal-group>
+          {proofPoints.map((point) => <li data-reveal="up">{point}</li>)}
+        </ul>
+      )}
+
+      <div class="company-intro__actions">
+        <Button href="/about/" variant="outline">About JBA</Button>
+      </div>
+
+      <div class="company-intro__siding">
+        <span class="company-intro__siding-label">More Than Roofing</span>
+        <a href="/services/siding-installation/" class="company-intro__siding-link">
+          Siding Installation &amp; Replacement <span aria-hidden="true">→</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .company-intro__layout {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .company-intro__art {
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .company-intro__body { margin-bottom: var(--space-3); max-width: 52ch; }
+  .company-intro__proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 var(--space-4);
+    margin-block: var(--space-6);
+  }
+  .company-intro__proof li {
+    position: relative;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    padding-right: var(--space-4);
+    margin-right: var(--space-1);
+    border-right: 1px solid var(--color-border);
+  }
+  .company-intro__proof li:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+  .company-intro__actions { margin-top: var(--space-2); }
+
+  .company-intro__siding {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-border);
+  }
+  .company-intro__siding-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  .company-intro__siding-link {
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+  .company-intro__siding-link:hover { text-decoration: underline; }
+
+  @media (min-width: 900px) {
+    .company-intro__layout { grid-template-columns: 1fr 1fr; }
+  }
+</style>

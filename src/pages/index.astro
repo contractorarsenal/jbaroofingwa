@@ -1,0 +1,46 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Hero from '@components/sections/Hero.astro';
+import TrustStrip from '@components/global/TrustStrip.astro';
+import CompanyIntro from '@components/sections/CompanyIntro.astro';
+import PrimaryServiceFeature from '@components/sections/PrimaryServiceFeature.astro';
+import ServicesGrid from '@components/sections/ServicesGrid.astro';
+import FeaturedWork from '@components/sections/FeaturedWork.astro';
+import RepairReplaceRejuvenate from '@components/sections/RepairReplaceRejuvenate.astro';
+import WhyJBA from '@components/sections/WhyJBA.astro';
+import ProtectYourRoof from '@components/sections/ProtectYourRoof.astro';
+import Process from '@components/sections/Process.astro';
+import Financing from '@components/sections/Financing.astro';
+import BeforeAfterShowcase from '@components/sections/BeforeAfterShowcase.astro';
+import ServiceAreaBand from '@components/sections/ServiceAreaBand.astro';
+import Proof from '@components/sections/Proof.astro';
+import FaqList from '@components/faqs/FaqList.astro';
+import FinalCTA from '@components/sections/FinalCTA.astro';
+import { getPublishedFaqs } from '@lib/content';
+
+const allFaqs = await getPublishedFaqs();
+const featuredFaqs = allFaqs.filter((f) => f.data.featured);
+const homeFaqs = (featuredFaqs.length >= 6 ? featuredFaqs : allFaqs).slice(0, 8);
+---
+
+<BaseLayout
+  title="Roof Replacement & Repair in King County, WA"
+  description="JBA Roofing & Remodeling provides roof replacement, repair, inspection, cleaning, and rejuvenation across King, Snohomish, and Skagit counties. Free estimates, financing available."
+>
+  <Hero />
+  <TrustStrip />
+  <CompanyIntro />
+  <PrimaryServiceFeature />
+  <ServicesGrid />
+  <FeaturedWork />
+  <RepairReplaceRejuvenate />
+  <WhyJBA />
+  <ProtectYourRoof />
+  <Process />
+  <Financing />
+  <BeforeAfterShowcase />
+  <ServiceAreaBand />
+  <Proof />
+  <FaqList faqs={homeFaqs} heading="Straight Answers About Your Roof" />
+  <FinalCTA />
+</BaseLayout>

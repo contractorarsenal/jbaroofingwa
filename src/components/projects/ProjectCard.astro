@@ -1,0 +1,75 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import MediaSlot from '@components/ui/MediaSlot.astro';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  'data-reveal'?: string;
+}
+
+const { project, ...rest } = Astro.props;
+const { data } = project;
+const heroImage = data.afterImages[0] ?? data.droneImages[0];
+---
+
+<a href={`/projects/${project.id}/`} class="project-card" data-analytics-event="project_opened" data-analytics-location={project.id} {...rest}>
+  <div class="project-card__media">
+    <MediaSlot image={heroImage} alt={`${data.projectName} — completed roof`} tone="dark" variant={2} label={`${data.projectName} — photos pending`} />
+  </div>
+  <div class="project-card__body">
+    <p class="project-card__meta">{data.city}{data.roofMaterial ? ` · ${data.roofMaterial}` : ''}</p>
+    <h3 class="project-card__title">{data.projectName}</h3>
+    <p class="text-muted project-card__summary">{data.projectSummary}</p>
+    <span class="project-card__link">View Project →</span>
+  </div>
+</a>
+
+<style>
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--color-border-dark);
+    background: var(--color-charcoal);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    transition: border-color var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  }
+  .project-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .project-card__media {
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .project-card__media img { width: 100%; height: 100%; object-fit: cover; }
+  .project-card__body { padding: var(--space-4); }
+  .project-card__meta {
+    font-size: var(--step--1);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+  }
+  .project-card__title {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    text-transform: uppercase;
+    color: var(--color-text-inverse);
+    margin-block: var(--space-1);
+  }
+  .project-card__summary {
+    /* Card is always dark regardless of the section it sits in (including
+       light sections like the homepage Featured Work) — color is explicit,
+       not inherited from ambient section context. */
+    color: var(--color-text-inverse-muted);
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  .project-card__link {
+    display: inline-block;
+    margin-top: var(--space-3);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+</style>

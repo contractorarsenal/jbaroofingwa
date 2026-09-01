@@ -1,0 +1,57 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import { getGlobalSettings } from '@lib/content';
+
+const settings = await getGlobalSettings();
+---
+
+<BaseLayout title="Privacy Policy" description="Privacy policy for JBA Roofing & Remodeling.">
+  <PageHero eyebrow="Legal" title="Privacy Policy" />
+
+  <section class="section section--light container container--narrow legal-body">
+    <p class="legal-body__notice">
+      <strong>[VERIFY WITH CLIENT / LEGAL COUNSEL]</strong> — this is a starter privacy policy
+      template. Have it reviewed by an attorney before relying on it, especially if you run ads,
+      use tracking pixels, or plan to store form submissions in a CRM.
+    </p>
+
+    <h2 class="h4">Information We Collect</h2>
+    <p>
+      When you submit a form on this site (such as the Roof Assessment or Contact form), we
+      collect the information you provide — including your name, phone number, email address,
+      property address, and any details or photos you choose to share about your roofing needs.
+    </p>
+
+    <h2 class="h4">How We Use It</h2>
+    <p>
+      We use this information to respond to your request, schedule an inspection or estimate, and
+      communicate with you about the work you've asked about. We do not sell your information to
+      third parties.
+    </p>
+
+    <h2 class="h4">Analytics</h2>
+    <p>
+      This site may use analytics tools to understand how visitors use the site. See
+      CLIENT-CONTENT-NEEDED.md in the project repository for which analytics provider is
+      configured.
+    </p>
+
+    <h2 class="h4">Contact Us</h2>
+    <p>
+      Questions about this policy can be sent to <a href={`mailto:${settings.email}`}>{settings.email}</a>.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-body { padding-block: var(--space-6); }
+  .legal-body h2 { margin-top: var(--space-6); margin-bottom: var(--space-2); }
+  .legal-body p { line-height: var(--leading-normal); margin-bottom: var(--space-3); }
+  .legal-body__notice {
+    padding: var(--space-4);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-alt);
+    margin-bottom: var(--space-6);
+  }
+</style>

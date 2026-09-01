@@ -1,0 +1,109 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import BeforeAfterSlider from '@components/projects/BeforeAfterSlider.astro';
+import ReviewCard from '@components/reviews/ReviewCard.astro';
+import FinalCTA from '@components/sections/FinalCTA.astro';
+import { getPublishedProjects } from '@lib/content';
+import { buildBreadcrumbSchema } from '@lib/schema';
+import { getEntry } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getPublishedProjects();
+  return projects.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { data } = project;
+const { Content } = await render(project);
+
+const siteUrl = Astro.site?.toString() ?? 'https://jbaroofpro.com';
+const pageUrl = new URL(Astro.url.pathname, siteUrl).toString();
+
+const service = data.service ? await getEntry(data.service) : undefined;
+const review = data.relatedReview ? await getEntry(data.relatedReview) : undefined;
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: siteUrl },
+  { name: 'Our Work', url: `${siteUrl}/projects/` },
+  { name: data.projectName, url: pageUrl },
+]);
+
+const heroImage = data.afterImages[0] ?? data.droneImages[0];
+---
+
+<BaseLayout
+  title={data.seo.title ?? data.projectName}
+  description={data.seo.description ?? data.projectSummary}
+  ogImage={data.seo.ogImage}
+  noindex={data.seo.noindex}
+  jsonLd={breadcrumbSchema}
+>
+  <PageHero
+    eyebrow={`${data.city}${service ? ` · ${service.data.title}` : ''}`}
+    title={data.projectName}
+    description={data.projectSummary}
+    image={heroImage}
+  />
+
+  <section class="section container container--narrow project-detail">
+    {data.customerProblem && (
+      <div class="project-detail__block">
+        <h2 class="h4">The Problem</h2>
+        <p class="text-muted">{data.customerProblem}</p>
+      </div>
+    )}
+    {data.inspectionFindings && (
+      <div class="project-detail__block">
+        <h2 class="h4">What We Found</h2>
+        <p class="text-muted">{data.inspectionFindings}</p>
+      </div>
+    )}
+    {data.solution && (
+      <div class="project-detail__block">
+        <h2 class="h4">The Solution</h2>
+        <p class="text-muted">{data.solution}</p>
+      </div>
+    )}
+
+    <div class="project-detail__meta">
+      {data.roofMaterial && <span class="badge">{data.roofMaterial}</span>}
+      {data.roofType && <span class="badge">{data.roofType}</span>}
+      {data.manufacturer && <span class="badge">{data.manufacturer}</span>}
+    </div>
+
+    <Content />
+  </section>
+
+  {data.beforeImages[0] && data.afterImages[0] && (
+    <section class="section section--alt">
+      <div class="container container--narrow">
+        <p class="eyebrow">Before &amp; After</p>
+        <BeforeAfterSlider beforeImage={data.beforeImages[0]} afterImage={data.afterImages[0]} />
+      </div>
+    </section>
+  )}
+
+  {review && (
+    <section class="section">
+      <div class="container container--narrow">
+        <p class="eyebrow">Customer Review</p>
+        <ReviewCard review={review} />
+      </div>
+    </section>
+  )}
+
+  <FinalCTA
+    heading={`Have a similar project in mind?`}
+    description={`See what we'd find on your roof — starting with a free assessment.`}
+  />
+</BaseLayout>
+
+<style>
+  .project-detail__block { margin-bottom: var(--space-5); }
+  .project-detail__meta { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+</style>

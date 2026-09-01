@@ -1,0 +1,74 @@
+---
+/**
+ * Merges what were two separate homepage sections (maintenance/cleaning and
+ * roof rejuvenation) into one — both are about protecting a roof you
+ * already have rather than replacing it, so they belong together.
+ */
+import Button from '@components/ui/Button.astro';
+---
+
+<section class="section section--charcoal protect-roof" data-nav-theme="dark">
+  <div class="container">
+    <p class="eyebrow eyebrow--inverse eyebrow--center" data-reveal="up">Protect What You Have</p>
+    <h2 class="h2 protect-roof__heading" data-reveal="up">Protect The Roof You <span class="accent-text">Already Have.</span></h2>
+
+    <div class="protect-roof__grid">
+      <div class="protect-roof__col" data-reveal="up">
+        <p class="eyebrow eyebrow--inverse">Maintenance &amp; Cleaning</p>
+        <h3 class="protect-roof__title">Don't Wait For The Roof To Fail.</h3>
+        <p class="text-muted protect-roof__body">
+          Western Washington's climate is hard on shingles. Moss buildup, debris,
+          and clogged gutters don't show up as a leak until the damage is already
+          done. Routine inspection and cleaning catches minor problems before
+          they become bigger work.
+        </p>
+        <Button href="/assessment/?need=maintenance" variant="outline" analyticsEvent="maintenance_plan_clicked" analyticsLocation="protect_roof">
+          Book Roof Maintenance
+        </Button>
+      </div>
+
+      <div class="protect-roof__divider" data-reveal="divider" aria-hidden="true"></div>
+
+      <div class="protect-roof__col" data-reveal="up">
+        <p class="eyebrow eyebrow--inverse">Roof Rejuvenation</p>
+        <h3 class="protect-roof__title">Not Every Aging Roof Needs To Come Off Yet.</h3>
+        <p class="text-muted protect-roof__body">
+          If your roof is getting older but isn't failing, rejuvenation may be
+          worth discussing before jumping straight to a full replacement. It's
+          not the right fit for every roof — we'll assess your specific roof
+          and give you a straight answer on whether it makes sense.
+        </p>
+        <Button href="/services/roof-rejuvenation/" variant="outline">
+          Learn About Rejuvenation
+        </Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .protect-roof__heading { text-align: center; margin-top: var(--space-2); }
+  .protect-roof__grid {
+    display: grid;
+    gap: var(--space-7);
+    margin-top: var(--space-7);
+  }
+  .protect-roof__title {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    text-transform: uppercase;
+    color: var(--color-text-inverse);
+    margin-block: var(--space-2) var(--space-3);
+  }
+  .protect-roof__body { margin-bottom: var(--space-5); max-width: 46ch; }
+  .protect-roof__divider {
+    width: 100%;
+    height: 1px;
+    background: var(--color-border-dark);
+  }
+
+  @media (min-width: 900px) {
+    .protect-roof__grid { grid-template-columns: 1fr auto 1fr; align-items: start; }
+    .protect-roof__divider { width: 1px; height: 100%; }
+  }
+</style>

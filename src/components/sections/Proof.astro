@@ -1,0 +1,68 @@
+---
+import { getPublishedReviews, getGlobalSettings } from '@lib/content';
+import ReviewCard from '@components/reviews/ReviewCard.astro';
+import Button from '@components/ui/Button.astro';
+
+const settings = await getGlobalSettings();
+const reviews = (await getPublishedReviews()).slice(0, 6);
+---
+
+<section class="section section--black proof" data-nav-theme="dark">
+  <div class="container">
+    <div class="proof__header" data-reveal="up">
+      <p class="eyebrow eyebrow--inverse eyebrow--center">Customer Reviews</p>
+      <h2 class="h2 proof__heading">Homeowners Trust <span class="accent-text">JBA.</span></h2>
+      {settings.googleRating && settings.googleReviewCount && (
+        <p class="text-muted proof__rating">★ {settings.googleRating.toFixed(1)} Google Rating</p>
+      )}
+    </div>
+
+    {reviews.length > 0 ? (
+      <>
+        <div class="grid grid--3" data-reveal-group>
+          {reviews.slice(0, 3).map((review) => <ReviewCard review={review} data-reveal="up" />)}
+        </div>
+        {settings.googleBusinessProfileUrl && (
+          <div class="proof__footer" data-reveal="up">
+            <Button href={settings.googleBusinessProfileUrl} variant="outline">Read More Reviews</Button>
+          </div>
+        )}
+      </>
+    ) : (
+      <div class="proof__empty" data-reveal="up">
+        <h3 class="proof__empty-title">Customer Reviews</h3>
+        <p class="text-muted">
+          Individual reviews are being added — in the meantime, verified reviews
+          are visible directly on our Google Business Profile.
+        </p>
+        {settings.googleBusinessProfileUrl && (
+          <div class="proof__footer">
+            <Button href={settings.googleBusinessProfileUrl} variant="outline">View Our Google Reviews</Button>
+          </div>
+        )}
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .proof__header { text-align: center; max-width: 640px; margin: 0 auto var(--space-6); }
+  .proof__rating { margin-top: var(--space-2); font-weight: 700; }
+  .proof__footer { text-align: center; margin-top: var(--space-6); }
+  .proof__empty {
+    text-align: center;
+    padding: var(--space-8) var(--space-6);
+    background: var(--color-charcoal);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+    max-width: 60ch;
+    margin-inline: auto;
+  }
+  .proof__empty-title {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    text-transform: uppercase;
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-3);
+  }
+</style>

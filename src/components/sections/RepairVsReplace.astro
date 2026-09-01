@@ -1,0 +1,91 @@
+---
+/**
+ * Signature comparison block used on the Roof Replacement service page —
+ * helps a homeowner self-diagnose before committing to a five-figure decision.
+ */
+const repairSigns = [
+  'One or two isolated problem areas',
+  'Roof is under 15 years old',
+  'Damage is limited to flashing, a few shingles, or a small leak',
+  'No widespread granule loss or curling',
+];
+
+const replaceSigns = [
+  'Roof is near or past its expected material lifespan',
+  'Repeated repairs in the same areas',
+  'Widespread curling, cracking, or granule loss',
+  'Storm damage extensive enough that patching isn\'t practical',
+];
+---
+
+<section class="section section--dark repair-vs-replace">
+  <div class="container">
+    <p class="eyebrow eyebrow--inverse">Repair vs. Replace</p>
+    <h2 class="h2">Not Sure Which One You <span class="accent-text">Need?</span></h2>
+    <p class="text-muted repair-vs-replace__lede">
+      Here's the honest version — we'll confirm which applies to you during an inspection, not before.
+    </p>
+
+    <div class="repair-vs-replace__grid">
+      <div class="rvr-panel">
+        <h3 class="rvr-panel__title">Signs a repair will do</h3>
+        <ul class="rvr-panel__list">
+          {repairSigns.map((sign) => <li>{sign}</li>)}
+        </ul>
+        <a href="/services/roof-repair/" class="link-underline">See Roof Repair →</a>
+      </div>
+      <div class="rvr-panel rvr-panel--accent">
+        <h3 class="rvr-panel__title">Signs it's time to replace</h3>
+        <ul class="rvr-panel__list">
+          {replaceSigns.map((sign) => <li>{sign}</li>)}
+        </ul>
+        <a href="/assessment/?need=replacement" class="link-underline">Get an Assessment →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .repair-vs-replace__lede { max-width: 56ch; margin-top: var(--space-2); }
+  .repair-vs-replace__grid {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .rvr-panel {
+    padding: var(--space-5);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+    background: var(--color-charcoal);
+  }
+  .rvr-panel--accent { border-color: var(--color-accent); border-width: 1.5px; }
+  .rvr-panel__title {
+    font-family: var(--font-body);
+    font-size: 1.05rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-3);
+  }
+  .rvr-panel__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+  .rvr-panel__list li {
+    padding-left: var(--space-3);
+    position: relative;
+    color: var(--color-text-inverse-muted);
+  }
+  .rvr-panel__list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 760px) {
+    .repair-vs-replace__grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>

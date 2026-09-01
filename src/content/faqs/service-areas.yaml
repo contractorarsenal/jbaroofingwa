@@ -1,0 +1,10 @@
+question: "What areas do you serve?"
+answer: >-
+  We serve homeowners across King County, Snohomish County, and Skagit
+  County, Washington.
+category: general
+relatedServices: []
+relatedLocations: [king-county, snohomish-county, skagit-county]
+featured: true
+schemaEligible: true
+published: true

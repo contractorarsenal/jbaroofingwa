@@ -1,0 +1,70 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import FinalCTA from '@components/sections/FinalCTA.astro';
+import { getPublishedServices } from '@lib/content';
+
+const services = await getPublishedServices();
+
+const groups: { key: 'repair' | 'maintenance' | 'replacement'; label: string; description: string }[] = [
+  { key: 'repair', label: 'Repair', description: 'For active leaks, storm damage, and anything that needs attention now.' },
+  { key: 'maintenance', label: 'Maintenance', description: 'Preventative care to catch problems while they\'re cheap to fix.' },
+  { key: 'replacement', label: 'Replacement', description: 'For roofs at or past the end of their useful life.' },
+];
+---
+
+<BaseLayout title="Services" description="Roof repair, maintenance, and replacement services across King, Snohomish, and Skagit counties, WA.">
+  <PageHero eyebrow="Services" title="Every service, organized around what you actually need." />
+
+  {groups.map((group, i) => {
+    const groupServices = services.filter((s) => s.data.journey === group.key);
+    if (groupServices.length === 0) return null;
+    const dark = i % 2 === 0;
+    return (
+      <section class:list={['section services-group', dark ? 'section--dark' : 'section--light']}>
+        <div class="container">
+          <p class:list={['eyebrow', dark && 'eyebrow--inverse']}>{group.label}</p>
+          <p class="text-muted services-group__desc">{group.description}</p>
+          <div class="grid grid--3 services-group__grid">
+            {groupServices.map((service) => (
+              <a href={`/services/${service.id}/`} class:list={['service-tile', dark && 'service-tile--dark']}>
+                <h2 class="service-tile__title">{service.data.title}</h2>
+                <p class="text-muted">{service.data.shortDescription}</p>
+                <span class="service-tile__link">Learn More →</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  })}
+
+  <FinalCTA />
+</BaseLayout>
+
+<style>
+  .services-group__desc { max-width: 56ch; margin-top: var(--space-2); }
+  .services-group__grid { margin-top: var(--space-5); }
+  .service-tile {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    transition: border-color var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  }
+  .service-tile:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .service-tile--dark {
+    border-color: var(--color-border-dark);
+    background: var(--color-charcoal);
+  }
+  .service-tile__title {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    text-transform: uppercase;
+  }
+  .service-tile--dark .service-tile__title { color: var(--color-text-inverse); }
+  .service-tile__link { margin-top: auto; padding-top: var(--space-2); font-weight: 700; color: var(--color-accent); }
+</style>

@@ -1,0 +1,81 @@
+---
+import { getGlobalSettings } from '@lib/content';
+
+interface Props {
+  variant?: 'light' | 'dark';
+  /** "hero" shows a fixed curated set (years / 24-hour / estimates / financing) instead of the general dynamic list. */
+  mode?: 'default' | 'hero';
+}
+
+const { variant = 'light', mode = 'default' } = Astro.props;
+const settings = await getGlobalSettings();
+
+const items: { label: string; icon: string }[] = [];
+
+if (mode === 'hero') {
+  if (settings.yearsExperience.verified && settings.yearsExperience.value) {
+    items.push({ icon: '✓', label: settings.yearsExperience.value });
+  }
+  if (settings.emergencyAvailability.verified && settings.emergencyAvailability.value) {
+    items.push({ icon: '✓', label: settings.emergencyAvailability.value });
+  }
+  items.push({ icon: '✓', label: 'Free Estimates' });
+  if (settings.financingVerified) {
+    items.push({ icon: '✓', label: 'Financing Available' });
+  }
+} else {
+  if (settings.googleRating && settings.googleReviewCount) {
+    items.push({ icon: '★', label: `${settings.googleRating.toFixed(1)} Google Rating` });
+  }
+
+  items.push({ icon: '●', label: `Serving ${settings.primaryServiceArea.replace(', WA', '')}` });
+
+  if (settings.gafMasterElite.verified) {
+    items.push({ icon: '✓', label: 'GAF Master Elite®' });
+  }
+
+  if (settings.contractorLicense.verified && settings.contractorLicense.value) {
+    items.push({ icon: '✓', label: `WA Lic. #${settings.contractorLicense.value}` });
+  }
+
+  if (settings.insuranceBonded.verified) {
+    items.push({ icon: '✓', label: 'Licensed & Insured' });
+  }
+}
+---
+
+<ul class:list={['trust-chips', variant === 'dark' && 'trust-chips--dark']}>
+  {items.map((item) => (
+    <li class="trust-chip">
+      <span class="trust-chip__icon" aria-hidden="true">{item.icon}</span>
+      {item.label}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .trust-chips {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+  .trust-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--color-text-inverse-muted);
+    white-space: nowrap;
+    padding: 0.4em 0.75em;
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-sm);
+  }
+  .trust-chip__icon { color: var(--color-accent); font-size: 0.7rem; }
+
+  .trust-chips:not(.trust-chips--dark) .trust-chip {
+    color: var(--color-text-muted);
+    border-color: var(--color-border);
+  }
+</style>

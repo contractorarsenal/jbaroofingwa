@@ -1,0 +1,122 @@
+---
+interface Props {
+  beforeImage: string;
+  afterImage: string;
+  beforeLabel?: string;
+  afterLabel?: string;
+}
+
+const { beforeImage, afterImage, beforeLabel = 'Before', afterLabel = 'After' } = Astro.props;
+---
+
+<div class="ba-slider" data-ba-slider>
+  <img src={afterImage} alt={afterLabel} class="ba-slider__image ba-slider__image--after" />
+  <div class="ba-slider__before-wrap" data-ba-before-wrap style="width: 50%;">
+    <img src={beforeImage} alt={beforeLabel} class="ba-slider__image ba-slider__image--before" />
+  </div>
+  <span class="ba-slider__tag ba-slider__tag--before">{beforeLabel}</span>
+  <span class="ba-slider__tag ba-slider__tag--after">{afterLabel}</span>
+  <input
+    type="range"
+    min="0"
+    max="100"
+    value="50"
+    class="ba-slider__input"
+    data-ba-input
+    aria-label={`Comparison slider between ${beforeLabel} and ${afterLabel} photos`}
+  />
+  <div class="ba-slider__handle" data-ba-handle style="left: 50%;" aria-hidden="true">
+    <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M7 5l-5 5 5 5M13 5l5 5-5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+</div>
+
+<style>
+  .ba-slider {
+    position: relative;
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border-dark);
+    user-select: none;
+  }
+  .ba-slider__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .ba-slider__before-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+  }
+  .ba-slider__before-wrap .ba-slider__image { width: var(--ba-width, 400px); max-width: none; }
+  .ba-slider__tag {
+    position: absolute;
+    top: var(--space-3);
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    padding: 0.4em 0.85em;
+    background: rgba(8, 8, 8, 0.8);
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: var(--radius-sm);
+    z-index: 2;
+  }
+  .ba-slider__tag--before { left: var(--space-3); }
+  .ba-slider__tag--after { right: var(--space-3); }
+  .ba-slider__input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: ew-resize;
+    margin: 0;
+    z-index: 3;
+  }
+  .ba-slider__handle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--color-accent);
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+  }
+  .ba-slider__handle svg {
+    background: var(--color-accent);
+    color: var(--color-black);
+    border-radius: var(--radius-sm);
+    padding: 6px;
+    width: 32px;
+    height: 32px;
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ba-slider]').forEach((slider) => {
+    const input = slider.querySelector<HTMLInputElement>('[data-ba-input]');
+    const wrap = slider.querySelector<HTMLElement>('[data-ba-before-wrap]');
+    const handle = slider.querySelector<HTMLElement>('[data-ba-handle]');
+    const img = wrap?.querySelector<HTMLImageElement>('img');
+
+    const update = () => {
+      if (!input || !wrap || !handle) return;
+      const value = input.value;
+      wrap.style.width = `${value}%`;
+      handle.style.left = `${value}%`;
+      if (img) img.style.setProperty('--ba-width', `${slider.clientWidth}px`);
+    };
+
+    input?.addEventListener('input', update);
+    window.addEventListener('resize', update);
+    update();
+  });
+</script>

@@ -1,0 +1,63 @@
+---
+import { getFeaturedProjects } from '@lib/content';
+import ProjectCard from '@components/projects/ProjectCard.astro';
+import Button from '@components/ui/Button.astro';
+
+const projects = await getFeaturedProjects(3);
+---
+
+<section class="section section--off-white featured-work" data-nav-theme="light" data-nav-section="work">
+  <div class="container">
+    <div class="featured-work__header" data-reveal="up">
+      <div>
+        <p class="eyebrow">Our Work</p>
+        <h2 class="h2">Our Work Speaks <span class="accent-text">For Itself.</span></h2>
+      </div>
+      <Button href="/projects/" variant="outline">View All Work</Button>
+    </div>
+
+    {projects.length > 0 ? (
+      <div class="grid grid--3" data-reveal-group>
+        {projects.map((project) => <ProjectCard project={project} data-reveal="up" />)}
+      </div>
+    ) : (
+      <div class="featured-work__empty" data-reveal="up">
+        <h3 class="featured-work__empty-title">Real JBA Projects Coming Soon</h3>
+        <p class="text-muted">
+          We're adding real completed projects as they wrap up. In the meantime, <a href="/contact/" class="link-underline">ask us directly</a> for references.
+        </p>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .featured-work__header {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: flex-start;
+    margin-bottom: var(--space-6);
+  }
+  .featured-work__empty {
+    text-align: center;
+    padding: var(--space-8) var(--space-6);
+    background: var(--color-charcoal);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+  }
+  .featured-work__empty-title {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    text-transform: uppercase;
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-3);
+  }
+  /* This block is a dark island inside a now-light section — its own text
+     needs the inverse-muted color regardless of the section's light context. */
+  .featured-work__empty p.text-muted { max-width: 50ch; margin-inline: auto; color: var(--color-text-inverse-muted); }
+  .featured-work__empty p a { color: var(--color-accent-light); }
+  @media (min-width: 720px) {
+    .featured-work__header { flex-direction: row; align-items: flex-end; justify-content: space-between; }
+  }
+</style>

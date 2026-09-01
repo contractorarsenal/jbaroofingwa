@@ -1,0 +1,142 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import Process from '@components/sections/Process.astro';
+import ProblemSelector from '@components/sections/ProblemSelector.astro';
+import RepairVsReplace from '@components/sections/RepairVsReplace.astro';
+import MaintenanceTeaser from '@components/sections/MaintenanceTeaser.astro';
+import FeaturedWork from '@components/sections/FeaturedWork.astro';
+import FaqList from '@components/faqs/FaqList.astro';
+import FinalCTA from '@components/sections/FinalCTA.astro';
+import {
+  getPublishedServices,
+  getProjectsForService,
+  getFaqsForService,
+  getReviewsForService,
+} from '@lib/content';
+import { buildServiceSchema, buildFaqSchema, buildBreadcrumbSchema } from '@lib/schema';
+import { getGlobalSettings } from '@lib/content';
+import ReviewCard from '@components/reviews/ReviewCard.astro';
+
+export async function getStaticPaths() {
+  const services = await getPublishedServices();
+  return services.map((service) => ({
+    params: { id: service.id },
+    props: { service },
+  }));
+}
+
+const { service } = Astro.props;
+const { data } = service;
+const { Content } = await render(service);
+
+const settings = await getGlobalSettings();
+const siteUrl = Astro.site?.toString() ?? 'https://jbaroofpro.com';
+const pageUrl = new URL(Astro.url.pathname, siteUrl).toString();
+
+const [projects, faqs, reviews] = await Promise.all([
+  getProjectsForService(service.id),
+  getFaqsForService(service.id),
+  getReviewsForService(service.id),
+]);
+
+const serviceSchema = buildServiceSchema({
+  serviceName: data.schemaServiceName ?? data.title,
+  description: data.seo.description ?? data.shortDescription,
+  siteUrl,
+  pageUrl,
+  areaServed: [settings.primaryServiceArea, ...settings.secondaryServiceAreas],
+  providerName: settings.businessName,
+});
+
+const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, answer: f.data.answer })));
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: siteUrl },
+  { name: 'Services', url: `${siteUrl}/services/` },
+  { name: data.title, url: pageUrl },
+]);
+---
+
+<BaseLayout
+  title={data.seo.title ?? data.title}
+  description={data.seo.description ?? data.shortDescription}
+  ogImage={data.seo.ogImage}
+  noindex={data.seo.noindex}
+  jsonLd={[serviceSchema, faqSchema, breadcrumbSchema]}
+>
+  <PageHero
+    eyebrow={data.heroEyebrow}
+    title={data.heroTitle}
+    description={data.heroDescription}
+    image={data.heroImage}
+    primaryCta={data.primaryCta}
+    secondaryCta={data.secondaryCta}
+    tone={data.journey === 'repair' ? 'urgent' : 'default'}
+  />
+
+  {data.problemStatement && (
+    <section class="section container container--narrow service-problem">
+      <p class="eyebrow">The Problem</p>
+      <p class="service-problem__text">{data.problemStatement}</p>
+    </section>
+  )}
+
+  {data.benefits.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <p class="eyebrow">What You Get</p>
+        <h2 class="h2">Why work with JBA on this.</h2>
+        <div class="grid grid--3 service-benefits">
+          {data.benefits.map((b) => (
+            <div class="service-benefit">
+              <h3 class="service-benefit__title">{b.title}</h3>
+              <p class="text-muted">{b.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {data.process.length > 0 && <Process steps={data.process} heading="How it works" eyebrow="Process" />}
+
+  {data.journey === 'repair' && <ProblemSelector />}
+  {data.journey === 'replacement' && <RepairVsReplace />}
+  {data.journey === 'maintenance' && <MaintenanceTeaser />}
+
+  <section class="section container container--narrow service-body">
+    <Content />
+  </section>
+
+  {projects.length > 0 && <FeaturedWork />}
+
+  {reviews.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <p class="eyebrow">Reviews</p>
+        <h2 class="h2">What customers say about {data.title.toLowerCase()}.</h2>
+        <div class="grid grid--3">
+          {reviews.slice(0, 3).map((review) => <ReviewCard review={review} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <FaqList faqs={faqs} heading={data.faqHeading ?? 'Frequently Asked Questions'} />
+
+  <FinalCTA heading={data.ctaHeading} description={data.ctaDescription} />
+</BaseLayout>
+
+<style>
+  .service-problem__text {
+    font-size: var(--step-1);
+    line-height: var(--leading-normal);
+    margin-top: var(--space-2);
+  }
+  .service-benefits { margin-top: var(--space-6); }
+  .service-benefit__title { font-size: var(--step-1); margin-bottom: var(--space-1); }
+  .service-body :global(p) { margin-bottom: var(--space-4); font-size: var(--step-0); }
+  .service-body :global(a) { text-decoration: underline; text-decoration-color: var(--color-accent); }
+</style>

@@ -1,0 +1,10 @@
+name = "jba-construction"
+compatibility_date = "2026-08-01"
+pages_build_output_dir = "dist"
+
+# Environment variables consumed by functions/api/lead.ts — set these in the
+# Cloudflare Pages dashboard (Settings > Environment variables), not here.
+# See CLIENT-CONTENT-NEEDED.md for what's still needed:
+#   LEAD_WEBHOOK_URL   (optional) — CRM/GoHighLevel webhook endpoint
+#   RESEND_API_KEY     (optional) — enables email lead notifications
+#   LEAD_NOTIFY_EMAIL  (optional) — destination address for email notifications

@@ -1,0 +1,11 @@
+question: "Do you provide roof inspections?"
+answer: >-
+  Yes. A roof inspection is often the first step, whether you're dealing with
+  an active problem, considering a purchase, or just haven't had your roof
+  checked in a while.
+category: general
+relatedServices: [roof-inspection]
+relatedLocations: []
+featured: true
+schemaEligible: true
+published: true

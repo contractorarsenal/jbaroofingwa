@@ -1,0 +1,44 @@
+---
+import { getGlobalSettings } from '@lib/content';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | (Record<string, unknown> | null)[] | null;
+}
+
+const { title, description, ogImage, noindex = false, jsonLd = null } = Astro.props;
+const settings = await getGlobalSettings();
+
+const pageTitle = title
+  ? `${title} | ${settings.businessName}`
+  : settings.defaultSeoTitle;
+const pageDescription = description ?? settings.defaultMetaDescription;
+const image = new URL(ogImage ?? settings.defaultOgImage, Astro.site).toString();
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+
+const jsonLdList = Array.isArray(jsonLd) ? jsonLd.filter(Boolean) : jsonLd ? [jsonLd] : [];
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={pageDescription} />
+<link rel="canonical" href={canonicalUrl} />
+<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+
+<meta property="og:type" content="website" />
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={pageDescription} />
+<meta property="og:image" content={image} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:site_name" content={settings.businessName} />
+
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={pageDescription} />
+<meta name="twitter:image" content={image} />
+
+{jsonLdList.map((item) => (
+  <script type="application/ld+json" is:inline set:html={JSON.stringify(item)} />
+))}

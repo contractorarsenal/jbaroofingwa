@@ -1,0 +1,76 @@
+---
+import { getGlobalSettings } from '@lib/content';
+import Button from '@components/ui/Button.astro';
+
+const settings = await getGlobalSettings();
+const counties = [settings.primaryServiceArea, ...settings.secondaryServiceAreas];
+---
+
+<section class="section section--white service-area-band" data-nav-theme="light" data-nav-section="areas">
+  <div class="container service-area-band__layout">
+    <div class="service-area-band__intro" data-reveal="up">
+      <p class="eyebrow">Service Territory</p>
+      <h2 class="h2">Proudly Serving <span class="accent-text">Northwest Washington.</span></h2>
+      {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
+        <p class="text-muted service-area-band__address">
+          {settings.businessAddress.street}<br />
+          {settings.businessAddress.city}, {settings.businessAddress.state}
+        </p>
+      )}
+      <Button href="/service-areas/" variant="outline">View Service Areas</Button>
+    </div>
+
+    <div class="service-area-band__counties" data-reveal-group>
+      {counties.map((county) => (
+        <a href="/service-areas/" class="county-row" data-reveal="up">
+          <span class="county-row__name">{county.replace(', WA', '')}</span>
+          <span class="county-row__arrow hover-arrow" aria-hidden="true">→</span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .service-area-band__layout {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .service-area-band__address { margin-block: var(--space-3) var(--space-5); line-height: 1.6; }
+
+  .service-area-band__counties {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+  .county-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-5);
+    background: var(--color-off-white);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    transition: background-color 220ms var(--ease-out), border-left-color 220ms var(--ease-out);
+  }
+  .county-row:hover {
+    background: var(--color-light-gray);
+    border-left-color: var(--color-accent-light);
+  }
+  .county-row__name {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+  .county-row__arrow {
+    color: var(--color-accent);
+    font-weight: 700;
+  }
+
+  @media (min-width: 900px) {
+    .service-area-band__layout { grid-template-columns: 1fr 1fr; }
+  }
+</style>

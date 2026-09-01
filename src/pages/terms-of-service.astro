@@ -1,0 +1,50 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import { getGlobalSettings } from '@lib/content';
+
+const settings = await getGlobalSettings();
+---
+
+<BaseLayout title="Terms of Service" description="Terms of service for JBA Roofing & Remodeling's website.">
+  <PageHero eyebrow="Legal" title="Terms of Service" />
+
+  <section class="section section--light container container--narrow legal-body">
+    <p class="legal-body__notice">
+      <strong>[VERIFY WITH CLIENT / LEGAL COUNSEL]</strong> — this is a starter terms-of-service
+      template covering website use only (not contracting terms). Have it reviewed by an attorney,
+      and pair it with a separate signed contract/estimate agreement for actual roofing work.
+    </p>
+
+    <h2 class="h4">Use of This Website</h2>
+    <p>
+      This website is provided for informational purposes about {settings.legalBusinessName}'s
+      roofing services. Submitting a form does not create a contract for services — a scope of
+      work and pricing will be confirmed separately before any work begins.
+    </p>
+
+    <h2 class="h4">No Guarantee From Website Content</h2>
+    <p>
+      Service descriptions, process explanations, and educational content on this site are general
+      in nature. Specific recommendations for your property are made only after an in-person or
+      photo-based inspection.
+    </p>
+
+    <h2 class="h4">Contact</h2>
+    <p>
+      Questions about these terms can be sent to <a href={`mailto:${settings.email}`}>{settings.email}</a>.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-body { padding-block: var(--space-6); }
+  .legal-body h2 { margin-top: var(--space-6); margin-bottom: var(--space-2); }
+  .legal-body p { line-height: var(--leading-normal); margin-bottom: var(--space-3); }
+  .legal-body__notice {
+    padding: var(--space-4);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-alt);
+    margin-bottom: var(--space-6);
+  }
+</style>

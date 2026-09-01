@@ -1,0 +1,17 @@
+# Legacy URL migration from the previous jbaroofpro.com site.
+# Source URLs confirmed by crawling the live site on 2026-08-31.
+# Add new mappings here as additional legacy URLs are discovered.
+
+/home/                                  /                                        301
+/gallery/                               /projects/                               301
+/roof-installation-in-king-county/      /services/roof-installation/             301
+/roof-repair-in-king-county/            /services/roof-repair/                   301
+/roof-inspection-in-king-county/        /services/roof-inspection/               301
+/roof-replacement-in-king-county/       /services/roof-replacement/              301
+
+# /about/, /services/, /contact/, and /privacy-policy/ keep the same path on the
+# new site, so no redirect is needed for those.
+
+# Non-www / apex canonicalization is handled in Cloudflare (see ARCHITECTURE.md).
+# Cloudflare Pages automatically serves the generated /404.html for any
+# unmatched path, so no catch-all rule is needed here.

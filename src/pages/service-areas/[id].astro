@@ -1,0 +1,112 @@
+---
+import { render, getEntry } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import ProjectCard from '@components/projects/ProjectCard.astro';
+import ReviewCard from '@components/reviews/ReviewCard.astro';
+import FaqList from '@components/faqs/FaqList.astro';
+import FinalCTA from '@components/sections/FinalCTA.astro';
+import {
+  getPublishedLocations,
+  getProjectsForLocation,
+  getReviewsForLocation,
+  getFaqsForLocation,
+} from '@lib/content';
+import { buildBreadcrumbSchema, buildFaqSchema } from '@lib/schema';
+
+export async function getStaticPaths() {
+  const locations = await getPublishedLocations();
+  return locations.map((location) => ({
+    params: { id: location.id },
+    props: { location },
+  }));
+}
+
+const { location } = Astro.props;
+const { data } = location;
+const { Content } = await render(location);
+
+const siteUrl = Astro.site?.toString() ?? 'https://jbaroofpro.com';
+const pageUrl = new URL(Astro.url.pathname, siteUrl).toString();
+
+const [projects, reviews, faqs, services] = await Promise.all([
+  getProjectsForLocation(location.id),
+  getReviewsForLocation(data.cityName),
+  getFaqsForLocation(location.id),
+  Promise.all(data.servicesAvailable.map((ref) => getEntry(ref))),
+]);
+
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: siteUrl },
+  { name: 'Service Areas', url: `${siteUrl}/service-areas/` },
+  { name: data.cityName, url: pageUrl },
+]);
+const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, answer: f.data.answer })));
+---
+
+<BaseLayout
+  title={data.seo.title ?? `Roofing in ${data.cityName}, WA`}
+  description={data.seo.description ?? data.heroDescription}
+  ogImage={data.seo.ogImage}
+  noindex={data.seo.noindex}
+  jsonLd={[breadcrumbSchema, faqSchema]}
+>
+  <PageHero eyebrow="Service Area" title={data.heroTitle} description={data.heroDescription} image={data.heroImage} />
+
+  <section class="section container container--narrow location-body">
+    <Content />
+    {data.localRoofingConsiderations && (
+      <div class="location-body__block">
+        <h2 class="h4">Local Considerations</h2>
+        <p class="text-muted">{data.localRoofingConsiderations}</p>
+      </div>
+    )}
+  </section>
+
+  {services.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <p class="eyebrow">Available Services</p>
+        <h2 class="h2">Services in {data.cityName}</h2>
+        <ul class="location-services">
+          {services.map((service) => service && (
+            <li><a href={`/services/${service.id}/`} class="link-underline">{service.data.title}</a></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  {projects.length > 0 && (
+    <section class="section">
+      <div class="container">
+        <p class="eyebrow">Local Work</p>
+        <h2 class="h2">Recent projects in {data.cityName}</h2>
+        <div class="grid grid--3">
+          {projects.map((project) => <ProjectCard project={project} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {reviews.length > 0 && (
+    <section class="section section--alt">
+      <div class="container">
+        <p class="eyebrow">Reviews</p>
+        <h2 class="h2">{data.cityName} homeowners on working with JBA.</h2>
+        <div class="grid grid--3">
+          {reviews.slice(0, 3).map((review) => <ReviewCard review={review} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <FaqList faqs={faqs} heading={`${data.cityName} Roofing Questions`} />
+
+  <FinalCTA heading={data.cta?.label} />
+</BaseLayout>
+
+<style>
+  .location-body__block { margin-top: var(--space-5); }
+  .location-services { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-5); font-size: var(--step-0); font-weight: 600; }
+</style>

@@ -1,0 +1,138 @@
+---
+import { getGlobalSettings, getPublishedLocations } from '@lib/content';
+
+const settings = await getGlobalSettings();
+const locations = await getPublishedLocations();
+const year = new Date().getFullYear();
+
+const roofServices = [
+  { slug: 'roof-replacement', label: 'Roof Replacement' },
+  { slug: 'roof-inspection', label: 'Roof Inspection' },
+  { slug: 'roof-cleaning', label: 'Roof Cleaning' },
+  { slug: 'roof-repair', label: 'Roof Repair' },
+  { slug: 'roof-rejuvenation', label: 'Roof Rejuvenation' },
+];
+---
+
+<footer class="site-footer" data-nav-theme="dark">
+  <div class="container site-footer__grid" data-reveal="up">
+    <div class="site-footer__brand">
+      <p class="site-footer__name">JBA <span class="accent-text">Roofing</span> &amp; Remodeling</p>
+      <p class="text-muted">{settings.footerDescription}</p>
+      <a href={`tel:${settings.primaryPhone}`} class="site-footer__phone" data-analytics-event="phone_click" data-analytics-location="footer">
+        {settings.primaryPhoneDisplay}
+      </a>
+      <a href={`mailto:${settings.email}`} class="text-muted">{settings.email}</a>
+      {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
+        <p class="text-muted site-footer__address">
+          {settings.businessAddress.street}<br />
+          {settings.businessAddress.city}, {settings.businessAddress.state}
+        </p>
+      )}
+      {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && (
+        <p class="text-muted">{settings.emergencyAvailability.value}</p>
+      )}
+    </div>
+
+    <div class="site-footer__col">
+      <h3 class="site-footer__heading">Roof Services</h3>
+      <ul>
+        {roofServices.map((s) => (
+          <li><a href={`/services/${s.slug}/`}>{s.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="site-footer__col">
+      <h3 class="site-footer__heading">Company</h3>
+      <ul>
+        <li><a href="/about/">About Us</a></li>
+        <li><a href="/projects/">Our Work</a></li>
+        <li><a href="/service-areas/">Service Areas</a></li>
+        <li><a href="/contact/">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="site-footer__col">
+      <h3 class="site-footer__heading">Service Areas</h3>
+      <ul>
+        {locations.map((l) => (
+          <li><a href={`/service-areas/${l.id}/`}>{l.data.cityName}</a></li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  <div class="container site-footer__legal">
+    <p class="text-muted">
+      &copy; {year} {settings.legalBusinessName}. All rights reserved.
+      {settings.contractorLicense.verified && settings.contractorLicense.value && (
+        <> · WA Contractor License #{settings.contractorLicense.value}</>
+      )}
+    </p>
+    <div class="site-footer__legal-links">
+      <a href="/privacy-policy/">Privacy</a>
+      <a href="/terms-of-service/">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--color-black);
+    color: var(--color-text-inverse);
+    padding-block: var(--space-7) var(--space-5);
+  }
+  .site-footer__grid {
+    display: grid;
+    gap: var(--space-5);
+    grid-template-columns: 1fr;
+  }
+  .site-footer__brand {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-width: 30ch;
+  }
+  .site-footer__name {
+    font-family: var(--font-display);
+    font-size: 1.6rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+  .site-footer__phone {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--color-accent);
+  }
+  .site-footer__address { line-height: 1.5; }
+  .site-footer .text-muted { color: var(--color-text-inverse-muted); font-size: 0.85rem; }
+  .site-footer__heading {
+    font-family: var(--font-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-3);
+    color: var(--color-accent);
+  }
+  .site-footer__col ul { display: flex; flex-direction: column; gap: var(--space-2); }
+  .site-footer__col a { font-size: 0.85rem; color: var(--color-text-inverse-muted); }
+  .site-footer__col a:hover { color: var(--color-text-inverse); }
+
+  .site-footer__legal {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-dark);
+    font-size: 0.75rem;
+  }
+  .site-footer__legal-links { display: flex; gap: var(--space-4); }
+
+  @media (min-width: 720px) {
+    .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+    .site-footer__legal { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+</style>

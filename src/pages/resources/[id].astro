@@ -1,0 +1,50 @@
+---
+import { render } from 'astro:content';
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import FinalCTA from '@components/sections/FinalCTA.astro';
+import { getPublishedArticles } from '@lib/content';
+import { buildBreadcrumbSchema } from '@lib/schema';
+
+export async function getStaticPaths() {
+  const articles = await getPublishedArticles();
+  return articles.map((article) => ({
+    params: { id: article.id },
+    props: { article },
+  }));
+}
+
+const { article } = Astro.props;
+const { data } = article;
+const { Content } = await render(article);
+
+const siteUrl = Astro.site?.toString() ?? 'https://jbaroofpro.com';
+const pageUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const breadcrumbSchema = buildBreadcrumbSchema([
+  { name: 'Home', url: siteUrl },
+  { name: 'Resources', url: `${siteUrl}/resources/` },
+  { name: data.title, url: pageUrl },
+]);
+---
+
+<BaseLayout
+  title={data.seo.title ?? data.title}
+  description={data.seo.description ?? data.excerpt}
+  ogImage={data.seo.ogImage ?? data.featuredImage}
+  noindex={data.seo.noindex}
+  jsonLd={breadcrumbSchema}
+>
+  <PageHero eyebrow="Resources" title={data.title} description={data.excerpt} image={data.featuredImage} />
+
+  <section class="section container container--narrow article-body">
+    <Content />
+  </section>
+
+  <FinalCTA />
+</BaseLayout>
+
+<style>
+  .article-body :global(p) { margin-bottom: var(--space-4); font-size: var(--step-0); line-height: var(--leading-normal); }
+  .article-body :global(h2) { margin-top: var(--space-6); margin-bottom: var(--space-3); }
+  .article-body :global(a) { text-decoration: underline; text-decoration-color: var(--color-accent); }
+</style>

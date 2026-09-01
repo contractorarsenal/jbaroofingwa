@@ -1,0 +1,98 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import Button from '@components/ui/Button.astro';
+import FaqList from '@components/faqs/FaqList.astro';
+import FinalCTA from '@components/sections/FinalCTA.astro';
+import { getActiveMaintenancePlans, getFaqsForService } from '@lib/content';
+
+const plans = await getActiveMaintenancePlans();
+const faqs = await getFaqsForService('roof-maintenance');
+---
+
+<BaseLayout
+  title="Maintenance Plans"
+  description="Annual roof maintenance and moss prevention plans for homes across King, Snohomish, and Skagit counties, WA."
+>
+  <PageHero
+    eyebrow="Maintenance Plans"
+    title="Protect your roof before it needs a repair."
+    description="Scheduled care, priced to be routine."
+  />
+
+  <section class="section section--light">
+    <div class="container">
+      <div class="plans-grid">
+        {plans.map((plan) => (
+          <div class:list={['plan-card', plan.data.recommended && 'plan-card--recommended']}>
+            {plan.data.badge && <span class="plan-card__badge">{plan.data.badge}</span>}
+            <h2 class="plan-card__name">{plan.data.planName}</h2>
+            <p class="plan-card__price">
+              {plan.data.price.verified && plan.data.price.display
+                ? plan.data.price.display
+                : 'Pricing available on request'}
+            </p>
+            <p class="text-muted">{plan.data.shortDescription}</p>
+            <ul class="plan-card__features">
+              {plan.data.features.map((feature) => (
+                <li>
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <Button href="/assessment/?need=maintenance" block variant={plan.data.recommended ? 'primary' : 'outline'} analyticsEvent="maintenance_plan_clicked" analyticsLocation={plan.id}>
+              {plan.data.cta?.label ?? 'Schedule This Plan'}
+            </Button>
+            {plan.data.finePrint && <p class="plan-card__fineprint">{plan.data.finePrint}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <FaqList faqs={faqs} heading="Maintenance Plan Questions" />
+
+  <FinalCTA heading="Not sure which plan fits?" description="Tell us about your roof and we'll recommend one." />
+</BaseLayout>
+
+<style>
+  .plans-grid {
+    display: grid;
+    gap: var(--space-5);
+  }
+  .plan-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+  }
+  .plan-card--recommended { border-color: var(--color-accent); border-width: 2px; }
+  .plan-card__badge {
+    position: absolute;
+    top: -12px;
+    left: var(--space-5);
+    background: var(--color-accent);
+    color: var(--color-black);
+    font-size: var(--step--1);
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.25em 0.75em;
+    border-radius: var(--radius-sm);
+  }
+  .plan-card__name { font-family: var(--font-display); font-size: var(--step-4); text-transform: uppercase; }
+  .plan-card__price { font-size: var(--step-1); font-weight: 700; color: var(--color-accent-dark); }
+  .plan-card__features { display: flex; flex-direction: column; gap: var(--space-2); margin: var(--space-2) 0; }
+  .plan-card__features li { display: flex; align-items: flex-start; gap: var(--space-2); color: var(--color-text-muted); }
+  .plan-card__features svg { flex-shrink: 0; margin-top: 4px; color: var(--color-success); }
+  .plan-card__fineprint { font-size: var(--step--1); color: var(--color-slate-500); }
+
+  @media (min-width: 860px) {
+    .plans-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>

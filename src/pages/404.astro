@@ -1,0 +1,27 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Button from '@components/ui/Button.astro';
+---
+
+<BaseLayout title="Page Not Found" noindex>
+  <section class="section not-found">
+    <div class="container container--narrow">
+      <p class="eyebrow">404</p>
+      <h1 class="h2">That page moved or doesn't exist.</h1>
+      <p class="text-muted not-found__desc">
+        Try the navigation above, or jump straight to one of these:
+      </p>
+      <div class="not-found__links">
+        <Button href="/">Homepage</Button>
+        <Button href="/services/" variant="outline">Services</Button>
+        <Button href="/contact/" variant="outline">Contact</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .not-found { padding-block: var(--space-9); text-align: center; }
+  .not-found__desc { margin-block: var(--space-3) var(--space-5); }
+  .not-found__links { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; }
+</style>

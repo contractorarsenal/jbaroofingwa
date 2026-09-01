@@ -1,0 +1,120 @@
+---
+/**
+ * Signature UX section #1 — the Customer Intent Router.
+ * Segments traffic into the three journeys identified in research
+ * (urgent repair / preventative maintenance / planned replacement)
+ * immediately, instead of a generic services grid.
+ */
+const paths = [
+  {
+    tag: 'Urgent',
+    title: 'I Have a Leak or Damage',
+    description:
+      "Water's coming in, shingles are missing, or a storm just came through. We stabilize first, inspect second.",
+    href: '/services/roof-repair/',
+    cta: 'Start a Repair Request',
+    modifier: 'urgent',
+  },
+  {
+    tag: 'Preventative',
+    title: 'I Want to Protect My Roof',
+    description:
+      'Moss, clogged gutters, or a roof getting older. Catch problems while they are still cheap to fix.',
+    href: '/services/roof-maintenance/',
+    cta: 'See Maintenance Plans',
+    modifier: 'maintenance',
+  },
+  {
+    tag: 'Planned',
+    title: 'I Need a New Roof',
+    description:
+      'Comparing contractors, materials, and cost. See real local projects and how the process works before you decide.',
+    href: '/services/roof-replacement/',
+    cta: 'Explore Replacement',
+    modifier: 'replacement',
+  },
+];
+---
+
+<section class="section section--dark intent-router">
+  <div class="container">
+    <p class="eyebrow eyebrow--inverse eyebrow--center">Where Do You Start?</p>
+    <h2 class="h2 intent-router__heading">Tell Us What's Going On. <span class="accent-text">We'll Take It From There.</span></h2>
+
+    <div class="intent-router__grid">
+      {paths.map((path) => (
+        <a href={path.href} class={`intent-card intent-card--${path.modifier}`} data-analytics-event="service_clicked" data-analytics-location={`intent_router_${path.modifier}`}>
+          <span class="intent-card__tag">{path.tag}</span>
+          <h3 class="intent-card__title">{path.title}</h3>
+          <p class="intent-card__desc">{path.description}</p>
+          <span class="intent-card__cta">
+            {path.cta}
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .intent-router__heading { text-align: center; margin-top: var(--space-2); max-width: 720px; margin-inline: auto; }
+
+  .intent-router__grid {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .intent-card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    border: 1px solid var(--color-border-dark);
+    border-top: 2px solid var(--color-accent);
+    background: var(--color-charcoal);
+    border-radius: var(--radius-md);
+    transition: transform var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out);
+  }
+  .intent-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--color-accent);
+  }
+  .intent-card--urgent { border-top-color: var(--color-urgent); }
+  .intent-card--maintenance { border-top-color: var(--color-success); }
+  .intent-card--replacement { border-top-color: var(--color-accent); }
+
+  .intent-card__tag {
+    font-size: var(--step--1);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-inverse-muted);
+  }
+  .intent-card__title {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    text-transform: uppercase;
+    color: var(--color-text-inverse);
+  }
+  .intent-card__desc {
+    color: var(--color-text-inverse-muted);
+  }
+  .intent-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    margin-top: auto;
+    padding-top: var(--space-3);
+    font-weight: 700;
+    font-size: 0.85rem;
+    color: var(--color-accent);
+  }
+  .intent-card__cta svg { transition: transform var(--duration-base) var(--ease-out); }
+  .intent-card:hover .intent-card__cta svg { transform: translateX(3px); }
+
+  @media (min-width: 860px) {
+    .intent-router__grid { grid-template-columns: repeat(3, 1fr); }
+  }
+</style>

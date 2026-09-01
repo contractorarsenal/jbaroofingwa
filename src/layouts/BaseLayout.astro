@@ -1,0 +1,66 @@
+---
+import '@fontsource-variable/inter';
+import '@fontsource/barlow-condensed/600.css';
+import '@fontsource/barlow-condensed/700.css';
+import '@fontsource/barlow-condensed/800.css';
+import '@styles/global.css';
+import Seo from '@components/seo/Seo.astro';
+import Header from '@components/global/Header.astro';
+import Footer from '@components/global/Footer.astro';
+import StickyMobileCTA from '@components/global/StickyMobileCTA.astro';
+import { getGlobalSettings } from '@lib/content';
+import { buildLocalBusinessSchema } from '@lib/schema';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+  noindex?: boolean;
+  jsonLd?: Record<string, unknown> | (Record<string, unknown> | null)[] | null;
+  hideStickyCta?: boolean;
+}
+
+const { title, description, ogImage, noindex, jsonLd, hideStickyCta = false } = Astro.props;
+
+const settings = await getGlobalSettings();
+const siteUrl = Astro.site?.toString() ?? 'https://jbaroofpro.com';
+const localBusinessSchema = buildLocalBusinessSchema(settings, siteUrl);
+const combinedJsonLd = [localBusinessSchema, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href={settings.favicon} type="image/svg+xml" />
+    <meta name="theme-color" content="#080808" />
+    <script is:inline>document.documentElement.classList.add('js-reveal');</script>
+    <Seo title={title} description={description} ogImage={ogImage} noindex={noindex} jsonLd={combinedJsonLd} />
+  </head>
+  <body class={hideStickyCta ? '' : 'has-sticky-cta'}>
+    <a href="#main" class="skip-link">Skip to main content</a>
+    <Header />
+    <main id="main">
+      <slot />
+    </main>
+    <Footer />
+    {!hideStickyCta && <StickyMobileCTA />}
+
+    <script>
+      import { bindAnalyticsClicks } from '@lib/analytics';
+      import { initMotion } from '@lib/motion';
+      bindAnalyticsClicks();
+      initMotion();
+    </script>
+
+    <style is:global>
+      body.has-sticky-cta {
+        padding-bottom: 56px;
+      }
+      @media (min-width: 1080px) {
+        body.has-sticky-cta { padding-bottom: 0; }
+      }
+    </style>
+  </body>
+</html>

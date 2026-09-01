@@ -1,0 +1,142 @@
+---
+const slugs = ['roof-replacement', 'roof-inspection', 'roof-cleaning', 'roof-repair', 'roof-rejuvenation'];
+import { getCollection } from 'astro:content';
+
+const allServices = await getCollection('services', ({ data }) => data.published);
+const services = slugs
+  .map((slug) => allServices.find((s) => s.id === slug))
+  .filter((s): s is NonNullable<typeof s> => Boolean(s));
+
+const featured = services.find((s) => s.id === 'roof-replacement');
+const supporting = services.filter((s) => s.id !== 'roof-replacement');
+---
+
+<section class="section section--charcoal services-grid" data-nav-theme="dark" data-nav-section="services">
+  <div class="container">
+    <p class="eyebrow eyebrow--center" data-reveal="up">What We Do</p>
+    <h2 class="h2 services-grid__heading" data-reveal="up">Roofing Services Built For The <span class="accent-text">Pacific Northwest</span></h2>
+    <p class="text-muted services-grid__lede" data-reveal="up">Roof replacement, repair, inspection, cleaning, and rejuvenation — handled by one local team.</p>
+
+    {featured && (
+      <a href={`/services/${featured.id}/`} class="service-featured-row" data-reveal="up" data-analytics-event="service_clicked" data-analytics-location="services_grid_featured">
+        <span class="service-featured-row__badge">Our #1 Service</span>
+        <span class="service-featured-row__number">01</span>
+        <span class="service-featured-row__title">{featured.data.title}</span>
+        <span class="text-muted service-featured-row__desc">{featured.data.shortDescription}</span>
+        <span class="service-featured-row__link">Learn More <span class="hover-arrow" aria-hidden="true">→</span></span>
+      </a>
+    )}
+
+    <div class="services-grid__supporting" data-reveal-group>
+      {supporting.map((service, i) => (
+        <a href={`/services/${service.id}/`} class="service-card" data-reveal="up" data-analytics-event="service_clicked" data-analytics-location={`services_grid_${service.id}`}>
+          <span class="service-card__number">{String(i + 2).padStart(2, '0')}</span>
+          <h3 class="service-card__title">{service.data.title}</h3>
+          <p class="text-muted service-card__desc">{service.data.shortDescription}</p>
+          <span class="service-card__link">Learn More <span class="hover-arrow" aria-hidden="true">→</span></span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .services-grid__heading { text-align: center; margin-top: var(--space-2); }
+  .services-grid__lede { text-align: center; max-width: 56ch; margin: var(--space-3) auto 0; }
+
+  .service-featured-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-2) var(--space-5);
+    margin-top: var(--space-6);
+    padding: var(--space-5) var(--space-6);
+    background: linear-gradient(120deg, var(--color-charcoal-raised) 0%, var(--color-charcoal) 100%);
+    border: 1.5px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    transition: transform var(--duration-base) var(--ease-out);
+  }
+  .service-featured-row:hover { transform: translateY(-2px); }
+  .service-featured-row__badge {
+    grid-column: 1 / -1;
+    justify-self: start;
+    font-size: 0.7rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-black);
+    background: var(--color-accent);
+    padding: 0.3em 0.7em;
+    border-radius: var(--radius-sm);
+  }
+  .service-featured-row__number {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    color: var(--color-accent);
+    opacity: 0.6;
+    line-height: 1;
+  }
+  .service-featured-row__title {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-inverse);
+  }
+  .service-featured-row__desc { grid-column: 2 / 3; max-width: 46ch; }
+  .service-featured-row__link {
+    grid-row: 1 / 3;
+    grid-column: 3 / 4;
+    font-weight: 700;
+    color: var(--color-accent);
+    white-space: nowrap;
+  }
+
+  .services-grid__supporting { display: grid; gap: var(--space-4); margin-top: var(--space-4); }
+
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    background: var(--color-charcoal-raised);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+    transition: border-color var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
+  }
+  .service-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+  }
+  .service-card__number {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    color: var(--color-accent);
+    opacity: 0.6;
+    line-height: 1;
+  }
+  .service-card__title {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-inverse);
+  }
+  .service-card__desc { max-width: 42ch; }
+  .service-card__link {
+    margin-top: auto;
+    padding-top: var(--space-2);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+
+  @media (min-width: 720px) {
+    .services-grid__supporting { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 719px) {
+    .service-featured-row { grid-template-columns: 1fr; text-align: left; }
+    .service-featured-row__desc { grid-column: 1; }
+    .service-featured-row__link { grid-row: auto; grid-column: 1; margin-top: var(--space-2); }
+  }
+</style>

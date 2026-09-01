@@ -1,0 +1,138 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import Button from '@components/ui/Button.astro';
+import { getGlobalSettings } from '@lib/content';
+
+const settings = await getGlobalSettings();
+---
+
+<BaseLayout title="Contact" description={`Contact ${settings.businessName} — call, email, or start a free roof assessment.`}>
+  <PageHero eyebrow="Contact" title="Talk to us, or start your assessment now." />
+
+  <section class="section section--light contact-section">
+    <div class="container contact-grid">
+      <div class="contact-info">
+        <h2 class="h3">Fastest way to reach us</h2>
+        <a href={`tel:${settings.primaryPhone}`} class="contact-info__phone" data-analytics-event="phone_click" data-analytics-location="contact_page">
+          {settings.primaryPhoneDisplay}
+        </a>
+        <a href={`mailto:${settings.email}`} class="contact-info__email">{settings.email}</a>
+
+        <div class="contact-info__cta">
+          <Button href="/assessment/" analyticsEvent="quote_started" analyticsLocation="contact_page">
+            Start a Free Roof Assessment
+          </Button>
+        </div>
+
+        {settings.businessHours.length > 0 && (
+          <div class="contact-info__hours">
+            <h3 class="h4">Hours</h3>
+            <ul>
+              {settings.businessHours.map((h) => (
+                <li><span>{h.days}</span><span>{h.hours}</span></li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        <p class="text-muted contact-info__area">Serving {settings.primaryServiceArea}, {settings.secondaryServiceAreas.join(' and ')}.</p>
+      </div>
+
+      <div class="contact-form-wrap">
+        <h2 class="h3">Have a general question?</h2>
+        <p class="text-muted">For anything that isn't an active repair, feel free to send us a message directly.</p>
+        <form id="contact-form" class="contact-form">
+          <input type="text" name="company_website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <label class="form-field">
+            <span>Name</span>
+            <input type="text" name="name" required autocomplete="name" />
+          </label>
+          <label class="form-field">
+            <span>Email</span>
+            <input type="email" name="email" required autocomplete="email" />
+          </label>
+          <label class="form-field">
+            <span>Phone (optional)</span>
+            <input type="tel" name="phone" autocomplete="tel" />
+          </label>
+          <label class="form-field">
+            <span>Message</span>
+            <textarea name="notes" rows="4" required></textarea>
+          </label>
+
+          <Button type="submit" block>Send Message</Button>
+          <p class="contact-form__status" data-form-status role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .contact-grid {
+    display: grid;
+    gap: var(--space-7);
+  }
+  .contact-info__phone { display: block; font-size: var(--step-4); font-weight: 700; font-family: var(--font-display); margin-block: var(--space-3); }
+  .contact-info__email { font-weight: 600; }
+  .contact-info__cta { margin-block: var(--space-5); }
+  .contact-info__hours ul { display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2); }
+  .contact-info__hours li { display: flex; justify-content: space-between; gap: var(--space-4); max-width: 320px; color: var(--color-text-muted); }
+  .contact-info__area { margin-top: var(--space-5); }
+
+  .contact-form { display: flex; flex-direction: column; gap: var(--space-4); margin-top: var(--space-4); }
+  .form-field { display: flex; flex-direction: column; gap: var(--space-1); font-weight: 600; font-size: var(--step--1); }
+  .form-field input, .form-field textarea {
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--step-0);
+    font-weight: 400;
+    background: var(--color-white);
+    color: var(--color-text);
+  }
+  .form-field input:focus, .form-field textarea:focus { border-color: var(--color-accent); }
+  .contact-form__status { font-size: var(--step--1); font-weight: 600; min-height: 1.2em; }
+
+  @media (min-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<script>
+  import { submitLead } from '@lib/leads';
+  import { trackEvent } from '@lib/analytics';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  const status = form?.querySelector<HTMLElement>('[data-form-status]');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
+    if (submitBtn) submitBtn.disabled = true;
+    if (status) status.textContent = 'Sending…';
+
+    const result = await submitLead({
+      formName: 'contact_page',
+      name: String(data.get('name') ?? ''),
+      email: String(data.get('email') ?? ''),
+      phone: String(data.get('phone') ?? ''),
+      notes: String(data.get('notes') ?? ''),
+      path: window.location.pathname,
+      referrer: document.referrer,
+    });
+
+    if (result.ok) {
+      trackEvent('quote_submitted', { form: 'contact_page' });
+      if (status) status.textContent = "Thanks — we'll get back to you shortly.";
+      form.reset();
+    } else if (status) {
+      status.textContent = 'Something went wrong. Please call us instead.';
+    }
+    if (submitBtn) submitBtn.disabled = false;
+  });
+</script>

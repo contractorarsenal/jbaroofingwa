@@ -1,0 +1,58 @@
+---
+import { getPublishedProjects } from '@lib/content';
+import BeforeAfterSlider from '@components/projects/BeforeAfterSlider.astro';
+
+const projects = await getPublishedProjects();
+const withPhotos = projects.filter((p) => p.data.beforeImages[0] && p.data.afterImages[0]);
+---
+
+<section class="section section--charcoal before-after" data-nav-theme="dark">
+  <div class="container">
+    <p class="eyebrow eyebrow--inverse eyebrow--center" data-reveal="up">The JBA Difference</p>
+    <h2 class="h2 before-after__heading" data-reveal="up">See The <span class="accent-text">Difference.</span></h2>
+
+    {withPhotos.length > 0 ? (
+      <div class="grid grid--2 before-after__grid" data-reveal-group>
+        {withPhotos.slice(0, 2).map((project) => (
+          <div data-reveal="up">
+            <BeforeAfterSlider
+              beforeImage={project.data.beforeImages[0]}
+              afterImage={project.data.afterImages[0]}
+            />
+            <p class="before-after__caption">{project.data.city} · {project.data.projectName}</p>
+          </div>
+        ))}
+      </div>
+    ) : (
+      <div class="before-after__empty" data-reveal="up">
+        <h3 class="before-after__empty-title">Before &amp; After Projects</h3>
+        <p class="text-muted">
+          Real JBA transformations will appear here as new projects are added
+          through the CMS. In the meantime, <a href="/contact/" class="link-underline">ask us directly</a> to see recent work.
+        </p>
+      </div>
+    )}
+  </div>
+</section>
+
+<style>
+  .before-after__heading { text-align: center; margin-top: var(--space-2); }
+  .before-after__grid { margin-top: var(--space-6); }
+  .before-after__caption { margin-top: var(--space-3); font-weight: 700; text-align: center; }
+  .before-after__empty {
+    text-align: center;
+    padding: var(--space-8) var(--space-6);
+    max-width: 60ch;
+    margin: var(--space-7) auto 0;
+    background: var(--color-black);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+  }
+  .before-after__empty-title {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    text-transform: uppercase;
+    color: var(--color-text-inverse);
+    margin-bottom: var(--space-3);
+  }
+</style>

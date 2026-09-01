@@ -1,0 +1,102 @@
+---
+interface Item {
+  question: string;
+  answer: string;
+}
+
+interface Props {
+  items: Item[];
+  columns?: boolean;
+}
+
+const { items, columns = false } = Astro.props;
+---
+
+<div class:list={['accordion', columns && 'accordion--columns']} data-reveal-group>
+  {items.map((item, i) => (
+    <details class="accordion__item" data-reveal="up" open={i < 2}>
+      <summary class="accordion__trigger">
+        <span>{item.question}</span>
+        <svg class="accordion__icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+          <path d="M1 5L7 11L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </summary>
+      <div class="accordion__panel-wrap">
+        <div class="accordion__panel" set:html={item.answer} />
+      </div>
+    </details>
+  ))}
+</div>
+
+<style>
+  .accordion { border-top: 1px solid var(--color-border); }
+  .accordion__item {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .accordion__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-4) 0;
+    font-weight: 700;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-text);
+  }
+  .accordion__trigger::-webkit-details-marker { display: none; }
+  .accordion__icon {
+    flex-shrink: 0;
+    color: var(--color-accent);
+    transition: transform 260ms var(--ease-out);
+  }
+  .accordion__item[open] .accordion__icon { transform: rotate(180deg); }
+
+  /* modern, accessible expand/collapse: the wrap is always "displayed" (an
+     author rule beats the UA details:not([open])>:not(summary){display:none}
+     default) but collapsed to a 0fr grid row, so height animates smoothly
+     without measuring pixels or relying on max-height guesswork */
+  .accordion__panel-wrap {
+    display: grid !important;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 300ms var(--ease-out);
+  }
+  .accordion__item[open] .accordion__panel-wrap { grid-template-rows: 1fr; }
+  .accordion__panel {
+    overflow: hidden;
+    min-height: 0;
+    padding-bottom: var(--space-4);
+    color: var(--color-text-muted);
+    font-size: 0.9375rem;
+    max-width: 65ch;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .accordion__panel-wrap, .accordion__icon { transition: none; }
+  }
+
+  /* card variant: each item becomes its own rectangular white panel in a 2-col grid */
+  .accordion--columns {
+    border-top: none;
+    display: grid;
+    gap: var(--space-3);
+  }
+  .accordion--columns .accordion__item {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-white);
+    padding-inline: var(--space-5);
+    transition: border-color 220ms var(--ease-out);
+  }
+  .accordion--columns .accordion__item:hover,
+  .accordion--columns .accordion__item:focus-within {
+    border-color: var(--color-accent);
+  }
+  .accordion--columns .accordion__panel { max-width: none; }
+
+  @media (min-width: 760px) {
+    .accordion--columns { grid-template-columns: repeat(2, 1fr); align-items: start; }
+  }
+</style>
