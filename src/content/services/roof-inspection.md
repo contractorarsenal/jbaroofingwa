@@ -9,6 +9,7 @@ published: true
 
 heroEyebrow: Roof Inspection
 heroTitle: "Know the Condition Before It Becomes a Problem."
+heroImage: "/images/projects/project-03-water-damage-roof-repair/problem-drainage.jpg"
 heroDescription: >-
   Whether you're buying a house, planning ahead, or just haven't had your roof
   looked at in a few years, an inspection tells you exactly where it stands.

@@ -9,6 +9,7 @@ published: true
 
 heroEyebrow: Roof Repair
 heroTitle: "Stop the Leak Before It Reaches the Drywall."
+heroImage: "/images/projects/project-03-water-damage-roof-repair/damage.jpg"
 heroDescription: >-
   Water inside the house doesn't wait for a convenient time. We find where it's
   getting in, stabilize it, and give you a straight answer on repair vs. replace.

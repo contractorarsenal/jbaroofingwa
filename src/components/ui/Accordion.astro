@@ -79,7 +79,7 @@ const right = columns ? items.filter((_, i) => i % 2 === 1) : [];
     align-items: center;
     justify-content: space-between;
     gap: var(--space-3);
-    min-height: 72px;
+    min-height: 76px;
     padding: var(--space-4) 0;
     font-weight: 700;
     font-size: 0.95rem;
@@ -90,6 +90,12 @@ const right = columns ? items.filter((_, i) => i % 2 === 1) : [];
     color: var(--color-text);
   }
   .accordion__trigger::-webkit-details-marker { display: none; }
+  .accordion__trigger > span {
+    display: flex;
+    align-items: center;
+    flex: 1;
+  }
+  .accordion__icon { align-self: center; }
   .accordion__icon {
     flex-shrink: 0;
     color: var(--color-accent);

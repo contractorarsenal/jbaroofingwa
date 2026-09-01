@@ -36,7 +36,16 @@ const combinedJsonLd = [localBusinessSchema, ...(Array.isArray(jsonLd) ? jsonLd 
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href={settings.favicon} type="image/svg+xml" />
     <meta name="theme-color" content="#080808" />
-    <script is:inline>document.documentElement.classList.add('js-reveal');</script>
+    <script is:inline>
+      document.documentElement.classList.add('js-reveal');
+      // Explicit, defensive: this is already the browser default for a
+      // traditional multi-page site like this one (no client router, no
+      // View Transitions), but setting it explicitly guards against a
+      // regression if either is ever added later. Never force-scroll on
+      // load or on back/forward navigation, let the browser restore the
+      // visitor's scroll position natively.
+      if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
+    </script>
     <Seo title={title} description={description} ogImage={ogImage} noindex={noindex} jsonLd={combinedJsonLd} />
   </head>
   <body class={hideStickyCta ? '' : 'has-sticky-cta'}>

@@ -7,94 +7,76 @@ const settings = await getGlobalSettings();
 ---
 
 <BaseLayout title="Contact" description={`Contact ${settings.businessName}. Call, email, or start a free roof estimate.`}>
-  <section class="section contact-page">
-    <div class="container contact-page__layout" data-reveal-group>
-      <div class="contact-page__left" data-reveal="up">
-        <p class="eyebrow eyebrow--inverse">Contact JBA</p>
-        <h1 class="h2 contact-page__heading">Need Help With <span class="accent-text">Your Roof?</span></h1>
-        <p class="text-muted contact-page__intro">
-          Call, email, or start a free estimate below and tell us what's going on.
-        </p>
+  <section class="contact-intro" data-nav-theme="dark">
+    <div class="container container--narrow">
+      <p class="eyebrow eyebrow--inverse">Contact JBA</p>
+      <h1 class="h2 contact-intro__heading">Need Help With <span class="accent-text">Your Roof?</span></h1>
+      <p class="text-muted contact-intro__text">
+        Call, email, or start a free estimate below and tell us what's going on.
+      </p>
 
-        <div class="contact-page__actions">
-          <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="contact_page">
-            Call Now
-          </a>
-          <a href={`mailto:${settings.email}`} class="btn btn--outline" data-analytics-event="email_click" data-analytics-location="contact_page">
-            Email Us
-          </a>
-        </div>
-
-        <div class="contact-page__areas">
-          <p class="contact-page__areas-label">Service Areas</p>
-          <ul>
-            <li>King County</li>
-            <li>Snohomish County</li>
-            <li>Skagit County</li>
-          </ul>
-        </div>
-
-        {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && (
-          <p class="contact-page__hours">{settings.emergencyAvailability.value}</p>
-        )}
+      <div class="contact-intro__actions">
+        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="contact_page">
+          Call Now
+        </a>
+        <a href={`mailto:${settings.email}`} class="btn btn--outline" data-analytics-event="email_click" data-analytics-location="contact_page">
+          Email Us
+        </a>
       </div>
 
-      <div class="contact-page__right" data-reveal="up">
-        <p class="eyebrow">Free Estimate</p>
-        <h2 class="h3 contact-page__form-heading">Get A <span class="accent-text">Free Estimate</span></h2>
-        <p class="text-muted contact-page__form-sub">
-          Tell us what's happening with your roof and we'll help you figure out the next step.
-        </p>
+      <ul class="contact-intro__areas">
+        <li>King County</li>
+        <li>Snohomish County</li>
+        <li>Skagit County</li>
+      </ul>
 
-        <AssessmentForm />
-      </div>
+      {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && (
+        <p class="contact-intro__hours">{settings.emergencyAvailability.value}</p>
+      )}
+    </div>
+  </section>
+
+  <section class="section--light assessment">
+    <div class="container container--narrow">
+      <p class="eyebrow assessment__eyebrow">Free Estimate</p>
+      <h2 class="h3 assessment__heading">Get A <span class="accent-text">Free Estimate</span></h2>
+      <p class="text-muted assessment__sub">
+        Tell us what's happening with your roof and we'll help you figure out the next step.
+      </p>
+      <AssessmentForm />
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .contact-page {
+  .contact-intro {
     background: var(--color-dark-charcoal);
     color: var(--color-text-inverse);
     padding-block: var(--space-7);
+    text-align: center;
   }
-  .contact-page__layout {
-    display: grid;
-    gap: var(--space-5);
-    max-width: 1180px;
+  .contact-intro__heading { margin-top: var(--space-2); margin-bottom: var(--space-3); }
+  .contact-intro__text { max-width: 46ch; margin-inline: auto; }
+  .contact-intro__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
   }
-  .contact-page__heading { margin-top: var(--space-2); margin-bottom: var(--space-3); }
-  .contact-page__intro { max-width: 42ch; margin-bottom: var(--space-5); }
-
-  .contact-page__left,
-  .contact-page__right {
-    min-width: 0;
-    background: var(--color-charcoal);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: var(--radius-lg);
-    padding: var(--space-5);
-  }
-
-  .contact-page__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
-
-  .contact-page__areas {
+  .contact-intro__areas {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) var(--space-5);
     margin-top: var(--space-6);
     padding-top: var(--space-5);
     border-top: 1px solid rgba(255, 255, 255, 0.08);
+    font-weight: 700;
+    color: var(--color-text-inverse-muted);
   }
-  .contact-page__areas-label {
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--color-accent);
-    margin-bottom: var(--space-2);
-  }
-  .contact-page__areas ul { display: flex; flex-direction: column; gap: 0.35em; }
-  .contact-page__areas li { color: var(--color-text-inverse-muted); font-weight: 600; }
-
-  .contact-page__hours {
-    margin-top: var(--space-4);
+  .contact-intro__hours {
+    margin-top: var(--space-3);
     font-size: 0.8rem;
     font-weight: 700;
     letter-spacing: 0.02em;
@@ -102,29 +84,15 @@ const settings = await getGlobalSettings();
     color: var(--color-text-inverse-muted);
   }
 
-  .contact-page__form-heading { margin-top: var(--space-2); }
-  .contact-page__form-sub { margin-block: var(--space-2) var(--space-5); max-width: 46ch; }
-
-  /* The AssessmentForm's own inputs/option-cards assume a light section
-     ambient background, this card is dark, so give its form controls their
-     own explicit light surfaces rather than inheriting page-level defaults. */
-  .contact-page__right :global(.step__zip-input),
-  .contact-page__right :global(.option-card),
-  .contact-page__right :global(.form-field input),
-  .contact-page__right :global(.form-field textarea) {
-    background: var(--color-white);
+  /* The form section below reuses the exact same section/container/heading
+     structure as /assessment/, so the two pages are guaranteed to render
+     the AssessmentForm at identical size, no separate CSS system. */
+  .assessment {
+    padding-block: var(--space-7) var(--space-9);
+    background: var(--color-bg);
     color: var(--color-text);
   }
-  .contact-page__right :global(.step__title) { color: var(--color-text-inverse); }
-  .contact-page__right :global(.step__sub),
-  .contact-page__right :global(.step__sub-question),
-  .contact-page__right :global(.form-field) { color: var(--color-text-inverse-muted); }
-  .contact-page__right :global(.step--confirm h2),
-  .contact-page__right :global(.step--error h2) { color: var(--color-text-inverse); }
-  .contact-page__right :global(.step--confirm p),
-  .contact-page__right :global(.step--error p) { color: var(--color-text-inverse-muted); }
-
-  @media (min-width: 960px) {
-    .contact-page__layout { grid-template-columns: 42fr 58fr; gap: var(--space-6); align-items: start; }
-  }
+  .assessment__eyebrow { justify-content: center; }
+  .assessment__heading { text-align: center; margin-top: var(--space-2); }
+  .assessment__sub { text-align: center; max-width: 46ch; margin: var(--space-3) auto var(--space-6); }
 </style>

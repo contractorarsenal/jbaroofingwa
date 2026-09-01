@@ -9,6 +9,7 @@ published: true
 
 heroEyebrow: Roof Replacement
 heroTitle: "A New Roof, Without the Guesswork."
+heroImage: "/images/projects/project-06-aging-roof-replacement/after.jpg"
 heroDescription: >-
   Replacing a roof is a five-figure decision most homeowners make once or twice
   in their life. You should understand exactly what you're paying for before

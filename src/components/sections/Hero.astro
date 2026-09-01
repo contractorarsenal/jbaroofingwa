@@ -6,8 +6,8 @@ import TrustFacts from '@components/ui/TrustFacts.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
 
 const settings = await getGlobalSettings();
-// Real finished-roof aerial from Project 01 — the strongest single-image
-// composition of the seven project sets for a full-bleed hero crop.
+// Real finished-roof aerial from Project 01, the strongest single-image
+// composition of the seven project sets, as a full-bleed hero background.
 // Falls back to the roof-replacement service's own heroImage, then to
 // MediaSlot's branded placeholder, if project content is ever unpublished.
 const heroProject = await getEntry('projects', 'project-01-shingle-roof-replacement');
@@ -16,6 +16,18 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
 ---
 
 <section class="hero" data-nav-theme="dark">
+  <div class="hero__bg" data-parallax>
+    <MediaSlot
+      image={heroImage}
+      alt="Completed shingle roof viewed from above"
+      tone="dark"
+      variant={1}
+      loading="eager"
+      sizes="100vw"
+    />
+  </div>
+  <div class="hero__overlay" aria-hidden="true"></div>
+
   <div class="container hero__inner">
     <div class="hero__content">
       <p class="eyebrow eyebrow--inverse hero__anim hero__anim--1">Roofing &amp; Remodeling &middot; Northwest Washington</p>
@@ -37,18 +49,8 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
       </div>
     </div>
 
-    <div class="hero__visual hero__anim hero__anim--media">
-      <div class="hero__visual-parallax" data-parallax>
-        <MediaSlot
-          image={heroImage}
-          alt="Completed shingle roof viewed from above"
-          tone="dark"
-          variant={1}
-          loading="eager"
-          sizes="(min-width: 860px) 40vw, 100vw"
-        />
-      </div>
-      <div class="hero__visual-frame" aria-hidden="true"></div>
+    <div class="hero__logo hero__anim hero__anim--media">
+      <img src="/images/brand/jba-nav-logo.webp" alt="" width="240" height="240" />
     </div>
   </div>
 
@@ -78,9 +80,31 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
     height: 2px;
     background: linear-gradient(90deg, transparent, var(--color-accent) 50%, transparent);
     opacity: 0.6;
+    z-index: 2;
   }
 
-  /* entrance sequence — plays once on load, independent of scroll */
+  .hero__bg {
+    position: absolute;
+    inset: -20px;
+    z-index: 0;
+    will-change: transform;
+  }
+  .hero__bg :global(.media-slot) { width: 100%; height: 100%; min-height: 100%; }
+  .hero__overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    /* Strong, deliberately dark, not washed out, the hero must still read
+       as black. Darkest over the copy side, still substantial over the
+       logo side so the section never looks like a bright photo with text
+       on top. */
+    background: linear-gradient(115deg, rgba(8, 8, 8, 0.95) 0%, rgba(8, 8, 8, 0.9) 40%, rgba(8, 8, 8, 0.72) 68%, rgba(8, 8, 8, 0.85) 100%);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__bg { transform: none !important; }
+  }
+
+  /* entrance sequence, plays once on load, independent of scroll */
   @keyframes heroRise {
     from { opacity: 0; transform: translateY(26px); }
     to { opacity: 1; transform: translateY(0); }
@@ -97,8 +121,10 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
   .hero__anim--5 { animation-delay: 600ms; }
   .hero__anim--media { animation: heroMediaReveal 950ms var(--ease-out) both; animation-delay: 380ms; }
   .hero__inner {
+    position: relative;
+    z-index: 2;
     display: grid;
-    gap: var(--space-7);
+    gap: var(--space-6);
     align-items: center;
     width: 100%;
     height: 100%;
@@ -127,31 +153,19 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
     border-top: 1px solid var(--color-border-dark);
   }
 
-  .hero__visual {
-    display: none;
-    position: relative;
-    align-self: center;
-    aspect-ratio: 4 / 5;
-    max-height: 560px;
-    border-radius: var(--radius-lg);
-    overflow: hidden;
-    border: 1px solid var(--color-border-dark);
+  /* Logo mark: small and centered below the copy on mobile, a proper
+     branded element in the right column on desktop, never the size of a
+     hero image itself. */
+  .hero__logo {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--space-2);
   }
-  .hero__visual-parallax {
-    position: absolute;
-    inset: -30px 0;
-    will-change: transform;
-  }
-  .hero__visual-parallax :global(.media-slot) { min-height: 100%; }
-  .hero__visual-frame {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(90deg, rgba(8, 8, 8, 0.55) 0%, transparent 30%);
-    box-shadow: inset 0 0 0 1px rgba(209, 155, 42, 0.15), inset 0 -80px 100px -40px rgba(0, 0, 0, 0.6);
-    pointer-events: none;
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .hero__visual-parallax { transform: none !important; }
+  .hero__logo img {
+    width: auto;
+    height: auto;
+    max-height: 72px;
+    filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.5));
   }
 
   .hero__scroll {
@@ -159,6 +173,7 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
     bottom: var(--space-5);
     left: 50%;
     transform: translateX(-50%);
+    z-index: 2;
     display: none;
     flex-direction: column;
     align-items: center;
@@ -176,7 +191,8 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
 
   @media (min-width: 860px) {
     .hero__inner { grid-template-columns: 1.25fr 1fr; }
-    .hero__visual { display: block; }
+    .hero__logo { margin-top: 0; }
+    .hero__logo img { max-height: 220px; }
     .hero__scroll { display: flex; }
   }
 </style>

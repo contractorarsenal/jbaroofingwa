@@ -368,6 +368,30 @@ h1, h2, h3 { color: var(--color-text-inverse); }
 }
 
 /* ==========================================================================
+   FIXED-ASPECT-RATIO MEDIA WRAPPERS — defensive sizing
+   Flex and grid items default to min-height/min-width: auto, which lets a
+   child image's own intrinsic (sometimes portrait) proportions expand these
+   boxes past their intended aspect-ratio at the given width — the exact bug
+   behind inconsistent card heights across the site. This resets that
+   default sitewide for every fixed-ratio media wrapper in one place, rather
+   than patching each component's own stylesheet individually.
+   ========================================================================== */
+.service-featured-row__media,
+.service-card__media,
+.financing__art,
+.company-intro__art,
+.primary-service__art,
+.maintenance-teaser__art,
+.project-card__media,
+.ba-slider,
+.team-card__photo,
+.featured-project__media,
+.project-gallery__item {
+  min-height: 0;
+  min-width: 0;
+}
+
+/* ==========================================================================
    MOTION SYSTEM — scroll reveals, nav-theme support, hover microinteractions.
    Gated behind .js-reveal (set synchronously in <head>) so content is fully
    visible with no JS / before hydration — this is progressive enhancement,

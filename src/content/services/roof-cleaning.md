@@ -9,6 +9,7 @@ published: true
 
 heroEyebrow: Roof Cleaning
 heroTitle: "Kill Moss at the Root, Without Damaging the Shingles."
+heroImage: "/images/projects/project-04-small-shingle-replacement/before.jpg"
 heroDescription: >-
   Standard pressure washing strips the protective granules off asphalt
   shingles. We use low-pressure treatment methods instead.

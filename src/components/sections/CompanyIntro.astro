@@ -1,21 +1,13 @@
 ---
-import { getGlobalSettings } from '@lib/content';
 import { getEntry } from 'astro:content';
 import Button from '@components/ui/Button.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
+import TrustFacts from '@components/ui/TrustFacts.astro';
 
-const settings = await getGlobalSettings();
 // A crew/work-in-progress shot (not just a finished roof) makes this section
 // feel human rather than purely product-photography.
 const introProject = await getEntry('projects', 'project-03-water-damage-roof-repair');
 const introImage = introProject?.data.duringImages[2]; // crew removing damaged decking
-
-const proofPoints = [
-  settings.yearsExperience.verified && settings.yearsExperience.value,
-  settings.emergencyAvailability.verified && settings.emergencyAvailability.value,
-  'Free Estimates',
-  settings.financingVerified && 'Financing Available',
-].filter(Boolean) as string[];
 ---
 
 <section class="section section--white company-intro" data-nav-theme="light">
@@ -44,11 +36,9 @@ const proofPoints = [
         cleaning, and rejuvenation.
       </p>
 
-      {proofPoints.length > 0 && (
-        <ul class="company-intro__proof" data-reveal-group>
-          {proofPoints.map((point) => <li data-reveal="up">{point}</li>)}
-        </ul>
-      )}
+      <div class="company-intro__proof" data-reveal="up">
+        <TrustFacts tone="light" />
+      </div>
 
       <div class="company-intro__actions">
         <Button href="/about/" variant="outline">About JBA</Button>
@@ -77,23 +67,7 @@ const proofPoints = [
     overflow: hidden;
   }
   .company-intro__body { margin-bottom: var(--space-3); max-width: 52ch; }
-  .company-intro__proof {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0 var(--space-4);
-    margin-block: var(--space-6);
-  }
-  .company-intro__proof li {
-    position: relative;
-    font-weight: 700;
-    font-size: 0.9rem;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    padding-right: var(--space-4);
-    margin-right: var(--space-1);
-    border-right: 1px solid var(--color-border);
-  }
-  .company-intro__proof li:last-child { border-right: none; padding-right: 0; margin-right: 0; }
+  .company-intro__proof { margin-block: var(--space-6); }
   .company-intro__actions { margin-top: var(--space-2); }
 
   .company-intro__siding {

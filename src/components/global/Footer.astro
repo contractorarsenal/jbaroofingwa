@@ -40,7 +40,7 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
 <footer class="site-footer" data-nav-theme="dark">
   <div class="container site-footer__top" data-reveal="up">
     <div class="site-footer__brand">
-      <p class="site-footer__name">JBA <span class="accent-text">Roofing</span> &amp; Remodeling</p>
+      <img src="/images/brand/jba-nav-logo.webp" alt="JBA Roofing & Remodeling" width="240" height="240" class="site-footer__logo" />
       <p class="text-muted site-footer__desc">{settings.footerDescription}</p>
       <div class="site-footer__cta">
         <Button href={settings.primaryCtaDestination} variant="outline" analyticsEvent="quote_started" analyticsLocation="footer">
@@ -157,11 +157,10 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
     gap: var(--space-2);
     max-width: 32ch;
   }
-  .site-footer__name {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: 800;
-    text-transform: uppercase;
+  .site-footer__logo {
+    width: auto;
+    height: auto;
+    max-height: 64px;
   }
   .site-footer__desc { margin-bottom: var(--space-1); }
   .site-footer__cta { margin-top: var(--space-2); }
