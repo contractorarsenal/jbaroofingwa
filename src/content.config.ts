@@ -144,6 +144,10 @@ const services = defineCollection({
     primaryCta: ctaSchema.optional(),
     secondaryCta: ctaSchema.optional(),
 
+    // Homeowner-specific heading shown above problemStatement (e.g. "Is It
+    // Time To Replace Your Roof?"), instead of a generic, mechanically
+    // repeated "The Problem" label on every service page.
+    problemHeading: z.string().optional(),
     problemStatement: z.string().optional(),
     problemsSolved: z.array(z.string()).default([]),
     benefits: z

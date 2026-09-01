@@ -3,6 +3,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import Hero from '@components/sections/Hero.astro';
 import TrustStrip from '@components/global/TrustStrip.astro';
 import CompanyIntro from '@components/sections/CompanyIntro.astro';
+import DecisionBand from '@components/sections/DecisionBand.astro';
 import PrimaryServiceFeature from '@components/sections/PrimaryServiceFeature.astro';
 import ServicesGrid from '@components/sections/ServicesGrid.astro';
 import FeaturedWork from '@components/sections/FeaturedWork.astro';
@@ -25,11 +26,12 @@ const homeFaqs = (featuredFaqs.length >= 6 ? featuredFaqs : allFaqs).slice(0, 8)
 
 <BaseLayout
   title="Roof Replacement & Repair in King County, WA"
-  description="JBA Roofing & Remodeling provides roof replacement, repair, inspection, cleaning, and rejuvenation across King, Snohomish, and Skagit counties. Free estimates, financing available."
+  description="JBA Roofing provides roof replacement, repair, inspection, cleaning, and rejuvenation across King, Snohomish, and Skagit counties. Free estimates, financing available."
 >
   <Hero />
   <TrustStrip />
   <CompanyIntro />
+  <DecisionBand />
   <PrimaryServiceFeature />
   <ServicesGrid />
   <FeaturedWork />

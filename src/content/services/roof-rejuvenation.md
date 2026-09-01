@@ -19,6 +19,7 @@ secondaryCta:
   label: See Roof Replacement
   href: /services/roof-replacement/
 
+problemHeading: Is Your Roof A Candidate?
 problemStatement: >-
   An aging roof isn't automatically a roof that needs replacing. Rejuvenation
   is worth discussing when a roof is showing its age but hasn't reached the

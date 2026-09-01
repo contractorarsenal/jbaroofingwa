@@ -8,9 +8,10 @@ import { getGlobalSettings } from '@lib/content';
 
 interface Props {
   tone?: 'dark' | 'light';
+  compact?: boolean;
 }
 
-const { tone = 'dark' } = Astro.props;
+const { tone = 'dark', compact = false } = Astro.props;
 const settings = await getGlobalSettings();
 
 const facts: string[] = [];
@@ -20,7 +21,7 @@ if (settings.financingVerified) facts.push('Financing Available');
 if (settings.emergencyAvailability.verified && settings.emergencyAvailability.value) facts.push(settings.emergencyAvailability.value);
 ---
 
-<ul class:list={['trust-facts', tone === 'light' && 'trust-facts--light']}>
+<ul class:list={['trust-facts', tone === 'light' && 'trust-facts--light', compact && 'trust-facts--compact']}>
   {facts.map((fact) => (
     <li class="trust-facts__item">
       <span class="trust-facts__check" aria-hidden="true">✓</span>{fact}
@@ -58,4 +59,14 @@ if (settings.emergencyAvailability.verified && settings.emergencyAvailability.va
     }
     .trust-facts__item { white-space: normal; }
   }
+
+  /* Compact mode is used where the trust row shares a half-width column
+     (e.g. Company Intro) and natural flex-wrap can strand a lone 4th item;
+     a fixed 2x2 grid keeps it balanced at every width above mobile. */
+  .trust-facts--compact {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+  }
+  .trust-facts--compact .trust-facts__item { white-space: normal; }
 </style>

@@ -57,6 +57,12 @@ const breadcrumbSchema = buildBreadcrumbSchema([
   { name: 'Services', url: `${siteUrl}/services/` },
   { name: data.title, url: pageUrl },
 ]);
+
+// Roof Replacement gets a bespoke flow instead of the generic problem/benefit
+// template: signs it's time to replace, then how a replacement actually
+// happens, then what JBA checks before recommending it — rather than a
+// mechanically-repeated "The Problem" block sitting right under the hero.
+const isReplacement = service.id === 'roof-replacement';
 ---
 
 <BaseLayout
@@ -76,31 +82,70 @@ const breadcrumbSchema = buildBreadcrumbSchema([
     tone={data.journey === 'repair' ? 'urgent' : 'default'}
   />
 
-  {data.problemStatement && (
-    <section class="container container--narrow service-problem">
-      <p class="eyebrow">The Problem</p>
-      <p class="service-problem__text">{data.problemStatement}</p>
-    </section>
-  )}
+  {isReplacement ? (
+    <>
+      {data.problemsSolved.length > 0 && (
+        <section class="section container container--narrow service-signs">
+          <p class="eyebrow">Is It Time To Replace Your Roof?</p>
+          <ul class="service-signs__list">
+            {data.problemsSolved.map((sign) => (
+              <li>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                {sign}
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
 
-  {data.benefits.length > 0 && (
-    <section class="section section--alt">
-      <div class="container">
-        <p class="eyebrow">What You Get</p>
-        <h2 class="h2">Why work with JBA on this.</h2>
-        <div class="grid grid--3 service-benefits">
-          {data.benefits.map((b) => (
-            <div class="service-benefit">
-              <h3 class="service-benefit__title">{b.title}</h3>
-              <p class="text-muted">{b.description}</p>
+      {data.process.length > 0 && <Process steps={data.process} heading="What happens during a roof replacement." eyebrow="The Process" />}
+
+      {data.benefits.length > 0 && (
+        <section class="section section--alt">
+          <div class="container">
+            <p class="eyebrow">What We Check Before Recommending Replacement</p>
+            <h2 class="h2">We don't default to the bigger job.</h2>
+            <div class="grid grid--3 service-benefits">
+              {data.benefits.map((b) => (
+                <div class="service-benefit">
+                  <h3 class="service-benefit__title">{b.title}</h3>
+                  <p class="text-muted">{b.description}</p>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )}
+          </div>
+        </section>
+      )}
+    </>
+  ) : (
+    <>
+      {data.problemStatement && (
+        <section class="container container--narrow service-problem">
+          <p class="eyebrow">{data.problemHeading ?? 'The Problem'}</p>
+          <p class="service-problem__text">{data.problemStatement}</p>
+        </section>
+      )}
 
-  {data.process.length > 0 && <Process steps={data.process} heading="How it works" eyebrow="Process" />}
+      {data.benefits.length > 0 && (
+        <section class="section section--alt">
+          <div class="container">
+            <p class="eyebrow">What You Get</p>
+            <h2 class="h2">Why work with JBA on this.</h2>
+            <div class="grid grid--3 service-benefits">
+              {data.benefits.map((b) => (
+                <div class="service-benefit">
+                  <h3 class="service-benefit__title">{b.title}</h3>
+                  <p class="text-muted">{b.description}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {data.process.length > 0 && <Process steps={data.process} heading="How it works" eyebrow="Process" />}
+    </>
+  )}
 
   {data.journey === 'repair' && <ProblemSelector />}
   {data.journey === 'replacement' && <RepairVsReplace />}
@@ -141,6 +186,28 @@ const breadcrumbSchema = buildBreadcrumbSchema([
   }
   .service-benefits { margin-top: var(--space-6); }
   .service-benefit__title { font-size: var(--step-1); margin-bottom: var(--space-1); }
+
+  .service-signs {
+    padding-top: var(--space-6);
+    padding-bottom: var(--space-2);
+  }
+  .service-signs__list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-4);
+  }
+  .service-signs__list li {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--color-text-muted);
+    font-size: 0.95rem;
+  }
+  .service-signs__list svg { color: var(--color-accent-dark); flex-shrink: 0; }
+  @media (max-width: 480px) {
+    .service-signs__list { grid-template-columns: 1fr; }
+  }
   .service-body :global(p) { margin-bottom: var(--space-4); font-size: var(--step-0); }
   .service-body :global(a) { text-decoration: underline; text-decoration-color: var(--color-accent); }
 </style>

@@ -21,18 +21,7 @@ const signs = [
 <section class="section section--black primary-service" data-nav-theme="dark">
   <span class="primary-service__ghost" aria-hidden="true">01</span>
   <div class="container primary-service__layout">
-    <div class="primary-service__art" data-reveal="image">
-      <div class="primary-service__art-parallax" data-parallax>
-        <MediaSlot image={afterImage} alt="Completed aging roof replacement" tone="dark" variant={3} sizes="(min-width: 900px) 55vw, 100vw" />
-      </div>
-      {beforeImage && (
-        <div class="primary-service__before">
-          <span class="primary-service__before-tag">Before</span>
-          <MediaSlot image={beforeImage} alt="Very aged roof before replacement" tone="dark" sizes="220px" />
-        </div>
-      )}
-    </div>
-    <div>
+    <div class="primary-service__copy">
       <p class="eyebrow eyebrow--inverse" data-reveal="up">Our #1 Service</p>
       <h2 class="h2" data-reveal="up">When Repairs Aren't Enough, <span class="accent-text">Replace It Right.</span></h2>
       <p class="text-muted primary-service__body" data-reveal="up">
@@ -59,6 +48,17 @@ const signs = [
           Roof Replacement →
         </Button>
       </div>
+    </div>
+    <div class="primary-service__art" data-reveal="image">
+      <div class="primary-service__art-parallax" data-parallax>
+        <MediaSlot image={afterImage} alt="Completed aging roof replacement" tone="dark" variant={3} sizes="(min-width: 900px) 55vw, 100vw" />
+      </div>
+      {beforeImage && (
+        <div class="primary-service__before">
+          <span class="primary-service__before-tag">Before</span>
+          <MediaSlot image={beforeImage} alt="Very aged roof before replacement" tone="dark" sizes="220px" />
+        </div>
+      )}
     </div>
   </div>
 </section>
@@ -157,6 +157,13 @@ const signs = [
   .primary-service__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); }
 
   @media (min-width: 900px) {
-    .primary-service__layout { grid-template-columns: 1.2fr 1fr; }
+    .primary-service__layout { grid-template-columns: 1fr 1.2fr; }
+    /* the image is now the right-hand column, so the before-thumbnail pokes
+       out to the right instead of the left, away from the copy column */
+    .primary-service__before {
+      left: auto;
+      right: calc(var(--space-6) * -1);
+    }
+    .primary-service__before-tag { left: auto; right: 6px; }
   }
 </style>

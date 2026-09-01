@@ -20,6 +20,7 @@ secondaryCta:
   label: View Maintenance Plans
   href: /maintenance-plans/
 
+problemHeading: Why Roof Cleaning Matters
 problemStatement: >-
   Moss and algae streaking are common on Western Washington roofs with tree
   cover or north-facing shade. Left untreated, moss lifts shingle edges and

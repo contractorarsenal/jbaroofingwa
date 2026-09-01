@@ -4,6 +4,7 @@ import PageHero from '@components/sections/PageHero.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import { getPublishedTeam, getGlobalSettings } from '@lib/content';
+import { getEntry } from 'astro:content';
 
 const team = await getPublishedTeam();
 const settings = await getGlobalSettings();
@@ -13,33 +14,82 @@ const credentials = [
   settings.contractorLicense.verified && settings.contractorLicense.value && `WA Contractor License #${settings.contractorLicense.value}`,
   settings.insuranceBonded.verified && 'Licensed & Insured',
 ].filter(Boolean) as string[];
+
+const [project02, project05, project06] = await Promise.all([
+  getEntry('projects', 'project-02-metal-roof'),
+  getEntry('projects', 'project-05-shingle-installation'),
+  getEntry('projects', 'project-06-aging-roof-replacement'),
+]);
 ---
 
 <BaseLayout
-  title="About JBA Roofing & Remodeling"
-  description="JBA Roofing & Remodeling is a roofing contractor serving King, Snohomish, and Skagit counties, Washington."
+  title="About JBA Roofing"
+  description="JBA Roofing is a roofing contractor serving King, Snohomish, and Skagit counties, Washington."
 >
-  <PageHero eyebrow="About JBA" title="Roofing, run the way we'd want it run on our own house." />
+  <PageHero
+    eyebrow="About JBA"
+    title="Roofing, run the way we'd want it run on our own house."
+    description="We're a Washington-based roofing company focused on high-quality roofing systems, craftsmanship, and long-term protection for homeowners across King, Snohomish, and Skagit counties."
+    image={project02?.data.afterImages[0]}
+  />
 
-  <section class="section container container--narrow about-intro">
-    <p>
-      JBA Roofing &amp; Remodeling is a Washington-based roofing and construction
-      company focused on high-quality roofing systems, craftsmanship, and
-      long-term protection. We serve homeowners across King, Snohomish, and
-      Skagit counties, with roof replacement, repair, inspection, cleaning,
-      and rejuvenation, plus siding installation and replacement.
-    </p>
-    <p>
-      Our approach is simple: inspect first, document what we find, and give
-      you a straight recommendation instead of defaulting to whichever job is
-      bigger.
-    </p>
-    <ul class="about-intro__facts">
-      {settings.yearsExperience.verified && settings.yearsExperience.value && <li>{settings.yearsExperience.value} Experience</li>}
-      <li>Free Estimates</li>
-      {settings.financingVerified && <li>Financing Available</li>}
-      {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && <li>{settings.emergencyAvailability.value}</li>}
-    </ul>
+  <section class="section" data-nav-theme="light">
+    <div class="container about-split">
+      <div class="about-split__art" data-reveal="image">
+        <MediaSlot image={project06?.data.afterImages[0]} alt="Completed roof replacement, viewed from the ground" tone="light" variant={1} sizes="(min-width: 900px) 50vw, 100vw" />
+      </div>
+      <div>
+        <p class="eyebrow" data-reveal="up">Who We Are</p>
+        <h2 class="h2" data-reveal="up">A Local Team, Not A Call Center.</h2>
+        <p class="text-muted about-split__body" data-reveal="up">
+          JBA Roofing is a Washington-based roofing company serving homeowners
+          across King, Snohomish, and Skagit counties, with roof replacement as
+          our primary focus, alongside repair, inspection, cleaning, and
+          rejuvenation.
+        </p>
+        <ul class="about-intro__facts" data-reveal="up">
+          {settings.yearsExperience.verified && settings.yearsExperience.value && <li>{settings.yearsExperience.value} Experience</li>}
+          <li>Free Estimates</li>
+          {settings.financingVerified && <li>Financing Available</li>}
+          {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && <li>{settings.emergencyAvailability.value}</li>}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--alt" data-nav-theme="light">
+    <div class="container about-split">
+      <div>
+        <p class="eyebrow" data-reveal="up">How We Approach A Roof</p>
+        <h2 class="h2" data-reveal="up">Inspect First, Recommend Second.</h2>
+        <p class="text-muted about-split__body" data-reveal="up">
+          Our approach is simple: inspect first, document what we find, and
+          give you a straight recommendation instead of defaulting to whichever
+          job is bigger. If a repair genuinely solves the problem, that's what
+          we'll tell you.
+        </p>
+      </div>
+      <div class="about-split__art" data-reveal="image">
+        <MediaSlot image={project05?.data.duringImages[0]} alt="Crew installing new shingles during a roofing project" tone="light" variant={2} sizes="(min-width: 900px) 50vw, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" data-nav-theme="light">
+    <div class="container about-split">
+      <div class="about-split__art" data-reveal="image">
+        <MediaSlot image={project06?.data.duringImages[1]} alt="Roofing crew mid-installation on an aging roof replacement" tone="light" variant={3} sizes="(min-width: 900px) 50vw, 100vw" />
+      </div>
+      <div>
+        <p class="eyebrow" data-reveal="up">What Homeowners Can Expect</p>
+        <h2 class="h2" data-reveal="up">Clear Communication, Start To Finish.</h2>
+        <p class="text-muted about-split__body" data-reveal="up">
+          From the first inspection to the final walkthrough, you'll know what
+          we found, what we recommend, and why, before any work begins. No
+          pressure toward a bigger job than the one your roof actually needs.
+        </p>
+      </div>
+    </div>
   </section>
 
   {credentials.length > 0 && (
@@ -87,7 +137,22 @@ const credentials = [
 </BaseLayout>
 
 <style>
-  .about-intro p { font-size: var(--step-1); line-height: var(--leading-normal); margin-bottom: var(--space-4); }
+  .about-split {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+  }
+  .about-split__art {
+    aspect-ratio: 4 / 3;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+  }
+  .about-split__body { max-width: 52ch; margin-block: var(--space-3) var(--space-2); }
+  @media (min-width: 900px) {
+    .about-split { grid-template-columns: 1fr 1fr; }
+  }
+
   .about-intro__facts {
     display: flex;
     flex-wrap: wrap;

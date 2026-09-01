@@ -376,7 +376,6 @@ h1, h2, h3 { color: var(--color-text-inverse); }
    default sitewide for every fixed-ratio media wrapper in one place, rather
    than patching each component's own stylesheet individually.
    ========================================================================== */
-.service-featured-row__media,
 .service-card__media,
 .financing__art,
 .company-intro__art,
@@ -386,7 +385,8 @@ h1, h2, h3 { color: var(--color-text-inverse); }
 .ba-slider,
 .team-card__photo,
 .featured-project__media,
-.project-gallery__item {
+.project-gallery__item,
+.about-split__art {
   min-height: 0;
   min-width: 0;
 }

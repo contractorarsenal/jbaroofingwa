@@ -20,6 +20,7 @@ secondaryCta:
   label: View Maintenance Plans
   href: /maintenance-plans/
 
+problemHeading: What An Inspection Can Help You Understand
 problemStatement: >-
   Most roof problems are cheapest to fix in the first year they appear and most
   expensive in the last. An inspection tells you which stage you're at.
