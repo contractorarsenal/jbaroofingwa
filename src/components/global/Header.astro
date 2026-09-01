@@ -94,44 +94,39 @@ const roofServices = [
 
 <style>
   .site-header {
-    /* Scroll-linked black -> white crossfade: JS drives this from 0 (hero,
-       black) to 1 (past the hero, white) every animation frame, so every
-       color below rides the same continuous value instead of a single
-       instant attribute-toggle snap. */
-    --nav-progress: 0;
+    /* Instant black/white state switch, not a scroll-linked crossfade — a
+       prior rAF-driven color-interpolation version felt laggy/glitchy in
+       practice. Only non-theme properties (shadow) transition. */
     position: sticky;
     top: 0;
     z-index: var(--z-header);
-    background: color-mix(in srgb, rgba(8, 8, 8, 0.94), rgba(255, 255, 255, 0.96) calc(var(--nav-progress) * 100%));
+    background: rgba(8, 8, 8, 0.94);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid transparent;
-    transition: border-color 320ms var(--ease-out), box-shadow 320ms var(--ease-out);
+    transition: box-shadow 320ms var(--ease-out);
   }
   .site-header[data-scrolled] {
-    border-bottom-color: color-mix(in srgb, var(--color-border-dark), var(--color-border) calc(var(--nav-progress) * 100%));
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+    border-bottom-color: var(--color-border-dark);
+    box-shadow: var(--shadow-sm);
   }
-  .site-header .site-header__phone,
-  .site-header .site-header__mobile-call {
-    color: color-mix(in srgb, var(--color-text-inverse), var(--color-text) calc(var(--nav-progress) * 100%));
+  .site-header[data-theme="light"] {
+    background: rgba(255, 255, 255, 0.96);
   }
-  .site-header .site-header__mobile-call {
-    border-color: color-mix(in srgb, var(--color-border-dark), var(--color-border) calc(var(--nav-progress) * 100%));
+  .site-header[data-theme="light"][data-scrolled] {
+    border-bottom-color: var(--color-border);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
   }
-  .site-header .site-header__burger span {
-    background: color-mix(in srgb, var(--color-text-inverse), var(--color-text) calc(var(--nav-progress) * 100%));
+  .site-header[data-theme="light"] .site-header__phone,
+  .site-header[data-theme="light"] .site-header__mobile-call {
+    color: var(--color-text);
   }
-  .site-header .nav-link {
-    color: color-mix(in srgb, var(--color-text-inverse-muted), var(--color-text-muted) calc(var(--nav-progress) * 100%));
-  }
-  .site-header .nav-link:hover,
-  .site-header .nav-link.is-active,
-  .site-header .nav-link[aria-current="page"] {
-    color: color-mix(in srgb, var(--color-accent), var(--color-accent-dark) calc(var(--nav-progress) * 100%));
-  }
-  .site-header .nav-link::after {
-    background: color-mix(in srgb, var(--color-accent), var(--color-accent-dark) calc(var(--nav-progress) * 100%));
-  }
+  .site-header[data-theme="light"] .site-header__mobile-call { border-color: var(--color-border); }
+  .site-header[data-theme="light"] .site-header__burger span { background: var(--color-text); }
+  .site-header[data-theme="light"] .nav-link { color: var(--color-text-muted); }
+  .site-header[data-theme="light"] .nav-link:hover,
+  .site-header[data-theme="light"] .nav-link.is-active,
+  .site-header[data-theme="light"] .nav-link[aria-current="page"] { color: var(--color-accent-dark); }
+  .site-header[data-theme="light"] .nav-link::after { background: var(--color-accent-dark); }
   @media (prefers-reduced-motion: reduce) {
     .site-header { transition: none; }
   }
@@ -185,7 +180,6 @@ const roofServices = [
     border: none;
     padding: var(--space-1) 0;
     color: var(--color-text-inverse-muted);
-    transition: color 260ms var(--ease-out);
     white-space: nowrap;
   }
   .nav-link::after {
@@ -297,7 +291,6 @@ const roofServices = [
     border: 1px solid var(--color-border-dark);
     border-radius: var(--radius-sm);
     color: var(--color-accent);
-    transition: border-color 320ms var(--ease-out);
   }
   .site-header__burger {
     display: flex;
@@ -312,8 +305,7 @@ const roofServices = [
     width: 20px;
     height: 2px;
     background: var(--color-text-inverse);
-    transition: transform var(--duration-base) var(--ease-out), opacity var(--duration-base) var(--ease-out),
-                background-color 320ms var(--ease-out);
+    transition: transform var(--duration-base) var(--ease-out), opacity var(--duration-base) var(--ease-out);
   }
   .site-header__burger[aria-expanded="true"] span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
   .site-header__burger[aria-expanded="true"] span:nth-child(2) { opacity: 0; }

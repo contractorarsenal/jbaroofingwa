@@ -30,78 +30,29 @@ function initScrollReveal() {
 }
 
 /**
- * Nav theme tracks the page's hero (dark) vs. the rest of the page (white),
- * not a running tally of whichever section happens to sit under the header —
- * this avoids the nav flickering black/white/black/white as it passes over
- * later dark sections further down the page. The crossfade itself is
- * scroll-linked rather than an instant attribute-toggle snap: a CSS custom
- * property (--nav-progress, 0 = black, 1 = white) is updated every animation
- * frame as the hero's bottom edge passes under the header, over a ~200px
- * band, so the header's colors interpolate smoothly with scroll position in
- * both directions instead of jumping at one intersection point.
+ * Nav theme is intentionally one-directional, not a running tally of
+ * whichever section happens to sit under the header: black while the page's
+ * hero (dark) is on screen, white for the rest of the page once you've
+ * scrolled past it, and back to black only if you scroll back up into it.
+ * This avoids the nav flickering black/white/black/white as it passes over
+ * later dark sections further down the page. The switch itself is an
+ * instant attribute toggle, not a scroll-linked crossfade — a prior
+ * rAF-driven color-interpolation version felt laggy/glitchy in practice.
  */
 function initNavTheme() {
   const header = document.querySelector<HTMLElement>('[data-header]');
   const hero = document.querySelector<HTMLElement>('.hero, .page-hero');
-  if (!header || !hero) return;
+  if (!header || !hero || !('IntersectionObserver' in window)) return;
 
-  const TRANSITION_SPAN = 200; // px of scroll the black -> white crossfade plays over
   const headerHeight = header.offsetHeight || 72;
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  const setProgress = (value: number) => {
-    header.style.setProperty('--nav-progress', value.toFixed(3));
-  };
-
-  // 0 right as the hero's bottom edge reaches the header, 1 once it has
-  // scrolled TRANSITION_SPAN further past it (and vice versa scrolling up).
-  const computeProgress = () => {
-    const heroBottom = hero.getBoundingClientRect().bottom;
-    const distancePastCross = headerHeight - heroBottom + TRANSITION_SPAN / 2;
-    return Math.max(0, Math.min(1, distancePastCross / TRANSITION_SPAN));
-  };
-
-  if (typeof IntersectionObserver === 'undefined') {
-    setProgress(computeProgress());
-    window.addEventListener('scroll', () => setProgress(reduceMotion ? Math.round(computeProgress()) : computeProgress()), { passive: true });
-    return;
-  }
-
-  if (reduceMotion) {
-    // Instant black/white switch, no crossfade: snap to whichever side of
-    // the boundary the hero is currently on.
-    const observer = new IntersectionObserver(
-      (entries) => entries.forEach((entry) => setProgress(entry.isIntersecting ? 0 : 1)),
-      { rootMargin: `-${headerHeight + 1}px 0px -85% 0px`, threshold: 0 }
-    );
-    observer.observe(hero);
-    return;
-  }
-
-  let ticking = false;
-  const apply = () => {
-    ticking = false;
-    setProgress(computeProgress());
-  };
-  const onScroll = () => {
-    if (ticking) return;
-    ticking = true;
-    requestAnimationFrame(apply);
-  };
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          window.addEventListener('scroll', onScroll, { passive: true });
-          apply();
-        } else {
-          window.removeEventListener('scroll', onScroll);
-          setProgress(entry.boundingClientRect.bottom < 0 ? 1 : 0);
-        }
+        header.setAttribute('data-theme', entry.isIntersecting ? 'dark' : 'light');
       });
     },
-    { rootMargin: `${TRANSITION_SPAN / 2}px 0px ${TRANSITION_SPAN / 2}px 0px`, threshold: 0 }
+    { rootMargin: `-${headerHeight + 1}px 0px -85% 0px`, threshold: 0 }
   );
 
   observer.observe(hero);

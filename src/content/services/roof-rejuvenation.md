@@ -44,6 +44,46 @@ process:
     title: Discuss options
     description: If it's a fit, we'll walk you through what's involved. If not, we'll tell you that too.
 
+educationSections:
+  - heading: What Is Roof Rejuvenation?
+    paragraphs:
+      - >-
+        Roof rejuvenation is a treatment aimed at extending the usable life
+        of an aging roof that isn't yet failing, rather than replacing it
+        outright. The specific product and process JBA uses is confirmed
+        with each homeowner directly, since it depends on the roof itself.
+
+  - heading: Who Might Consider It?
+    paragraphs:
+      - >-
+        Homeowners with a roof that's showing its age, but whose underlying
+        structure is still sound, and who want to delay the cost of a full
+        replacement, are the most likely fit. It's not a fit for every roof.
+
+  - heading: What It Is Not
+    paragraphs:
+      - >-
+        Rejuvenation is not a substitute for repair on a roof with active
+        leaks or significant damage, and it's not a way to indefinitely
+        avoid an eventual replacement. It's one option among several, and
+        only the right one when the roof's condition supports it.
+
+  - heading: When Replacement May Be The Better Option
+    paragraphs:
+      - >-
+        If a roof has widespread damage, structural issues, or has already
+        reached the point where repairs keep recurring, replacement is
+        usually the more realistic path. We'll tell you if that's the
+        situation rather than recommending rejuvenation as a workaround.
+
+  - heading: Why An Inspection Comes First
+    paragraphs:
+      - >-
+        Because eligibility depends entirely on the actual condition of
+        your roof, every rejuvenation conversation starts with an
+        inspection. That's what tells us whether it's a realistic option
+        for your specific roof.
+
 faqHeading: Roof Rejuvenation Questions
 ctaHeading: Wondering if your roof is a candidate?
 ctaDescription: A quick inspection tells us whether rejuvenation makes sense for your roof.
@@ -74,8 +114,8 @@ rejuvenationDetails:
     verified: false
 
 seo:
-  title: Roof Rejuvenation in King County, WA
-  description: Roof rejuvenation services to extend usable roof life across King, Snohomish, and Skagit counties, WA.
+  title: Roof Rejuvenation | JBA Roofing
+  description: Roof rejuvenation to extend usable roof life for aging roofs across King, Snohomish, and Skagit counties, when an inspection confirms it's a fit.
 ---
 
 Roof rejuvenation isn't the right fit for every roof. It depends on the current condition. We'll give you a straight answer after taking a look, whether that means rejuvenation, a repair, or a full replacement.

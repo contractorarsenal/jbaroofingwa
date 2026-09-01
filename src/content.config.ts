@@ -159,6 +159,21 @@ const services = defineCollection({
 
     gallery: z.array(galleryImageSchema).default([]),
 
+    // Long-form homeowner-education content, rendered after the existing
+    // process/benefits sections. Same shape used on project pages, so the
+    // same visual pattern (eyebrow + H2 + optional intro/paragraphs/items)
+    // renders both. Kept general/conceptual, never implying a specific job.
+    educationSections: z
+      .array(
+        z.object({
+          heading: z.string(),
+          intro: z.string().optional(),
+          paragraphs: z.array(z.string()).default([]),
+          items: z.array(z.object({ title: z.string(), description: z.string() })).default([]),
+        })
+      )
+      .default([]),
+
     relatedProjectIds: z.array(reference('projects')).default([]),
     relatedFaqIds: z.array(reference('faqs')).default([]),
     relatedReviewIds: z.array(reference('reviews')).default([]),
@@ -216,6 +231,31 @@ const projects = defineCollection({
     inspectionFindings: z.string().optional(),
     solution: z.string().optional(),
 
+    // Case-study depth, kept strictly separate from the facts above: these
+    // fields either describe only what's visible/verified for THIS project,
+    // or are explicitly general roofing education (never implied to have
+    // happened on this specific job).
+    // An optional richer multi-stage narrative (problem -> inspection ->
+    // damage -> repair -> result), each stage paired with one of the
+    // project's own photos. Used instead of whatThisInvolved when a project
+    // has enough documented stages to tell a fuller story (see Project 03).
+    storyStages: z
+      .array(z.object({ heading: z.string(), image: z.string(), text: z.string() }))
+      .default([]),
+    whatThisInvolved: z.string().optional(),
+    homeownerTakeaways: z.array(z.string()).default([]),
+    educationSections: z
+      .array(
+        z.object({
+          heading: z.string(),
+          intro: z.string().optional(),
+          paragraphs: z.array(z.string()).default([]),
+          items: z.array(z.object({ title: z.string(), description: z.string() })).default([]),
+        })
+      )
+      .default([]),
+    watchFor: z.array(z.string()).default([]),
+
     beforeImages: z.array(z.string()).default([]),
     duringImages: z.array(z.string()).default([]),
     afterImages: z.array(z.string()).default([]),
@@ -248,6 +288,13 @@ const locations = defineCollection({
     neighborhoods: z.array(z.string()).default([]),
     localRoofingConsiderations: z.string().optional(),
     nearbyAreas: z.array(reference('locations')).default([]),
+
+    // General Pacific Northwest roofing context (rain, moss, seasonal storms),
+    // and a short paragraph on how JBA helps a homeowner decide next steps.
+    // Kept general, never claiming unsupported climate statistics.
+    regionalContext: z.string().optional(),
+    commonSigns: z.array(z.string()).default([]),
+    decisionHelp: z.string().optional(),
 
     uniqueFaqIds: z.array(reference('faqs')).default([]),
     mapEmbedUrl: z.string().optional(),

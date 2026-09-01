@@ -386,9 +386,69 @@ h1, h2, h3 { color: var(--color-text-inverse); }
 .team-card__photo,
 .featured-project__media,
 .project-gallery__item,
-.about-split__art {
+.about-split__art,
+.project-split__art,
+.project-next__media,
+.split__art {
   min-height: 0;
   min-width: 0;
+}
+
+/* ==========================================================================
+   SHARED LONG-FORM CONTENT PATTERNS
+   Used by service, project, and service-area pages wherever extra content
+   depth is needed: a readable text column, a compact split (image | copy),
+   and a 3-6 item compact grid — instead of one-off page-specific CSS.
+   ========================================================================== */
+.split {
+  display: grid;
+  gap: var(--space-6);
+  align-items: center;
+}
+.split__art {
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+@media (min-width: 900px) {
+  .split { grid-template-columns: 1fr 1fr; }
+  .split__art--second { order: 2; }
+}
+
+.longform__heading {
+  font-size: clamp(1.75rem, 1.4rem + 1.6vw, 2.5rem);
+  margin-top: var(--space-2);
+  margin-bottom: var(--space-3);
+}
+.longform__text {
+  font-size: var(--step-0);
+  line-height: 1.7;
+  margin-bottom: var(--space-4);
+  max-width: 68ch;
+}
+.longform__list {
+  display: grid;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+  max-width: 68ch;
+}
+.longform__list li {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-2);
+  line-height: 1.6;
+  color: var(--color-text-muted);
+}
+.longform__list svg { flex-shrink: 0; margin-top: 0.3em; color: var(--color-accent-dark); }
+.longform__items {
+  display: grid;
+  gap: var(--space-4);
+  margin-top: var(--space-5);
+}
+.longform__item-title { font-size: var(--step-1); margin-bottom: var(--space-1); }
+@media (min-width: 640px) {
+  .longform__items { grid-template-columns: repeat(2, 1fr); }
 }
 
 /* ==========================================================================
