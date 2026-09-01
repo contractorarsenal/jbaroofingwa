@@ -83,7 +83,7 @@ const roofServices = [
     </nav>
     <div class="mobile-menu__actions">
       <a href={`tel:${settings.primaryPhone}`} class="btn btn--outline btn--block" data-analytics-event="phone_click" data-analytics-location="mobile_menu">
-        Call {settings.primaryPhoneDisplay}
+        Call Now
       </a>
       <Button href={settings.primaryCtaDestination} block analyticsEvent="quote_started">
         {settings.primaryCtaLabel}
@@ -97,23 +97,20 @@ const roofServices = [
     position: sticky;
     top: 0;
     z-index: var(--z-header);
-    background: rgba(8, 8, 8, 0.4);
-    backdrop-filter: none;
+    background: rgba(8, 8, 8, 0.94);
+    backdrop-filter: blur(10px);
     border-bottom: 1px solid transparent;
-    transition: background-color 380ms var(--ease-out), border-color 380ms var(--ease-out),
-                box-shadow 380ms var(--ease-out), backdrop-filter 380ms var(--ease-out);
+    transition: background-color 320ms var(--ease-out), border-color 320ms var(--ease-out),
+                box-shadow 320ms var(--ease-out);
   }
   .site-header[data-scrolled] {
-    background: rgba(8, 8, 8, 0.94);
     border-bottom-color: var(--color-border-dark);
-    backdrop-filter: blur(10px);
     box-shadow: var(--shadow-sm);
   }
   .site-header[data-theme="light"] {
-    background: rgba(255, 255, 255, 0.6);
+    background: rgba(255, 255, 255, 0.96);
   }
   .site-header[data-theme="light"][data-scrolled] {
-    background: rgba(255, 255, 255, 0.94);
     border-bottom-color: var(--color-border);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
   }
@@ -137,6 +134,16 @@ const roofServices = [
     justify-content: space-between;
     gap: var(--space-4);
     height: 70px;
+  }
+  @media (min-width: 1080px) {
+    .site-header__inner {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+    }
+    .site-header__logo { grid-column: 1; }
+    .site-header__nav { grid-column: 2; justify-content: center; }
+    .site-header__actions { grid-column: 3; justify-self: end; }
   }
   .site-header__logo {
     display: flex;
@@ -208,6 +215,18 @@ const roofServices = [
     transform: translate(-50%, -6px) scale(0.985);
     transform-origin: top center;
     transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), visibility 0s linear 200ms;
+  }
+  .nav-dropdown::before {
+    /* Invisible hover bridge filling the gap between the trigger and the
+       dropdown panel — without this, moving the pointer straight down from
+       "Roof Services" into the gap leaves both the trigger and the panel
+       un-hovered for a moment, closing the menu before the user arrives. */
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: calc(-1 * var(--space-3));
+    height: var(--space-3);
   }
   .nav-item--dropdown:hover .nav-dropdown,
   .nav-item--dropdown:focus-within .nav-dropdown {

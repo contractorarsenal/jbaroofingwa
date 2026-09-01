@@ -29,26 +29,31 @@ function initScrollReveal() {
   items.forEach((el) => observer.observe(el));
 }
 
+/**
+ * Nav theme is intentionally one-directional, not a running tally of
+ * whichever section happens to sit under the header: black while the page's
+ * hero (dark) is on screen, white for the rest of the page once you've
+ * scrolled past it, and back to black only if you scroll back up into it.
+ * This avoids the nav flickering black/white/black/white as it passes over
+ * later dark sections further down the page.
+ */
 function initNavTheme() {
   const header = document.querySelector<HTMLElement>('[data-header]');
-  const sections = document.querySelectorAll<HTMLElement>('[data-nav-theme]');
-  if (!header || !sections.length || !('IntersectionObserver' in window)) return;
+  const hero = document.querySelector<HTMLElement>('.hero, .page-hero');
+  if (!header || !hero || !('IntersectionObserver' in window)) return;
 
   const headerHeight = header.offsetHeight || 72;
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const theme = entry.target.getAttribute('data-nav-theme');
-          if (theme) header.setAttribute('data-theme', theme);
-        }
+        header.setAttribute('data-theme', entry.isIntersecting ? 'dark' : 'light');
       });
     },
     { rootMargin: `-${headerHeight + 1}px 0px -85% 0px`, threshold: 0 }
   );
 
-  sections.forEach((section) => observer.observe(section));
+  observer.observe(hero);
 }
 
 function initActiveNav() {

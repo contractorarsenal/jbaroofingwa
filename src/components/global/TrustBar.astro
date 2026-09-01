@@ -30,8 +30,8 @@ if (mode === 'hero') {
 
   items.push({ icon: '●', label: `Serving ${settings.primaryServiceArea.replace(', WA', '')}` });
 
-  if (settings.gafMasterElite.verified) {
-    items.push({ icon: '✓', label: 'GAF Master Elite®' });
+  if (settings.credential.verified && settings.credential.name) {
+    items.push({ icon: '✓', label: settings.credential.name });
   }
 
   if (settings.contractorLicense.verified && settings.contractorLicense.value) {

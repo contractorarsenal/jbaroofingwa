@@ -54,10 +54,12 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
   <PageHero eyebrow="Service Area" title={data.heroTitle} description={data.heroDescription} image={data.heroImage} />
 
   <section class="section container container--narrow location-body">
+    <h2 class="h3">Roofing in {data.cityName}</h2>
+    {data.localIntro && <p class="text-muted location-body__intro">{data.localIntro}</p>}
     <Content />
     {data.localRoofingConsiderations && (
       <div class="location-body__block">
-        <h2 class="h4">Local Considerations</h2>
+        <h3 class="h4">Local Considerations</h3>
         <p class="text-muted">{data.localRoofingConsiderations}</p>
       </div>
     )}
@@ -66,7 +68,7 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
   {services.length > 0 && (
     <section class="section section--alt">
       <div class="container">
-        <p class="eyebrow">Available Services</p>
+        <p class="eyebrow">Services Available</p>
         <h2 class="h2">Services in {data.cityName}</h2>
         <ul class="location-services">
           {services.map((service) => service && (
@@ -103,10 +105,11 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
 
   <FaqList faqs={faqs} heading={`${data.cityName} Roofing Questions`} />
 
-  <FinalCTA heading={data.cta?.label} />
+  <FinalCTA />
 </BaseLayout>
 
 <style>
+  .location-body__intro { margin-top: var(--space-3); }
   .location-body__block { margin-top: var(--space-5); }
   .location-services { display: flex; flex-direction: column; gap: var(--space-2); margin-top: var(--space-5); font-size: var(--step-0); font-weight: 600; }
 </style>

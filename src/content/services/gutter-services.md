@@ -10,8 +10,8 @@ published: true
 heroEyebrow: Gutter Services
 heroTitle: "Clogged Gutters Cause More Roof Damage Than People Expect."
 heroDescription: >-
-  When gutters back up, water sits against the roof edge instead of draining
-  — exactly the condition that leads to rot and leaks at the eaves.
+  When gutters back up, water sits against the roof edge instead of draining,
+  exactly the condition that leads to rot and leaks at the eaves.
 primaryCta:
   label: Schedule Gutter Service
   href: /assessment/?need=cleaning
@@ -32,7 +32,7 @@ benefits:
   - title: Bundled with roof maintenance
     description: Gutter clearing is included in both maintenance plans, since it's part of the same seasonal check.
   - title: Full downspout check
-    description: A clear gutter with a clogged downspout still backs up — we check both.
+    description: A clear gutter with a clogged downspout still backs up. We check both.
 
 process:
   - step: "01"
@@ -55,4 +55,4 @@ seo:
   description: Gutter cleaning, repair, and inspection across King, Snohomish, and Skagit counties, WA.
 ---
 
-Gutter clearing is included as part of both maintenance plans — see [Maintenance Plans](/maintenance-plans/) for what's included on a scheduled visit.
+Gutter clearing is included as part of both maintenance plans. See [Maintenance Plans](/maintenance-plans/) for what's included on a scheduled visit.

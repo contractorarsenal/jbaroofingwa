@@ -56,4 +56,4 @@ seo:
   description: New roof installation for new construction and full replacements across King, Snohomish, and Skagit counties, WA.
 ---
 
-See [Roof Replacement](/services/roof-replacement/) for our full process — installation follows the same standard whether it's a new structure or a full tear-off replacement.
+See [Roof Replacement](/services/roof-replacement/) for our full process. Installation follows the same standard whether it's a new structure or a full tear-off replacement.

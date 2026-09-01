@@ -14,7 +14,7 @@ const heroImage = data.afterImages[0] ?? data.droneImages[0];
 
 <a href={`/projects/${project.id}/`} class="project-card" data-analytics-event="project_opened" data-analytics-location={project.id} {...rest}>
   <div class="project-card__media">
-    <MediaSlot image={heroImage} alt={`${data.projectName} — completed roof`} tone="dark" variant={2} label={`${data.projectName} — photos pending`} />
+    <MediaSlot image={heroImage} alt={`${data.projectName}, completed roof`} tone="dark" variant={2} label={`${data.projectName}, photos pending`} />
   </div>
   <div class="project-card__body">
     {(data.city || data.roofMaterial) && (

@@ -9,7 +9,7 @@ const team = await getPublishedTeam();
 const settings = await getGlobalSettings();
 
 const credentials = [
-  settings.gafMasterElite.verified && 'GAF Master Elite® Certified',
+  settings.credential.verified && settings.credential.name,
   settings.contractorLicense.verified && settings.contractorLicense.value && `WA Contractor License #${settings.contractorLicense.value}`,
   settings.insuranceBonded.verified && 'Licensed & Insured',
 ].filter(Boolean) as string[];
@@ -26,7 +26,7 @@ const credentials = [
       JBA Roofing &amp; Remodeling is a Washington-based roofing and construction
       company focused on high-quality roofing systems, craftsmanship, and
       long-term protection. We serve homeowners across King, Snohomish, and
-      Skagit counties — with roof replacement, repair, inspection, cleaning,
+      Skagit counties, with roof replacement, repair, inspection, cleaning,
       and rejuvenation, plus siding installation and replacement.
     </p>
     <p>
@@ -65,7 +65,7 @@ const credentials = [
                 {member.data.photo ? (
                   <img src={member.data.photo} alt={member.data.name} />
                 ) : (
-                  <MediaSlot tone="light" variant={2} label={`${member.data.name} — photo pending`} />
+                  <MediaSlot tone="light" variant={2} label={`${member.data.name}, photo pending`} />
                 )}
               </div>
               <h3 class="team-card__name">{member.data.name}</h3>
@@ -76,7 +76,7 @@ const credentials = [
         </div>
       ) : (
         <p class="text-muted about-team__empty">
-          Team photos and bios are being added — check back soon, or ask us
+          Team photos and bios are being added. Check back soon, or ask us
           directly who'll be on your job when you request an assessment.
         </p>
       )}

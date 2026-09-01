@@ -56,8 +56,16 @@ const settings = defineCollection({
       value: z.string().optional(),
       verified: z.boolean().default(false),
     }),
-    gafMasterElite: z.object({
+    // Generic manufacturer/certification credential slot (e.g. a specific
+    // GAF designation) — deliberately not named after any one credential,
+    // since the exact title, badge, and verification link have not been
+    // confirmed yet. Nothing renders until verified is true AND name is set.
+    credential: z.object({
       verified: z.boolean().default(false),
+      name: z.string().optional(),
+      badgeImage: z.string().optional(),
+      description: z.string().optional(),
+      verificationUrl: z.string().optional(),
     }),
     insuranceBonded: z.object({
       value: z.string().optional(),

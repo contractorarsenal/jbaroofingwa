@@ -10,7 +10,7 @@ published: true
 heroEyebrow: Roof Maintenance
 heroTitle: "Moss and Clogged Gutters Don't Announce Themselves."
 heroDescription: >-
-  Western Washington roofs age faster than the shingle warranty assumes — mostly
+  Western Washington roofs age faster than the shingle warranty assumes, mostly
   because of moss and standing water, not the shingles themselves. A short
   annual check catches both while they're still cheap to fix.
 primaryCta:
@@ -21,7 +21,7 @@ secondaryCta:
   href: /assessment/?need=maintenance
 
 problemStatement: >-
-  Moss doesn't just sit on top of shingles — it roots underneath them, holding
+  Moss doesn't just sit on top of shingles. It roots underneath them, holding
   moisture against the roof deck and lifting the shingle edge, which is exactly
   where wind and rain get in. Left alone through a few wet seasons, it turns a
   maintenance visit into a repair, and eventually a repair into a replacement.
@@ -64,6 +64,6 @@ seo:
   description: Annual roof tune-ups, gutter clearing, and moss treatment across King, Snohomish, and Skagit counties, WA.
 ---
 
-If your roof has visible moss, especially on north-facing slopes or under tree cover, it's worth having someone look at how far it's progressed. Moss that's just on the surface is a straightforward treatment. Moss that's been there for a season or two may have already lifted shingle edges — which is a different conversation, and one we'll have honestly with you.
+If your roof has visible moss, especially on north-facing slopes or under tree cover, it's worth having someone look at how far it's progressed. Moss that's just on the surface is a straightforward treatment. Moss that's been there for a season or two may have already lifted shingle edges, which is a different conversation, and one we'll have honestly with you.
 
 See our [Maintenance Plans](/maintenance-plans/) for what a scheduled visit includes.

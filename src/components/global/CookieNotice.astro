@@ -1,0 +1,89 @@
+---
+/**
+ * Small, non-blocking cookie notice. This site currently uses only essential
+ * technical functionality (Cloudflare hosting, Web3Forms submissions, and
+ * remembering this notice's own dismissal), no analytics or advertising
+ * cookies, so this is a single acknowledgment rather than an accept/reject
+ * choice, there is nothing non-essential to opt out of.
+ */
+---
+
+<div class="cookie-notice" data-cookie-notice hidden>
+  <p class="cookie-notice__text">
+    We use cookies and related technologies to operate and improve this website.
+  </p>
+  <div class="cookie-notice__actions">
+    <a href="/cookie-policy/" class="cookie-notice__link">Cookie Policy</a>
+    <button type="button" class="btn btn--primary cookie-notice__dismiss" data-cookie-dismiss>Got It</button>
+  </div>
+</div>
+
+<style>
+  .cookie-notice {
+    position: fixed;
+    left: var(--space-4);
+    right: var(--space-4);
+    bottom: var(--space-4);
+    z-index: var(--z-modal);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    max-width: 640px;
+    margin-inline: auto;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-dark-charcoal);
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    color: var(--color-text-inverse-muted);
+    opacity: 0;
+    transform: translateY(12px);
+    transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
+  }
+  .cookie-notice.is-visible { opacity: 1; transform: translateY(0); }
+  .cookie-notice__text { font-size: 0.85rem; line-height: 1.5; max-width: 40ch; }
+  .cookie-notice__actions { display: flex; align-items: center; gap: var(--space-4); flex-shrink: 0; }
+  .cookie-notice__link {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--color-text-inverse-muted);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+  .cookie-notice__link:hover { color: var(--color-text-inverse); }
+  .cookie-notice__dismiss { height: 40px; padding-inline: 1.25rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cookie-notice { transition: none; }
+  }
+</style>
+
+<script>
+  const STORAGE_KEY = 'jba-cookie-notice-dismissed';
+  const notice = document.querySelector<HTMLElement>('[data-cookie-notice]');
+  if (notice) {
+    let dismissed = false;
+    try {
+      dismissed = localStorage.getItem(STORAGE_KEY) === '1';
+    } catch {
+      // localStorage unavailable (private mode, blocked, etc), show the notice every visit
+    }
+
+    if (!dismissed) {
+      notice.hidden = false;
+      requestAnimationFrame(() => notice.classList.add('is-visible'));
+    }
+
+    notice.querySelector('[data-cookie-dismiss]')?.addEventListener('click', () => {
+      notice.classList.remove('is-visible');
+      window.setTimeout(() => { notice.hidden = true; }, 260);
+      try {
+        localStorage.setItem(STORAGE_KEY, '1');
+      } catch {
+        // best-effort only
+      }
+    });
+  }
+</script>

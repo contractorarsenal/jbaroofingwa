@@ -1,7 +1,7 @@
 ---
 title: Roof Replacement
 navigationLabel: Roof Replacement
-shortDescription: A documented, permitted roof replacement process — from inspection to final photos.
+shortDescription: When repairs are no longer enough, replace your roof with a complete roofing system built for long-term protection.
 category: replacement
 journey: replacement
 featured: true
@@ -21,7 +21,7 @@ secondaryCta:
   href: /projects/
 
 problemStatement: >-
-  The hardest part of replacing a roof usually isn't the roof — it's not
+  The hardest part of replacing a roof usually isn't the roof. It's not
   knowing whether you actually need one, what's included in a quote, or what
   happens if the crew finds rotted decking once the old roof comes off.
 
@@ -63,9 +63,9 @@ ctaDescription: Get a straight assessment before you commit to anything.
 schemaServiceName: Roof Replacement
 seo:
   title: Roof Replacement in King County, WA
-  description: Documented, permitted roof replacement across King, Snohomish, and Skagit counties, WA — inspection, materials, and process explained upfront.
+  description: Documented, permitted roof replacement across King, Snohomish, and Skagit counties, WA. Inspection, materials, and process explained upfront.
 ---
 
-A roof replacement quote should tell you the material, the scope of tear-off, how decking issues are handled if they're found, and the timeline — not just a total price. If a quote you've received doesn't answer those questions, that's worth asking about before you sign.
+A roof replacement quote should tell you the material, the scope of tear-off, how decking issues are handled if they're found, and the timeline, not just a total price. If a quote you've received doesn't answer those questions, that's worth asking about before you sign.
 
 We'll walk you through material options and what we found during inspection as part of every assessment. See [our process](#process) above for what to expect step by step.

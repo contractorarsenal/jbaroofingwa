@@ -6,11 +6,15 @@ global:
   email: contact.jbaroofing@gmail.com
 
   businessAddress:
-    street: "18553 8th Ave NE"
-    city: Shoreline
-    state: WA
+    # This address has not been verified as correct — do not display it
+    # anywhere until a confirmed address is supplied. displayPublicly must
+    # stay false until then; every template and the LocalBusiness schema
+    # gate on this flag before rendering an address.
+    street: ""
+    city: ""
+    state: ""
     zip: ""
-    displayPublicly: true
+    displayPublicly: false
 
   primaryServiceArea: King County, WA
   secondaryServiceAreas:
@@ -21,8 +25,16 @@ global:
     value: ""
     verified: false
 
-  gafMasterElite:
+  # The client has indicated a GAF certification exists, but the exact
+  # designation (e.g. Master Elite vs Certified vs another tier) has not
+  # been confirmed. Do not guess it. Fill in name/badgeImage/description/
+  # verificationUrl and set verified: true only once it's confirmed.
+  credential:
     verified: false
+    name: ""
+    badgeImage: ""
+    description: ""
+    verificationUrl: ""
 
   insuranceBonded:
     value: ""

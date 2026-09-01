@@ -31,7 +31,7 @@ const serviceImages: Record<string, { image?: string; alt: string }> = {
   <div class="container">
     <p class="eyebrow eyebrow--center" data-reveal="up">What We Do</p>
     <h2 class="h2 services-grid__heading" data-reveal="up">Roofing Services Built For The <span class="accent-text">Pacific Northwest</span></h2>
-    <p class="text-muted services-grid__lede" data-reveal="up">Roof replacement, repair, inspection, cleaning, and rejuvenation — handled by one local team.</p>
+    <p class="text-muted services-grid__lede" data-reveal="up">Roof replacement, repair, inspection, cleaning, and rejuvenation, handled by one local team.</p>
 
     {featured && (
       <a href={`/services/${featured.id}/`} class="service-featured-row" data-reveal="up" data-analytics-event="service_clicked" data-analytics-location="services_grid_featured">
@@ -57,7 +57,7 @@ const serviceImages: Record<string, { image?: string; alt: string }> = {
             </div>
           ) : (
             <div class="service-card__media">
-              <MediaSlot tone="dark" variant={2} label={`${service.data.title} — photography pending`} />
+              <MediaSlot tone="dark" variant={2} label={`${service.data.title}, photography pending`} />
             </div>
           )}
           <div class="service-card__body">

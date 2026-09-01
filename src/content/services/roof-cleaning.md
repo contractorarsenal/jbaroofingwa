@@ -1,14 +1,14 @@
 ---
 title: Roof Cleaning & Moss Removal
 navigationLabel: Roof Cleaning
-shortDescription: Low-pressure moss and debris removal that doesn't strip granules or void your shingle warranty.
+shortDescription: Remove moss, debris, and buildup while protecting the roofing materials underneath.
 category: maintenance
 journey: maintenance
 featured: false
 published: true
 
 heroEyebrow: Roof Cleaning
-heroTitle: "Kill Moss at the Root — Without Damaging the Shingles."
+heroTitle: "Kill Moss at the Root, Without Damaging the Shingles."
 heroDescription: >-
   Standard pressure washing strips the protective granules off asphalt
   shingles. We use low-pressure treatment methods instead.
@@ -31,7 +31,7 @@ problemsSolved:
 
 benefits:
   - title: No high-pressure washing
-    description: High-pressure equipment strips granules and can void manufacturer warranties — we don't use it on asphalt shingle roofs.
+    description: High-pressure equipment strips granules and can void manufacturer warranties. We don't use it on asphalt shingle roofs.
   - title: Root-level treatment
     description: Treatment targets moss at the root, not just the visible surface growth.
 
@@ -53,7 +53,7 @@ ctaDescription: Safe for your shingles, effective at the root.
 schemaServiceName: Roof Cleaning
 seo:
   title: Roof Cleaning & Moss Removal in King County, WA
-  description: Low-pressure roof cleaning and moss removal across King, Snohomish, and Skagit counties, WA — warranty-safe methods only.
+  description: Low-pressure roof cleaning and moss removal across King, Snohomish, and Skagit counties, WA. Warranty-safe methods only.
 ---
 
-If you're comparing quotes and one of them mentions a pressure washer for your asphalt shingle roof, ask about it directly — it's one of the more common ways a roof cleaning job accidentally shortens the life of the roof it was meant to help.
+If you're comparing quotes and one of them mentions a pressure washer for your asphalt shingle roof, ask about it directly. It's one of the more common ways a roof cleaning job accidentally shortens the life of the roof it was meant to help.

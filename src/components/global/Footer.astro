@@ -42,9 +42,6 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
     <div class="site-footer__brand">
       <p class="site-footer__name">JBA <span class="accent-text">Roofing</span> &amp; Remodeling</p>
       <p class="text-muted site-footer__desc">{settings.footerDescription}</p>
-      <a href={`tel:${settings.primaryPhone}`} class="site-footer__phone" data-analytics-event="phone_click" data-analytics-location="footer">
-        {settings.primaryPhoneDisplay}
-      </a>
       <div class="site-footer__cta">
         <Button href={settings.primaryCtaDestination} variant="outline" analyticsEvent="quote_started" analyticsLocation="footer">
           {settings.primaryCtaLabel} <span aria-hidden="true">→</span>
@@ -96,14 +93,8 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
     <div class="site-footer__col">
       <h3 class="site-footer__heading">Contact</h3>
       <ul class="site-footer__contact-list">
-        <li><a href={`tel:${settings.primaryPhone}`} data-analytics-event="phone_click" data-analytics-location="footer_contact_col">{settings.primaryPhoneDisplay}</a></li>
-        <li><a href={`mailto:${settings.email}`}>{settings.email}</a></li>
-        {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
-          <li class="text-muted">
-            {settings.businessAddress.street}<br />
-            {settings.businessAddress.city}, {settings.businessAddress.state}
-          </li>
-        )}
+        <li><a href={`tel:${settings.primaryPhone}`} data-analytics-event="phone_click" data-analytics-location="footer_contact_col">Call Now</a></li>
+        <li><a href={`mailto:${settings.email}`} data-analytics-event="email_click" data-analytics-location="footer_contact_col">Email Us</a></li>
         {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && (
           <li class="text-muted">{settings.emergencyAvailability.value}</li>
         )}
@@ -130,22 +121,14 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
           ))}
         </div>
       )}
-
-      {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
-        <div class="site-footer__office">
-          <p class="site-footer__office-name">JBA Roofing &amp; Remodeling — Shoreline Office</p>
-          <p class="text-muted">
-            {settings.businessAddress.street}, {settings.businessAddress.city}, {settings.businessAddress.state}
-          </p>
-        </div>
-      )}
     </div>
   </div>
 
   <div class="container site-footer__legal">
     <div class="site-footer__legal-links">
       <a href="/privacy-policy/">Privacy Policy</a>
-      <a href="/terms-of-service/">Terms of Use</a>
+      <a href="/terms-of-service/">Terms of Service</a>
+      <a href="/cookie-policy/">Cookie Policy</a>
     </div>
     <p class="text-muted site-footer__copyright">
       &copy; {year} {settings.legalBusinessName}
@@ -181,12 +164,6 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
     text-transform: uppercase;
   }
   .site-footer__desc { margin-bottom: var(--space-1); }
-  .site-footer__phone {
-    font-weight: 700;
-    font-size: 1.15rem;
-    font-family: var(--font-display);
-    color: var(--color-accent);
-  }
   .site-footer__cta { margin-top: var(--space-2); }
   .site-footer__social { display: flex; gap: var(--space-3); margin-top: var(--space-3); }
   .site-footer__social a {
@@ -253,15 +230,6 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
   }
   .site-footer__cities a { font-size: 0.85rem; color: var(--color-text-inverse-muted); }
   .site-footer__cities a:hover { color: var(--color-text-inverse); }
-  .site-footer__office { margin-top: var(--space-5); }
-  .site-footer__office-name {
-    font-size: 0.7rem;
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--color-text-inverse-muted);
-    margin-bottom: var(--space-1);
-  }
 
   .site-footer__legal {
     display: flex;

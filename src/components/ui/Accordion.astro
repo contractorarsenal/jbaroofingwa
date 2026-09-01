@@ -10,23 +10,64 @@ interface Props {
 }
 
 const { items, columns = false } = Astro.props;
+
+// Two independent columns (not a shared CSS grid) so opening an item in one
+// column can never stretch or shift the paired item in the other column.
+// Left gets 1,3,5,7..., right gets 2,4,6,8... — matching natural reading order.
+const left = columns ? items.filter((_, i) => i % 2 === 0) : items;
+const right = columns ? items.filter((_, i) => i % 2 === 1) : [];
 ---
 
-<div class:list={['accordion', columns && 'accordion--columns']} data-reveal-group>
-  {items.map((item, i) => (
-    <details class="accordion__item" data-reveal="up" open={i < 2}>
-      <summary class="accordion__trigger">
-        <span>{item.question}</span>
-        <svg class="accordion__icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-          <path d="M1 5L7 11L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </summary>
-      <div class="accordion__panel-wrap">
-        <div class="accordion__panel" set:html={item.answer} />
-      </div>
-    </details>
-  ))}
-</div>
+{columns ? (
+  <div class="accordion accordion--columns">
+    <div class="accordion-col" data-reveal-group>
+      {left.map((item, i) => (
+        <details class="accordion__item" data-reveal="up" open={i === 0}>
+          <summary class="accordion__trigger">
+            <span>{item.question}</span>
+            <svg class="accordion__icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M1 5L7 11L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="accordion__panel-wrap">
+            <div class="accordion__panel" set:html={item.answer} />
+          </div>
+        </details>
+      ))}
+    </div>
+    <div class="accordion-col" data-reveal-group>
+      {right.map((item, i) => (
+        <details class="accordion__item" data-reveal="up" open={i === 0}>
+          <summary class="accordion__trigger">
+            <span>{item.question}</span>
+            <svg class="accordion__icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+              <path d="M1 5L7 11L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </summary>
+          <div class="accordion__panel-wrap">
+            <div class="accordion__panel" set:html={item.answer} />
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+) : (
+  <div class="accordion" data-reveal-group>
+    {items.map((item, i) => (
+      <details class="accordion__item" data-reveal="up" open={i < 2}>
+        <summary class="accordion__trigger">
+          <span>{item.question}</span>
+          <svg class="accordion__icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M1 5L7 11L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </summary>
+        <div class="accordion__panel-wrap">
+          <div class="accordion__panel" set:html={item.answer} />
+        </div>
+      </details>
+    ))}
+  </div>
+)}
 
 <style>
   .accordion { border-top: 1px solid var(--color-border); }
@@ -38,6 +79,7 @@ const { items, columns = false } = Astro.props;
     align-items: center;
     justify-content: space-between;
     gap: var(--space-3);
+    min-height: 72px;
     padding: var(--space-4) 0;
     font-weight: 700;
     font-size: 0.95rem;
@@ -77,11 +119,19 @@ const { items, columns = false } = Astro.props;
     .accordion__panel-wrap, .accordion__icon { transition: none; }
   }
 
-  /* card variant: each item becomes its own rectangular white panel in a 2-col grid */
+  /* card variant: each item becomes its own rectangular white panel;
+     two independent columns on desktop, stacked on mobile */
   .accordion--columns {
     border-top: none;
-    display: grid;
+    display: flex;
+    flex-direction: column;
     gap: var(--space-3);
+  }
+  .accordion-col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
   }
   .accordion--columns .accordion__item {
     border: 1px solid var(--color-border);
@@ -97,6 +147,7 @@ const { items, columns = false } = Astro.props;
   .accordion--columns .accordion__panel { max-width: none; }
 
   @media (min-width: 760px) {
-    .accordion--columns { grid-template-columns: repeat(2, 1fr); align-items: start; }
+    .accordion--columns { flex-direction: row; align-items: flex-start; gap: var(--space-3); }
+    .accordion-col { flex: 1 1 0; }
   }
 </style>

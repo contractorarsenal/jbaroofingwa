@@ -6,7 +6,7 @@ county: King County, WA
 
 heroTitle: Roofing Across King County
 heroDescription: >-
-  Repair, maintenance, and replacement for homes throughout King County —
+  Repair, maintenance, and replacement for homes throughout King County,
   from Seattle city lots to the eastside suburbs.
 localIntro: >-
   King County covers a wide range of roof types and ages, from older
@@ -29,4 +29,4 @@ seo:
   description: Roof repair, maintenance, and replacement across King County, Washington.
 ---
 
-King County is our primary service area. If you're outside the specific cities listed in our service area pages, reach out anyway — we likely still cover it.
+King County is our primary service area. If you're outside the specific cities listed in our service area pages, reach out anyway. We likely still cover it.

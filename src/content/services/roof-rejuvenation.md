@@ -1,7 +1,7 @@
 ---
 title: Roof Rejuvenation
 navigationLabel: Roof Rejuvenation
-shortDescription: Extending usable roof life when a full replacement isn't yet necessary.
+shortDescription: For qualifying aging roofs that may not need full replacement yet.
 category: maintenance
 journey: maintenance
 featured: false
@@ -50,7 +50,7 @@ ctaDescription: A quick inspection tells us whether rejuvenation makes sense for
 schemaServiceName: Roof Rejuvenation
 
 # Process, product, eligibility criteria, expected benefits, warranty, and
-# pricing are all left unset until JBA confirms the specifics — see
+# pricing are all left unset until JBA confirms the specifics, see
 # CLIENT-CONTENT-NEEDED.md. Nothing here renders publicly until verified.
 rejuvenationDetails:
   process:
@@ -77,4 +77,4 @@ seo:
   description: Roof rejuvenation services to extend usable roof life across King, Snohomish, and Skagit counties, WA.
 ---
 
-Roof rejuvenation isn't the right fit for every roof — it depends on the current condition. We'll give you a straight answer after taking a look, whether that means rejuvenation, a repair, or a full replacement.
+Roof rejuvenation isn't the right fit for every roof. It depends on the current condition. We'll give you a straight answer after taking a look, whether that means rejuvenation, a repair, or a full replacement.

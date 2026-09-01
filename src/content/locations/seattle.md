@@ -6,7 +6,7 @@ county: King County, WA
 
 heroTitle: Roofing in Seattle, WA
 heroDescription: >-
-  [DRAFT — confirm with client before publishing] Repair, maintenance, and
+  [DRAFT, confirm with client before publishing] Repair, maintenance, and
   replacement for Seattle homes, from steep-slope craftsman roofs to newer
   infill construction.
 localIntro: >-
@@ -24,4 +24,4 @@ seo:
   noindex: true
 ---
 
-Draft page — see CLIENT-CONTENT-NEEDED.md. Do not publish (flip `published: true`) until local project photos, reviews, and neighborhood-specific content exist for Seattle.
+Draft page, see CLIENT-CONTENT-NEEDED.md. Do not publish (flip `published: true`) until local project photos, reviews, and neighborhood-specific content exist for Seattle.

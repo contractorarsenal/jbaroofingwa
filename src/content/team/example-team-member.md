@@ -1,7 +1,7 @@
 ---
 name: "[Name]"
-role: "[Role — e.g. Owner, Lead Estimator, Crew Lead]"
-shortBio: "[Short bio — one or two sentences.]"
+role: "[Role, e.g. Owner, Lead Estimator, Crew Lead]"
+shortBio: "[Short bio, one or two sentences.]"
 certifications: []
 featured: false
 published: false

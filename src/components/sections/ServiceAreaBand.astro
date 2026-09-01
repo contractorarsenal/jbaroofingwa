@@ -11,12 +11,7 @@ const counties = [settings.primaryServiceArea, ...settings.secondaryServiceAreas
     <div class="service-area-band__intro" data-reveal="up">
       <p class="eyebrow">Service Territory</p>
       <h2 class="h2">Proudly Serving <span class="accent-text">Northwest Washington.</span></h2>
-      {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
-        <p class="text-muted service-area-band__address">
-          {settings.businessAddress.street}<br />
-          {settings.businessAddress.city}, {settings.businessAddress.state}
-        </p>
-      )}
+      <p class="text-muted service-area-band__address">Homeowners across King, Snohomish, and Skagit Counties.</p>
       <Button href="/service-areas/" variant="outline">View Service Areas</Button>
     </div>
 

@@ -9,7 +9,7 @@ heroDescription: >-
   Repair, maintenance, and replacement for homes throughout Skagit County.
 localIntro: >-
   We extend our King and Snohomish County service into parts of Skagit
-  County — reach out with your address to confirm coverage for your area.
+  County, reach out with your address to confirm coverage for your area.
 neighborhoods: []
 localRoofingConsiderations: >-
   Permit requirements vary by city and by project scope. We confirm what's

@@ -2,7 +2,7 @@
  * JSON-LD structured data builders.
  *
  * Every builder only includes fields backed by verified data — see the
- * `verified` flags on GlobalSettings (contractorLicense, gafMasterElite,
+ * `verified` flags on GlobalSettings (contractorLicense, credential,
  * etc.). Never add a claim here that isn't already visible and true on the
  * rendered page; schema.org markup mismatched with page content violates
  * Google's structured data guidelines and risks a manual action.

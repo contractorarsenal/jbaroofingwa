@@ -49,8 +49,11 @@
   --step-2: clamp(1.6rem, 1.44rem + 0.75vw, 2.1rem);
   --step-3: clamp(2rem, 1.72rem + 1.3vw, 2.75rem);
   --step-4: clamp(2.5rem, 2.05rem + 2vw, 3.6rem);
-  --step-5: clamp(3rem, 2.3rem + 3.2vw, 4.6rem);
-  --step-6: clamp(3.4rem, 2.4rem + 4.5vw, 5.6rem);
+  /* section headings + inner-page hero, kept out of "absurdly large" territory:
+     ~34px mobile up to ~53-60px desktop */
+  --step-5: clamp(2.1rem, 1.7rem + 1.8vw, 3.75rem);
+  /* homepage hero only: ~45px mobile up to ~76px desktop */
+  --step-6: clamp(2.75rem, 2.2rem + 3vw, 4.75rem);
 
   --leading-tight: 0.96;
   --leading-snug: 1.15;
@@ -64,14 +67,13 @@
   --space-5: 2rem;
   --space-6: 2.75rem;
   /* Responsive section-rhythm tokens — scale from mobile to desktop rather
-     than a single flat value, so "more breathing room" actually shows up
-     at every viewport, not just wide ones.
-       --space-7: supporting/smaller sections   — ~72px mobile → ~100px desktop
-       --space-8: major sections (most of them) — ~88px mobile → ~128px desktop
-       --space-9: flagship sections (hero/final)— ~96px mobile → ~144px desktop */
-  --space-7: clamp(4.5rem, 3.6rem + 2.8vw, 6.25rem);
-  --space-8: clamp(5.5rem, 4.2rem + 4.2vw, 8.5rem);
-  --space-9: clamp(6rem, 4.5rem + 5vw, 10rem);
+     than a single flat value. Tuned to a standard rhythm across breakpoints:
+       --space-7: supporting/smaller sections   — ~48px mobile → ~82px desktop
+       --space-8: major sections (most of them) — ~64px mobile → ~102px desktop
+       --space-9: flagship sections (hero/final)— ~72px mobile → ~115px desktop */
+  --space-7: clamp(3rem, 2.4rem + 3vw, 5.25rem);
+  --space-8: clamp(4rem, 3.2rem + 3.5vw, 6.5rem);
+  --space-9: clamp(4.5rem, 3.6rem + 4vw, 8rem);
 
   /* ---- layout ---- */
   --container-max: 1200px;

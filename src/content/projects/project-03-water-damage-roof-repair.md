@@ -14,7 +14,7 @@ roofType: ""
 roofMaterial: "Asphalt Shingle"
 manufacturer: ""
 
-projectSummary: "A water-damage roof repair where an improperly positioned drainage detail had allowed moisture into the roofing system — addressed by removing the damaged decking and installing new shingles."
+projectSummary: "A water-damage roof repair where an improperly positioned drainage detail had allowed moisture into the roofing system, addressed by removing the damaged decking and installing new shingles."
 customerProblem: "Aging shingles with visible moss growth, along with signs of water intrusion."
 inspectionFindings: "Improper roof drainage detailing had allowed water to enter the roofing system, leading to damaged decking beneath the shingles."
 solution: "The damaged decking was removed and replaced, and new shingles were installed to restore the affected roofing area."

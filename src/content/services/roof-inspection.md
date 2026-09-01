@@ -1,7 +1,7 @@
 ---
 title: Roof Inspection
 navigationLabel: Roof Inspection
-shortDescription: A documented condition assessment — useful before buying a home, filing insurance, or planning ahead for a replacement.
+shortDescription: Not sure what your roof needs? We can inspect it and help you understand the next step.
 category: maintenance
 journey: maintenance
 featured: false
@@ -30,7 +30,7 @@ problemsSolved:
 
 benefits:
   - title: Written report with photos
-    description: Not just a verbal opinion — something you can keep or share.
+    description: Not just a verbal opinion, something you can keep or share.
   - title: No pressure toward a specific outcome
     description: An inspection is not a sales call. If everything's fine, we'll tell you that.
 

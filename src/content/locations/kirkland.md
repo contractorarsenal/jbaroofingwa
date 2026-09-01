@@ -6,7 +6,7 @@ county: King County, WA
 
 heroTitle: Roofing in Kirkland, WA
 heroDescription: >-
-  [DRAFT — confirm with client before publishing] Repair, maintenance, and
+  [DRAFT, confirm with client before publishing] Repair, maintenance, and
   replacement for Kirkland homes.
 localIntro: >-
   [VERIFY WITH CLIENT: local project examples, neighborhood-specific notes,
@@ -20,4 +20,4 @@ seo:
   noindex: true
 ---
 
-Draft page — see CLIENT-CONTENT-NEEDED.md. Do not publish until local content exists.
+Draft page, see CLIENT-CONTENT-NEEDED.md. Do not publish until local content exists.

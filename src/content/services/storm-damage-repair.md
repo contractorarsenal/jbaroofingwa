@@ -56,4 +56,4 @@ seo:
   description: Wind and storm damage roof inspection and repair across King, Snohomish, and Skagit counties, WA.
 ---
 
-If a storm just came through and you're not sure whether your roof needs attention, it's worth a quick look — most storm damage is cheaper to fix immediately than after a season of rain has gotten underneath it.
+If a storm just came through and you're not sure whether your roof needs attention, it's worth a quick look. Most storm damage is cheaper to fix immediately than after a season of rain has gotten underneath it.

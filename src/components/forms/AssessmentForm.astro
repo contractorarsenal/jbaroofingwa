@@ -1,9 +1,9 @@
 ---
 /**
- * The single, shared roof-assessment funnel — used on both /assessment/ and
+ * The single, shared roof-assessment funnel, used on both /assessment/ and
  * the Contact page's right panel. All submit/validation/photo-upload logic
  * lives here once; hosting pages only supply their own surrounding chrome
- * (heading, layout, background).
+ * (heading, layout, background). Submits to Web3Forms.
  */
 import { getGlobalSettings } from '@lib/content';
 
@@ -11,7 +11,7 @@ const settings = await getGlobalSettings();
 
 const progressSteps = [
   'What Do You Need Help With?',
-  'What Are You Seeing?',
+  'What Are You Noticing?',
   'Property Details',
   'How Can We Reach You?',
 ];
@@ -22,12 +22,15 @@ const progressSteps = [
     {progressSteps.map((label, i) => (
       <div class="progress-segment" data-segment={i}>
         <span class="progress-segment__bar" data-segment-bar></span>
-        <span class="progress-segment__label">{String(i + 1).padStart(2, '0')}<span class="progress-segment__label-text"> — {label}</span></span>
+        <span class="progress-segment__label">{String(i + 1).padStart(2, '0')}<span class="progress-segment__label-text"> {label}</span></span>
       </div>
     ))}
   </div>
 
-  <form id="assessment-form" novalidate>
+  <form id="assessment-form" action="https://api.web3forms.com/submit" method="POST" novalidate>
+    <input type="hidden" name="access_key" value="1ca2a091-176a-4429-a2c2-7510f8daa07e" />
+    <input type="hidden" name="subject" value="New Roof Assessment Request, JBA Roofing Website" />
+    <input type="hidden" name="from_name" value="JBA Roofing Website" />
     <input type="text" name="company_website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
 
     <!-- STEP 1: ZIP -->
@@ -40,32 +43,41 @@ const progressSteps = [
 
     <!-- STEP 2: NEED -->
     <fieldset class="step" data-step="2" hidden>
-      <legend class="step__title">What can we help you with?</legend>
+      <legend class="step__title">What do you need help with?</legend>
       <div class="step__options" data-options="need">
-        <button type="button" class="option-card" data-value="repair">Roof Repair / Leak</button>
-        <button type="button" class="option-card" data-value="replacement">Roof Replacement</button>
-        <button type="button" class="option-card" data-value="maintenance">Maintenance / Tune-Up</button>
-        <button type="button" class="option-card" data-value="cleaning">Cleaning / Moss Removal</button>
-        <button type="button" class="option-card" data-value="inspection">Inspection Only</button>
+        <button type="button" class="option-card" data-value="replacement">I Need a New Roof</button>
+        <button type="button" class="option-card" data-value="repair">I Have a Leak or Damage</button>
+        <button type="button" class="option-card" data-value="inspection">I Want My Roof Inspected</button>
+        <button type="button" class="option-card" data-value="cleaning">I Need Roof Cleaning</button>
+        <button type="button" class="option-card" data-value="rejuvenation">I'm Interested in Roof Rejuvenation</button>
+        <button type="button" class="option-card" data-value="unsure">I'm Not Sure</button>
+      </div>
+      <button type="button" class="btn btn--outline" data-back>Back</button>
+    </fieldset>
+
+    <!-- STEP 3: WHAT ARE YOU NOTICING -->
+    <fieldset class="step" data-step="3" hidden>
+      <legend class="step__title">What are you noticing?</legend>
+      <div class="step__options" data-options="context">
+        <button type="button" class="option-card" data-value="leak">Leak or Water</button>
+        <button type="button" class="option-card" data-value="missing-shingles">Missing or Damaged Shingles</button>
+        <button type="button" class="option-card" data-value="moss">Moss or Buildup</button>
+        <button type="button" class="option-card" data-value="looks-old">Roof Looks Old</button>
+        <button type="button" class="option-card" data-value="storm-damage">Storm Damage</button>
+        <button type="button" class="option-card" data-value="other">Other</button>
         <button type="button" class="option-card" data-value="unsure">Not Sure</button>
       </div>
       <button type="button" class="btn btn--outline" data-back>Back</button>
     </fieldset>
 
-    <!-- STEP 3: CONTEXT (dynamic per need) -->
-    <fieldset class="step" data-step="3" hidden>
-      <legend class="step__title" data-context-title>What are you seeing?</legend>
-      <div class="step__options" data-options="context"></div>
-      <button type="button" class="btn btn--outline" data-back>Back</button>
-    </fieldset>
-
-    <!-- STEP 4: TIMELINE + INSURANCE -->
+    <!-- STEP 4: PROPERTY DETAILS (timeline + insurance) -->
     <fieldset class="step" data-step="4" hidden>
-      <legend class="step__title">How soon do you need help?</legend>
+      <legend class="step__title">Tell us about the property</legend>
+      <p class="step__sub-question">How soon do you need help?</p>
       <div class="step__options" data-options="timeline">
-        <button type="button" class="option-card option-card--urgent" data-value="emergency">Emergency — today</button>
+        <button type="button" class="option-card option-card--urgent" data-value="emergency">Emergency, today</button>
         <button type="button" class="option-card" data-value="asap">As soon as possible</button>
-        <button type="button" class="option-card" data-value="1-4-weeks">Within 1–4 weeks</button>
+        <button type="button" class="option-card" data-value="1-4-weeks">Within 1 to 4 weeks</button>
         <button type="button" class="option-card" data-value="planning">Just planning ahead</button>
       </div>
 
@@ -97,7 +109,7 @@ const progressSteps = [
 
     <!-- STEP 6: CONTACT INFO -->
     <fieldset class="step" data-step="6" hidden>
-      <legend class="step__title">Where should we send your assessment?</legend>
+      <legend class="step__title">How should we reach you?</legend>
       <div class="form-field">
         <label for="af-name">Name</label>
         <input id="af-name" type="text" name="name" autocomplete="name" required />
@@ -115,6 +127,10 @@ const progressSteps = [
         <input id="af-address" type="text" name="address" autocomplete="street-address" />
       </div>
       <div class="form-field">
+        <label for="af-notes">Anything else we should know? <span class="text-muted">(optional)</span></label>
+        <textarea id="af-notes" name="notes" rows="3"></textarea>
+      </div>
+      <div class="form-field">
         <span>Preferred contact method</span>
         <div class="step__options step__options--inline">
           <button type="button" class="option-card option-card--compact" data-value="phone" data-options="preferredContact">Call</button>
@@ -122,12 +138,12 @@ const progressSteps = [
           <button type="button" class="option-card option-card--compact" data-value="email" data-options="preferredContact">Email</button>
         </div>
       </div>
-      <button type="submit" class="btn btn--primary btn--block" data-submit>Get My Assessment</button>
+      <button type="submit" class="btn btn--primary btn--block" data-submit>Get My Free Estimate</button>
       <button type="button" class="btn btn--outline" data-back>Back</button>
       <p class="assessment-form__status" data-form-status role="status" aria-live="polite"></p>
     </fieldset>
 
-    <!-- CONFIRMATION -->
+    <!-- SUCCESS -->
     <div class="step step--confirm" data-step="confirm" hidden>
       <svg class="step--confirm__icon" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
         <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="2"/>
@@ -135,10 +151,25 @@ const progressSteps = [
       </svg>
       <h2 class="h3">Request Received</h2>
       <p class="text-muted">
-        Thanks — JBA Roofing &amp; Remodeling has received your request. We'll use the
-        contact information you provided to follow up. If it's urgent, feel free to
-        call <a href={`tel:${settings.primaryPhone}`} class="link-underline">{settings.primaryPhoneDisplay}</a> directly.
+        Thanks. JBA Roofing &amp; Remodeling has received your request. We'll use the
+        information you provided to follow up.
       </p>
+      <div class="step--confirm__actions">
+        <a href="/" class="btn btn--outline">Back to Home</a>
+        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="assessment_success">Call Now</a>
+      </div>
+    </div>
+
+    <!-- ERROR -->
+    <div class="step step--error" data-step="error" hidden>
+      <h2 class="h3">We Couldn't Send Your Request</h2>
+      <p class="text-muted">
+        Please try again, or contact JBA directly and we'll help you right away.
+      </p>
+      <div class="step--confirm__actions">
+        <button type="button" class="btn btn--outline" data-retry>Try Again</button>
+        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="assessment_error">Call Now</a>
+      </div>
     </div>
   </form>
 </div>
@@ -241,7 +272,8 @@ const progressSteps = [
   .option-card--urgent[aria-pressed="true"] { background: var(--color-urgent); border-color: var(--color-urgent); color: var(--color-white); }
 
   .form-field { display: flex; flex-direction: column; gap: var(--space-1); font-weight: 600; font-size: var(--step--1); margin-bottom: var(--space-4); }
-  .form-field input {
+  .form-field input,
+  .form-field textarea {
     padding: var(--space-3);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-sm);
@@ -250,8 +282,10 @@ const progressSteps = [
     font-weight: 400;
     background: var(--color-white);
     color: var(--color-text);
+    resize: vertical;
   }
-  .form-field input:focus { border-color: var(--color-accent); }
+  .form-field input:focus,
+  .form-field textarea:focus { border-color: var(--color-accent); }
 
   .photo-upload {
     display: flex;
@@ -283,10 +317,17 @@ const progressSteps = [
   .assessment-form__status[data-state="error"] { color: var(--color-urgent); }
   .assessment-form__status[data-state="pending"] { color: var(--color-text-muted); }
 
-  .step--confirm { text-align: center; padding-block: var(--space-6); }
+  .step--confirm, .step--error { text-align: center; padding-block: var(--space-6); }
   .step--confirm__icon { color: var(--color-accent); margin-bottom: var(--space-4); }
+  .step--confirm__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-5);
+  }
 
-  /* step transition — plays whenever a step goes from hidden to visible */
+  /* step transition, plays whenever a step goes from hidden to visible */
   @keyframes stepRise {
     from { opacity: 0; transform: translateY(14px); }
     to { opacity: 1; transform: translateY(0); }
@@ -303,23 +344,16 @@ const progressSteps = [
 </style>
 
 <script>
-  import { submitLead } from '@lib/leads';
   import { trackEvent } from '@lib/analytics';
+  import { submitToWeb3Forms } from '@lib/web3forms';
 
   type Answers = {
     zip?: string;
     need?: string;
-    context?: string[];
+    context?: string;
     timeline?: string;
     insurance?: string;
     preferredContact?: string;
-    name?: string;
-    phone?: string;
-    email?: string;
-    address?: string;
-    photoCount?: number;
-    photo?: string;
-    photoName?: string;
   };
 
   const form = document.getElementById('assessment-form') as HTMLFormElement;
@@ -327,91 +361,12 @@ const progressSteps = [
   const progressWrap = document.querySelector<HTMLElement>('[data-progress]');
   const segments = Array.from(document.querySelectorAll<HTMLElement>('.progress-segment'));
   const status = document.querySelector<HTMLElement>('[data-form-status]');
-  const contextTitle = document.querySelector<HTMLElement>('[data-context-title]');
-  const contextOptions = document.querySelector<HTMLElement>('[data-options="context"]');
 
-  const answers: Answers = { context: [] };
-  let currentIndex = 0; // index into steps[] (excludes confirm)
+  const answers: Answers = {};
+  let currentIndex = 0; // index into steps[] (excludes confirm/error)
 
   // Maps the 6 functional fieldsets onto the 4 visual progress segments.
   const STEP_TO_SEGMENT = [0, 0, 1, 2, 2, 3];
-
-  const contextByNeed: Record<string, { title: string; options: { value: string; label: string }[] }> = {
-    repair: {
-      title: 'What are you seeing?',
-      options: [
-        { value: 'leak', label: 'Active Leak' },
-        { value: 'missing-shingles', label: 'Missing Shingles' },
-        { value: 'storm-damage', label: 'Storm / Wind Damage' },
-        { value: 'flashing', label: 'Flashing Issue' },
-        { value: 'water-stain', label: 'Ceiling Water Stain' },
-        { value: 'unsure', label: 'Not Sure' },
-      ],
-    },
-    replacement: {
-      title: "What's driving the replacement?",
-      options: [
-        { value: 'age', label: 'Roof is aging out' },
-        { value: 'repeated-repairs', label: 'Repeated repairs' },
-        { value: 'storm-damage', label: 'Storm damage' },
-        { value: 'selling-buying', label: 'Selling / buying home' },
-        { value: 'cosmetic', label: 'Want a different look' },
-        { value: 'unsure', label: 'Not sure yet' },
-      ],
-    },
-    maintenance: {
-      title: "What's the main concern?",
-      options: [
-        { value: 'moss', label: 'Moss growth' },
-        { value: 'gutters', label: 'Clogged gutters' },
-        { value: 'age', label: 'Older roof, never serviced' },
-        { value: 'routine', label: 'Just routine care' },
-      ],
-    },
-    cleaning: {
-      title: 'What needs cleaning?',
-      options: [
-        { value: 'moss', label: 'Moss on roof' },
-        { value: 'algae', label: 'Algae streaking' },
-        { value: 'gutters', label: 'Gutters only' },
-        { value: 'both', label: 'Roof + gutters' },
-      ],
-    },
-    inspection: {
-      title: 'What prompted the inspection?',
-      options: [
-        { value: 'buying-home', label: 'Buying a home' },
-        { value: 'routine', label: 'Just haven’t checked in a while' },
-        { value: 'concern', label: 'Noticed something specific' },
-      ],
-    },
-    unsure: {
-      title: 'Any details help — pick what’s closest.',
-      options: [
-        { value: 'visible-damage', label: 'Something looks off' },
-        { value: 'aging-roof', label: 'Roof is getting older' },
-        { value: 'just-curious', label: 'Just curious about condition' },
-      ],
-    },
-  };
-
-  function buildContextStep(need: string) {
-    const config = contextByNeed[need] ?? contextByNeed.unsure;
-    if (contextTitle) contextTitle.textContent = config.title;
-    if (contextOptions) {
-      contextOptions.innerHTML = '';
-      config.options.forEach((opt) => {
-        const btn = document.createElement('button');
-        btn.type = 'button';
-        btn.className = 'option-card';
-        btn.dataset.value = opt.value;
-        btn.setAttribute('aria-pressed', 'false');
-        btn.textContent = opt.label;
-        btn.addEventListener('click', () => selectSingle(btn, 'context', true));
-        contextOptions.appendChild(btn);
-      });
-    }
-  }
 
   function updateProgress() {
     const activeSegment = STEP_TO_SEGMENT[currentIndex] ?? 0;
@@ -429,14 +384,14 @@ const progressSteps = [
     if (scroll) steps[index]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   }
 
-  function showConfirm() {
+  function showOutcome(name: 'confirm' | 'error') {
     steps.forEach((step) => (step.hidden = true));
-    const confirm = form.querySelector<HTMLElement>('[data-step="confirm"]');
-    if (confirm) {
-      confirm.hidden = false;
-      confirm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const outcome = form.querySelector<HTMLElement>(`[data-step="${name}"]`);
+    if (outcome) {
+      outcome.hidden = false;
+      outcome.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
-    segments.forEach((seg) => seg.classList.add('is-complete'));
+    if (name === 'confirm') segments.forEach((seg) => seg.classList.add('is-complete'));
   }
 
   function selectSingle(button: HTMLButtonElement, key: keyof Answers, autoAdvance = false) {
@@ -458,7 +413,6 @@ const progressSteps = [
     }
     if (currentIndex === 1) {
       if (!answers.need) return;
-      buildContextStep(answers.need);
     }
     if (currentIndex === 3) {
       if (!answers.timeline || !answers.insurance) return;
@@ -470,10 +424,10 @@ const progressSteps = [
     if (currentIndex > 0) showStep(currentIndex - 1);
   }
 
-  // Wire up option-card click handlers for static groups
+  // Wire up option-card click handlers for all static groups (need, context, timeline, insurance, preferredContact)
   form.querySelectorAll<HTMLElement>('[data-options]').forEach((group) => {
     const key = group.dataset.options as keyof Answers | undefined;
-    if (!key || key === 'context') return; // context is built dynamically
+    if (!key) return;
     group.querySelectorAll<HTMLButtonElement>('.option-card').forEach((btn) => {
       btn.setAttribute('aria-pressed', 'false');
       const autoAdvance = key === 'need';
@@ -481,17 +435,13 @@ const progressSteps = [
     });
   });
 
-  // preferredContact buttons live inside step 6 and use data-options on the button itself
-  form.querySelectorAll<HTMLButtonElement>('[data-options="preferredContact"]').forEach((btn) => {
-    btn.addEventListener('click', () => selectSingle(btn, 'preferredContact'));
-  });
-
   form.querySelectorAll<HTMLButtonElement>('[data-next]').forEach((btn) => btn.addEventListener('click', goNext));
   form.querySelectorAll<HTMLButtonElement>('[data-back]').forEach((btn) => btn.addEventListener('click', goBack));
+  form.querySelectorAll<HTMLButtonElement>('[data-retry]').forEach((btn) =>
+    btn.addEventListener('click', () => showStep(steps.length - 1, { scroll: false, track: false }))
+  );
 
-  // Kept well under Cloudflare Pages Functions' request body limits and
-  // Resend's attachment size limit — base64 inflates the original file size
-  // by roughly a third, so 6MB here still leaves headroom.
+  // Kept reasonable for a typical phone photo, well under Web3Forms' upload limit.
   const MAX_PHOTO_BYTES = 6 * 1024 * 1024;
 
   const photoInput = form.querySelector<HTMLInputElement>('[data-photo-input]');
@@ -509,57 +459,37 @@ const progressSteps = [
     setPhotoError(null);
 
     if (!file) {
-      answers.photoCount = 0;
-      answers.photo = undefined;
-      answers.photoName = undefined;
       if (photoLabel) photoLabel.textContent = 'Take or choose a photo';
       return;
     }
 
     if (file.size > MAX_PHOTO_BYTES) {
-      setPhotoError("That photo is a bit too large — try one under 6MB, or continue without it.");
+      setPhotoError('That photo is a bit too large. Try one under 6MB, or continue without it.');
       photoInput.value = '';
-      answers.photoCount = 0;
-      answers.photo = undefined;
-      answers.photoName = undefined;
       if (photoLabel) photoLabel.textContent = 'Take or choose a photo';
       return;
     }
 
-    const reader = new FileReader();
-    reader.onload = () => {
-      answers.photo = typeof reader.result === 'string' ? reader.result : undefined;
-      answers.photoName = file.name;
-      answers.photoCount = 1;
-      if (photoLabel) photoLabel.textContent = `${file.name} selected`;
-      trackEvent('photo_uploaded', { count: '1' });
-    };
-    reader.onerror = () => {
-      setPhotoError("Couldn't read that photo — try a different one, or continue without it.");
-      answers.photoCount = 0;
-      answers.photo = undefined;
-      answers.photoName = undefined;
-    };
-    reader.readAsDataURL(file);
+    if (photoLabel) photoLabel.textContent = `${file.name} selected`;
+    trackEvent('photo_uploaded', { count: '1' });
   });
 
-  // Pre-fill from query params (?need=repair&symptom=leak) — e.g. from the homepage Problem Selector
+  // Pre-fill from query params (?need=repair&symptom=leak), e.g. from the homepage Problem Selector
   const params = new URLSearchParams(window.location.search);
   const preNeed = params.get('need');
   const preSymptom = params.get('symptom');
   let startIndex = 0;
-  if (preNeed && contextByNeed[preNeed]) {
-    answers.need = preNeed;
+  if (preNeed) {
     const needBtn = form.querySelector<HTMLButtonElement>(`[data-options="need"] [data-value="${preNeed}"]`);
-    needBtn?.setAttribute('aria-pressed', 'true');
-    buildContextStep(preNeed);
-    if (preSymptom) {
-      window.setTimeout(() => {
-        const symptomBtn = contextOptions?.querySelector<HTMLButtonElement>(`[data-value="${preSymptom}"]`);
+    if (needBtn) {
+      answers.need = preNeed;
+      needBtn.setAttribute('aria-pressed', 'true');
+      if (preSymptom) {
+        const symptomBtn = form.querySelector<HTMLButtonElement>(`[data-options="context"] [data-value="${preSymptom}"]`);
         if (symptomBtn) selectSingle(symptomBtn, 'context');
-      }, 0);
+      }
+      startIndex = 2;
     }
-    startIndex = 2;
   }
 
   form.addEventListener('submit', async (e) => {
@@ -567,12 +497,11 @@ const progressSteps = [
     const data = new FormData(form);
     if (data.get('company_website')) return; // honeypot
 
-    answers.name = String(data.get('name') ?? '');
-    answers.phone = String(data.get('phone') ?? '');
-    answers.email = String(data.get('email') ?? '');
-    answers.address = String(data.get('address') ?? '');
+    const name = String(data.get('name') ?? '');
+    const phone = String(data.get('phone') ?? '');
+    const email = String(data.get('email') ?? '');
 
-    if (!answers.name || !answers.phone || !answers.email) {
+    if (!name || !phone || !email) {
       if (status) {
         status.textContent = 'Please fill in name, phone, and email.';
         status.dataset.state = 'error';
@@ -583,36 +512,31 @@ const progressSteps = [
     const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]');
     if (submitBtn) submitBtn.disabled = true;
     if (status) {
-      status.textContent = 'Sending…';
+      status.textContent = 'Sending...';
       status.dataset.state = 'pending';
     }
 
-    const result = await submitLead({
-      formName: 'roof_assessment',
-      zip: answers.zip,
-      need: answers.need,
-      symptoms: answers.context,
-      timeline: answers.timeline,
-      isInsuranceClaim: answers.insurance === 'yes',
-      name: answers.name,
-      phone: answers.phone,
-      email: answers.email,
-      address: answers.address,
-      preferredContact: answers.preferredContact,
-      photoCount: answers.photoCount,
-      photo: answers.photo,
-      photoName: answers.photoName,
-      path: window.location.pathname,
-      referrer: document.referrer,
-    });
+    // Fold the step-by-step answers into the payload sent to Web3Forms
+    // alongside the step-6 fields FormData already captured.
+    data.set('zip_code', answers.zip ?? '');
+    data.set('need', answers.need ?? '');
+    data.set('noticing', answers.context ?? '');
+    data.set('timeline', answers.timeline ?? '');
+    data.set('insurance_claim', answers.insurance ?? '');
+    data.set('preferred_contact', answers.preferredContact ?? '');
+
+    const result = await submitToWeb3Forms(data);
 
     if (result.ok) {
       trackEvent('quote_submitted', { need: answers.need ?? 'unknown', timeline: answers.timeline ?? 'unknown' });
-      showConfirm();
-    } else if (status) {
-      status.textContent = 'Something went wrong submitting this — please call us instead.';
-      status.dataset.state = 'error';
+      showOutcome('confirm');
+    } else {
+      if (status) {
+        status.textContent = '';
+        status.dataset.state = '';
+      }
       if (submitBtn) submitBtn.disabled = false;
+      showOutcome('error');
     }
   });
 

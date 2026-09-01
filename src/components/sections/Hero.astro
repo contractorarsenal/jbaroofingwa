@@ -2,7 +2,7 @@
 import { getGlobalSettings } from '@lib/content';
 import { getEntry } from 'astro:content';
 import Button from '@components/ui/Button.astro';
-import TrustBar from '@components/global/TrustBar.astro';
+import TrustFacts from '@components/ui/TrustFacts.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
 
 const settings = await getGlobalSettings();
@@ -18,22 +18,22 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
 <section class="hero" data-nav-theme="dark">
   <div class="container hero__inner">
     <div class="hero__content">
-      <p class="eyebrow eyebrow--inverse hero__anim hero__anim--1">Roofing &amp; Remodeling · Shoreline, WA</p>
+      <p class="eyebrow eyebrow--inverse hero__anim hero__anim--1">Roofing &amp; Remodeling &middot; Northwest Washington</p>
       <h1 class="h1 hero__headline hero__anim hero__anim--2">A Better Roof Starts With The <span class="accent-text">Right Roofer.</span></h1>
       <p class="hero__sub hero__anim hero__anim--3">
-        Roof replacement, repair, maintenance, and roof care for homeowners across
-        King, Snohomish, and Skagit counties.
+        Roof replacement, repairs, inspections, cleaning, and roof care for
+        homeowners across King, Snohomish, and Skagit Counties.
       </p>
       <div class="hero__actions hero__anim hero__anim--4">
         <Button href={settings.primaryCtaDestination} analyticsEvent="quote_started" analyticsLocation="hero_primary">
-          {settings.primaryCtaLabel}
+          Get a Free Estimate
         </Button>
         <Button href={`tel:${settings.primaryPhone}`} variant="outline" analyticsEvent="phone_click" analyticsLocation="hero_secondary">
           Call Now
         </Button>
       </div>
       <div class="hero__trust hero__anim hero__anim--5">
-        <TrustBar variant="dark" mode="hero" />
+        <TrustFacts tone="dark" />
       </div>
     </div>
 

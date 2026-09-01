@@ -11,16 +11,25 @@ const settings = await getGlobalSettings();
 
   <section class="section section--light container container--narrow legal-body">
     <p class="legal-body__notice">
-      <strong>[VERIFY WITH CLIENT / LEGAL COUNSEL]</strong> — this is a starter privacy policy
-      template. Have it reviewed by an attorney before relying on it, especially if you run ads,
-      use tracking pixels, or plan to store form submissions in a CRM.
+      <strong>[VERIFY WITH CLIENT / LEGAL COUNSEL]</strong>. This policy describes the systems this
+      site actually uses today. Have it reviewed by an attorney before relying on it, especially if
+      analytics, advertising, or a CRM integration are added later.
     </p>
 
     <h2 class="h4">Information We Collect</h2>
     <p>
       When you submit a form on this site (such as the Roof Assessment or Contact form), we
-      collect the information you provide — including your name, phone number, email address,
+      collect the information you provide, including your name, phone number, email address,
       property address, and any details or photos you choose to share about your roofing needs.
+    </p>
+
+    <h2 class="h4">How Form Submissions Are Processed</h2>
+    <p>
+      Forms on this site are submitted through Web3Forms, a third-party form delivery service,
+      which forwards your submission to JBA Roofing &amp; Remodeling by email. Web3Forms processes
+      the information only to deliver your submission and does not appear to us as a marketing or
+      analytics platform. See Web3Forms' own privacy policy for details on how they handle
+      submitted data.
     </p>
 
     <h2 class="h4">How We Use It</h2>
@@ -30,16 +39,23 @@ const settings = await getGlobalSettings();
       third parties.
     </p>
 
-    <h2 class="h4">Analytics</h2>
+    <h2 class="h4">Hosting</h2>
     <p>
-      This site may use analytics tools to understand how visitors use the site. See
-      CLIENT-CONTENT-NEEDED.md in the project repository for which analytics provider is
-      configured.
+      This site is hosted on Cloudflare Pages. Cloudflare may process standard technical
+      information (such as IP address and request data) as part of operating and securing the
+      site. See Cloudflare's own privacy policy for details.
+    </p>
+
+    <h2 class="h4">Cookies</h2>
+    <p>
+      This site does not currently use analytics or advertising cookies. A small amount of
+      information may be stored in your browser (for example, to remember that you've dismissed
+      the cookie notice) which is not shared with anyone. See our <a href="/cookie-policy/" class="link-underline">Cookie Policy</a> for details.
     </p>
 
     <h2 class="h4">Contact Us</h2>
     <p>
-      Questions about this policy can be sent to <a href={`mailto:${settings.email}`}>{settings.email}</a>.
+      Questions about this policy can be sent to <a href={`mailto:${settings.email}`}>Email Us</a>.
     </p>
   </section>
 </BaseLayout>

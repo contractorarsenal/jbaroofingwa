@@ -8,6 +8,7 @@ import Seo from '@components/seo/Seo.astro';
 import Header from '@components/global/Header.astro';
 import Footer from '@components/global/Footer.astro';
 import StickyMobileCTA from '@components/global/StickyMobileCTA.astro';
+import CookieNotice from '@components/global/CookieNotice.astro';
 import { getGlobalSettings } from '@lib/content';
 import { buildLocalBusinessSchema } from '@lib/schema';
 
@@ -46,6 +47,7 @@ const combinedJsonLd = [localBusinessSchema, ...(Array.isArray(jsonLd) ? jsonLd 
     </main>
     <Footer />
     {!hideStickyCta && <StickyMobileCTA />}
+    <CookieNotice />
 
     <script>
       import { bindAnalyticsClicks } from '@lib/analytics';

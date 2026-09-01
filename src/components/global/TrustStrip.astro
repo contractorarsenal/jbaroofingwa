@@ -1,34 +1,43 @@
 ---
-import { getGlobalSettings } from '@lib/content';
+import TrustFacts from '@components/ui/TrustFacts.astro';
 
-const settings = await getGlobalSettings();
-
-const items: string[] = [];
-if (settings.googleRating && settings.googleReviewCount) {
-  items.push(`★ ${settings.googleRating.toFixed(1)} Google Rating`);
-}
-if (settings.yearsExperience.verified && settings.yearsExperience.value) {
-  items.push(settings.yearsExperience.value);
-}
-if (settings.emergencyAvailability.verified && settings.emergencyAvailability.value) {
-  items.push(settings.emergencyAvailability.value);
-}
-items.push('Free Estimates');
-if (settings.financingVerified) {
-  items.push('Financing Available');
-}
-items.push(
-  [settings.primaryServiceArea, ...settings.secondaryServiceAreas]
-    .map((a) => a.replace(' County, WA', ''))
-    .join(' • ')
-);
+const paths = [
+  {
+    question: 'Need a New Roof?',
+    service: 'Roof Replacement',
+    cta: 'Get a Replacement Estimate',
+    href: '/assessment/?need=replacement',
+  },
+  {
+    question: 'Have a Leak or Roof Damage?',
+    service: 'Roof Repair',
+    cta: 'Get Roof Help',
+    href: '/assessment/?need=repair',
+  },
+  {
+    question: "Not Sure What You Need?",
+    service: 'Roof Assessment',
+    cta: 'Start Here',
+    href: '/assessment/',
+  },
+];
 ---
 
 <div class="trust-strip" data-nav-theme="light">
-  <div class="container trust-strip__inner" data-reveal-group>
-    {items.map((item) => (
-      <span class="trust-strip__item" data-reveal="up">{item}</span>
-    ))}
+  <div class="container">
+    <div class="trust-strip__facts" data-reveal="up">
+      <TrustFacts tone="light" />
+    </div>
+
+    <div class="trust-strip__paths" data-reveal-group>
+      {paths.map((path) => (
+        <a href={path.href} class="help-path" data-reveal="up" data-analytics-event="quote_started" data-analytics-location="homepage_help_path">
+          <span class="help-path__question">{path.question}</span>
+          <span class="help-path__service">{path.service}</span>
+          <span class="help-path__cta">{path.cta} <span class="hover-arrow" aria-hidden="true">→</span></span>
+        </a>
+      ))}
+    </div>
   </div>
 </div>
 
@@ -37,42 +46,63 @@ items.push(
     position: relative;
     z-index: 1;
     background: var(--color-bg);
-    padding-block: var(--space-3);
+    padding-block: var(--space-5);
     border-block: 1px solid var(--color-border);
-  }
-  .trust-strip__inner {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-2) var(--space-6);
   }
   @media (min-width: 900px) {
     .trust-strip { margin-top: -22px; }
   }
-  .trust-strip__item {
-    position: relative;
-    font-size: 0.8rem;
+
+  .trust-strip__facts {
+    display: flex;
+    justify-content: center;
+    padding-bottom: var(--space-5);
+    margin-bottom: var(--space-5);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .trust-strip__paths {
+    display: grid;
+    gap: var(--space-3);
+  }
+  .help-path {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    padding: var(--space-4) var(--space-5);
+    background: var(--color-white);
+    border: 1px solid var(--color-border);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    transition: border-color 220ms var(--ease-out), background-color 220ms var(--ease-out), transform 220ms var(--ease-out);
+  }
+  .help-path:hover {
+    border-left-color: var(--color-accent-light);
+    background: var(--color-off-white);
+    transform: translateY(-2px);
+  }
+  .help-path__question {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+  .help-path__service {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
     font-weight: 700;
-    letter-spacing: 0.02em;
+    text-transform: uppercase;
     color: var(--color-text);
-    padding-left: var(--space-4);
   }
-  .trust-strip__item::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 50%;
-    transform: translateY(-50%);
-    width: 6px;
-    height: 6px;
-    border-radius: 999px;
-    background: var(--color-accent);
+  .help-path__cta {
+    margin-top: 0.2em;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-accent-dark);
   }
-  .trust-strip__item:first-child { padding-left: 0; }
-  .trust-strip__item:first-child::before { display: none; }
 
   @media (min-width: 720px) {
-    .trust-strip__inner { justify-content: flex-start; }
+    .trust-strip__paths { grid-template-columns: repeat(3, 1fr); }
   }
 </style>

@@ -1,0 +1,61 @@
+---
+/**
+ * The single, shared "8+ Years / Free Estimates / Financing Available /
+ * 24-Hour Service" trust row, used everywhere this fact set appears so it
+ * never looks different from one section to the next.
+ */
+import { getGlobalSettings } from '@lib/content';
+
+interface Props {
+  tone?: 'dark' | 'light';
+}
+
+const { tone = 'dark' } = Astro.props;
+const settings = await getGlobalSettings();
+
+const facts: string[] = [];
+if (settings.yearsExperience.verified && settings.yearsExperience.value) facts.push(settings.yearsExperience.value);
+facts.push('Free Estimates');
+if (settings.financingVerified) facts.push('Financing Available');
+if (settings.emergencyAvailability.verified && settings.emergencyAvailability.value) facts.push(settings.emergencyAvailability.value);
+---
+
+<ul class:list={['trust-facts', tone === 'light' && 'trust-facts--light']}>
+  {facts.map((fact) => (
+    <li class="trust-facts__item">
+      <span class="trust-facts__check" aria-hidden="true">✓</span>{fact}
+    </li>
+  ))}
+</ul>
+
+<style>
+  .trust-facts {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-5);
+  }
+  .trust-facts__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    color: var(--color-text-inverse-muted);
+  }
+  .trust-facts__check { color: var(--color-accent); font-size: 0.75rem; }
+
+  .trust-facts--light .trust-facts__item { color: var(--color-text-muted); }
+
+  @media (max-width: 640px) {
+    .trust-facts {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-3);
+    }
+    .trust-facts__item { white-space: normal; }
+  }
+</style>

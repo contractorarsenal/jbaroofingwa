@@ -1,0 +1,69 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import { getGlobalSettings } from '@lib/content';
+
+const settings = await getGlobalSettings();
+---
+
+<BaseLayout title="Cookie Policy" description="Cookie policy for JBA Roofing & Remodeling.">
+  <PageHero eyebrow="Legal" title="Cookie Policy" />
+
+  <section class="section section--light container container--narrow legal-body">
+    <p class="legal-body__notice">
+      <strong>[VERIFY WITH CLIENT / LEGAL COUNSEL]</strong>. This page describes what this site
+      actually uses today. If analytics, advertising, or a CRM integration are added later, this
+      page should be updated to match.
+    </p>
+
+    <h2 class="h4">What This Site Uses</h2>
+    <p>
+      This site does not currently use analytics, advertising, or marketing cookies. It uses only
+      the technology needed to run the site and its forms:
+    </p>
+    <ul class="legal-body__list">
+      <li><strong>Hosting (Cloudflare Pages).</strong> Cloudflare, our hosting provider, may use essential technical cookies or similar identifiers to serve the site securely and reliably.</li>
+      <li><strong>Form submissions (Web3Forms).</strong> When you submit the Contact or Roof Assessment form, your submission is sent to Web3Forms, a third-party form delivery service, which forwards it to us by email. No cookie is set for browsing the site; this only happens when you submit a form.</li>
+      <li><strong>Cookie notice preference.</strong> If you dismiss the small cookie notice shown on this site, that choice is remembered in your browser's local storage so the notice doesn't reappear. This isn't shared with anyone.</li>
+    </ul>
+
+    <h2 class="h4">No Analytics or Advertising Cookies (Yet)</h2>
+    <p>
+      This site does not currently run Google Analytics, Meta Pixel, or similar tracking tools. If
+      that changes, this policy and the cookie notice will be updated to reflect it.
+    </p>
+
+    <h2 class="h4">Managing Cookies</h2>
+    <p>
+      Most browsers let you clear or block cookies and local storage in their settings. Doing so
+      may cause the cookie notice to reappear, but it will not affect your ability to browse the
+      site or submit a form.
+    </p>
+
+    <h2 class="h4">Contact Us</h2>
+    <p>
+      Questions about this policy can be sent to <a href={`mailto:${settings.email}`}>Email Us</a>.
+    </p>
+  </section>
+</BaseLayout>
+
+<style>
+  .legal-body { padding-block: var(--space-6); }
+  .legal-body h2 { margin-top: var(--space-6); margin-bottom: var(--space-2); }
+  .legal-body p { line-height: var(--leading-normal); margin-bottom: var(--space-3); }
+  .legal-body__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+    padding-left: var(--space-4);
+    list-style: disc;
+  }
+  .legal-body__list li { line-height: var(--leading-normal); }
+  .legal-body__notice {
+    padding: var(--space-4);
+    border: 1px dashed var(--color-border);
+    background: var(--color-bg-alt);
+    margin-bottom: var(--space-6);
+  }
+</style>
