@@ -20,7 +20,7 @@ const roofServices = [
 <header class="site-header" data-header>
   <div class="container site-header__inner">
     <a href="/" class="site-header__logo" aria-label={`${settings.businessName} home`}>
-      JBA <span class="accent-text">Roofing</span> &amp; Remodeling
+      <img src="/images/brand/jba-nav-logo.webp" alt="" width="240" height="240" />
     </a>
 
     <nav class="site-header__nav" aria-label="Primary">
@@ -117,7 +117,6 @@ const roofServices = [
     border-bottom-color: var(--color-border);
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
   }
-  .site-header[data-theme="light"] .site-header__logo,
   .site-header[data-theme="light"] .site-header__phone,
   .site-header[data-theme="light"] .site-header__mobile-call {
     color: var(--color-text);
@@ -140,15 +139,20 @@ const roofServices = [
     height: 70px;
   }
   .site-header__logo {
-    font-family: var(--font-display);
-    font-size: 1.35rem;
-    font-weight: 800;
-    letter-spacing: 0.005em;
-    text-transform: uppercase;
-    color: var(--color-text-inverse);
+    display: flex;
+    align-items: center;
     flex-shrink: 0;
-    white-space: nowrap;
-    transition: color 320ms var(--ease-out);
+    transition: opacity 200ms var(--ease-out);
+  }
+  .site-header__logo:hover { opacity: 0.9; }
+  .site-header__logo img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-height: 44px;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .site-header__logo { transition: none; }
   }
   .site-header__nav {
     display: none;
@@ -353,13 +357,8 @@ const roofServices = [
     .mobile-menu { display: none; }
   }
 
-  @media (max-width: 360px) {
-    .site-header__logo {
-      font-size: 1.05rem;
-      max-width: 170px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
+  @media (max-width: 1079px) {
+    .site-header__logo img { max-height: 36px; }
   }
 
   /* mobile menu content stagger — plays whenever the panel becomes visible,
