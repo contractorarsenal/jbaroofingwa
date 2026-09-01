@@ -1,9 +1,14 @@
 ---
 import { getGlobalSettings } from '@lib/content';
+import { getEntry } from 'astro:content';
 import Button from '@components/ui/Button.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
 
 const settings = await getGlobalSettings();
+// A crew/work-in-progress shot (not just a finished roof) makes this section
+// feel human rather than purely product-photography.
+const introProject = await getEntry('projects', 'project-03-water-damage-roof-repair');
+const introImage = introProject?.data.duringImages[2]; // crew removing damaged decking
 
 const proofPoints = [
   settings.yearsExperience.verified && settings.yearsExperience.value,
@@ -16,7 +21,14 @@ const proofPoints = [
 <section class="section section--white company-intro" data-nav-theme="light">
   <div class="container company-intro__layout">
     <div class="company-intro__art" data-reveal="image">
-      <MediaSlot tone="light" variant={2} label="JBA Roofing & Remodeling — crew and project photography pending" />
+      <MediaSlot
+        image={introImage}
+        alt="JBA crew removing damaged roof decking during repair"
+        tone="light"
+        variant={2}
+        label="JBA Roofing & Remodeling — crew and project photography pending"
+        sizes="(min-width: 900px) 50vw, 100vw"
+      />
     </div>
     <div>
       <p class="eyebrow" data-reveal="up">JBA Roofing &amp; Remodeling</p>

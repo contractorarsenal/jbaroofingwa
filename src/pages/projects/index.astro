@@ -2,39 +2,117 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
 import ProjectCard from '@components/projects/ProjectCard.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import { getPublishedProjects } from '@lib/content';
+import { getEntry } from 'astro:content';
 
 const projects = await getPublishedProjects();
+
+const heroProject = await getEntry('projects', 'project-02-metal-roof');
+const heroImage = heroProject?.data.afterImages[0];
+
+// Featured (large) + a 2-up row + the rest as a 3-up gallery — avoids a
+// uniform card wall while still surfacing every published project.
+const [featured, ...rest] = projects;
+const twoUp = rest.slice(0, 2);
+const gallery = rest.slice(2);
 ---
 
-<BaseLayout title="Our Work" description="Completed roof repair, maintenance, and replacement projects across King, Snohomish, and Skagit counties, WA.">
-  <PageHero eyebrow="Our Work" title="See the work before you approve it." />
+<BaseLayout title="Our Work" description="Explore roofing projects completed by JBA Roofing & Remodeling across King, Snohomish, and Skagit counties, WA.">
+  <PageHero
+    eyebrow="Our Work"
+    title="Real Roofs. Real Results."
+    description="Explore roofing projects completed by JBA Roofing & Remodeling."
+    image={heroImage}
+  />
 
-  <section class="section">
-    <div class="container">
-      {projects.length > 0 ? (
-        <div class="grid grid--3">
-          {projects.map((project) => <ProjectCard project={project} />)}
+  {featured && (
+    <section class="section section--charcoal">
+      <div class="container">
+        <a href={`/projects/${featured.id}/`} class="featured-project" data-reveal="up" data-analytics-event="project_opened" data-analytics-location="our_work_featured">
+          <div class="featured-project__media">
+            <MediaSlot image={featured.data.afterImages[0] ?? featured.data.droneImages[0]} alt={featured.data.projectName} tone="dark" variant={1} sizes="(min-width: 900px) 60vw, 100vw" />
+          </div>
+          <div class="featured-project__body">
+            {featured.data.service && <p class="eyebrow eyebrow--inverse">Featured Project</p>}
+            <h2 class="h2 featured-project__title">{featured.data.projectName}</h2>
+            <p class="text-muted featured-project__summary">{featured.data.projectSummary}</p>
+            <span class="featured-project__link">View Project <span class="hover-arrow" aria-hidden="true">→</span></span>
+          </div>
+        </a>
+      </div>
+    </section>
+  )}
+
+  {twoUp.length > 0 && (
+    <section class="section section--off-white">
+      <div class="container">
+        <div class="grid grid--2" data-reveal-group>
+          {twoUp.map((project) => <ProjectCard project={project} data-reveal="up" />)}
         </div>
-      ) : (
+      </div>
+    </section>
+  )}
+
+  {gallery.length > 0 && (
+    <section class="section section--charcoal">
+      <div class="container">
+        <p class="eyebrow eyebrow--center" data-reveal="up">More Completed Work</p>
+        <div class="grid grid--3 projects-gallery" data-reveal-group>
+          {gallery.map((project) => <ProjectCard project={project} data-reveal="up" />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {projects.length === 0 && (
+    <section class="section">
+      <div class="container">
         <div class="projects-empty">
           <p class="text-muted">
-            Our project gallery is being built out with real King County job photos.
+            Our project gallery is being built out with real job photos.
             In the meantime, <a href="/contact/" class="link-underline">reach out</a> and we're happy to share references directly.
           </p>
         </div>
-      )}
-    </div>
-  </section>
+      </div>
+    </section>
+  )}
 
   <FinalCTA />
 </BaseLayout>
 
 <style>
+  .featured-project {
+    display: grid;
+    gap: var(--space-6);
+    align-items: center;
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    background: var(--color-charcoal-raised);
+    transition: transform var(--duration-base) var(--ease-out), border-color var(--duration-base) var(--ease-out);
+  }
+  .featured-project:hover { transform: translateY(-2px); border-color: var(--color-accent); }
+  .featured-project__media { aspect-ratio: 16 / 10; }
+  .featured-project__media :global(img) { transition: transform 600ms var(--ease-out); }
+  .featured-project:hover .featured-project__media :global(img) { transform: scale(1.03); }
+  .featured-project__body { padding: var(--space-6); }
+  .featured-project__title { margin-top: var(--space-2); }
+  .featured-project__summary { margin-block: var(--space-3) var(--space-5); max-width: 50ch; }
+  .featured-project__link { font-weight: 700; color: var(--color-accent); }
+
+  .projects-gallery { margin-top: var(--space-7); }
   .projects-empty {
-    border: 1px dashed var(--color-border);
+    border: 1px dashed var(--color-border-dark);
     padding: var(--space-6);
     max-width: 60ch;
+  }
+
+  @media (min-width: 900px) {
+    .featured-project { grid-template-columns: 1.2fr 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .featured-project__media :global(img) { transition: none; }
   }
 </style>

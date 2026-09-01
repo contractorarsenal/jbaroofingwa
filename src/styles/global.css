@@ -187,6 +187,7 @@ p { text-wrap: pretty; }
   padding-block: var(--space-8);
   background: var(--color-bg-ink);
   color: var(--color-text-inverse);
+  scroll-margin-top: 96px;
 }
 
 .section--tight { padding-block: var(--space-7); }

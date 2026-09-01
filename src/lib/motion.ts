@@ -90,9 +90,59 @@ function initStickyCtaHeroWatch() {
   observer.observe(hero);
 }
 
+/**
+ * Very subtle photo parallax (max ~25px displacement) for at most a couple
+ * of hero-style images. A scroll listener only runs while at least one
+ * [data-parallax] element is actually on screen (toggled via
+ * IntersectionObserver), and rAF-throttles the work — no scroll-jacking,
+ * no permanent global listener. Fully inert under reduced motion.
+ */
+function initParallax() {
+  const els = document.querySelectorAll<HTMLElement>('[data-parallax]');
+  if (!els.length || !('IntersectionObserver' in window)) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const active = new Set<HTMLElement>();
+  let ticking = false;
+
+  const apply = () => {
+    ticking = false;
+    active.forEach((el) => {
+      const rect = el.parentElement?.getBoundingClientRect();
+      if (!rect) return;
+      const viewportMid = window.innerHeight / 2;
+      const elMid = rect.top + rect.height / 2;
+      const offset = Math.max(-25, Math.min(25, (viewportMid - elMid) * 0.06));
+      el.style.transform = `translateY(${offset.toFixed(1)}px)`;
+    });
+  };
+
+  const onScroll = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(apply);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) active.add(entry.target as HTMLElement);
+      else active.delete(entry.target as HTMLElement);
+    });
+    if (active.size > 0) {
+      window.addEventListener('scroll', onScroll, { passive: true });
+      apply();
+    } else {
+      window.removeEventListener('scroll', onScroll);
+    }
+  });
+
+  els.forEach((el) => observer.observe(el));
+}
+
 export function initMotion() {
   initScrollReveal();
   initNavTheme();
   initActiveNav();
   initStickyCtaHeroWatch();
+  initParallax();
 }

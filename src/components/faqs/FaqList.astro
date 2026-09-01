@@ -11,7 +11,7 @@ const { faqs, heading = 'Straight Answers About Your Roof' } = Astro.props;
 ---
 
 {faqs.length > 0 && (
-  <section class="section section--off-white faq-section" data-nav-theme="light">
+  <section id="faq" class="section section--off-white faq-section" data-nav-theme="light">
     <div class="container">
       <p class="eyebrow eyebrow--center" data-reveal="up">Homeowner Questions</p>
       <h2 class="h2 faq-section__heading" data-reveal="up">{heading}</h2>

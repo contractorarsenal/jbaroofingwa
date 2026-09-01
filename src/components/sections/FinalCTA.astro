@@ -1,5 +1,6 @@
 ---
 import { getGlobalSettings } from '@lib/content';
+import { getEntry } from 'astro:content';
 import Button from '@components/ui/Button.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
 
@@ -16,6 +17,9 @@ const {
   description = `Free estimates for homeowners across ${settings.primaryServiceArea.replace(', WA', '')}, ${settings.secondaryServiceAreas.map((a) => a.replace(', WA', '')).join(', and ')}.`,
 } = Astro.props;
 
+const ctaProject = await getEntry('projects', 'project-07-roof-installation');
+const bgImage = ctaProject?.data.afterImages[0];
+
 const footnote = [
   settings.emergencyAvailability.verified && settings.emergencyAvailability.value,
   settings.financingVerified && 'Financing Available',
@@ -26,7 +30,7 @@ const footnote = [
 
 <section class="section section--black section--flagship final-cta" data-nav-theme="dark">
   <div class="final-cta__bg" data-reveal="image" aria-hidden="true">
-    <MediaSlot tone="dark" variant={1} />
+    <MediaSlot image={bgImage} tone="dark" variant={1} sizes="100vw" />
   </div>
   <div class="container final-cta__inner" data-reveal-group>
     <span class="badge final-cta__eyebrow" data-reveal="up">{eyebrow}</span>
@@ -49,13 +53,12 @@ const footnote = [
   .final-cta__bg {
     position: absolute;
     inset: 0;
-    opacity: 0.35;
   }
   .final-cta__bg::after {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(180deg, rgba(8, 8, 8, 0.4) 0%, var(--color-black) 90%);
+    background: rgba(8, 8, 8, 0.76);
   }
   .final-cta__inner {
     position: relative;

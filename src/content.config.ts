@@ -187,7 +187,7 @@ const projects = defineCollection({
     published: z.boolean().default(false),
     featured: z.boolean().default(false),
 
-    city: z.string(),
+    city: z.string().optional(),
     neighborhood: z.string().optional(),
     zip: z.string().optional(),
 

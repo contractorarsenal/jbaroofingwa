@@ -10,6 +10,11 @@
  * the `data-placeholder-media` attribute and the accessible `label`, so a
  * screen reader still gets an honest description without the visual
  * looking incomplete. Swap real photography in by passing `image`.
+ *
+ * Real project photography (anything under /images/projects/.../*.jpg) was
+ * pre-optimized by scripts/optimize-project-images into matched -sm/large
+ * AVIF + WebP + JPEG siblings — when `image` matches that convention this
+ * renders a real <picture> with srcset/sizes instead of a single flat <img>.
  */
 interface Props {
   image?: string;
@@ -19,6 +24,9 @@ interface Props {
   class?: string;
   /** Which roofline motif variant to use for visual variety across sections on the same page. */
   variant?: 1 | 2 | 3;
+  loading?: 'lazy' | 'eager';
+  sizes?: string;
+  objectPosition?: string;
 }
 
 const {
@@ -28,12 +36,36 @@ const {
   tone = 'dark',
   class: className = '',
   variant = 1,
+  loading = 'lazy',
+  sizes = '(min-width: 900px) 50vw, 100vw',
+  objectPosition,
 } = Astro.props;
+
+const isOptimizedProjectPhoto = !!image && /^\/images\/projects\/.+\.jpg$/i.test(image);
+const base = isOptimizedProjectPhoto ? image!.slice(0, -4) : null;
+const imgStyle = objectPosition ? `object-position: ${objectPosition};` : undefined;
 ---
 
 {image ? (
   <div class:list={['media-slot', className]}>
-    <img src={image} alt={alt} loading="lazy" />
+    {isOptimizedProjectPhoto ? (
+      <picture>
+        <source type="image/avif" srcset={`${base}-sm.avif 800w, ${base}.avif 1600w`} sizes={sizes} />
+        <source type="image/webp" srcset={`${base}-sm.webp 800w, ${base}.webp 1600w`} sizes={sizes} />
+        <img
+          src={image}
+          srcset={`${base}-sm.jpg 800w, ${base}.jpg 1600w`}
+          sizes={sizes}
+          alt={alt}
+          loading={loading}
+          decoding={loading === 'eager' ? 'sync' : 'async'}
+          fetchpriority={loading === 'eager' ? 'high' : 'auto'}
+          style={imgStyle}
+        />
+      </picture>
+    ) : (
+      <img src={image} alt={alt} loading={loading} style={imgStyle} />
+    )}
   </div>
 ) : (
   <div
@@ -87,6 +119,11 @@ const {
     height: 100%;
     min-height: 200px;
     overflow: hidden;
+  }
+  .media-slot picture {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
   .media-slot img {
     width: 100%;

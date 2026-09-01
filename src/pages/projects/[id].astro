@@ -3,21 +3,23 @@ import { render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
 import BeforeAfterSlider from '@components/projects/BeforeAfterSlider.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
 import ReviewCard from '@components/reviews/ReviewCard.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import { getPublishedProjects } from '@lib/content';
 import { buildBreadcrumbSchema } from '@lib/schema';
+import { projectImageAlt } from '@lib/project-media';
 import { getEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   const projects = await getPublishedProjects();
-  return projects.map((project) => ({
+  return projects.map((project, i) => ({
     params: { id: project.id },
-    props: { project },
+    props: { project, next: projects[(i + 1) % projects.length] },
   }));
 }
 
-const { project } = Astro.props;
+const { project, next } = Astro.props;
 const { data } = project;
 const { Content } = await render(project);
 
@@ -33,7 +35,15 @@ const breadcrumbSchema = buildBreadcrumbSchema([
   { name: data.projectName, url: pageUrl },
 ]);
 
-const heroImage = data.afterImages[0] ?? data.droneImages[0];
+const heroImage = data.droneImages[0] ?? data.afterImages[0];
+
+// Everything else (not already used as the hero or in the before/after
+// pair) becomes the project gallery, in a sensible story order.
+const usedInHero = new Set([heroImage].filter(Boolean));
+const usedInBeforeAfter = new Set([data.beforeImages[0], data.afterImages[0]].filter(Boolean));
+const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.afterImages, ...data.droneImages].filter(
+  (src, i, arr) => src && !usedInHero.has(src) && !usedInBeforeAfter.has(src) && arr.indexOf(src) === i
+);
 ---
 
 <BaseLayout
@@ -44,7 +54,7 @@ const heroImage = data.afterImages[0] ?? data.droneImages[0];
   jsonLd={breadcrumbSchema}
 >
   <PageHero
-    eyebrow={`${data.city}${service ? ` · ${service.data.title}` : ''}`}
+    eyebrow={[data.city, service?.data.title].filter(Boolean).join(' · ') || 'Our Work'}
     title={data.projectName}
     description={data.projectSummary}
     image={heroImage}
@@ -52,38 +62,60 @@ const heroImage = data.afterImages[0] ?? data.droneImages[0];
 
   <section class="section container container--narrow project-detail">
     {data.customerProblem && (
-      <div class="project-detail__block">
+      <div class="project-detail__block" data-reveal="up">
         <h2 class="h4">The Problem</h2>
         <p class="text-muted">{data.customerProblem}</p>
       </div>
     )}
     {data.inspectionFindings && (
-      <div class="project-detail__block">
+      <div class="project-detail__block" data-reveal="up">
         <h2 class="h4">What We Found</h2>
         <p class="text-muted">{data.inspectionFindings}</p>
       </div>
     )}
     {data.solution && (
-      <div class="project-detail__block">
-        <h2 class="h4">The Solution</h2>
+      <div class="project-detail__block" data-reveal="up">
+        <h2 class="h4">The Work</h2>
         <p class="text-muted">{data.solution}</p>
       </div>
     )}
 
-    <div class="project-detail__meta">
-      {data.roofMaterial && <span class="badge">{data.roofMaterial}</span>}
-      {data.roofType && <span class="badge">{data.roofType}</span>}
-      {data.manufacturer && <span class="badge">{data.manufacturer}</span>}
-    </div>
+    {(data.roofMaterial || data.roofType || data.manufacturer) && (
+      <div class="project-detail__meta">
+        {data.roofMaterial && <span class="badge">{data.roofMaterial}</span>}
+        {data.roofType && <span class="badge">{data.roofType}</span>}
+        {data.manufacturer && <span class="badge">{data.manufacturer}</span>}
+      </div>
+    )}
 
     <Content />
   </section>
 
   {data.beforeImages[0] && data.afterImages[0] && (
     <section class="section section--alt">
-      <div class="container container--narrow">
+      <div class="container container--narrow" data-reveal="up">
         <p class="eyebrow">Before &amp; After</p>
-        <BeforeAfterSlider beforeImage={data.beforeImages[0]} afterImage={data.afterImages[0]} />
+        <BeforeAfterSlider
+          beforeImage={data.beforeImages[0]}
+          afterImage={data.afterImages[0]}
+          beforeAlt={projectImageAlt(data.beforeImages[0], 'Before')}
+          afterAlt={projectImageAlt(data.afterImages[0], 'After')}
+        />
+      </div>
+    </section>
+  )}
+
+  {galleryImages.length > 0 && (
+    <section class="section section--charcoal">
+      <div class="container">
+        <p class="eyebrow eyebrow--inverse">Project Gallery</p>
+        <div class="project-gallery" data-reveal-group>
+          {galleryImages.map((src) => (
+            <div class="project-gallery__item" data-reveal="up">
+              <MediaSlot image={src} alt={projectImageAlt(src, data.projectName)} tone="dark" sizes="(min-width: 900px) 30vw, 90vw" />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   )}
@@ -97,6 +129,17 @@ const heroImage = data.afterImages[0] ?? data.droneImages[0];
     </section>
   )}
 
+  {next && next.id !== project.id && (
+    <section class="section section--off-white project-next">
+      <div class="container">
+        <a href={`/projects/${next.id}/`} class="project-next__link" data-analytics-event="project_opened" data-analytics-location="project_detail_next">
+          <span class="eyebrow">Next Project</span>
+          <span class="h3 project-next__title">{next.data.projectName} <span class="hover-arrow" aria-hidden="true">→</span></span>
+        </a>
+      </div>
+    </section>
+  )}
+
   <FinalCTA
     heading={`Have a similar project in mind?`}
     description={`See what we'd find on your roof — starting with a free assessment.`}
@@ -106,4 +149,28 @@ const heroImage = data.afterImages[0] ?? data.droneImages[0];
 <style>
   .project-detail__block { margin-bottom: var(--space-5); }
   .project-detail__meta { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+
+  .project-gallery {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .project-gallery__item {
+    aspect-ratio: 4 / 3;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid var(--color-border-dark);
+  }
+  .project-gallery__item :global(img) { transition: transform 500ms var(--ease-out); }
+  .project-gallery__item:hover :global(img) { transform: scale(1.035); }
+
+  .project-next__link { display: flex; flex-direction: column; gap: var(--space-2); }
+  .project-next__title { display: inline-flex; align-items: center; gap: 0.4em; }
+
+  @media (min-width: 720px) {
+    .project-gallery { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .project-gallery__item :global(img) { transition: none; }
+  }
 </style>

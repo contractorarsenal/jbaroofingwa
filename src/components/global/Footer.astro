@@ -1,9 +1,16 @@
 ---
 import { getGlobalSettings, getPublishedLocations } from '@lib/content';
+import Button from '@components/ui/Button.astro';
 
 const settings = await getGlobalSettings();
 const locations = await getPublishedLocations();
 const year = new Date().getFullYear();
+
+// Cities render automatically once real city-tier Service Area entries are
+// published in the CMS — right now only the three counties are, so this
+// list is simply empty and the county band below carries the geography.
+const cities = locations.filter((l) => l.data.tier === 'city');
+const counties = locations.filter((l) => l.data.tier === 'county');
 
 const roofServices = [
   { slug: 'roof-replacement', label: 'Roof Replacement' },
@@ -12,26 +19,60 @@ const roofServices = [
   { slug: 'roof-repair', label: 'Roof Repair' },
   { slug: 'roof-rejuvenation', label: 'Roof Rejuvenation' },
 ];
+
+const moreServices = [
+  { slug: 'siding-installation', label: 'Siding Installation' },
+  { slug: 'siding-replacement', label: 'Siding Replacement' },
+];
+
+const quickLinks = [
+  { href: '/about/', label: 'About Us' },
+  { href: '/projects/', label: 'Our Work' },
+  { href: '/service-areas/', label: 'Service Areas' },
+  { href: '/contact/', label: 'Contact' },
+  { href: '/#financing', label: 'Financing' },
+  { href: '/#faq', label: 'FAQ' },
+];
+
+const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.instagram);
 ---
 
 <footer class="site-footer" data-nav-theme="dark">
-  <div class="container site-footer__grid" data-reveal="up">
+  <div class="container site-footer__top" data-reveal="up">
     <div class="site-footer__brand">
       <p class="site-footer__name">JBA <span class="accent-text">Roofing</span> &amp; Remodeling</p>
-      <p class="text-muted">{settings.footerDescription}</p>
+      <p class="text-muted site-footer__desc">{settings.footerDescription}</p>
       <a href={`tel:${settings.primaryPhone}`} class="site-footer__phone" data-analytics-event="phone_click" data-analytics-location="footer">
         {settings.primaryPhoneDisplay}
       </a>
-      <a href={`mailto:${settings.email}`} class="text-muted">{settings.email}</a>
-      {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
-        <p class="text-muted site-footer__address">
-          {settings.businessAddress.street}<br />
-          {settings.businessAddress.city}, {settings.businessAddress.state}
-        </p>
+      <div class="site-footer__cta">
+        <Button href={settings.primaryCtaDestination} variant="outline" analyticsEvent="quote_started" analyticsLocation="footer">
+          {settings.primaryCtaLabel} <span aria-hidden="true">→</span>
+        </Button>
+      </div>
+      {hasSocial && (
+        <div class="site-footer__social">
+          {settings.socialUrls.facebook && (
+            <a href={settings.socialUrls.facebook} aria-label="JBA Roofing & Remodeling on Facebook" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13.5 21v-8.1h2.7l.4-3.2h-3.1V7.7c0-.9.3-1.6 1.6-1.6h1.7V3.2C16.5 3.1 15.5 3 14.3 3c-2.5 0-4.2 1.5-4.2 4.3v2.4H7.4v3.2h2.7V21h3.4z"/></svg>
+            </a>
+          )}
+          {settings.socialUrls.instagram && (
+            <a href={settings.socialUrls.instagram} aria-label="JBA Roofing & Remodeling on Instagram" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg>
+            </a>
+          )}
+        </div>
       )}
-      {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && (
-        <p class="text-muted">{settings.emergencyAvailability.value}</p>
-      )}
+    </div>
+
+    <div class="site-footer__col">
+      <h3 class="site-footer__heading">Quick Links</h3>
+      <ul>
+        {quickLinks.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
     </div>
 
     <div class="site-footer__col">
@@ -44,36 +85,74 @@ const roofServices = [
     </div>
 
     <div class="site-footer__col">
-      <h3 class="site-footer__heading">Company</h3>
+      <h3 class="site-footer__heading">More Services</h3>
       <ul>
-        <li><a href="/about/">About Us</a></li>
-        <li><a href="/projects/">Our Work</a></li>
-        <li><a href="/service-areas/">Service Areas</a></li>
-        <li><a href="/contact/">Contact</a></li>
+        {moreServices.map((s) => (
+          <li><a href={`/services/${s.slug}/`}>{s.label}</a></li>
+        ))}
       </ul>
     </div>
 
     <div class="site-footer__col">
-      <h3 class="site-footer__heading">Service Areas</h3>
-      <ul>
-        {locations.map((l) => (
-          <li><a href={`/service-areas/${l.id}/`}>{l.data.cityName}</a></li>
-        ))}
+      <h3 class="site-footer__heading">Contact</h3>
+      <ul class="site-footer__contact-list">
+        <li><a href={`tel:${settings.primaryPhone}`} data-analytics-event="phone_click" data-analytics-location="footer_contact_col">{settings.primaryPhoneDisplay}</a></li>
+        <li><a href={`mailto:${settings.email}`}>{settings.email}</a></li>
+        {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
+          <li class="text-muted">
+            {settings.businessAddress.street}<br />
+            {settings.businessAddress.city}, {settings.businessAddress.state}
+          </li>
+        )}
+        {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && (
+          <li class="text-muted">{settings.emergencyAvailability.value}</li>
+        )}
       </ul>
     </div>
   </div>
 
+  <div class="site-footer__area-band">
+    <div class="container site-footer__area-inner">
+      <p class="eyebrow eyebrow--inverse eyebrow--center">Serving Northwest Washington</p>
+
+      <div class="site-footer__counties">
+        {counties.map((county) => (
+          <a href={`/service-areas/${county.id}/`} class="site-footer__county">
+            {county.data.cityName}
+          </a>
+        ))}
+      </div>
+
+      {cities.length > 0 && (
+        <div class="site-footer__cities">
+          {cities.map((city) => (
+            <a href={`/service-areas/${city.id}/`}>{city.data.cityName}</a>
+          ))}
+        </div>
+      )}
+
+      {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
+        <div class="site-footer__office">
+          <p class="site-footer__office-name">JBA Roofing &amp; Remodeling — Shoreline Office</p>
+          <p class="text-muted">
+            {settings.businessAddress.street}, {settings.businessAddress.city}, {settings.businessAddress.state}
+          </p>
+        </div>
+      )}
+    </div>
+  </div>
+
   <div class="container site-footer__legal">
-    <p class="text-muted">
-      &copy; {year} {settings.legalBusinessName}. All rights reserved.
+    <div class="site-footer__legal-links">
+      <a href="/privacy-policy/">Privacy Policy</a>
+      <a href="/terms-of-service/">Terms of Use</a>
+    </div>
+    <p class="text-muted site-footer__copyright">
+      &copy; {year} {settings.legalBusinessName}
       {settings.contractorLicense.verified && settings.contractorLicense.value && (
         <> · WA Contractor License #{settings.contractorLicense.value}</>
       )}
     </p>
-    <div class="site-footer__legal-links">
-      <a href="/privacy-policy/">Privacy</a>
-      <a href="/terms-of-service/">Terms</a>
-    </div>
   </div>
 </footer>
 
@@ -81,18 +160,19 @@ const roofServices = [
   .site-footer {
     background: var(--color-black);
     color: var(--color-text-inverse);
-    padding-block: var(--space-7) var(--space-5);
+    padding-top: var(--space-7);
   }
-  .site-footer__grid {
+  .site-footer__top {
     display: grid;
-    gap: var(--space-5);
+    gap: var(--space-6);
     grid-template-columns: 1fr;
+    padding-bottom: var(--space-7);
   }
   .site-footer__brand {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
-    max-width: 30ch;
+    max-width: 32ch;
   }
   .site-footer__name {
     font-family: var(--font-display);
@@ -100,12 +180,28 @@ const roofServices = [
     font-weight: 800;
     text-transform: uppercase;
   }
+  .site-footer__desc { margin-bottom: var(--space-1); }
   .site-footer__phone {
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 1.15rem;
+    font-family: var(--font-display);
     color: var(--color-accent);
   }
-  .site-footer__address { line-height: 1.5; }
+  .site-footer__cta { margin-top: var(--space-2); }
+  .site-footer__social { display: flex; gap: var(--space-3); margin-top: var(--space-3); }
+  .site-footer__social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--color-border-dark);
+    border-radius: var(--radius-sm);
+    color: var(--color-text-inverse-muted);
+    transition: color 200ms var(--ease-out), border-color 200ms var(--ease-out);
+  }
+  .site-footer__social a:hover { color: var(--color-accent); border-color: var(--color-accent); }
+
   .site-footer .text-muted { color: var(--color-text-inverse-muted); font-size: 0.85rem; }
   .site-footer__heading {
     font-family: var(--font-body);
@@ -116,23 +212,72 @@ const roofServices = [
     margin-bottom: var(--space-3);
     color: var(--color-accent);
   }
-  .site-footer__col ul { display: flex; flex-direction: column; gap: var(--space-2); }
-  .site-footer__col a { font-size: 0.85rem; color: var(--color-text-inverse-muted); }
+  .site-footer__col { min-width: 0; }
+  .site-footer__col ul, .site-footer__contact-list { display: flex; flex-direction: column; gap: var(--space-2); min-width: 0; }
+  .site-footer__col a { font-size: 0.85rem; color: var(--color-text-inverse-muted); transition: color 200ms var(--ease-out); overflow-wrap: break-word; }
   .site-footer__col a:hover { color: var(--color-text-inverse); }
+  .site-footer__contact-list a { font-size: 0.85rem; color: var(--color-text-inverse-muted); }
+  .site-footer__contact-list a:hover { color: var(--color-text-inverse); }
+  .site-footer__contact-list li.text-muted { line-height: 1.5; }
+
+  .site-footer__area-band {
+    border-top: 1px solid var(--color-border-dark);
+    border-bottom: 1px solid var(--color-border-dark);
+    padding-block: var(--space-6);
+  }
+  .site-footer__area-inner { text-align: center; }
+  .site-footer__counties {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3) var(--space-6);
+    margin-top: var(--space-4);
+  }
+  .site-footer__county {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    font-weight: 700;
+    text-transform: uppercase;
+    color: var(--color-text-inverse);
+    transition: color 200ms var(--ease-out);
+  }
+  .site-footer__county:hover { color: var(--color-accent); }
+  .site-footer__cities {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border-dark);
+  }
+  .site-footer__cities a { font-size: 0.85rem; color: var(--color-text-inverse-muted); }
+  .site-footer__cities a:hover { color: var(--color-text-inverse); }
+  .site-footer__office { margin-top: var(--space-5); }
+  .site-footer__office-name {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text-inverse-muted);
+    margin-bottom: var(--space-1);
+  }
 
   .site-footer__legal {
     display: flex;
-    flex-direction: column;
+    flex-direction: column-reverse;
     gap: var(--space-3);
-    margin-top: var(--space-6);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border-dark);
+    padding-block: var(--space-5);
     font-size: 0.75rem;
   }
   .site-footer__legal-links { display: flex; gap: var(--space-4); }
+  .site-footer__legal-links a { color: var(--color-text-inverse-muted); }
+  .site-footer__legal-links a:hover { color: var(--color-text-inverse); }
+  .site-footer__copyright { text-align: center; }
 
   @media (min-width: 720px) {
-    .site-footer__grid { grid-template-columns: 1.4fr 1fr 1fr 1fr; }
+    .site-footer__top { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; }
     .site-footer__legal { flex-direction: row; align-items: center; justify-content: space-between; }
+    .site-footer__copyright { text-align: right; }
   }
 </style>

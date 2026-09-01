@@ -1,0 +1,620 @@
+---
+/**
+ * The single, shared roof-assessment funnel — used on both /assessment/ and
+ * the Contact page's right panel. All submit/validation/photo-upload logic
+ * lives here once; hosting pages only supply their own surrounding chrome
+ * (heading, layout, background).
+ */
+import { getGlobalSettings } from '@lib/content';
+
+const settings = await getGlobalSettings();
+
+const progressSteps = [
+  'What Do You Need Help With?',
+  'What Are You Seeing?',
+  'Property Details',
+  'How Can We Reach You?',
+];
+---
+
+<div class="assessment-form">
+  <div class="assessment-form__progress" role="progressbar" aria-valuemin="1" aria-valuemax="4" aria-valuenow="1" data-progress>
+    {progressSteps.map((label, i) => (
+      <div class="progress-segment" data-segment={i}>
+        <span class="progress-segment__bar" data-segment-bar></span>
+        <span class="progress-segment__label">{String(i + 1).padStart(2, '0')}<span class="progress-segment__label-text"> — {label}</span></span>
+      </div>
+    ))}
+  </div>
+
+  <form id="assessment-form" novalidate>
+    <input type="text" name="company_website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    <!-- STEP 1: ZIP -->
+    <fieldset class="step" data-step="1">
+      <legend class="step__title">Where is the property?</legend>
+      <p class="text-muted step__sub">Just the ZIP code to start.</p>
+      <input type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" name="zip" class="step__zip-input" placeholder="98101" required />
+      <button type="button" class="btn btn--primary btn--block" data-next>Start</button>
+    </fieldset>
+
+    <!-- STEP 2: NEED -->
+    <fieldset class="step" data-step="2" hidden>
+      <legend class="step__title">What can we help you with?</legend>
+      <div class="step__options" data-options="need">
+        <button type="button" class="option-card" data-value="repair">Roof Repair / Leak</button>
+        <button type="button" class="option-card" data-value="replacement">Roof Replacement</button>
+        <button type="button" class="option-card" data-value="maintenance">Maintenance / Tune-Up</button>
+        <button type="button" class="option-card" data-value="cleaning">Cleaning / Moss Removal</button>
+        <button type="button" class="option-card" data-value="inspection">Inspection Only</button>
+        <button type="button" class="option-card" data-value="unsure">Not Sure</button>
+      </div>
+      <button type="button" class="btn btn--outline" data-back>Back</button>
+    </fieldset>
+
+    <!-- STEP 3: CONTEXT (dynamic per need) -->
+    <fieldset class="step" data-step="3" hidden>
+      <legend class="step__title" data-context-title>What are you seeing?</legend>
+      <div class="step__options" data-options="context"></div>
+      <button type="button" class="btn btn--outline" data-back>Back</button>
+    </fieldset>
+
+    <!-- STEP 4: TIMELINE + INSURANCE -->
+    <fieldset class="step" data-step="4" hidden>
+      <legend class="step__title">How soon do you need help?</legend>
+      <div class="step__options" data-options="timeline">
+        <button type="button" class="option-card option-card--urgent" data-value="emergency">Emergency — today</button>
+        <button type="button" class="option-card" data-value="asap">As soon as possible</button>
+        <button type="button" class="option-card" data-value="1-4-weeks">Within 1–4 weeks</button>
+        <button type="button" class="option-card" data-value="planning">Just planning ahead</button>
+      </div>
+
+      <p class="step__sub-question">Is this related to an insurance claim?</p>
+      <div class="step__options step__options--inline" data-options="insurance">
+        <button type="button" class="option-card option-card--compact" data-value="yes">Yes</button>
+        <button type="button" class="option-card option-card--compact" data-value="no">No</button>
+      </div>
+      <div class="step__actions">
+        <button type="button" class="btn btn--outline" data-back>Back</button>
+        <button type="button" class="btn btn--primary" data-next>Continue</button>
+      </div>
+    </fieldset>
+
+    <!-- STEP 5: PHOTO UPLOAD (optional) -->
+    <fieldset class="step" data-step="5" hidden>
+      <legend class="step__title">Add a photo? <span class="text-muted">(optional)</span></legend>
+      <p class="text-muted step__sub">A photo of the problem area helps us prepare before we call.</p>
+      <label class="photo-upload">
+        <input type="file" name="photo" accept="image/*" capture="environment" data-photo-input />
+        <span data-photo-label>Take or choose a photo</span>
+      </label>
+      <p class="photo-upload__error" data-photo-error role="alert" hidden></p>
+      <div class="step__actions">
+        <button type="button" class="btn btn--outline" data-back>Back</button>
+        <button type="button" class="btn btn--primary" data-next>Continue</button>
+      </div>
+    </fieldset>
+
+    <!-- STEP 6: CONTACT INFO -->
+    <fieldset class="step" data-step="6" hidden>
+      <legend class="step__title">Where should we send your assessment?</legend>
+      <div class="form-field">
+        <label for="af-name">Name</label>
+        <input id="af-name" type="text" name="name" autocomplete="name" required />
+      </div>
+      <div class="form-field">
+        <label for="af-phone">Phone</label>
+        <input id="af-phone" type="tel" name="phone" autocomplete="tel" required />
+      </div>
+      <div class="form-field">
+        <label for="af-email">Email</label>
+        <input id="af-email" type="email" name="email" autocomplete="email" required />
+      </div>
+      <div class="form-field">
+        <label for="af-address">Street Address</label>
+        <input id="af-address" type="text" name="address" autocomplete="street-address" />
+      </div>
+      <div class="form-field">
+        <span>Preferred contact method</span>
+        <div class="step__options step__options--inline">
+          <button type="button" class="option-card option-card--compact" data-value="phone" data-options="preferredContact">Call</button>
+          <button type="button" class="option-card option-card--compact" data-value="text" data-options="preferredContact">Text</button>
+          <button type="button" class="option-card option-card--compact" data-value="email" data-options="preferredContact">Email</button>
+        </div>
+      </div>
+      <button type="submit" class="btn btn--primary btn--block" data-submit>Get My Assessment</button>
+      <button type="button" class="btn btn--outline" data-back>Back</button>
+      <p class="assessment-form__status" data-form-status role="status" aria-live="polite"></p>
+    </fieldset>
+
+    <!-- CONFIRMATION -->
+    <div class="step step--confirm" data-step="confirm" hidden>
+      <svg class="step--confirm__icon" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="2"/>
+        <path d="M12 20.5l5.2 5.2L28.5 14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h2 class="h3">Request Received</h2>
+      <p class="text-muted">
+        Thanks — JBA Roofing &amp; Remodeling has received your request. We'll use the
+        contact information you provided to follow up. If it's urgent, feel free to
+        call <a href={`tel:${settings.primaryPhone}`} class="link-underline">{settings.primaryPhoneDisplay}</a> directly.
+      </p>
+    </div>
+  </form>
+</div>
+
+<style>
+  .assessment-form__progress {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+  }
+  .progress-segment { display: flex; flex-direction: column; gap: var(--space-2); }
+  .progress-segment__bar {
+    display: block;
+    height: 4px;
+    border-radius: 2px;
+    background: var(--color-border-dark, var(--color-border));
+    overflow: hidden;
+    position: relative;
+  }
+  .progress-segment__bar::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--color-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 320ms var(--ease-out);
+  }
+  .progress-segment.is-complete .progress-segment__bar::after { transform: scaleX(1); }
+  .progress-segment__label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    transition: color 320ms var(--ease-out);
+  }
+  .progress-segment.is-complete .progress-segment__label { color: var(--color-accent); }
+  .progress-segment__label-text { display: none; }
+  @media (min-width: 640px) {
+    .progress-segment__label-text { display: inline; }
+  }
+
+  .step__title {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: var(--space-2);
+  }
+  .step__sub { margin-bottom: var(--space-5); color: var(--color-text-muted); }
+  .step__sub-question { font-weight: 700; margin-top: var(--space-6); margin-bottom: var(--space-3); }
+  .step__zip-input {
+    display: block;
+    width: 100%;
+    font-size: var(--step-3);
+    font-family: var(--font-display);
+    font-weight: 700;
+    padding: var(--space-3) var(--space-4);
+    border: 1.5px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-5);
+    background: var(--color-white);
+    color: var(--color-text);
+  }
+  .step__zip-input:focus { border-color: var(--color-accent); }
+
+  .step__options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+  .step__options--inline { grid-template-columns: repeat(3, 1fr); max-width: 420px; }
+
+  .option-card {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: var(--space-4);
+    min-height: 64px;
+    border: 1.5px solid var(--color-border);
+    background: var(--color-white);
+    color: var(--color-text);
+    font-weight: 600;
+    border-radius: var(--radius-sm);
+    transition: border-color var(--duration-fast) var(--ease-out), background-color var(--duration-fast) var(--ease-out),
+                transform 160ms var(--ease-out);
+  }
+  .option-card--compact { min-height: 48px; padding: var(--space-2); }
+  .option-card:hover { border-color: var(--color-accent); }
+  .option-card[aria-pressed="true"] {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    color: var(--color-black);
+    transform: scale(1.02);
+  }
+  .option-card--urgent[aria-pressed="true"] { background: var(--color-urgent); border-color: var(--color-urgent); color: var(--color-white); }
+
+  .form-field { display: flex; flex-direction: column; gap: var(--space-1); font-weight: 600; font-size: var(--step--1); margin-bottom: var(--space-4); }
+  .form-field input {
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--step-0);
+    font-weight: 400;
+    background: var(--color-white);
+    color: var(--color-text);
+  }
+  .form-field input:focus { border-color: var(--color-accent); }
+
+  .photo-upload {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    border: 1.5px dashed var(--color-border);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-5);
+    font-weight: 600;
+    color: var(--color-text-muted);
+    cursor: pointer;
+  }
+  .photo-upload input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .photo-upload:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .photo-upload__error {
+    color: var(--color-urgent);
+    font-size: var(--step--1);
+    font-weight: 600;
+    margin-top: calc(var(--space-3) * -1);
+    margin-bottom: var(--space-5);
+  }
+
+  .step__actions { display: flex; gap: var(--space-3); }
+  .step__actions .btn { flex: 1; }
+
+  [data-back] { margin-top: var(--space-3); }
+  .assessment-form__status { margin-top: var(--space-3); font-weight: 600; font-size: var(--step--1); min-height: 1.2em; }
+  .assessment-form__status[data-state="error"] { color: var(--color-urgent); }
+  .assessment-form__status[data-state="pending"] { color: var(--color-text-muted); }
+
+  .step--confirm { text-align: center; padding-block: var(--space-6); }
+  .step--confirm__icon { color: var(--color-accent); margin-bottom: var(--space-4); }
+
+  /* step transition — plays whenever a step goes from hidden to visible */
+  @keyframes stepRise {
+    from { opacity: 0; transform: translateY(14px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .step:not([hidden]) { animation: stepRise 380ms var(--ease-out) both; }
+
+  [data-submit]:disabled { opacity: 0.65; cursor: wait; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .step:not([hidden]) { animation: none; }
+    .option-card[aria-pressed="true"] { transform: none; }
+    .progress-segment__bar::after { transition: none; }
+  }
+</style>
+
+<script>
+  import { submitLead } from '@lib/leads';
+  import { trackEvent } from '@lib/analytics';
+
+  type Answers = {
+    zip?: string;
+    need?: string;
+    context?: string[];
+    timeline?: string;
+    insurance?: string;
+    preferredContact?: string;
+    name?: string;
+    phone?: string;
+    email?: string;
+    address?: string;
+    photoCount?: number;
+    photo?: string;
+    photoName?: string;
+  };
+
+  const form = document.getElementById('assessment-form') as HTMLFormElement;
+  const steps = Array.from(form.querySelectorAll<HTMLElement>('[data-step]'));
+  const progressWrap = document.querySelector<HTMLElement>('[data-progress]');
+  const segments = Array.from(document.querySelectorAll<HTMLElement>('.progress-segment'));
+  const status = document.querySelector<HTMLElement>('[data-form-status]');
+  const contextTitle = document.querySelector<HTMLElement>('[data-context-title]');
+  const contextOptions = document.querySelector<HTMLElement>('[data-options="context"]');
+
+  const answers: Answers = { context: [] };
+  let currentIndex = 0; // index into steps[] (excludes confirm)
+
+  // Maps the 6 functional fieldsets onto the 4 visual progress segments.
+  const STEP_TO_SEGMENT = [0, 0, 1, 2, 2, 3];
+
+  const contextByNeed: Record<string, { title: string; options: { value: string; label: string }[] }> = {
+    repair: {
+      title: 'What are you seeing?',
+      options: [
+        { value: 'leak', label: 'Active Leak' },
+        { value: 'missing-shingles', label: 'Missing Shingles' },
+        { value: 'storm-damage', label: 'Storm / Wind Damage' },
+        { value: 'flashing', label: 'Flashing Issue' },
+        { value: 'water-stain', label: 'Ceiling Water Stain' },
+        { value: 'unsure', label: 'Not Sure' },
+      ],
+    },
+    replacement: {
+      title: "What's driving the replacement?",
+      options: [
+        { value: 'age', label: 'Roof is aging out' },
+        { value: 'repeated-repairs', label: 'Repeated repairs' },
+        { value: 'storm-damage', label: 'Storm damage' },
+        { value: 'selling-buying', label: 'Selling / buying home' },
+        { value: 'cosmetic', label: 'Want a different look' },
+        { value: 'unsure', label: 'Not sure yet' },
+      ],
+    },
+    maintenance: {
+      title: "What's the main concern?",
+      options: [
+        { value: 'moss', label: 'Moss growth' },
+        { value: 'gutters', label: 'Clogged gutters' },
+        { value: 'age', label: 'Older roof, never serviced' },
+        { value: 'routine', label: 'Just routine care' },
+      ],
+    },
+    cleaning: {
+      title: 'What needs cleaning?',
+      options: [
+        { value: 'moss', label: 'Moss on roof' },
+        { value: 'algae', label: 'Algae streaking' },
+        { value: 'gutters', label: 'Gutters only' },
+        { value: 'both', label: 'Roof + gutters' },
+      ],
+    },
+    inspection: {
+      title: 'What prompted the inspection?',
+      options: [
+        { value: 'buying-home', label: 'Buying a home' },
+        { value: 'routine', label: 'Just haven’t checked in a while' },
+        { value: 'concern', label: 'Noticed something specific' },
+      ],
+    },
+    unsure: {
+      title: 'Any details help — pick what’s closest.',
+      options: [
+        { value: 'visible-damage', label: 'Something looks off' },
+        { value: 'aging-roof', label: 'Roof is getting older' },
+        { value: 'just-curious', label: 'Just curious about condition' },
+      ],
+    },
+  };
+
+  function buildContextStep(need: string) {
+    const config = contextByNeed[need] ?? contextByNeed.unsure;
+    if (contextTitle) contextTitle.textContent = config.title;
+    if (contextOptions) {
+      contextOptions.innerHTML = '';
+      config.options.forEach((opt) => {
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'option-card';
+        btn.dataset.value = opt.value;
+        btn.setAttribute('aria-pressed', 'false');
+        btn.textContent = opt.label;
+        btn.addEventListener('click', () => selectSingle(btn, 'context', true));
+        contextOptions.appendChild(btn);
+      });
+    }
+  }
+
+  function updateProgress() {
+    const activeSegment = STEP_TO_SEGMENT[currentIndex] ?? 0;
+    segments.forEach((seg, i) => seg.classList.toggle('is-complete', i <= activeSegment));
+    progressWrap?.setAttribute('aria-valuenow', String(activeSegment + 1));
+  }
+
+  function showStep(index: number, { scroll = true, track = true } = {}) {
+    steps.forEach((step, i) => {
+      step.hidden = i !== index;
+    });
+    currentIndex = index;
+    updateProgress();
+    if (track) trackEvent('quote_step_completed', { step: String(index + 1) });
+    if (scroll) steps[index]?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function showConfirm() {
+    steps.forEach((step) => (step.hidden = true));
+    const confirm = form.querySelector<HTMLElement>('[data-step="confirm"]');
+    if (confirm) {
+      confirm.hidden = false;
+      confirm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    segments.forEach((seg) => seg.classList.add('is-complete'));
+  }
+
+  function selectSingle(button: HTMLButtonElement, key: keyof Answers, autoAdvance = false) {
+    const group = button.closest('[data-options]');
+    group?.querySelectorAll('.option-card').forEach((el) => el.setAttribute('aria-pressed', 'false'));
+    button.setAttribute('aria-pressed', 'true');
+    (answers as Record<string, unknown>)[key] = button.dataset.value;
+
+    if (autoAdvance) {
+      window.setTimeout(() => goNext(), 200);
+    }
+  }
+
+  function goNext() {
+    if (currentIndex === 0) {
+      const zipInput = form.querySelector<HTMLInputElement>('input[name="zip"]');
+      if (!zipInput?.reportValidity()) return;
+      answers.zip = zipInput.value;
+    }
+    if (currentIndex === 1) {
+      if (!answers.need) return;
+      buildContextStep(answers.need);
+    }
+    if (currentIndex === 3) {
+      if (!answers.timeline || !answers.insurance) return;
+    }
+    if (currentIndex < steps.length - 1) showStep(currentIndex + 1);
+  }
+
+  function goBack() {
+    if (currentIndex > 0) showStep(currentIndex - 1);
+  }
+
+  // Wire up option-card click handlers for static groups
+  form.querySelectorAll<HTMLElement>('[data-options]').forEach((group) => {
+    const key = group.dataset.options as keyof Answers | undefined;
+    if (!key || key === 'context') return; // context is built dynamically
+    group.querySelectorAll<HTMLButtonElement>('.option-card').forEach((btn) => {
+      btn.setAttribute('aria-pressed', 'false');
+      const autoAdvance = key === 'need';
+      btn.addEventListener('click', () => selectSingle(btn, key, autoAdvance));
+    });
+  });
+
+  // preferredContact buttons live inside step 6 and use data-options on the button itself
+  form.querySelectorAll<HTMLButtonElement>('[data-options="preferredContact"]').forEach((btn) => {
+    btn.addEventListener('click', () => selectSingle(btn, 'preferredContact'));
+  });
+
+  form.querySelectorAll<HTMLButtonElement>('[data-next]').forEach((btn) => btn.addEventListener('click', goNext));
+  form.querySelectorAll<HTMLButtonElement>('[data-back]').forEach((btn) => btn.addEventListener('click', goBack));
+
+  // Kept well under Cloudflare Pages Functions' request body limits and
+  // Resend's attachment size limit — base64 inflates the original file size
+  // by roughly a third, so 6MB here still leaves headroom.
+  const MAX_PHOTO_BYTES = 6 * 1024 * 1024;
+
+  const photoInput = form.querySelector<HTMLInputElement>('[data-photo-input]');
+  const photoLabel = form.querySelector<HTMLElement>('[data-photo-label]');
+  const photoError = form.querySelector<HTMLElement>('[data-photo-error]');
+
+  function setPhotoError(message: string | null) {
+    if (!photoError) return;
+    photoError.textContent = message ?? '';
+    photoError.hidden = !message;
+  }
+
+  photoInput?.addEventListener('change', () => {
+    const file = photoInput.files?.[0];
+    setPhotoError(null);
+
+    if (!file) {
+      answers.photoCount = 0;
+      answers.photo = undefined;
+      answers.photoName = undefined;
+      if (photoLabel) photoLabel.textContent = 'Take or choose a photo';
+      return;
+    }
+
+    if (file.size > MAX_PHOTO_BYTES) {
+      setPhotoError("That photo is a bit too large — try one under 6MB, or continue without it.");
+      photoInput.value = '';
+      answers.photoCount = 0;
+      answers.photo = undefined;
+      answers.photoName = undefined;
+      if (photoLabel) photoLabel.textContent = 'Take or choose a photo';
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      answers.photo = typeof reader.result === 'string' ? reader.result : undefined;
+      answers.photoName = file.name;
+      answers.photoCount = 1;
+      if (photoLabel) photoLabel.textContent = `${file.name} selected`;
+      trackEvent('photo_uploaded', { count: '1' });
+    };
+    reader.onerror = () => {
+      setPhotoError("Couldn't read that photo — try a different one, or continue without it.");
+      answers.photoCount = 0;
+      answers.photo = undefined;
+      answers.photoName = undefined;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  // Pre-fill from query params (?need=repair&symptom=leak) — e.g. from the homepage Problem Selector
+  const params = new URLSearchParams(window.location.search);
+  const preNeed = params.get('need');
+  const preSymptom = params.get('symptom');
+  let startIndex = 0;
+  if (preNeed && contextByNeed[preNeed]) {
+    answers.need = preNeed;
+    const needBtn = form.querySelector<HTMLButtonElement>(`[data-options="need"] [data-value="${preNeed}"]`);
+    needBtn?.setAttribute('aria-pressed', 'true');
+    buildContextStep(preNeed);
+    if (preSymptom) {
+      window.setTimeout(() => {
+        const symptomBtn = contextOptions?.querySelector<HTMLButtonElement>(`[data-value="${preSymptom}"]`);
+        if (symptomBtn) selectSingle(symptomBtn, 'context');
+      }, 0);
+    }
+    startIndex = 2;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    if (data.get('company_website')) return; // honeypot
+
+    answers.name = String(data.get('name') ?? '');
+    answers.phone = String(data.get('phone') ?? '');
+    answers.email = String(data.get('email') ?? '');
+    answers.address = String(data.get('address') ?? '');
+
+    if (!answers.name || !answers.phone || !answers.email) {
+      if (status) {
+        status.textContent = 'Please fill in name, phone, and email.';
+        status.dataset.state = 'error';
+      }
+      return;
+    }
+
+    const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]');
+    if (submitBtn) submitBtn.disabled = true;
+    if (status) {
+      status.textContent = 'Sending…';
+      status.dataset.state = 'pending';
+    }
+
+    const result = await submitLead({
+      formName: 'roof_assessment',
+      zip: answers.zip,
+      need: answers.need,
+      symptoms: answers.context,
+      timeline: answers.timeline,
+      isInsuranceClaim: answers.insurance === 'yes',
+      name: answers.name,
+      phone: answers.phone,
+      email: answers.email,
+      address: answers.address,
+      preferredContact: answers.preferredContact,
+      photoCount: answers.photoCount,
+      photo: answers.photo,
+      photoName: answers.photoName,
+      path: window.location.pathname,
+      referrer: document.referrer,
+    });
+
+    if (result.ok) {
+      trackEvent('quote_submitted', { need: answers.need ?? 'unknown', timeline: answers.timeline ?? 'unknown' });
+      showConfirm();
+    } else if (status) {
+      status.textContent = 'Something went wrong submitting this — please call us instead.';
+      status.dataset.state = 'error';
+      if (submitBtn) submitBtn.disabled = false;
+    }
+  });
+
+  showStep(startIndex, { scroll: false, track: false });
+</script>

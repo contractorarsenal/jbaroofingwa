@@ -1,138 +1,195 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import PageHero from '@components/sections/PageHero.astro';
-import Button from '@components/ui/Button.astro';
+import AssessmentForm from '@components/forms/AssessmentForm.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
 import { getGlobalSettings } from '@lib/content';
+import { getEntry } from 'astro:content';
 
 const settings = await getGlobalSettings();
+
+const proofPoints = [
+  settings.yearsExperience.verified && settings.yearsExperience.value,
+  'Free Estimates',
+  settings.financingVerified && 'Financing Available',
+].filter(Boolean) as string[];
+
+const contactProject = await getEntry('projects', 'project-01-shingle-roof-replacement');
+const contactImage = contactProject?.data.afterImages[0];
 ---
 
 <BaseLayout title="Contact" description={`Contact ${settings.businessName} — call, email, or start a free roof assessment.`}>
-  <PageHero eyebrow="Contact" title="Talk to us, or start your assessment now." />
+  <section class="section contact-page">
+    <div class="container contact-page__layout" data-reveal-group>
+      <div class="contact-page__left" data-reveal="up">
+        <p class="eyebrow eyebrow--inverse">Contact JBA</p>
+        <h1 class="h1 contact-page__heading">Let's Talk About <span class="accent-text">Your Roof.</span></h1>
 
-  <section class="section section--light contact-section">
-    <div class="container contact-grid">
-      <div class="contact-info">
-        <h2 class="h3">Fastest way to reach us</h2>
-        <a href={`tel:${settings.primaryPhone}`} class="contact-info__phone" data-analytics-event="phone_click" data-analytics-location="contact_page">
-          {settings.primaryPhoneDisplay}
-        </a>
-        <a href={`mailto:${settings.email}`} class="contact-info__email">{settings.email}</a>
-
-        <div class="contact-info__cta">
-          <Button href="/assessment/" analyticsEvent="quote_started" analyticsLocation="contact_page">
-            Start a Free Roof Assessment
-          </Button>
-        </div>
-
-        {settings.businessHours.length > 0 && (
-          <div class="contact-info__hours">
-            <h3 class="h4">Hours</h3>
-            <ul>
-              {settings.businessHours.map((h) => (
-                <li><span>{h.days}</span><span>{h.hours}</span></li>
-              ))}
-            </ul>
+        <dl class="contact-page__details">
+          <div>
+            <dt>Phone</dt>
+            <dd><a href={`tel:${settings.primaryPhone}`} data-analytics-event="phone_click" data-analytics-location="contact_page">{settings.primaryPhoneDisplay}</a></dd>
           </div>
+          <div>
+            <dt>Email</dt>
+            <dd><a href={`mailto:${settings.email}`}>{settings.email}</a></dd>
+          </div>
+          {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
+            <div>
+              <dt>Address</dt>
+              <dd>{settings.businessAddress.street}<br />{settings.businessAddress.city}, {settings.businessAddress.state}</dd>
+            </div>
+          )}
+          <div>
+            <dt>Service Areas</dt>
+            <dd>
+              {settings.primaryServiceArea}<br />
+              {settings.secondaryServiceAreas.join(', ')}
+            </dd>
+          </div>
+          {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && (
+            <div>
+              <dt>Hours</dt>
+              <dd>{settings.emergencyAvailability.value}</dd>
+            </div>
+          )}
+        </dl>
+
+        {proofPoints.length > 0 && (
+          <ul class="contact-page__proof">
+            {proofPoints.map((point) => <li>{point}</li>)}
+          </ul>
         )}
 
-        <p class="text-muted contact-info__area">Serving {settings.primaryServiceArea}, {settings.secondaryServiceAreas.join(' and ')}.</p>
+        <div class="contact-page__image" data-reveal="image">
+          <MediaSlot image={contactImage} alt="Completed shingle roof viewed from the front of the house" tone="dark" variant={1} sizes="(min-width: 900px) 44vw, 100vw" />
+        </div>
       </div>
 
-      <div class="contact-form-wrap">
-        <h2 class="h3">Have a general question?</h2>
-        <p class="text-muted">For anything that isn't an active repair, feel free to send us a message directly.</p>
-        <form id="contact-form" class="contact-form">
-          <input type="text" name="company_website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+      <div class="contact-page__right" data-reveal="up">
+        <p class="eyebrow">Free Estimate</p>
+        <h2 class="h2 contact-page__form-heading">Get A <span class="accent-text">Free Estimate</span></h2>
+        <p class="text-muted contact-page__form-sub">
+          Tell us what's happening with your roof and we'll help you figure out the next step.
+        </p>
 
-          <label class="form-field">
-            <span>Name</span>
-            <input type="text" name="name" required autocomplete="name" />
-          </label>
-          <label class="form-field">
-            <span>Email</span>
-            <input type="email" name="email" required autocomplete="email" />
-          </label>
-          <label class="form-field">
-            <span>Phone (optional)</span>
-            <input type="tel" name="phone" autocomplete="tel" />
-          </label>
-          <label class="form-field">
-            <span>Message</span>
-            <textarea name="notes" rows="4" required></textarea>
-          </label>
+        <AssessmentForm />
 
-          <Button type="submit" block>Send Message</Button>
-          <p class="contact-form__status" data-form-status role="status" aria-live="polite"></p>
-        </form>
+        <ul class="contact-page__trust">
+          {settings.yearsExperience.verified && settings.yearsExperience.value && <li>{settings.yearsExperience.value}</li>}
+          <li>Free Estimates</li>
+          {settings.financingVerified && <li>Financing Available</li>}
+          {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && <li>{settings.emergencyAvailability.value}</li>}
+        </ul>
       </div>
     </div>
   </section>
 </BaseLayout>
 
 <style>
-  .contact-grid {
-    display: grid;
-    gap: var(--space-7);
+  .contact-page {
+    background: var(--color-dark-charcoal);
+    color: var(--color-text-inverse);
   }
-  .contact-info__phone { display: block; font-size: var(--step-4); font-weight: 700; font-family: var(--font-display); margin-block: var(--space-3); }
-  .contact-info__email { font-weight: 600; }
-  .contact-info__cta { margin-block: var(--space-5); }
-  .contact-info__hours ul { display: flex; flex-direction: column; gap: var(--space-1); margin-top: var(--space-2); }
-  .contact-info__hours li { display: flex; justify-content: space-between; gap: var(--space-4); max-width: 320px; color: var(--color-text-muted); }
-  .contact-info__area { margin-top: var(--space-5); }
+  .contact-page__layout {
+    display: grid;
+    gap: var(--space-6);
+  }
+  .contact-page__heading { margin-top: var(--space-3); margin-bottom: var(--space-6); }
 
-  .contact-form { display: flex; flex-direction: column; gap: var(--space-4); margin-top: var(--space-4); }
-  .form-field { display: flex; flex-direction: column; gap: var(--space-1); font-weight: 600; font-size: var(--step--1); }
-  .form-field input, .form-field textarea {
-    padding: var(--space-3);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-sm);
-    font-family: var(--font-body);
-    font-size: var(--step-0);
-    font-weight: 400;
+  .contact-page__left,
+  .contact-page__right {
+    min-width: 0;
+    background: var(--color-charcoal);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-lg);
+    padding: var(--space-6);
+  }
+
+  .contact-page__details { display: flex; flex-direction: column; gap: var(--space-4); }
+  .contact-page__details dt {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+    margin-bottom: 0.25em;
+  }
+  .contact-page__details dd { color: var(--color-text-inverse-muted); line-height: 1.5; }
+  .contact-page__details a { color: var(--color-text-inverse); font-weight: 600; }
+  .contact-page__details a:hover { color: var(--color-accent); }
+
+  .contact-page__proof {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-4);
+    margin-top: var(--space-6);
+    padding-top: var(--space-5);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .contact-page__proof li {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text-inverse-muted);
+  }
+
+  .contact-page__image {
+    margin-top: var(--space-6);
+    aspect-ratio: 16 / 10;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .contact-page__form-heading { margin-top: var(--space-2); }
+  .contact-page__form-sub { margin-block: var(--space-3) var(--space-6); max-width: 46ch; }
+
+  .contact-page__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin-top: var(--space-7);
+    padding-top: var(--space-5);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .contact-page__trust li {
+    position: relative;
+    padding-left: var(--space-4);
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--color-text-inverse-muted);
+  }
+  .contact-page__trust li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: var(--color-accent);
+  }
+
+  /* The AssessmentForm's own inputs/option-cards assume a light section
+     ambient background — this card is dark, so give its form controls their
+     own explicit light surfaces rather than inheriting page-level defaults. */
+  .contact-page__right :global(.step__zip-input),
+  .contact-page__right :global(.option-card),
+  .contact-page__right :global(.form-field input) {
     background: var(--color-white);
     color: var(--color-text);
   }
-  .form-field input:focus, .form-field textarea:focus { border-color: var(--color-accent); }
-  .contact-form__status { font-size: var(--step--1); font-weight: 600; min-height: 1.2em; }
+  .contact-page__right :global(.step__title) { color: var(--color-text-inverse); }
+  .contact-page__right :global(.step__sub),
+  .contact-page__right :global(.form-field) { color: var(--color-text-inverse-muted); }
+  .contact-page__right :global(.step--confirm h2) { color: var(--color-text-inverse); }
+  .contact-page__right :global(.step--confirm p) { color: var(--color-text-inverse-muted); }
 
-  @media (min-width: 900px) {
-    .contact-grid { grid-template-columns: 1fr 1fr; }
+  @media (min-width: 960px) {
+    .contact-page__layout { grid-template-columns: 46fr 54fr; gap: var(--space-7); }
   }
 </style>
-
-<script>
-  import { submitLead } from '@lib/leads';
-  import { trackEvent } from '@lib/analytics';
-
-  const form = document.getElementById('contact-form') as HTMLFormElement | null;
-  const status = form?.querySelector<HTMLElement>('[data-form-status]');
-
-  form?.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const data = new FormData(form);
-    const submitBtn = form.querySelector<HTMLButtonElement>('button[type="submit"]');
-    if (submitBtn) submitBtn.disabled = true;
-    if (status) status.textContent = 'Sending…';
-
-    const result = await submitLead({
-      formName: 'contact_page',
-      name: String(data.get('name') ?? ''),
-      email: String(data.get('email') ?? ''),
-      phone: String(data.get('phone') ?? ''),
-      notes: String(data.get('notes') ?? ''),
-      path: window.location.pathname,
-      referrer: document.referrer,
-    });
-
-    if (result.ok) {
-      trackEvent('quote_submitted', { form: 'contact_page' });
-      if (status) status.textContent = "Thanks — we'll get back to you shortly.";
-      form.reset();
-    } else if (status) {
-      status.textContent = 'Something went wrong. Please call us instead.';
-    }
-    if (submitBtn) submitBtn.disabled = false;
-  });
-</script>

@@ -4,15 +4,25 @@ interface Props {
   afterImage: string;
   beforeLabel?: string;
   afterLabel?: string;
+  /** Descriptive alt text, when it differs from the short visible tag label. */
+  beforeAlt?: string;
+  afterAlt?: string;
 }
 
-const { beforeImage, afterImage, beforeLabel = 'Before', afterLabel = 'After' } = Astro.props;
+const {
+  beforeImage,
+  afterImage,
+  beforeLabel = 'Before',
+  afterLabel = 'After',
+  beforeAlt,
+  afterAlt,
+} = Astro.props;
 ---
 
 <div class="ba-slider" data-ba-slider>
-  <img src={afterImage} alt={afterLabel} class="ba-slider__image ba-slider__image--after" />
+  <img src={afterImage} alt={afterAlt ?? afterLabel} class="ba-slider__image ba-slider__image--after" />
   <div class="ba-slider__before-wrap" data-ba-before-wrap style="width: 50%;">
-    <img src={beforeImage} alt={beforeLabel} class="ba-slider__image ba-slider__image--before" />
+    <img src={beforeImage} alt={beforeAlt ?? beforeLabel} class="ba-slider__image ba-slider__image--before" />
   </div>
   <span class="ba-slider__tag ba-slider__tag--before">{beforeLabel}</span>
   <span class="ba-slider__tag ba-slider__tag--after">{afterLabel}</span>

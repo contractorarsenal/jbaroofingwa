@@ -17,10 +17,12 @@ const heroImage = data.afterImages[0] ?? data.droneImages[0];
     <MediaSlot image={heroImage} alt={`${data.projectName} — completed roof`} tone="dark" variant={2} label={`${data.projectName} — photos pending`} />
   </div>
   <div class="project-card__body">
-    <p class="project-card__meta">{data.city}{data.roofMaterial ? ` · ${data.roofMaterial}` : ''}</p>
+    {(data.city || data.roofMaterial) && (
+      <p class="project-card__meta">{[data.city, data.roofMaterial].filter(Boolean).join(' · ')}</p>
+    )}
     <h3 class="project-card__title">{data.projectName}</h3>
     <p class="text-muted project-card__summary">{data.projectSummary}</p>
-    <span class="project-card__link">View Project →</span>
+    <span class="project-card__link">View Project <span class="hover-arrow" aria-hidden="true">→</span></span>
   </div>
 </a>
 
@@ -36,10 +38,26 @@ const heroImage = data.afterImages[0] ?? data.droneImages[0];
   }
   .project-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
   .project-card__media {
+    position: relative;
     aspect-ratio: 4 / 3;
     overflow: hidden;
   }
-  .project-card__media img { width: 100%; height: 100%; object-fit: cover; }
+  .project-card__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms var(--ease-out); }
+  .project-card:hover .project-card__media img { transform: scale(1.035); }
+  .project-card__media::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 55%, rgba(0, 0, 0, 0.45) 100%);
+    opacity: 0.7;
+    transition: opacity 300ms var(--ease-out);
+    pointer-events: none;
+  }
+  .project-card:hover .project-card__media::after { opacity: 1; }
+  .project-card__link { display: inline-flex; align-items: center; gap: 0.35em; }
+  @media (prefers-reduced-motion: reduce) {
+    .project-card__media img { transition: none; }
+  }
   .project-card__body { padding: var(--space-4); }
   .project-card__meta {
     font-size: var(--step--1);

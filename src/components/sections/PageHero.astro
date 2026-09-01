@@ -1,5 +1,6 @@
 ---
 import Button from '@components/ui/Button.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
 
 interface Cta {
   label: string;
@@ -22,7 +23,7 @@ const { eyebrow, title, description, image, primaryCta, secondaryCta, tone = 'de
 <section class:list={['page-hero', tone === 'urgent' && 'page-hero--urgent']}>
   {image && (
     <div class="page-hero__media">
-      <img src={image} alt="" />
+      <MediaSlot image={image} alt="" tone="dark" loading="eager" sizes="100vw" />
     </div>
   )}
   <div class="container page-hero__content">

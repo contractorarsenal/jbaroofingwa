@@ -1,6 +1,7 @@
 ---
 const slugs = ['roof-replacement', 'roof-inspection', 'roof-cleaning', 'roof-repair', 'roof-rejuvenation'];
-import { getCollection } from 'astro:content';
+import { getCollection, getEntry } from 'astro:content';
+import MediaSlot from '@components/ui/MediaSlot.astro';
 
 const allServices = await getCollection('services', ({ data }) => data.published);
 const services = slugs
@@ -9,6 +10,21 @@ const services = slugs
 
 const featured = services.find((s) => s.id === 'roof-replacement');
 const supporting = services.filter((s) => s.id !== 'roof-replacement');
+
+// Real project photography per service, where it's an honest match.
+// Rejuvenation intentionally gets no project photo — no project shown here
+// is a rejuvenation job, so it keeps the neutral branded fallback instead
+// of implying otherwise.
+const project01 = await getEntry('projects', 'project-01-shingle-roof-replacement');
+const project03 = await getEntry('projects', 'project-03-water-damage-roof-repair');
+const project04 = await getEntry('projects', 'project-04-small-shingle-replacement');
+
+const serviceImages: Record<string, { image?: string; alt: string }> = {
+  'roof-replacement': { image: project01?.data.afterImages[0], alt: 'Completed shingle roof viewed from the front of the house' },
+  'roof-inspection': { image: project03?.data.duringImages[0], alt: "Close-up of a roof drainage detail that was improperly positioned" },
+  'roof-cleaning': { image: project04?.data.beforeImages[0], alt: 'Roof with visible moss growth before cleaning' },
+  'roof-repair': { image: project03?.data.afterImages[0], alt: 'New shingles installed after a roof repair' },
+};
 ---
 
 <section class="section section--charcoal services-grid" data-nav-theme="dark" data-nav-section="services">
@@ -19,21 +35,37 @@ const supporting = services.filter((s) => s.id !== 'roof-replacement');
 
     {featured && (
       <a href={`/services/${featured.id}/`} class="service-featured-row" data-reveal="up" data-analytics-event="service_clicked" data-analytics-location="services_grid_featured">
-        <span class="service-featured-row__badge">Our #1 Service</span>
-        <span class="service-featured-row__number">01</span>
-        <span class="service-featured-row__title">{featured.data.title}</span>
-        <span class="text-muted service-featured-row__desc">{featured.data.shortDescription}</span>
-        <span class="service-featured-row__link">Learn More <span class="hover-arrow" aria-hidden="true">→</span></span>
+        <div class="service-featured-row__media">
+          <MediaSlot image={serviceImages['roof-replacement'].image} alt={serviceImages['roof-replacement'].alt} tone="dark" variant={1} sizes="(min-width: 720px) 320px, 100vw" />
+        </div>
+        <div class="service-featured-row__body">
+          <span class="service-featured-row__badge">Our #1 Service</span>
+          <span class="service-featured-row__number">01</span>
+          <span class="service-featured-row__title">{featured.data.title}</span>
+          <span class="text-muted service-featured-row__desc">{featured.data.shortDescription}</span>
+          <span class="service-featured-row__link">Learn More <span class="hover-arrow" aria-hidden="true">→</span></span>
+        </div>
       </a>
     )}
 
     <div class="services-grid__supporting" data-reveal-group>
       {supporting.map((service, i) => (
         <a href={`/services/${service.id}/`} class="service-card" data-reveal="up" data-analytics-event="service_clicked" data-analytics-location={`services_grid_${service.id}`}>
-          <span class="service-card__number">{String(i + 2).padStart(2, '0')}</span>
-          <h3 class="service-card__title">{service.data.title}</h3>
-          <p class="text-muted service-card__desc">{service.data.shortDescription}</p>
-          <span class="service-card__link">Learn More <span class="hover-arrow" aria-hidden="true">→</span></span>
+          {serviceImages[service.id] ? (
+            <div class="service-card__media">
+              <MediaSlot image={serviceImages[service.id].image} alt={serviceImages[service.id].alt} tone="dark" variant={2} sizes="(min-width: 720px) 30vw, 90vw" />
+            </div>
+          ) : (
+            <div class="service-card__media">
+              <MediaSlot tone="dark" variant={2} label={`${service.data.title} — photography pending`} />
+            </div>
+          )}
+          <div class="service-card__body">
+            <span class="service-card__number">{String(i + 2).padStart(2, '0')}</span>
+            <h3 class="service-card__title">{service.data.title}</h3>
+            <p class="text-muted service-card__desc">{service.data.shortDescription}</p>
+            <span class="service-card__link">Learn More <span class="hover-arrow" aria-hidden="true">→</span></span>
+          </div>
         </a>
       ))}
     </div>
@@ -46,17 +78,27 @@ const supporting = services.filter((s) => s.id !== 'roof-replacement');
 
   .service-featured-row {
     display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: var(--space-2) var(--space-5);
+    gap: 0;
     margin-top: var(--space-6);
-    padding: var(--space-5) var(--space-6);
     background: linear-gradient(120deg, var(--color-charcoal-raised) 0%, var(--color-charcoal) 100%);
     border: 1.5px solid var(--color-accent);
     border-radius: var(--radius-md);
+    overflow: hidden;
     transition: transform var(--duration-base) var(--ease-out);
   }
   .service-featured-row:hover { transform: translateY(-2px); }
+  .service-featured-row__media { aspect-ratio: 16 / 10; }
+  .service-featured-row__media :global(img) { transition: transform 500ms var(--ease-out); }
+  .service-featured-row:hover .service-featured-row__media :global(img) { transform: scale(1.03); }
+  .service-featured-row__body {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: var(--space-2) var(--space-5);
+    padding: var(--space-5) var(--space-6);
+    min-width: 0;
+  }
+  .service-featured-row__desc { min-width: 0; }
   .service-featured-row__badge {
     grid-column: 1 / -1;
     justify-self: start;
@@ -97,16 +139,25 @@ const supporting = services.filter((s) => s.id !== 'roof-replacement');
   .service-card {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
-    padding: var(--space-5);
     background: var(--color-charcoal-raised);
     border: 1px solid var(--color-border-dark);
     border-radius: var(--radius-md);
+    overflow: hidden;
     transition: border-color var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
   }
   .service-card:hover {
     border-color: var(--color-accent);
     transform: translateY(-2px);
+  }
+  .service-card__media { aspect-ratio: 16 / 10; }
+  .service-card__media :global(img) { transition: transform 500ms var(--ease-out); }
+  .service-card:hover .service-card__media :global(img) { transform: scale(1.035); }
+  .service-card__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-5);
+    flex: 1;
   }
   .service-card__number {
     font-family: var(--font-display);
@@ -134,9 +185,11 @@ const supporting = services.filter((s) => s.id !== 'roof-replacement');
   @media (min-width: 720px) {
     .services-grid__supporting { grid-template-columns: repeat(2, 1fr); }
   }
-  @media (max-width: 719px) {
-    .service-featured-row { grid-template-columns: 1fr; text-align: left; }
-    .service-featured-row__desc { grid-column: 1; }
-    .service-featured-row__link { grid-row: auto; grid-column: 1; margin-top: var(--space-2); }
+  @media (min-width: 640px) {
+    .service-featured-row { grid-template-columns: 320px 1fr; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .service-featured-row__media :global(img),
+    .service-card__media :global(img) { transition: none; }
   }
 </style>

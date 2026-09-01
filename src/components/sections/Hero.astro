@@ -6,10 +6,13 @@ import TrustBar from '@components/global/TrustBar.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
 
 const settings = await getGlobalSettings();
-// Roof Replacement is the primary service — if it has a hero image, the
-// homepage hero reflects that; otherwise MediaSlot falls back gracefully.
+// Real finished-roof aerial from Project 01 — the strongest single-image
+// composition of the seven project sets for a full-bleed hero crop.
+// Falls back to the roof-replacement service's own heroImage, then to
+// MediaSlot's branded placeholder, if project content is ever unpublished.
+const heroProject = await getEntry('projects', 'project-01-shingle-roof-replacement');
 const replacementService = await getEntry('services', 'roof-replacement');
-const heroImage = replacementService?.data.heroImage;
+const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.heroImage;
 ---
 
 <section class="hero" data-nav-theme="dark">
@@ -35,7 +38,16 @@ const heroImage = replacementService?.data.heroImage;
     </div>
 
     <div class="hero__visual hero__anim hero__anim--media">
-      <MediaSlot image={heroImage} alt="JBA Roofing & Remodeling" tone="dark" variant={1} />
+      <div class="hero__visual-parallax" data-parallax>
+        <MediaSlot
+          image={heroImage}
+          alt="Completed shingle roof viewed from above"
+          tone="dark"
+          variant={1}
+          loading="eager"
+          sizes="(min-width: 860px) 40vw, 100vw"
+        />
+      </div>
       <div class="hero__visual-frame" aria-hidden="true"></div>
     </div>
   </div>
@@ -125,12 +137,21 @@ const heroImage = replacementService?.data.heroImage;
     overflow: hidden;
     border: 1px solid var(--color-border-dark);
   }
-  .hero__visual :global(.media-slot) { min-height: 100%; }
+  .hero__visual-parallax {
+    position: absolute;
+    inset: -30px 0;
+    will-change: transform;
+  }
+  .hero__visual-parallax :global(.media-slot) { min-height: 100%; }
   .hero__visual-frame {
     position: absolute;
     inset: 0;
+    background: linear-gradient(90deg, rgba(8, 8, 8, 0.55) 0%, transparent 30%);
     box-shadow: inset 0 0 0 1px rgba(209, 155, 42, 0.15), inset 0 -80px 100px -40px rgba(0, 0, 0, 0.6);
     pointer-events: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__visual-parallax { transform: none !important; }
   }
 
   .hero__scroll {
