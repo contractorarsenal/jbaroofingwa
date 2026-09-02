@@ -315,6 +315,15 @@ const projects = defineCollection({
       .default([]),
     watchFor: z.array(z.string()).default([]),
 
+    // Optional slot for metal-roof underlayment/membrane specifics. Left
+    // empty until real, JBA-specific or manufacturer-verified content is
+    // supplied — never invent installation details for a specific project.
+    // Rendered only when underlaymentVerified is true and a title is set.
+    underlaymentTitle: z.string().optional(),
+    underlaymentDescription: z.string().optional(),
+    underlaymentImage: z.string().optional(),
+    underlaymentVerified: z.boolean().default(false),
+
     beforeImages: z.array(z.string()).default([]),
     duringImages: z.array(z.string()).default([]),
     afterImages: z.array(z.string()).default([]),

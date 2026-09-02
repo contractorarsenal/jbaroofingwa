@@ -204,6 +204,23 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
     </section>
   ))}
 
+  {data.underlaymentVerified && data.underlaymentTitle && (
+    <section class="section section--white" data-nav-theme="light">
+      <div class="container project-split">
+        {data.underlaymentImage && (
+          <div class="project-split__art" data-reveal="image">
+            <MediaSlot image={data.underlaymentImage} alt={projectImageAlt(data.underlaymentImage, data.underlaymentTitle)} tone="light" variant={3} sizes="(min-width: 900px) 50vw, 100vw" />
+          </div>
+        )}
+        <div>
+          <p class="eyebrow">Underlayment</p>
+          <h2 class="h2">{data.underlaymentTitle}</h2>
+          {data.underlaymentDescription && <p class="text-muted longform__text">{data.underlaymentDescription}</p>}
+        </div>
+      </div>
+    </section>
+  )}
+
   {data.watchFor.length > 0 && (
     <section class="section section--off-white" data-nav-theme="light">
       <div class="container">

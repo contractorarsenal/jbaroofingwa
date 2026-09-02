@@ -535,6 +535,23 @@ content:
         label: The Solution
         type: text
         required: false
+      - name: underlaymentTitle
+        label: Underlayment Section Title (optional)
+        type: string
+        required: false
+        description: Only fill in for metal roof projects with real, confirmed underlayment/membrane details. Leave blank otherwise — nothing shows without a title and Verified both set.
+      - name: underlaymentDescription
+        label: Underlayment Section Description
+        type: text
+        required: false
+      - name: underlaymentImage
+        label: Underlayment Photo
+        type: image
+        required: false
+      - name: underlaymentVerified
+        label: Verified — OK to show publicly
+        type: boolean
+        default: false
       - name: beforeImages
         label: Before Photos
         type: image
