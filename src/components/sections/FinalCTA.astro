@@ -37,10 +37,10 @@ const footnote = [
     <h2 class="h2 final-cta__heading" data-reveal="up">{heading}</h2>
     <p class="text-muted final-cta__desc" data-reveal="up">{description}</p>
     <div class="final-cta__actions" data-reveal="up">
-      <Button href={settings.primaryCtaDestination} analyticsEvent="quote_started" analyticsLocation="final_cta">
+      <Button href={settings.primaryCtaDestination} analyticsEvent="estimate_cta_click" analyticsLocation="final_cta">
         Get a Free Estimate
       </Button>
-      <Button href={`tel:${settings.primaryPhone}`} variant="outline" analyticsEvent="phone_click" analyticsLocation="final_cta">
+      <Button href={`tel:${settings.primaryPhone}`} variant="outline" analyticsEvent="call_click" analyticsLocation="final_cta">
         Call Now
       </Button>
     </div>

@@ -300,6 +300,20 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
   <FinalCTA />
 </BaseLayout>
 
+<script define:vars={{ projectSlug: project.id, projectType: service?.id }} is:inline>
+  // A plain gtag() call rather than importing trackProjectView() — define:vars
+  // forces this script to run as raw inline JS, where a bundler-resolved
+  // `@lib/analytics` import specifier isn't available.
+  if (window.gtag) {
+    window.gtag('event', 'project_view', {
+      page_path: window.location.pathname,
+      page_title: document.title,
+      project_slug: projectSlug,
+      project_type: projectType || undefined,
+    });
+  }
+</script>
+
 <style>
   .snapshot-grid, .overview-grid, .takeaways-grid, .watch-grid { margin-top: var(--space-6); }
 

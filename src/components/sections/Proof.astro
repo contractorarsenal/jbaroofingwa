@@ -30,7 +30,7 @@ const reviews = (
         </div>
         {settings.googleBusinessProfileUrl && (
           <div class="proof__footer" data-reveal="up">
-            <Button href={settings.googleBusinessProfileUrl} variant="outline">Read More Reviews</Button>
+            <Button href={settings.googleBusinessProfileUrl} variant="outline" data-analytics-event="outbound_click" data-analytics-destination="google_reviews">Read More Reviews</Button>
           </div>
         )}
       </>
@@ -43,7 +43,7 @@ const reviews = (
         </p>
         {settings.googleBusinessProfileUrl && (
           <div class="proof__footer">
-            <Button href={settings.googleBusinessProfileUrl} variant="outline">View Our Google Reviews</Button>
+            <Button href={settings.googleBusinessProfileUrl} variant="outline" data-analytics-event="outbound_click" data-analytics-destination="google_reviews">View Our Google Reviews</Button>
           </div>
         )}
       </div>

@@ -98,4 +98,6 @@ global:
       hours: "24 Hours"
 
   leadWebhookUrl: ""
-  analyticsId: ""
+  # Google Analytics 4 measurement ID. Public/client-side by design, not a
+  # secret. Only loads on production builds (see BaseLayout.astro).
+  analyticsId: "G-56TWWG48L5"

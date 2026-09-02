@@ -208,6 +208,7 @@ const restEducation = data.educationSections.slice(1);
             src={inspectionVideo.data.videoUrl}
             poster={inspectionVideo.data.poster}
             title={inspectionVideo.data.title}
+            topic={inspectionVideo.data.topic}
             preload="none"
             showDetails={false}
           />
@@ -221,7 +222,7 @@ const restEducation = data.educationSections.slice(1);
             before they turn into larger problems.
           </p>
           <div data-reveal="up">
-            <Button href="/assessment/?need=inspection" analyticsEvent="quote_started" analyticsLocation="inspection_video">
+            <Button href="/assessment/?need=inspection" analyticsEvent="estimate_cta_click" analyticsLocation="inspection_video" data-analytics-intent="inspection">
               Schedule An Inspection
             </Button>
           </div>
@@ -238,6 +239,7 @@ const restEducation = data.educationSections.slice(1);
             src={maintenanceVideo.data.videoUrl}
             poster={maintenanceVideo.data.poster}
             title={maintenanceVideo.data.title}
+            topic={maintenanceVideo.data.topic}
             preload="none"
             showDetails={false}
           />
@@ -263,8 +265,9 @@ const restEducation = data.educationSections.slice(1);
           <div data-reveal="up">
             <Button
               href="/assessment/?need=maintenance"
-              analyticsEvent="quote_started"
+              analyticsEvent="estimate_cta_click"
               analyticsLocation="maintenance_video"
+              data-analytics-intent={service.id === 'roof-cleaning' ? 'cleaning' : 'maintenance'}
             >
               {service.id === 'roof-cleaning' ? 'Schedule Roof Cleaning' : 'Schedule Roof Maintenance'}
             </Button>

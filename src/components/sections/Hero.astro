@@ -52,10 +52,10 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
         homeowners across King, Snohomish, and Skagit Counties.
       </p>
       <div class="hero__actions hero__anim hero__anim--4">
-        <Button href={settings.primaryCtaDestination} analyticsEvent="quote_started" analyticsLocation="hero_primary">
+        <Button href={settings.primaryCtaDestination} analyticsEvent="estimate_cta_click" analyticsLocation="hero_primary">
           Get a Free Estimate
         </Button>
-        <Button href={`tel:${settings.primaryPhone}`} variant="outline" analyticsEvent="phone_click" analyticsLocation="hero_secondary">
+        <Button href={`tel:${settings.primaryPhone}`} variant="outline" analyticsEvent="call_click" analyticsLocation="hero_secondary">
           Call Now
         </Button>
       </div>

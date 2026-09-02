@@ -15,15 +15,23 @@ import TrustFacts from '@components/ui/TrustFacts.astro';
     position: relative;
     z-index: 1;
     background: var(--color-bg);
-    padding-block: var(--space-5);
+    padding-block: 1.75rem;
     border-bottom: 1px solid var(--color-border);
   }
   @media (min-width: 900px) {
-    .trust-strip { margin-top: -22px; }
+    .trust-strip { margin-top: -22px; padding-block: 2.0625rem; }
   }
 
   .trust-strip__facts {
     display: flex;
     justify-content: center;
+  }
+  /* Slightly wider group spacing than TrustFacts' own default gap, scoped
+     to this section only (Hero's dark trust row keeps its original gap). */
+  .trust-strip__facts :global(.trust-facts) {
+    gap: var(--space-3) 2.25rem;
+  }
+  @media (min-width: 900px) {
+    .trust-strip__facts :global(.trust-facts) { gap: var(--space-3) 3rem; }
   }
 </style>

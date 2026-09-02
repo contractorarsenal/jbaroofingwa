@@ -1,20 +1,22 @@
 ---
 /**
- * Small, non-blocking cookie notice. This site currently uses only essential
- * technical functionality (Cloudflare hosting, Web3Forms submissions, and
- * remembering this notice's own dismissal), no analytics or advertising
- * cookies, so this is a single acknowledgment rather than an accept/reject
- * choice, there is nothing non-essential to opt out of.
+ * Cookie notice with a real analytics consent choice, backed by Google
+ * Consent Mode (see BaseLayout.astro for the default-denied bootstrap).
+ * Not a full GDPR modal by design — two clear actions plus a link to the
+ * Cookie Policy, matching the rest of the site's plain, direct tone.
  */
 ---
 
 <div class="cookie-notice" data-cookie-notice hidden>
   <p class="cookie-notice__text">
-    We use cookies and related technologies to operate and improve this website.
+    We use necessary technologies to operate this website. With your
+    permission, we also use Google Analytics to understand how visitors use
+    the site and improve it.
   </p>
   <div class="cookie-notice__actions">
     <a href="/cookie-policy/" class="cookie-notice__link">Cookie Policy</a>
-    <button type="button" class="btn btn--primary cookie-notice__dismiss" data-cookie-dismiss>Got It</button>
+    <button type="button" class="btn btn--outline cookie-notice__necessary" data-cookie-necessary>Necessary Only</button>
+    <button type="button" class="btn btn--primary cookie-notice__accept" data-cookie-accept>Accept Analytics</button>
   </div>
 </div>
 
@@ -30,7 +32,7 @@
     align-items: center;
     justify-content: space-between;
     gap: var(--space-3);
-    max-width: 640px;
+    max-width: 680px;
     margin-inline: auto;
     padding: var(--space-4) var(--space-5);
     background: var(--color-dark-charcoal);
@@ -43,17 +45,32 @@
     transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
   }
   .cookie-notice.is-visible { opacity: 1; transform: translateY(0); }
-  .cookie-notice__text { font-size: 0.85rem; line-height: 1.5; max-width: 40ch; }
-  .cookie-notice__actions { display: flex; align-items: center; gap: var(--space-4); flex-shrink: 0; }
+  .cookie-notice__text { font-size: 0.85rem; line-height: 1.5; max-width: 44ch; }
+  .cookie-notice__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3);
+    flex-shrink: 0;
+  }
   .cookie-notice__link {
     font-size: 0.8rem;
     font-weight: 700;
     color: var(--color-text-inverse-muted);
     text-decoration: underline;
     text-underline-offset: 3px;
+    margin-right: var(--space-1);
   }
   .cookie-notice__link:hover { color: var(--color-text-inverse); }
-  .cookie-notice__dismiss { height: 40px; padding-inline: 1.25rem; }
+  .cookie-notice__necessary,
+  .cookie-notice__accept { height: 40px; padding-inline: 1.1rem; font-size: 0.8rem; white-space: nowrap; }
+
+  @media (max-width: 640px) {
+    .cookie-notice { flex-direction: column; align-items: stretch; }
+    .cookie-notice__actions { justify-content: space-between; }
+    .cookie-notice__necessary,
+    .cookie-notice__accept { flex: 1; }
+  }
 
   @media (prefers-reduced-motion: reduce) {
     .cookie-notice { transition: none; }
@@ -61,29 +78,34 @@
 </style>
 
 <script>
-  const STORAGE_KEY = 'jba-cookie-notice-dismissed';
+  import { getStoredConsent, setStoredConsent, updateAnalyticsConsent } from '@lib/consent';
+
   const notice = document.querySelector<HTMLElement>('[data-cookie-notice]');
   if (notice) {
-    let dismissed = false;
-    try {
-      dismissed = localStorage.getItem(STORAGE_KEY) === '1';
-    } catch {
-      // localStorage unavailable (private mode, blocked, etc), show the notice every visit
-    }
+    const existing = getStoredConsent();
 
-    if (!dismissed) {
+    if (!existing) {
       notice.hidden = false;
       requestAnimationFrame(() => notice.classList.add('is-visible'));
     }
 
-    notice.querySelector('[data-cookie-dismiss]')?.addEventListener('click', () => {
-      notice.classList.remove('is-visible');
-      window.setTimeout(() => { notice.hidden = true; }, 260);
-      try {
-        localStorage.setItem(STORAGE_KEY, '1');
-      } catch {
-        // best-effort only
-      }
+    function hideNotice() {
+      notice?.classList.remove('is-visible');
+      window.setTimeout(() => {
+        if (notice) notice.hidden = true;
+      }, 260);
+    }
+
+    notice.querySelector('[data-cookie-accept]')?.addEventListener('click', () => {
+      setStoredConsent('analytics');
+      updateAnalyticsConsent(true);
+      hideNotice();
+    });
+
+    notice.querySelector('[data-cookie-necessary]')?.addEventListener('click', () => {
+      setStoredConsent('necessary');
+      updateAnalyticsConsent(false);
+      hideNotice();
     });
   }
 </script>

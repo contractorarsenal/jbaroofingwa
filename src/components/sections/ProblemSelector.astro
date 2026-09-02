@@ -31,8 +31,9 @@ const symptoms = [
         <a
           href={`/assessment/?need=repair&symptom=${symptom.value}`}
           class="problem-chip"
-          data-analytics-event="quote_started"
+          data-analytics-event="estimate_cta_click"
           data-analytics-location={`problem_selector_${symptom.value}`}
+          data-analytics-intent="repair"
         >
           <span class="problem-chip__icon" aria-hidden="true">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d={symptom.icon} stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>

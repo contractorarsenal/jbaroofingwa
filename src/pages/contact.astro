@@ -17,7 +17,7 @@ const settings = await getGlobalSettings();
       </p>
 
       <div class="contact-intro__actions">
-        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="contact_page">
+        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="call_click" data-analytics-location="contact_page">
           Call Now
         </a>
         <a href={`mailto:${settings.email}`} class="btn btn--outline" data-analytics-event="email_click" data-analytics-location="contact_page">

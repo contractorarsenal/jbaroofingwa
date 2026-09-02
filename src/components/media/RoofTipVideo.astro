@@ -14,6 +14,7 @@ interface Props {
   src: string;
   poster?: string;
   title: string;
+  topic?: string;
   eyebrow?: string;
   description?: string;
   ctaLabel?: string;
@@ -27,6 +28,7 @@ const {
   src,
   poster,
   title,
+  topic,
   eyebrow,
   description,
   ctaLabel,
@@ -46,6 +48,9 @@ const {
       poster={poster}
       aria-label={title}
       data-reveal="up"
+      data-roof-tip-video
+      data-video-title={title}
+      data-video-topic={topic}
     >
       <source src={src} type="video/mp4" />
       Your browser doesn't support embedded video.
@@ -60,7 +65,7 @@ const {
       <h3 class="roof-tip-video__title">{title}</h3>
       {description && <p class="text-muted roof-tip-video__desc">{description}</p>}
       {ctaLabel && ctaHref && (
-        <a href={ctaHref} class="roof-tip-video__cta" data-analytics-event="quote_started" data-analytics-location="roof_tip_video">
+        <a href={ctaHref} class="roof-tip-video__cta" data-analytics-event="estimate_cta_click" data-analytics-location="roof_tip_video">
           {ctaLabel} <span aria-hidden="true">→</span>
         </a>
       )}
@@ -115,3 +120,20 @@ const {
   }
   .roof-tip-video__cta:hover { text-decoration: underline; }
 </style>
+
+<script>
+  import { trackVideoPlay } from '@lib/analytics';
+
+  // One RoofTipVideo instance per <video> element, possibly several per
+  // page (e.g. About's video library) — track the first intentional play
+  // of each, not every pause/resume.
+  document.querySelectorAll<HTMLVideoElement>('[data-roof-tip-video]').forEach((video) => {
+    video.addEventListener(
+      'play',
+      () => {
+        trackVideoPlay(video.dataset.videoTitle ?? 'unknown', video.dataset.videoTopic);
+      },
+      { once: true }
+    );
+  });
+</script>

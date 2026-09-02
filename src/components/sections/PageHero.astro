@@ -33,7 +33,7 @@ const { eyebrow, title, description, image, primaryCta, secondaryCta, tone = 'de
     {(primaryCta || secondaryCta) && (
       <div class="page-hero__actions">
         {primaryCta && (
-          <Button href={primaryCta.href} variant={tone === 'urgent' ? 'urgent' : 'primary'} analyticsEvent="quote_started" analyticsLocation="service_hero_primary">
+          <Button href={primaryCta.href} variant={tone === 'urgent' ? 'urgent' : 'primary'} analyticsEvent="estimate_cta_click" analyticsLocation="service_hero_primary">
             {primaryCta.label}
           </Button>
         )}

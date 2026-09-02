@@ -86,7 +86,7 @@ const serviceOptions = [
       <p class="contact-form__outcome-body">Thanks. JBA Roofing has received your message. We'll use the information you provided to follow up.</p>
       <div class="contact-form__actions">
         <a href="/" class="btn btn--outline">Back to Home</a>
-        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="contact_form_success">Call Now</a>
+        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="call_click" data-analytics-location="contact_form_success">Call Now</a>
       </div>
     </div>
 
@@ -95,7 +95,7 @@ const serviceOptions = [
       <p class="contact-form__outcome-body">Something went wrong while sending your message. Please try again or call JBA Roofing.</p>
       <div class="contact-form__actions">
         <button type="button" class="btn btn--outline" data-retry>Try Again</button>
-        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="contact_form_error">Call Now</a>
+        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="call_click" data-analytics-location="contact_form_error">Call Now</a>
       </div>
     </div>
   </form>
@@ -215,11 +215,24 @@ const serviceOptions = [
 </style>
 
 <script>
-  import { trackEvent } from '@lib/analytics';
+  import { trackContactFormStart, trackContactFormSuccess } from '@lib/analytics';
   import { submitToWeb3Forms } from '@lib/web3forms';
 
   const form = document.getElementById('contact-form') as HTMLFormElement;
   const status = form.querySelector<HTMLElement>('[data-form-status]');
+
+  // Fires once, the first time the visitor genuinely interacts with a
+  // field — not on simple page load.
+  let hasStartedContactForm = false;
+  form.querySelector('[data-step="form"]')?.addEventListener(
+    'focusin',
+    () => {
+      if (hasStartedContactForm) return;
+      hasStartedContactForm = true;
+      trackContactFormStart();
+    },
+    { once: true }
+  );
 
   function showStep(name: 'form' | 'confirm' | 'error') {
     let target: HTMLElement | null = null;
@@ -317,7 +330,7 @@ const serviceOptions = [
       const result = await submitToWeb3Forms(data);
 
       if (result.ok) {
-        trackEvent('contact_form_submitted', {});
+        trackContactFormSuccess();
         showStep('confirm');
       } else {
         if (status) {

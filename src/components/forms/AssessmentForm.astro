@@ -170,7 +170,7 @@ const progressSteps = [
       </p>
       <div class="step--outcome__actions">
         <a href="/" class="btn btn--outline">Back to Home</a>
-        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="assessment_success">Call Now</a>
+        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="call_click" data-analytics-location="assessment_success">Call Now</a>
       </div>
     </div>
 
@@ -182,7 +182,7 @@ const progressSteps = [
       </p>
       <div class="step--outcome__actions">
         <button type="button" class="btn btn--outline" data-retry>Try Again</button>
-        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="assessment_error">Call Now</a>
+        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="call_click" data-analytics-location="assessment_error">Call Now</a>
       </div>
     </div>
   </form>
@@ -425,7 +425,7 @@ const progressSteps = [
 </style>
 
 <script>
-  import { trackEvent } from '@lib/analytics';
+  import { trackEvent, trackAssessmentStart, trackAssessmentStep, trackAssessmentSuccess } from '@lib/analytics';
   import { submitToWeb3Forms } from '@lib/web3forms';
 
   type Answers = {
@@ -446,9 +446,11 @@ const progressSteps = [
 
   const answers: Answers = {};
   let currentIndex = 0; // index into steps[] (excludes confirm/error)
+  let hasStartedAssessment = false;
 
   // Maps the 7 functional fieldsets onto the 4 visual progress segments.
   const STEP_TO_SEGMENT = [0, 0, 1, 2, 2, 2, 3];
+  const STEP_NAMES = ['zip', 'need', 'noticing', 'roof_age', 'property', 'photo', 'contact'];
 
   function updateProgress() {
     const activeSegment = STEP_TO_SEGMENT[currentIndex] ?? 0;
@@ -478,7 +480,7 @@ const progressSteps = [
     });
     currentIndex = index;
     updateProgress();
-    if (track) trackEvent('quote_step_completed', { step: String(index + 1) });
+    if (track) trackAssessmentStep(index + 1, STEP_NAMES[index] ?? `step_${index + 1}`);
     if (settle && steps[index]) settleOnStep(steps[index]);
   }
 
@@ -513,6 +515,13 @@ const progressSteps = [
       const zipInput = form.querySelector<HTMLInputElement>('input[name="zip"]');
       if (!zipInput?.reportValidity()) return;
       answers.zip = zipInput.value;
+
+      // The visitor has genuinely started the form (valid ZIP entered and
+      // advancing), not just landed on the page — fire once per session.
+      if (!hasStartedAssessment) {
+        hasStartedAssessment = true;
+        trackAssessmentStart();
+      }
     }
     if (currentIndex === 1) {
       if (!answers.need) return;
@@ -607,6 +616,10 @@ const progressSteps = [
         if (symptomBtn) selectSingle(symptomBtn, 'context');
       }
       startIndex = 2;
+      // Arriving here already carries a real answer (need, chosen on the
+      // originating page), not just a blank page load — count it as started.
+      hasStartedAssessment = true;
+      trackAssessmentStart();
     }
   }
 
@@ -665,7 +678,7 @@ const progressSteps = [
       const result = await submitToWeb3Forms(data);
 
       if (result.ok) {
-        trackEvent('quote_submitted', { need: answers.need ?? 'unknown', timeline: answers.timeline ?? 'unknown' });
+        trackAssessmentSuccess(answers.need);
         showOutcome('confirm');
       } else {
         if (status) {

@@ -20,6 +20,7 @@ const video = await getEntry('videos', 'beat-the-rain');
           src={video.data.videoUrl}
           poster={video.data.poster}
           title={video.data.title}
+          topic={video.data.topic}
           preload="none"
           showDetails={false}
         />
@@ -30,7 +31,7 @@ const video = await getEntry('videos', 'beat-the-rain');
         <p class="text-muted featured-tip__body" data-reveal="up">{video.data.shortDescription}</p>
         <div class="featured-tip__actions" data-reveal="up">
           {video.data.ctaLabel && video.data.ctaHref && (
-            <Button href={video.data.ctaHref} analyticsEvent="quote_started" analyticsLocation="featured_roof_tip">
+            <Button href={video.data.ctaHref} analyticsEvent="estimate_cta_click" analyticsLocation="featured_roof_tip">
               {video.data.ctaLabel}
             </Button>
           )}

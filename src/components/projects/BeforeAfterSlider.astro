@@ -111,6 +111,8 @@ const {
 </style>
 
 <script>
+  import { trackBeforeAfterInteraction } from '@lib/analytics';
+
   document.querySelectorAll<HTMLElement>('[data-ba-slider]').forEach((slider) => {
     const input = slider.querySelector<HTMLInputElement>('[data-ba-input]');
     const wrap = slider.querySelector<HTMLElement>('[data-ba-before-wrap]');
@@ -126,6 +128,9 @@ const {
     };
 
     input?.addEventListener('input', update);
+    // Once per slider — someone actually dragging it, not every pixel of
+    // movement while they drag.
+    input?.addEventListener('input', () => trackBeforeAfterInteraction(), { once: true });
     window.addEventListener('resize', update);
     update();
   });

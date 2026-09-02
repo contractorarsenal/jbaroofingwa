@@ -37,7 +37,14 @@ const paths = [
     <p class="eyebrow eyebrow--center decision-band__eyebrow" data-reveal="up">How Can We Help?</p>
     <div class="decision-band__paths" data-reveal-group>
       {paths.map((path) => (
-        <a href={path.href} class="help-path" data-reveal="up" data-analytics-event="quote_started" data-analytics-location="homepage_help_path">
+        <a
+          href={path.href}
+          class="help-path"
+          data-reveal="up"
+          data-analytics-event="estimate_cta_click"
+          data-analytics-location="homepage_help_path"
+          data-analytics-intent={new URLSearchParams(path.href.split('?')[1] ?? '').get('need') ?? 'not_sure'}
+        >
           <span class="help-path__question">{path.question}</span>
           <span class="help-path__service">{path.service}</span>
           <span class="help-path__cta">{path.cta} <span class="hover-arrow" aria-hidden="true">→</span></span>

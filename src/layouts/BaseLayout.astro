@@ -27,6 +27,14 @@ const settings = await getGlobalSettings();
 const siteUrl = Astro.site?.toString() ?? 'https://jbaroofpro.com';
 const localBusinessSchema = buildLocalBusinessSchema(settings, siteUrl);
 const combinedJsonLd = [localBusinessSchema, ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : [])];
+
+// GA4 only loads on production builds (never on `astro dev`/localhost) and
+// only when a measurement ID is actually configured. Cloudflare Pages
+// preview-branch deploys still run a production build, so they're tracked
+// too for now — deliberately not excluded yet, per the current "keep it
+// practical while we're still testing deployment" guidance. Revisit once
+// the custom domain is live if preview traffic needs its own filter.
+const gaEnabled = Boolean(settings.analyticsId) && import.meta.env.PROD;
 ---
 
 <!doctype html>
@@ -47,6 +55,37 @@ const combinedJsonLd = [localBusinessSchema, ...(Array.isArray(jsonLd) ? jsonLd 
       if ('scrollRestoration' in history) history.scrollRestoration = 'auto';
     </script>
     <Seo title={title} description={description} ogImage={ogImage} noindex={noindex} jsonLd={combinedJsonLd} />
+
+    {gaEnabled && (
+      <>
+        <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${settings.analyticsId}`}></script>
+        <script define:vars={{ gaId: settings.analyticsId }} is:inline>
+          window.dataLayer = window.dataLayer || [];
+          function gtag() { dataLayer.push(arguments); }
+          window.gtag = gtag;
+
+          // Consent Mode default — analytics_storage denied until the
+          // visitor accepts, or immediately granted for a returning visitor
+          // who already chose "Accept Analytics" in the cookie notice. We
+          // are not installing Google Ads, so the ad_* signals stay denied
+          // unconditionally.
+          var storedConsent = null;
+          try {
+            storedConsent = localStorage.getItem('jba_cookie_consent');
+          } catch (e) {}
+
+          gtag('consent', 'default', {
+            analytics_storage: storedConsent === 'analytics' ? 'granted' : 'denied',
+            ad_storage: 'denied',
+            ad_user_data: 'denied',
+            ad_personalization: 'denied',
+          });
+
+          gtag('js', new Date());
+          gtag('config', gaId);
+        </script>
+      </>
+    )}
   </head>
   <body class={hideStickyCta ? '' : 'has-sticky-cta'}>
     <a href="#main" class="skip-link">Skip to main content</a>

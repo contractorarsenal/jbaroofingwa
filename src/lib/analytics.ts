@@ -1,28 +1,38 @@
 /**
- * Vendor-agnostic analytics event bus.
+ * Analytics event bus, backed by Google Analytics 4 (gtag.js).
  *
- * Every conversion-relevant interaction on the site should call `trackEvent`
- * instead of talking to a vendor SDK directly. This keeps components free of
- * "gtag" / "fbq" / etc. calls so the analytics vendor can be swapped (or
- * multiple vendors added) in one place without touching UI code.
+ * GA4 itself is loaded once, globally, in BaseLayout.astro, along with
+ * Google Consent Mode defaults. This module only ever calls `window.gtag`
+ * defensively (optional chaining, wrapped in try/catch) — if gtag hasn't
+ * loaded (analytics not configured, consent denied, ad blocker, dev mode),
+ * every function here is a safe no-op. Analytics must never throw, log
+ * console noise, or affect site functionality.
  *
- * Wire up a real vendor by pushing to window.dataLayer (GTM), calling
- * window.gtag (GA4), or posting to a custom endpoint — see the TODO below.
+ * CRITICAL: never pass personally identifiable information (name, phone,
+ * email, address, ZIP, message text, form answers) as an event parameter.
+ * Only behavior/conversion metadata belongs here.
  */
 
 export type AnalyticsEvent =
-  | 'phone_click'
-  | 'quote_started'
-  | 'quote_step_completed'
-  | 'quote_submitted'
+  | 'call_click'
+  | 'email_click'
+  | 'estimate_cta_click'
+  | 'assessment_start'
+  | 'assessment_step'
+  | 'assessment_submit_success'
+  | 'contact_form_start'
+  | 'contact_form_submit_success'
+  | 'financing_click'
+  | 'project_view'
+  | 'roofing_video_play'
+  | 'before_after_interaction'
+  | 'outbound_click'
   | 'service_clicked'
+  | 'emergency_clicked'
   | 'project_opened'
   | 'maintenance_plan_clicked'
-  | 'financing_clicked'
-  | 'emergency_clicked'
-  | 'photo_uploaded'
   | 'location_page_viewed'
-  | 'contact_form_submitted';
+  | 'photo_uploaded';
 
 export interface AnalyticsPayload {
   [key: string]: string | number | boolean | undefined;
@@ -31,37 +41,101 @@ export interface AnalyticsPayload {
 declare global {
   interface Window {
     dataLayer?: unknown[];
+    gtag?: (...args: unknown[]) => void;
   }
 }
 
+/** Sends one event to GA4. Safe to call even if GA never loaded. */
 export function trackEvent(event: AnalyticsEvent, payload: AnalyticsPayload = {}): void {
   if (typeof window === 'undefined') return;
 
-  // TODO(client): once an analytics ID is confirmed (GA4 / GTM / Meta Pixel),
-  // push events into window.dataLayer here. Left as a no-op-safe dataLayer
-  // push so GTM containers configured later pick these events up for free.
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event, ...payload });
+  try {
+    const enrichedPayload: AnalyticsPayload = {
+      page_path: window.location.pathname,
+      page_title: document.title,
+      ...payload,
+    };
+    window.gtag?.('event', event, enrichedPayload);
 
-  if (import.meta.env.DEV) {
-    // eslint-disable-next-line no-console
-    console.debug('[analytics]', event, payload);
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.debug('[analytics]', event, enrichedPayload);
+    }
+  } catch {
+    // Analytics must never break the site.
   }
 }
 
-/** Attaches trackEvent(event, payload) to every element matching selector via data-analytics-event. */
+/** Attaches trackEvent(event, {cta_location, service_intent}) to every element matching data-analytics-event. */
 export function bindAnalyticsClicks(root: ParentNode = document): void {
   root.querySelectorAll<HTMLElement>('[data-analytics-event]').forEach((el) => {
     el.addEventListener('click', () => {
       const event = el.dataset.analyticsEvent as AnalyticsEvent | undefined;
       if (!event) return;
       const payload: AnalyticsPayload = {};
-      for (const [key, value] of Object.entries(el.dataset)) {
-        if (key.startsWith('analytics') && key !== 'analyticsEvent') {
-          payload[key.replace('analytics', '').toLowerCase()] = value;
-        }
-      }
+      if (el.dataset.analyticsLocation) payload.cta_location = el.dataset.analyticsLocation;
+      if (el.dataset.analyticsIntent) payload.service_intent = el.dataset.analyticsIntent;
+      if (el.dataset.analyticsDestination) payload.destination_type = el.dataset.analyticsDestination;
       trackEvent(event, payload);
     });
   });
+}
+
+// ---------------------------------------------------------------------
+// Named helpers for the specific conversion events called directly from
+// component scripts (forms, video players, the before/after slider).
+// Prefer these over raw trackEvent() calls so parameter names stay
+// consistent everywhere.
+// ---------------------------------------------------------------------
+
+export function trackCallClick(location: string): void {
+  trackEvent('call_click', { cta_location: location });
+}
+
+export function trackEmailClick(location: string): void {
+  trackEvent('email_click', { cta_location: location });
+}
+
+export function trackEstimateClick(location: string, intent?: string): void {
+  trackEvent('estimate_cta_click', { cta_location: location, service_intent: intent });
+}
+
+export function trackFinancingClick(location: string): void {
+  trackEvent('financing_click', { cta_location: location });
+}
+
+export function trackAssessmentStart(): void {
+  trackEvent('assessment_start');
+}
+
+export function trackAssessmentStep(stepNumber: number, stepName: string): void {
+  trackEvent('assessment_step', { step_number: stepNumber, step_name: stepName });
+}
+
+export function trackAssessmentSuccess(intent?: string): void {
+  trackEvent('assessment_submit_success', { service_intent: intent });
+}
+
+export function trackContactFormStart(): void {
+  trackEvent('contact_form_start');
+}
+
+export function trackContactFormSuccess(): void {
+  trackEvent('contact_form_submit_success');
+}
+
+export function trackProjectView(projectSlug: string, projectType?: string): void {
+  trackEvent('project_view', { project_slug: projectSlug, project_type: projectType });
+}
+
+export function trackVideoPlay(videoTitle: string, videoTopic?: string): void {
+  trackEvent('roofing_video_play', { video_title: videoTitle, video_topic: videoTopic });
+}
+
+export function trackBeforeAfterInteraction(): void {
+  trackEvent('before_after_interaction');
+}
+
+export function trackOutboundClick(destinationType: string): void {
+  trackEvent('outbound_click', { destination_type: destinationType });
 }
