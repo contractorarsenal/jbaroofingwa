@@ -14,15 +14,19 @@ const settings = await getGlobalSettings();
 
 const insuranceOnly = settings.insuranceBonded.verified && settings.insuranceBonded.value;
 
-const [project02, project05, project06, reviewPrakash, reviewThao, videosRaw] = await Promise.all([
+const [project02, project05, project06, reviewPrakash, reviewThao, reviewJoe, reviewSusan, videosRaw] = await Promise.all([
   getEntry('projects', 'project-02-metal-roof'),
   getEntry('projects', 'project-05-shingle-installation'),
   getEntry('projects', 'project-06-aging-roof-replacement'),
   getEntry('reviews', 'prakash-karuppusamy'),
   getEntry('reviews', 'thao-luanglath'),
+  getEntry('reviews', 'joe-hansen'),
+  getEntry('reviews', 'susan-malin'),
   getCollection('videos', ({ data }) => data.published),
 ]);
-const aboutReviews = [reviewPrakash, reviewThao].filter((r): r is NonNullable<typeof r> => Boolean(r?.data.published));
+const aboutReviews = [reviewPrakash, reviewThao, reviewJoe, reviewSusan].filter(
+  (r): r is NonNullable<typeof r> => Boolean(r?.data.published)
+);
 const videos = videosRaw.sort((a, b) => a.data.order - b.data.order);
 ---
 
