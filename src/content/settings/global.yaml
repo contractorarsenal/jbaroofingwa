@@ -25,18 +25,15 @@ global:
     value: "JBACOCL765OZ"
     verified: true
 
-  # Verified via the client-supplied GAF contractor profile. The official
-  # GAF Master Elite badge PNG could not be downloaded automatically in
-  # this environment (gaf.com blocks this environment's network egress
-  # with a 403 on every path, homepage included, not just the badge file) —
-  # badgeImage is left blank so templates fall back to a text-based badge
-  # treatment instead of a broken image. Once someone with normal browser
-  # access saves the real badge to public/images/credentials/gaf-master-elite.png,
-  # set badgeImage to that path to switch templates over to the real artwork.
+  # Verified via the client-supplied GAF contractor profile. badgeImage is
+  # the official GAF Master Elite badge artwork the client supplied
+  # directly (saved locally, not hotlinked) — gaf.com's own CDN still
+  # blocks this environment's network egress entirely, but this asset came
+  # through a different channel so it didn't hit that block.
   credential:
     verified: true
     name: "GAF Master Elite®"
-    badgeImage: ""
+    badgeImage: "/images/credentials/gaf-master-elite.webp"
     description: "Only about 2% of roofers in North America are invited to become GAF Master Elite Contractors."
     verificationUrl: "https://www.gaf.com/en-us/roofing-contractors/residential"
     contractorId: "1150466"

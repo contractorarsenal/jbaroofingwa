@@ -1,0 +1,117 @@
+---
+/**
+ * A real JBA-recorded, vertically-shot homeowner-education video. Native
+ * HTML5 <video> only (no video library) — the source files live on the
+ * client's own Cloudflare R2 bucket, never in this repo, so this only ever
+ * references the R2 URL directly plus a small locally-stored poster still.
+ *
+ * `showDetails` controls whether this renders its own title/description/CTA
+ * beneath the frame (the compact "card" look used in the About video
+ * library) or just the bare video frame (used on the homepage, where the
+ * surrounding section supplies its own larger copy alongside it).
+ */
+interface Props {
+  src: string;
+  poster?: string;
+  title: string;
+  eyebrow?: string;
+  description?: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+  preload?: 'none' | 'metadata' | 'auto';
+  showDetails?: boolean;
+  numbered?: number;
+}
+
+const {
+  src,
+  poster,
+  title,
+  eyebrow,
+  description,
+  ctaLabel,
+  ctaHref,
+  preload = 'none',
+  showDetails = true,
+  numbered,
+} = Astro.props;
+---
+
+<div class="roof-tip-video">
+  <div class="roof-tip-video__frame">
+    <video
+      controls
+      playsinline
+      preload={preload}
+      poster={poster}
+      aria-label={title}
+      data-reveal="up"
+    >
+      <source src={src} type="video/mp4" />
+      Your browser doesn't support embedded video.
+      <a href={src}>Watch &quot;{title}&quot; directly</a>.
+    </video>
+  </div>
+
+  {showDetails && (
+    <div class="roof-tip-video__body">
+      {numbered && <span class="roof-tip-video__num">{String(numbered).padStart(2, '0')}</span>}
+      {eyebrow && <p class="eyebrow roof-tip-video__eyebrow">{eyebrow}</p>}
+      <h3 class="roof-tip-video__title">{title}</h3>
+      {description && <p class="text-muted roof-tip-video__desc">{description}</p>}
+      {ctaLabel && ctaHref && (
+        <a href={ctaHref} class="roof-tip-video__cta" data-analytics-event="quote_started" data-analytics-location="roof_tip_video">
+          {ctaLabel} <span aria-hidden="true">→</span>
+        </a>
+      )}
+    </div>
+  )}
+</div>
+
+<style>
+  .roof-tip-video__frame {
+    position: relative;
+    width: 100%;
+    max-width: 340px;
+    aspect-ratio: 9 / 16;
+    margin-inline: auto;
+    background: #000;
+    border: 1px solid var(--color-border-dark);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .roof-tip-video__frame video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background: #000;
+  }
+
+  .roof-tip-video__body { margin-top: var(--space-4); text-align: center; }
+  .roof-tip-video__num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    color: var(--color-accent);
+    opacity: 0.7;
+    margin-bottom: var(--space-1);
+  }
+  .roof-tip-video__eyebrow { justify-content: center; }
+  .roof-tip-video__title {
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-top: var(--space-2);
+  }
+  .roof-tip-video__desc { margin-top: var(--space-2); font-size: 0.9rem; max-width: 34ch; margin-inline: auto; }
+  .roof-tip-video__cta {
+    display: inline-block;
+    margin-top: var(--space-3);
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-accent);
+  }
+  .roof-tip-video__cta:hover { text-decoration: underline; }
+</style>

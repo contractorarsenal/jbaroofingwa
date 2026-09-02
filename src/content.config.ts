@@ -413,6 +413,29 @@ const maintenance = defineCollection({
 });
 
 /* ------------------------------------------------------------------ */
+/* ROOF TIP VIDEOS                                                      */
+/* Real JBA-recorded homeowner-education videos, hosted on the client's */
+/* own Cloudflare R2 bucket. videoUrl points there directly — no video   */
+/* files are stored in this repo. poster is a locally-stored still.     */
+/* ------------------------------------------------------------------ */
+const videos = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/videos' }),
+  schema: z.object({
+    title: z.string(),
+    videoUrl: z.string(),
+    poster: z.string().optional(),
+    eyebrow: z.string().optional(),
+    shortDescription: z.string(),
+    topic: z.enum(['inspection', 'financing', 'maintenance', 'replacement']),
+    ctaLabel: z.string().optional(),
+    ctaHref: z.string().optional(),
+    featured: z.boolean().default(false),
+    published: z.boolean().default(false),
+    order: z.number().default(0),
+  }),
+});
+
+/* ------------------------------------------------------------------ */
 /* RESOURCES / ARTICLES                                                 */
 /* ------------------------------------------------------------------ */
 const articles = defineCollection({
@@ -442,4 +465,5 @@ export const collections = {
   team,
   maintenance,
   articles,
+  videos,
 };

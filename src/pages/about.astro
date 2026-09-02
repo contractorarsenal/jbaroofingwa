@@ -5,23 +5,26 @@ import MediaSlot from '@components/ui/MediaSlot.astro';
 import InstagramEmbed from '@components/ui/InstagramEmbed.astro';
 import GafCredential from '@components/sections/GafCredential.astro';
 import ReviewCard from '@components/reviews/ReviewCard.astro';
+import RoofTipVideo from '@components/media/RoofTipVideo.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import { getPublishedTeam, getGlobalSettings } from '@lib/content';
-import { getEntry } from 'astro:content';
+import { getEntry, getCollection } from 'astro:content';
 
 const team = await getPublishedTeam();
 const settings = await getGlobalSettings();
 
 const insuranceOnly = settings.insuranceBonded.verified && settings.insuranceBonded.value;
 
-const [project02, project05, project06, reviewPrakash, reviewThao] = await Promise.all([
+const [project02, project05, project06, reviewPrakash, reviewThao, videosRaw] = await Promise.all([
   getEntry('projects', 'project-02-metal-roof'),
   getEntry('projects', 'project-05-shingle-installation'),
   getEntry('projects', 'project-06-aging-roof-replacement'),
   getEntry('reviews', 'prakash-karuppusamy'),
   getEntry('reviews', 'thao-luanglath'),
+  getCollection('videos', ({ data }) => data.published),
 ]);
 const aboutReviews = [reviewPrakash, reviewThao].filter((r): r is NonNullable<typeof r> => Boolean(r?.data.published));
+const videos = videosRaw.sort((a, b) => a.data.order - b.data.order);
 ---
 
 <BaseLayout
@@ -63,6 +66,8 @@ const aboutReviews = [reviewPrakash, reviewThao].filter((r): r is NonNullable<ty
     eyebrow="Certified Roofing"
     heading="GAF Master Elite® Contractor"
     body="GAF Master Elite® is a selective contractor certification. Only about 2% of roofers in North America are invited to become Master Elite contractors."
+    badgeMaxWidth={200}
+    badgeMaxWidthMobile={150}
   />
 
   {aboutReviews.length > 0 && (
@@ -94,6 +99,36 @@ const aboutReviews = [reviewPrakash, reviewThao].filter((r): r is NonNullable<ty
       </div>
     </div>
   </section>
+
+  {videos.length > 0 && (
+    <section id="roofing-advice" class="section section--black about-videos" data-nav-theme="dark">
+      <div class="container">
+        <p class="eyebrow eyebrow--inverse eyebrow--center" data-reveal="up">From The Roofer</p>
+        <h2 class="h2 about-videos__heading" data-reveal="up">Roofing Advice From JBA</h2>
+        <p class="text-muted about-videos__lede" data-reveal="up">
+          Straightforward answers to the questions homeowners ask us about
+          inspections, aging roofs, and preparing for Washington weather.
+        </p>
+        <div class="about-videos__grid" data-reveal-group>
+          {videos.map((video, i) => (
+            <div class="about-videos__item" data-reveal="up">
+              <RoofTipVideo
+                src={video.data.videoUrl}
+                poster={video.data.poster}
+                title={video.data.title}
+                eyebrow={video.data.eyebrow}
+                description={video.data.shortDescription}
+                ctaLabel={video.data.ctaLabel}
+                ctaHref={video.data.ctaHref}
+                preload="none"
+                numbered={i + 1}
+              />
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <section class="section section--charcoal about-instagram" data-nav-theme="dark">
     <div class="container about-split about-split--ig">
@@ -205,6 +240,21 @@ const aboutReviews = [reviewPrakash, reviewThao].filter((r): r is NonNullable<ty
   .about-credentials { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
   .about-reviews__heading { text-align: center; margin-top: var(--space-2); margin-bottom: var(--space-6); }
   .about-reviews__grid { max-width: 900px; margin-inline: auto; }
+
+  .about-videos__heading { text-align: center; margin-top: var(--space-2); }
+  .about-videos__lede { text-align: center; max-width: 56ch; margin: var(--space-3) auto var(--space-7); }
+  .about-videos__grid {
+    display: grid;
+    gap: var(--space-6);
+    max-width: 420px;
+    margin-inline: auto;
+  }
+  @media (min-width: 720px) {
+    .about-videos__grid { grid-template-columns: repeat(2, 1fr); max-width: 760px; }
+  }
+  @media (min-width: 1024px) {
+    .about-videos__grid { grid-template-columns: repeat(3, 1fr); max-width: none; }
+  }
   .about-team__grid { margin-top: var(--space-6); }
   .about-team__empty { max-width: 60ch; margin-top: var(--space-4); }
   .team-card__photo { aspect-ratio: 1; margin-bottom: var(--space-3); border: 1px solid var(--color-border-dark); border-radius: var(--radius-md); overflow: hidden; }

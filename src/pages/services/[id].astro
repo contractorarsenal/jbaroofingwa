@@ -14,6 +14,7 @@ import FaqList from '@components/faqs/FaqList.astro';
 import ServiceAreasCTA from '@components/sections/ServiceAreasCTA.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import GafCredential from '@components/sections/GafCredential.astro';
+import RoofTipVideo from '@components/media/RoofTipVideo.astro';
 import {
   getPublishedServices,
   getProjectsForService,
@@ -44,6 +45,11 @@ const pageUrl = new URL(Astro.url.pathname, siteUrl).toString();
 // Roof Replacement specifically connects the verified GAF credential to a
 // real customer review that names GAF products, per the trust/proof pass.
 const ajeetReview = service.id === 'roof-replacement' ? await getEntry('reviews', 'ajeet-singh') : undefined;
+
+// Roof Inspection gets the one recorded video that's actually about
+// inspecting an aging roof, integrated right after the inspection
+// checklist rather than tacked on at the bottom of the page.
+const inspectionVideo = service.id === 'roof-inspection' ? await getEntry('videos', 'what-an-aging-roof-can-hide') : undefined;
 
 const [projects, faqs, reviewsRaw] = await Promise.all([
   getProjectsForService(service.id),
@@ -153,6 +159,8 @@ const restEducation = data.educationSections.slice(1);
       eyebrow="Why GAF Master Elite® Status Matters"
       heading="Another factor to weigh when comparing roofing companies."
       body="Manufacturer certification gives homeowners another factor to consider when comparing roof replacement companies and roofing systems. Qualifying GAF roofing systems installed by eligible contractors may have access to enhanced GAF warranty options."
+      badgeMaxWidth={160}
+      badgeMaxWidthMobile={130}
     >
       <div class="gaf-review-slot">
         <p class="gaf-review-slot__label">Real Customer Experience</p>
@@ -172,6 +180,36 @@ const restEducation = data.educationSections.slice(1);
       </div>
     </section>
   ))}
+
+  {inspectionVideo?.data.published && (
+    <section class="section section--off-white" data-nav-theme="light">
+      <div class="container split">
+        <div data-reveal="image">
+          <RoofTipVideo
+            src={inspectionVideo.data.videoUrl}
+            poster={inspectionVideo.data.poster}
+            title={inspectionVideo.data.title}
+            preload="none"
+            showDetails={false}
+          />
+        </div>
+        <div>
+          <p class="eyebrow" data-reveal="up">Roofing Tip</p>
+          <h2 class="h2" data-reveal="up">Can You Tell Your Roof's Condition From The Ground?</h2>
+          <p class="text-muted service-overview__text" data-reveal="up">
+            Not always. JBA's inspection process gives homeowners a closer
+            look at roof condition and helps identify visible signs of wear
+            before they turn into larger problems.
+          </p>
+          <div data-reveal="up">
+            <Button href="/assessment/?need=inspection" analyticsEvent="quote_started" analyticsLocation="inspection_video">
+              Schedule An Inspection
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
 
   {data.comparison && (
     <section class="section section--off-white" data-nav-theme="light">

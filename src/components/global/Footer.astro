@@ -44,7 +44,12 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
         </Button>
       </div>
       {settings.credential.verified && settings.credential.name && (
-        <p class="site-footer__credential">{settings.credential.name} Contractor</p>
+        <div class="site-footer__credential">
+          {settings.credential.badgeImage && (
+            <img src={settings.credential.badgeImage} alt="GAF Master Elite Contractor certification" width="445" height="445" class="site-footer__credential-badge" />
+          )}
+          <span class="site-footer__credential-label">{settings.credential.name} Contractor</span>
+        </div>
       )}
       {hasSocial && (
         <div class="site-footer__social">
@@ -166,7 +171,19 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
   .site-footer__desc { margin-bottom: var(--space-1); }
   .site-footer__cta { margin-top: var(--space-2); }
   .site-footer__credential {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
     margin-top: var(--space-3);
+  }
+  .site-footer__credential-badge {
+    width: auto;
+    height: auto;
+    max-width: 64px;
+    object-fit: contain;
+    flex-shrink: 0;
+  }
+  .site-footer__credential-label {
     font-size: 0.7rem;
     font-weight: 700;
     letter-spacing: 0.04em;

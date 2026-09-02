@@ -891,6 +891,67 @@ content:
         required: false
 
   # ------------------------------------------------------------------
+  # ROOF TIP VIDEOS
+  # ------------------------------------------------------------------
+  - name: videos
+    label: Roof Tip Videos
+    type: collection
+    path: src/content/videos
+    extension: yaml
+    filename:
+      template: "{fields.title}.yaml"
+      field: create
+    view:
+      primary: title
+      fields: [title, topic, featured, published]
+    fields:
+      - name: title
+        label: Title
+        type: string
+      - name: videoUrl
+        label: Video URL
+        type: string
+        description: Direct link to the hosted MP4 (e.g. on Cloudflare R2). Do not upload video files here.
+      - name: poster
+        label: Poster Image
+        type: image
+        required: false
+        description: A still frame shown before the video plays.
+      - name: eyebrow
+        label: Small Label
+        type: string
+        required: false
+      - name: shortDescription
+        label: Short Description
+        type: text
+        description: A clean summary in plain website copy, not a pasted social caption.
+      - name: topic
+        label: Topic
+        type: select
+        options:
+          values: [inspection, financing, maintenance, replacement]
+      - name: ctaLabel
+        label: Button Text
+        type: string
+        required: false
+      - name: ctaHref
+        label: Button Link
+        type: string
+        required: false
+      - name: featured
+        label: Feature On Homepage
+        type: boolean
+        default: false
+      - name: published
+        label: Published
+        type: boolean
+        default: false
+      - name: order
+        label: Display Order
+        type: number
+        default: 0
+
+  # ------------------------------------------------------------------
   # RESOURCES / ARTICLES
   # ------------------------------------------------------------------
   - name: articles
