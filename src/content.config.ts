@@ -71,6 +71,25 @@ const settings = defineCollection({
       value: z.string().optional(),
       verified: z.boolean().default(false),
     }),
+    // Generic slot for additional trust credentials the client has asked
+    // for (BBB, Brave Builders, etc.) whose exact profile/badge/verification
+    // details aren't confirmed yet. The credential strip renders only
+    // entries with both verified and published true — nothing here is
+    // guessed or displayed until real information exists.
+    additionalCredentials: z
+      .array(
+        z.object({
+          id: z.string(),
+          name: z.string(),
+          shortLabel: z.string().optional(),
+          image: z.string().optional(),
+          verificationUrl: z.string().optional(),
+          verified: z.boolean().default(false),
+          published: z.boolean().default(false),
+          displayOrder: z.number().default(0),
+        })
+      )
+      .default([]),
     emergencyAvailability: z.object({
       value: z.string().optional(),
       verified: z.boolean().default(false),
@@ -90,6 +109,17 @@ const settings = defineCollection({
 
     financingUrl: z.string().optional(),
     financingVerified: z.boolean().default(false),
+    // Client-approved specific offer terms (e.g. "0 Down. 12 Months No
+    // Interest."), kept separate from the general financingVerified flag so
+    // the specific offer can be turned off independently if terms change,
+    // without losing the general "Financing Available" claim.
+    financingOffer: z
+      .object({
+        headline: z.string().optional(),
+        disclosure: z.string().optional(),
+        verified: z.boolean().default(false),
+      })
+      .default({ verified: false }),
 
     socialUrls: z
       .object({
@@ -100,6 +130,11 @@ const settings = defineCollection({
         bbb: z.string().optional(),
       })
       .default({}),
+
+    // Optional homepage Hero background video (real JBA drone footage). Left
+    // blank until the client supplies an edited drone clip — the Hero always
+    // renders its still image when this is empty, never a placeholder video.
+    heroVideoUrl: z.string().optional(),
 
     defaultSeoTitle: z.string(),
     defaultMetaDescription: z.string(),

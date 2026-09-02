@@ -4,7 +4,9 @@ navigationLabel: Siding Installation
 shortDescription: New siding installation for additions and new construction.
 category: other
 featured: false
-published: true
+# Unpublished: JBA no longer promotes siding as a standalone service
+# (roofing-only focus, per final client direction). Kept for git history.
+published: false
 
 heroEyebrow: Siding
 heroTitle: "Siding Installation for Washington Homes."

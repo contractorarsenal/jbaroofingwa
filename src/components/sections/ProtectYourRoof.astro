@@ -1,8 +1,7 @@
 ---
 /**
- * Merges what were two separate homepage sections (maintenance/cleaning and
- * roof rejuvenation) into one — both are about protecting a roof you
- * already have rather than replacing it, so they belong together.
+ * Pairs maintenance/cleaning with inspection — both are about protecting
+ * and understanding a roof you already have, rather than replacing it.
  */
 import Button from '@components/ui/Button.astro';
 ---
@@ -30,16 +29,16 @@ import Button from '@components/ui/Button.astro';
       <div class="protect-roof__divider" data-reveal="divider" aria-hidden="true"></div>
 
       <div class="protect-roof__col" data-reveal="up">
-        <p class="eyebrow eyebrow--inverse">Roof Rejuvenation</p>
-        <h3 class="protect-roof__title">Not Every Aging Roof Needs To Come Off Yet.</h3>
+        <p class="eyebrow eyebrow--inverse">Roof Inspection</p>
+        <h3 class="protect-roof__title">Know The Condition Before It Becomes A Problem.</h3>
         <p class="text-muted protect-roof__body">
-          If your roof is getting older but isn't failing, rejuvenation may be
-          worth discussing before jumping straight to a full replacement. It's
-          not the right fit for every roof. We'll assess your specific roof
-          and give you a straight answer on whether it makes sense.
+          An inspection tells you exactly where your roof stands, whether
+          that's confirming it's in good shape or catching a small issue
+          before it turns into a bigger one. No pressure toward a specific
+          outcome.
         </p>
-        <Button href="/services/roof-rejuvenation/" variant="outline">
-          Learn About Rejuvenation
+        <Button href="/assessment/?need=inspection" variant="outline">
+          Schedule An Inspection
         </Button>
       </div>
     </div>

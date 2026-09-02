@@ -4,7 +4,9 @@ navigationLabel: Siding Replacement
 shortDescription: Replacing worn, damaged, or aging siding.
 category: other
 featured: false
-published: true
+# Unpublished: JBA no longer promotes siding as a standalone service
+# (roofing-only focus, per final client direction). Kept for git history.
+published: false
 
 heroEyebrow: Siding
 heroTitle: "Siding Replacement for Washington Homes."

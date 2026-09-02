@@ -1,0 +1,12 @@
+question: "Does roof condition vary much across King County?"
+answer: >-
+  Yes. King County covers everything from older Seattle-area homes to newer
+  construction in the eastside suburbs, and roof condition tracks with that:
+  age, tree cover, and sun exposure all differ block by block. That's part of
+  why we inspect a roof in person rather than quoting from a satellite photo.
+category: general
+relatedServices: []
+relatedLocations: [king-county]
+featured: false
+schemaEligible: true
+published: true

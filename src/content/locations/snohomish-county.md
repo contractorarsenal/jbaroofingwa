@@ -7,12 +7,13 @@ county: Snohomish County, WA
 heroTitle: Roofing Across Snohomish County
 heroImage: "/images/projects/project-05-shingle-installation/after.jpg"
 heroDescription: >-
-  Roof replacement, repair, inspection, cleaning, and roof care for
+  Roof replacement, repair, inspection, cleaning, and maintenance for
   homeowners throughout Snohomish County.
 localIntro: >-
   Snohomish County's heavier tree cover in many areas means moss and debris
   buildup tend to show up faster than in more open neighborhoods, one of the
   reasons routine maintenance matters more here than it might elsewhere.
+servicesAvailable: [roof-replacement, roof-repair, roof-inspection, roof-cleaning, roof-maintenance]
 neighborhoods: []
 
 considerations:
@@ -57,7 +58,7 @@ cta:
 
 seo:
   title: Snohomish County Roofing Services | JBA Roofing
-  description: Roof replacement, repair, inspection, cleaning, and rejuvenation for homeowners throughout Snohomish County, Washington.
+  description: Roof replacement, repair, inspection, cleaning, and maintenance for homeowners throughout Snohomish County, Washington.
 ---
 
 Snohomish County is part of our core service area. Reach out for repair, maintenance, or replacement anywhere in the county.

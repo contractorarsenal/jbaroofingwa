@@ -15,7 +15,7 @@ heroDescription: >-
   shingles. We use low-pressure treatment methods instead.
 primaryCta:
   label: Schedule Roof Cleaning
-  href: /assessment/?need=cleaning
+  href: /assessment/?need=maintenance
 secondaryCta:
   label: View Maintenance Plans
   href: /maintenance-plans/

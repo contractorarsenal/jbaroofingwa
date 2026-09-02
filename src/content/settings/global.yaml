@@ -63,6 +63,14 @@ global:
   financingUrl: ""
   financingVerified: true
 
+  # Client-approved offer from the final client meeting. The provider
+  # (GreenSky) was intentionally left unnamed per that decision — do not
+  # add a provider name here without a new client request.
+  financingOffer:
+    headline: "0 Down. 12 Months No Interest."
+    disclosure: "Financing is subject to approval and current program terms. Ask JBA Roofing for current eligibility and financing details."
+    verified: true
+
   socialUrls:
     facebook: ""
     instagram: ""
@@ -70,8 +78,14 @@ global:
     yelp: ""
     bbb: ""
 
+  # No JBA drone footage has been supplied to this repository yet (searched
+  # public/, src/assets/, and the whole repo for .mp4/.webm/.mov — none
+  # found). Leave blank until the client provides an edited drone clip; the
+  # Hero always falls back to its still image when this is empty.
+  heroVideoUrl: ""
+
   defaultSeoTitle: "JBA Roofing | Roof Replacement & Repair in King County, WA"
-  defaultMetaDescription: "JBA Roofing provides roof replacement, repair, inspection, cleaning, and rejuvenation across King, Snohomish, and Skagit counties in Washington. Free estimates, financing available."
+  defaultMetaDescription: "JBA Roofing provides roof replacement, repair, inspection, cleaning, and maintenance across King, Snohomish, and Skagit counties in Washington. Free estimates, financing available."
   defaultOgImage: /images/og/default-og.jpg
   logo: /images/brand/jba-logo.svg
   logoDark: /images/brand/jba-logo-dark.svg

@@ -47,9 +47,8 @@ const progressSteps = [
       <div class="step__options" data-options="need">
         <button type="button" class="option-card" data-value="replacement">I Need a New Roof</button>
         <button type="button" class="option-card" data-value="repair">I Have a Leak or Damage</button>
-        <button type="button" class="option-card" data-value="inspection">I Want My Roof Inspected</button>
-        <button type="button" class="option-card" data-value="cleaning">I Need Roof Cleaning</button>
-        <button type="button" class="option-card" data-value="rejuvenation">I'm Interested in Roof Rejuvenation</button>
+        <button type="button" class="option-card" data-value="inspection">I Want a Roof Inspection</button>
+        <button type="button" class="option-card" data-value="maintenance">I Need Roof Cleaning / Maintenance</button>
         <button type="button" class="option-card" data-value="unsure">I'm Not Sure</button>
       </div>
       <button type="button" class="btn btn--outline" data-back>Back</button>
@@ -70,8 +69,21 @@ const progressSteps = [
       <button type="button" class="btn btn--outline" data-back>Back</button>
     </fieldset>
 
-    <!-- STEP 4: PROPERTY DETAILS (timeline + insurance) -->
+    <!-- STEP 4: ROOF AGE -->
     <fieldset class="step" data-step="4" hidden>
+      <legend class="step__title">How old is the roof?</legend>
+      <p class="text-muted step__sub">A rough estimate is fine.</p>
+      <div class="step__options" data-options="roofAge">
+        <button type="button" class="option-card" data-value="5-10-years">5 to 10 Years</button>
+        <button type="button" class="option-card" data-value="15-20-years">15 to 20 Years</button>
+        <button type="button" class="option-card" data-value="20-30-years">20 to 30 Years</button>
+        <button type="button" class="option-card" data-value="not-sure">Not Sure</button>
+      </div>
+      <button type="button" class="btn btn--outline" data-back>Back</button>
+    </fieldset>
+
+    <!-- STEP 5: PROPERTY DETAILS (timeline + insurance) -->
+    <fieldset class="step" data-step="5" hidden>
       <legend class="step__title">Tell us about the property</legend>
       <p class="step__sub-question">How soon do you need help?</p>
       <div class="step__options" data-options="timeline">
@@ -92,8 +104,8 @@ const progressSteps = [
       </div>
     </fieldset>
 
-    <!-- STEP 5: PHOTO UPLOAD (optional) -->
-    <fieldset class="step" data-step="5" hidden>
+    <!-- STEP 6: PHOTO UPLOAD (optional) -->
+    <fieldset class="step" data-step="6" hidden>
       <legend class="step__title">Add Photos <span class="text-muted">(Optional)</span></legend>
       <p class="text-muted step__sub">Photos can help us understand what you're seeing before we follow up.</p>
       <label class="photo-upload">
@@ -108,8 +120,8 @@ const progressSteps = [
       </div>
     </fieldset>
 
-    <!-- STEP 6: CONTACT INFO -->
-    <fieldset class="step" data-step="6" hidden>
+    <!-- STEP 7: CONTACT INFO -->
+    <fieldset class="step" data-step="7" hidden>
       <legend class="step__title">How should we reach you?</legend>
       <div class="form-field">
         <label for="af-name">Name</label>
@@ -363,6 +375,7 @@ const progressSteps = [
     zip?: string;
     need?: string;
     context?: string;
+    roofAge?: string;
     timeline?: string;
     insurance?: string;
     preferredContact?: string;
@@ -377,8 +390,8 @@ const progressSteps = [
   const answers: Answers = {};
   let currentIndex = 0; // index into steps[] (excludes confirm/error)
 
-  // Maps the 6 functional fieldsets onto the 4 visual progress segments.
-  const STEP_TO_SEGMENT = [0, 0, 1, 2, 2, 3];
+  // Maps the 7 functional fieldsets onto the 4 visual progress segments.
+  const STEP_TO_SEGMENT = [0, 0, 1, 2, 2, 2, 3];
 
   function updateProgress() {
     const activeSegment = STEP_TO_SEGMENT[currentIndex] ?? 0;
@@ -442,7 +455,7 @@ const progressSteps = [
     if (currentIndex === 1) {
       if (!answers.need) return;
     }
-    if (currentIndex === 3) {
+    if (currentIndex === 4) {
       if (!answers.timeline || !answers.insurance) return;
     }
     if (currentIndex < steps.length - 1) showStep(currentIndex + 1);
@@ -458,7 +471,7 @@ const progressSteps = [
     if (!key) return;
     group.querySelectorAll<HTMLButtonElement>('.option-card').forEach((btn) => {
       btn.setAttribute('aria-pressed', 'false');
-      const autoAdvance = key === 'need' || key === 'context';
+      const autoAdvance = key === 'need' || key === 'context' || key === 'roofAge';
       btn.addEventListener('click', () => selectSingle(btn, key, autoAdvance));
     });
   });
@@ -549,6 +562,7 @@ const progressSteps = [
     data.set('zip_code', answers.zip ?? '');
     data.set('need', answers.need ?? '');
     data.set('noticing', answers.context ?? '');
+    data.set('roof_age', answers.roofAge ?? '');
     data.set('timeline', answers.timeline ?? '');
     data.set('insurance_claim', answers.insurance ?? '');
     data.set('preferred_contact', answers.preferredContact ?? '');

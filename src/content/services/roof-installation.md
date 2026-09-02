@@ -5,7 +5,10 @@ shortDescription: New roof installation for additions, new construction, and ful
 category: replacement
 journey: replacement
 featured: false
-published: true
+# Unpublished: consolidated into Roof Replacement to avoid keyword
+# cannibalization and match the client-approved 5-service list (Replacement,
+# Repair, Inspection, Cleaning, Maintenance). Kept for git history.
+published: false
 
 heroEyebrow: Roof Installation
 heroTitle: "Installed to Manufacturer Specification, Every Layer."

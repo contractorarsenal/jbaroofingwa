@@ -7,8 +7,8 @@ city: ""
 neighborhood: ""
 zip: ""
 
-service: roof-installation
-relatedServices: [roof-installation, roof-replacement]
+service: roof-replacement
+relatedServices: [roof-replacement]
 
 roofType: ""
 roofMaterial: "Asphalt Shingle"

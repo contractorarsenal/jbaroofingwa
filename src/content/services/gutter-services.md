@@ -5,7 +5,10 @@ shortDescription: Gutter cleaning, repair, and inspection to keep water moving a
 category: maintenance
 journey: maintenance
 featured: false
-published: true
+# Unpublished: consolidated into Roof Cleaning to avoid keyword
+# cannibalization and match the client-approved 5-service list (Replacement,
+# Repair, Inspection, Cleaning, Maintenance). Kept for git history.
+published: false
 
 heroEyebrow: Gutter Services
 heroTitle: "Clogged Gutters Cause More Roof Damage Than People Expect."
@@ -14,7 +17,7 @@ heroDescription: >-
   exactly the condition that leads to rot and leaks at the eaves.
 primaryCta:
   label: Schedule Gutter Service
-  href: /assessment/?need=cleaning
+  href: /assessment/?need=maintenance
 secondaryCta:
   label: View Maintenance Plans
   href: /maintenance-plans/

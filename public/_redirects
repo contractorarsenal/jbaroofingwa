@@ -4,10 +4,25 @@
 
 /home/                                  /                                        301
 /gallery/                               /projects/                               301
-/roof-installation-in-king-county/      /services/roof-installation/             301
+/roof-installation-in-king-county/      /services/roof-replacement/              301
 /roof-repair-in-king-county/            /services/roof-repair/                   301
 /roof-inspection-in-king-county/        /services/roof-inspection/               301
 /roof-replacement-in-king-county/       /services/roof-replacement/              301
+
+# Roof Rejuvenation is unpublished per a final client decision (may return
+# later, hence a temporary 302 rather than a permanent 301).
+/services/roof-rejuvenation/            /services/roof-maintenance/              302
+
+# These service pages were unpublished as part of the final client-meeting
+# pass to consolidate down to 5 canonical services (Replacement, Repair,
+# Inspection, Cleaning, Maintenance) and remove keyword cannibalization.
+# These are permanent consolidations, hence 301s.
+/services/roof-installation/            /services/roof-replacement/              301
+/services/roof-leak-repair/             /services/roof-repair/                   301
+/services/storm-damage-repair/          /services/roof-repair/                   301
+/services/gutter-services/              /services/roof-cleaning/                 301
+/services/siding-installation/          /                                        301
+/services/siding-replacement/           /                                        301
 
 # /about/, /services/, /contact/, and /privacy-policy/ keep the same path on the
 # new site, so no redirect is needed for those.

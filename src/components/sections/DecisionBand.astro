@@ -18,6 +18,12 @@ const paths = [
     href: '/assessment/?need=repair',
   },
   {
+    question: 'Want To Protect Your Current Roof?',
+    service: 'Roof Maintenance',
+    cta: 'Schedule Maintenance',
+    href: '/assessment/?need=maintenance',
+  },
+  {
     question: "Not Sure What You Need?",
     service: 'Roof Assessment',
     cta: 'Start Here',
@@ -86,7 +92,7 @@ const paths = [
     color: var(--color-accent-dark);
   }
 
-  @media (min-width: 720px) {
-    .decision-band__paths { grid-template-columns: repeat(3, 1fr); }
+  @media (min-width: 560px) {
+    .decision-band__paths { grid-template-columns: repeat(2, 1fr); max-width: 760px; margin-inline: auto; }
   }
 </style>

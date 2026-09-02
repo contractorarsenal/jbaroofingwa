@@ -25,6 +25,21 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
       loading="eager"
       sizes="100vw"
     />
+    {settings.heroVideoUrl && (
+      <video
+        class="hero__video"
+        autoplay
+        muted
+        loop
+        playsinline
+        preload="metadata"
+        poster={heroImage}
+        data-hero-video
+        aria-hidden="true"
+      >
+        <source src={settings.heroVideoUrl} type="video/mp4" />
+      </video>
+    )}
   </div>
   <div class="hero__overlay" aria-hidden="true"></div>
 
@@ -33,7 +48,7 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
       <p class="eyebrow eyebrow--inverse hero__anim hero__anim--1">Roofing &middot; Northwest Washington</p>
       <h1 class="h1 hero__headline hero__anim hero__anim--2">A Better Roof Starts With The <span class="accent-text">Right Roofer.</span></h1>
       <p class="hero__sub hero__anim hero__anim--3">
-        Roof replacement, repairs, inspections, cleaning, and roof care for
+        Roof replacement, repair, inspection, cleaning, and maintenance for
         homeowners across King, Snohomish, and Skagit Counties.
       </p>
       <div class="hero__actions hero__anim hero__anim--4">
@@ -90,6 +105,22 @@ const heroImage = heroProject?.data.droneImages[0] ?? replacementService?.data.h
     will-change: transform;
   }
   .hero__bg :global(.media-slot) { width: 100%; height: 100%; min-height: 100%; }
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .hero__video { display: none; }
+  }
+  /* Small screens keep the static poster/image only — no background video
+     download on mobile connections, where it's the least likely to be
+     worth the data cost. */
+  @media (max-width: 640px) {
+    .hero__video { display: none; }
+  }
   .hero__overlay {
     position: absolute;
     inset: 0;

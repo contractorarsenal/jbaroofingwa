@@ -1,5 +1,5 @@
 ---
-const slugs = ['roof-replacement', 'roof-inspection', 'roof-cleaning', 'roof-repair', 'roof-rejuvenation'];
+const slugs = ['roof-replacement', 'roof-inspection', 'roof-cleaning', 'roof-repair', 'roof-maintenance'];
 import { getCollection, getEntry } from 'astro:content';
 import MediaSlot from '@components/ui/MediaSlot.astro';
 
@@ -9,18 +9,17 @@ const services = slugs
   .filter((s): s is NonNullable<typeof s> => Boolean(s));
 
 // Real project photography per service, where it's an honest match.
-// Rejuvenation intentionally gets no project photo — no project shown here
-// is a rejuvenation job, so it keeps the neutral branded fallback instead
-// of implying otherwise.
 const project01 = await getEntry('projects', 'project-01-shingle-roof-replacement');
 const project03 = await getEntry('projects', 'project-03-water-damage-roof-repair');
 const project04 = await getEntry('projects', 'project-04-small-shingle-replacement');
+const project06 = await getEntry('projects', 'project-06-aging-roof-replacement');
 
 const serviceImages: Record<string, { image?: string; alt: string }> = {
   'roof-replacement': { image: project01?.data.afterImages[0], alt: 'Completed shingle roof viewed from the front of the house' },
   'roof-inspection': { image: project03?.data.duringImages[0], alt: "Close-up of a roof drainage detail that was improperly positioned" },
   'roof-cleaning': { image: project04?.data.beforeImages[0], alt: 'Roof with visible moss growth before cleaning' },
   'roof-repair': { image: project03?.data.duringImages[1], alt: 'Water-damaged roof decking discovered during a repair inspection' },
+  'roof-maintenance': { image: project06?.data.beforeImages[0], alt: 'Aging roof before a maintenance visit' },
 };
 ---
 
@@ -28,7 +27,7 @@ const serviceImages: Record<string, { image?: string; alt: string }> = {
   <div class="container">
     <p class="eyebrow eyebrow--center" data-reveal="up">What We Do</p>
     <h2 class="h2 services-grid__heading" data-reveal="up">Roofing Services Built For The <span class="accent-text">Pacific Northwest</span></h2>
-    <p class="text-muted services-grid__lede" data-reveal="up">Roof replacement, repair, inspection, cleaning, and rejuvenation, handled by one local team.</p>
+    <p class="text-muted services-grid__lede" data-reveal="up">Roof replacement, repair, inspection, cleaning, and maintenance for homeowners across King, Snohomish, and Skagit Counties.</p>
 
     <div class="services-grid__cards" data-reveal-group>
       {services.map((service, i) => {
@@ -68,7 +67,7 @@ const serviceImages: Record<string, { image?: string; alt: string }> = {
   .services-grid__lede { text-align: center; max-width: 56ch; margin: var(--space-3) auto 0; }
 
   /* A 6-column grid lets a full-width card span 2 columns, so the 2 leftover
-     cards on row 2 (repair, rejuvenation) can sit centered under 3 columns
+     cards on row 2 (repair, maintenance) can sit centered under 3 columns
      by spanning the middle 4 of 6 tracks, instead of hugging the left edge. */
   .services-grid__cards {
     display: grid;
@@ -155,7 +154,7 @@ const serviceImages: Record<string, { image?: string; alt: string }> = {
     .service-card:nth-child(1) { grid-column: 1 / 3; }
     .service-card:nth-child(2) { grid-column: 3 / 5; }
     .service-card:nth-child(3) { grid-column: 5 / 7; }
-    /* row 2: repair, rejuvenation — centered under the 6-column track */
+    /* row 2: repair, maintenance — centered under the 6-column track */
     .service-card:nth-child(4) { grid-column: 2 / 4; }
     .service-card:nth-child(5) { grid-column: 4 / 6; }
   }

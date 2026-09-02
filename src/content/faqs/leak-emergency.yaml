@@ -5,7 +5,7 @@ answer: >-
   If it's a stain that isn't growing, it can typically wait for a scheduled
   inspection, though it's still worth having looked at soon.
 category: repair
-relatedServices: [roof-repair, roof-leak-repair]
+relatedServices: [roof-repair]
 relatedLocations: []
 featured: false
 schemaEligible: true

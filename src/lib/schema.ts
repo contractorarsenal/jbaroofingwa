@@ -21,7 +21,7 @@ export function buildLocalBusinessSchema(settings: Settings, siteUrl: string) {
     telephone: settings.primaryPhoneDisplay,
     email: settings.email,
     areaServed: [settings.primaryServiceArea, ...settings.secondaryServiceAreas],
-    image: siteUrl + settings.defaultOgImage,
+    image: siteUrl.replace(/\/$/, '') + settings.defaultOgImage,
   };
 
   if (settings.businessAddress.displayPublicly && settings.businessAddress.street) {

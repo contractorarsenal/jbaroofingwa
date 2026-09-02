@@ -114,6 +114,20 @@ content:
                 label: Verified — OK to show publicly
                 type: boolean
                 default: false
+          - name: additionalCredentials
+            label: Additional Trust Credentials (BBB, Brave Builders, etc.)
+            type: object
+            list: true
+            description: Only turn "Verified" AND "Published" on once a specific credential is actually confirmed — do not add a placeholder credential just to fill this list.
+            fields:
+              - { name: id, label: ID (short, unique, no spaces), type: string }
+              - { name: name, label: Full Name, type: string }
+              - { name: shortLabel, label: Short Label (for compact display), type: string, required: false }
+              - { name: image, label: Badge Image, type: image, required: false }
+              - { name: verificationUrl, label: Verification Link, type: string, required: false }
+              - { name: verified, label: Verified — Information Confirmed, type: boolean, default: false }
+              - { name: published, label: Published — OK to show publicly, type: boolean, default: false }
+              - { name: displayOrder, label: Display Order, type: number, default: 0 }
           - name: emergencyAvailability
             label: Emergency Availability Claim
             type: object
@@ -171,6 +185,23 @@ content:
             label: Financing Info Confirmed — OK to show publicly
             type: boolean
             default: false
+          - name: financingOffer
+            label: Specific Financing Offer
+            type: object
+            description: Only fill in and verify once a specific offer (e.g. "0 Down, 12 Months No Interest") is client-approved and current.
+            fields:
+              - name: headline
+                label: Offer Headline
+                type: string
+                required: false
+              - name: disclosure
+                label: Disclosure Text
+                type: text
+                required: false
+              - name: verified
+                label: Verified — OK to show publicly
+                type: boolean
+                default: false
           - name: socialUrls
             label: Social Media Links
             type: object
@@ -195,6 +226,11 @@ content:
                 label: BBB Profile URL
                 type: string
                 required: false
+          - name: heroVideoUrl
+            label: Homepage Hero Background Video URL
+            type: string
+            required: false
+            description: Direct link to a hosted MP4 (e.g. Cloudflare R2) for the homepage Hero background. Leave blank to show the static Hero image instead — this is the safe default until real drone footage is supplied.
           - name: defaultSeoTitle
             label: Default SEO Page Title
             type: string

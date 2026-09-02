@@ -5,7 +5,10 @@ shortDescription: Wind and storm damage assessment and repair after Pacific Nort
 category: repair
 journey: repair
 featured: false
-published: true
+# Unpublished: consolidated into Roof Repair to avoid keyword
+# cannibalization and match the client-approved 5-service list (Replacement,
+# Repair, Inspection, Cleaning, Maintenance). Kept for git history.
+published: false
 
 heroEyebrow: Storm Damage
 heroTitle: "Wind Damage Doesn't Always Look Like Much From the Ground."

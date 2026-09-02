@@ -5,7 +5,12 @@ shortDescription: For qualifying aging roofs that may not need full replacement 
 category: maintenance
 journey: maintenance
 featured: false
-published: true
+# FINAL CLIENT DECISION (this pass): Roof Rejuvenation is not being offered
+# or promoted right now. Unpublished rather than deleted, so it never
+# generates a live route/nav entry, but the content and git history are
+# kept in case the client reintroduces it later. See public/_redirects for
+# the temporary redirect from its old URL to /services/roof-maintenance/.
+published: false
 
 heroEyebrow: Roof Rejuvenation
 heroTitle: "Not Every Aging Roof Needs to Come Off Yet."

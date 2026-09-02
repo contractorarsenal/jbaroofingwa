@@ -7,11 +7,12 @@ county: Skagit County, WA
 heroTitle: Roofing Across Skagit County
 heroImage: "/images/projects/project-07-roof-installation/after.jpg"
 heroDescription: >-
-  Roof replacement, repair, inspection, cleaning, and roof care for
+  Roof replacement, repair, inspection, cleaning, and maintenance for
   homeowners in parts of Skagit County.
 localIntro: >-
   We extend our King and Snohomish County service into parts of Skagit
   County. Reach out with your address to confirm coverage for your area.
+servicesAvailable: [roof-replacement, roof-repair, roof-inspection, roof-cleaning, roof-maintenance]
 neighborhoods: []
 
 considerations:
@@ -56,7 +57,7 @@ cta:
 
 seo:
   title: Skagit County Roofing Services | JBA Roofing
-  description: Roof replacement, repair, inspection, cleaning, and rejuvenation for homeowners in parts of Skagit County, Washington.
+  description: Roof replacement, repair, inspection, cleaning, and maintenance for homeowners in parts of Skagit County, Washington.
 ---
 
 Contact us with your address to confirm service availability in your part of Skagit County.

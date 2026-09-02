@@ -5,7 +5,10 @@ shortDescription: Locating and fixing the source of an active roof leak, not jus
 category: repair
 journey: repair
 featured: false
-published: true
+# Unpublished: consolidated into Roof Repair to avoid keyword
+# cannibalization and match the client-approved 5-service list (Replacement,
+# Repair, Inspection, Cleaning, Maintenance). Kept for git history.
+published: false
 
 heroEyebrow: Leak Detection
 heroTitle: "Find Where It's Actually Coming In."

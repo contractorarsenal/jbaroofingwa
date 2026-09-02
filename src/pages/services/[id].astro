@@ -51,6 +51,10 @@ const ajeetReview = service.id === 'roof-replacement' ? await getEntry('reviews'
 // checklist rather than tacked on at the bottom of the page.
 const inspectionVideo = service.id === 'roof-inspection' ? await getEntry('videos', 'what-an-aging-roof-can-hide') : undefined;
 
+// Roof Maintenance gets the rainy-season prep video, since it's the same
+// "don't wait for a problem to show up" idea maintenance is about.
+const maintenanceVideo = service.id === 'roof-maintenance' ? await getEntry('videos', 'beat-the-rain') : undefined;
+
 const [projects, faqs, reviewsRaw] = await Promise.all([
   getProjectsForService(service.id),
   getFaqsForService(service.id),
@@ -204,6 +208,32 @@ const restEducation = data.educationSections.slice(1);
           <div data-reveal="up">
             <Button href="/assessment/?need=inspection" analyticsEvent="quote_started" analyticsLocation="inspection_video">
               Schedule An Inspection
+            </Button>
+          </div>
+        </div>
+      </div>
+    </section>
+  )}
+
+  {maintenanceVideo?.data.published && (
+    <section class="section section--off-white" data-nav-theme="light">
+      <div class="container split">
+        <div data-reveal="image">
+          <RoofTipVideo
+            src={maintenanceVideo.data.videoUrl}
+            poster={maintenanceVideo.data.poster}
+            title={maintenanceVideo.data.title}
+            preload="none"
+            showDetails={false}
+          />
+        </div>
+        <div>
+          <p class="eyebrow" data-reveal="up">Before The Rain</p>
+          <h2 class="h2" data-reveal="up">Check Your Roof Before Washington Weather Does.</h2>
+          <p class="text-muted service-overview__text" data-reveal="up">{maintenanceVideo.data.shortDescription}</p>
+          <div data-reveal="up">
+            <Button href="/assessment/?need=maintenance" analyticsEvent="quote_started" analyticsLocation="maintenance_video">
+              Schedule Roof Maintenance
             </Button>
           </div>
         </div>

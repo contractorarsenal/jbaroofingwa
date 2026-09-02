@@ -11,19 +11,19 @@ const settings = await getGlobalSettings();
 
 const roofServices = [
   { slug: 'roof-replacement', label: 'Roof Replacement' },
+  { slug: 'roof-repair', label: 'Roof Repair' },
   { slug: 'roof-inspection', label: 'Roof Inspection' },
   { slug: 'roof-cleaning', label: 'Roof Cleaning' },
-  { slug: 'roof-repair', label: 'Roof Repair' },
-  { slug: 'roof-rejuvenation', label: 'Roof Rejuvenation' },
+  { slug: 'roof-maintenance', label: 'Roof Maintenance' },
 ];
 const allServices = await getPublishedServices();
 ---
 
-<BaseLayout title="Service Areas" description="JBA Roofing serves homeowners throughout King, Snohomish, and Skagit Counties with roof replacement, repair, inspection, cleaning, and roof care.">
+<BaseLayout title="Service Areas" description="JBA Roofing serves homeowners throughout King, Snohomish, and Skagit Counties with roof replacement, repair, inspection, cleaning, and maintenance.">
   <PageHero
     eyebrow="Service Areas"
     title="Roofing Across Northwest Washington"
-    description="JBA Roofing serves homeowners throughout King, Snohomish, and Skagit Counties with roof replacement, repair, inspection, cleaning, and roof care."
+    description="JBA Roofing serves homeowners throughout King, Snohomish, and Skagit Counties with roof replacement, repair, inspection, cleaning, and maintenance."
     primaryCta={{ label: 'Get a Free Estimate', href: '/assessment/' }}
     image="/images/projects/project-02-metal-roof/after-front.jpg"
   />
