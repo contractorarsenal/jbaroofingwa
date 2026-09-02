@@ -37,7 +37,7 @@ const progressSteps = [
     <fieldset class="step" data-step="1">
       <legend class="step__title">Where is the property?</legend>
       <p class="text-muted step__sub">Just the ZIP code to start.</p>
-      <input type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" name="zip" class="step__zip-input" placeholder="98101" required />
+      <input type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" name="zip" class="step__zip-input" placeholder="98101" required data-clarity-mask="true" />
       <button type="button" class="btn btn--primary btn--block" data-next>Start</button>
     </fieldset>
 
@@ -110,7 +110,7 @@ const progressSteps = [
       <legend class="step__title">Add Photos <span class="text-muted">(Optional)</span></legend>
       <p class="text-muted step__sub">Photos can help us understand what you're seeing before we follow up.</p>
       <label class="photo-upload">
-        <input type="file" name="photo" accept="image/*" capture="environment" data-photo-input />
+        <input type="file" name="photo" accept="image/*" capture="environment" data-photo-input data-clarity-mask="true" />
         <svg class="photo-upload__icon" width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.25" stroke="currentColor" stroke-width="1.6"/></svg>
         <span data-photo-label>Take or Choose a Photo</span>
       </label>
@@ -126,23 +126,23 @@ const progressSteps = [
       <legend class="step__title">How should we reach you?</legend>
       <div class="form-field">
         <label for="af-name">Name</label>
-        <input id="af-name" type="text" name="name" autocomplete="name" required />
+        <input id="af-name" type="text" name="name" autocomplete="name" required data-clarity-mask="true" />
       </div>
       <div class="form-field">
         <label for="af-phone">Phone</label>
-        <input id="af-phone" type="tel" name="phone" autocomplete="tel" required />
+        <input id="af-phone" type="tel" name="phone" autocomplete="tel" required data-clarity-mask="true" />
       </div>
       <div class="form-field">
         <label for="af-email">Email</label>
-        <input id="af-email" type="email" name="email" autocomplete="email" required />
+        <input id="af-email" type="email" name="email" autocomplete="email" required data-clarity-mask="true" />
       </div>
       <div class="form-field">
         <label for="af-address">Street Address</label>
-        <input id="af-address" type="text" name="address" autocomplete="street-address" />
+        <input id="af-address" type="text" name="address" autocomplete="street-address" data-clarity-mask="true" />
       </div>
       <div class="form-field">
         <label for="af-notes">Anything else we should know? <span class="text-muted">(optional)</span></label>
-        <textarea id="af-notes" name="notes" rows="3"></textarea>
+        <textarea id="af-notes" name="notes" rows="3" data-clarity-mask="true"></textarea>
       </div>
       <div class="form-field">
         <span>Preferred contact method</span>
@@ -426,6 +426,7 @@ const progressSteps = [
 
 <script>
   import { trackEvent, trackAssessmentStart, trackAssessmentStep, trackAssessmentSuccess } from '@lib/analytics';
+  import { trackClarityEvent } from '@lib/consent';
   import { submitToWeb3Forms } from '@lib/web3forms';
 
   type Answers = {
@@ -521,6 +522,7 @@ const progressSteps = [
       if (!hasStartedAssessment) {
         hasStartedAssessment = true;
         trackAssessmentStart();
+        trackClarityEvent('assessment_started');
       }
     }
     if (currentIndex === 1) {
@@ -620,6 +622,7 @@ const progressSteps = [
       // originating page), not just a blank page load — count it as started.
       hasStartedAssessment = true;
       trackAssessmentStart();
+      trackClarityEvent('assessment_started');
     }
   }
 
@@ -679,6 +682,7 @@ const progressSteps = [
 
       if (result.ok) {
         trackAssessmentSuccess(answers.need);
+        trackClarityEvent('assessment_completed');
         showOutcome('confirm');
       } else {
         if (status) {

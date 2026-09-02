@@ -12,6 +12,7 @@
  * email, address, ZIP, message text, form answers) as an event parameter.
  * Only behavior/conversion metadata belongs here.
  */
+import { trackClarityEvent } from '@lib/consent';
 
 export type AnalyticsEvent =
   | 'call_click'
@@ -66,6 +67,14 @@ export function trackEvent(event: AnalyticsEvent, payload: AnalyticsPayload = {}
   }
 }
 
+// A couple of GA4 events also get a matching, lightweight Clarity custom
+// event (recordings/heatmaps context) — kept to a short, deliberate list
+// per the "don't rebuild GA4 inside Clarity" guidance, not every event.
+const CLARITY_EVENT_NAMES: Partial<Record<AnalyticsEvent, string>> = {
+  call_click: 'call_clicked',
+  financing_click: 'financing_clicked',
+};
+
 /** Attaches trackEvent(event, {cta_location, service_intent}) to every element matching data-analytics-event. */
 export function bindAnalyticsClicks(root: ParentNode = document): void {
   root.querySelectorAll<HTMLElement>('[data-analytics-event]').forEach((el) => {
@@ -77,6 +86,9 @@ export function bindAnalyticsClicks(root: ParentNode = document): void {
       if (el.dataset.analyticsIntent) payload.service_intent = el.dataset.analyticsIntent;
       if (el.dataset.analyticsDestination) payload.destination_type = el.dataset.analyticsDestination;
       trackEvent(event, payload);
+
+      const clarityName = CLARITY_EVENT_NAMES[event];
+      if (clarityName) trackClarityEvent(clarityName);
     });
   });
 }

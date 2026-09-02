@@ -101,3 +101,11 @@ global:
   # Google Analytics 4 measurement ID. Public/client-side by design, not a
   # secret. Only loads on production builds (see BaseLayout.astro).
   analyticsId: "G-56TWWG48L5"
+  # Google Tag Manager container. Loaded as infrastructure for future tag
+  # management — the container is currently empty (no tags configured
+  # inside it via the GTM dashboard), so it does not duplicate the direct
+  # GA4 tag above. Only loads on production builds.
+  gtmContainerId: "GTM-TRSW9C3F"
+  # Microsoft Clarity project. Loads only once analytics consent is granted
+  # (see src/lib/consent.ts) — never before, and never on localhost.
+  clarityProjectId: "yc85tlw8bi"

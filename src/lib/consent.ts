@@ -36,3 +36,52 @@ export function updateAnalyticsConsent(granted: boolean): void {
     // Analytics must never break the site.
   }
 }
+
+declare global {
+  interface Window {
+    clarity?: { (...args: unknown[]): void; q?: unknown[] };
+  }
+}
+
+function isLocalhost(): boolean {
+  return /^(localhost|127\.0\.0\.1)$/.test(window.location.hostname);
+}
+
+/**
+ * Loads Microsoft Clarity once, only when analytics consent has actually
+ * been granted. Safe to call multiple times — no-ops if already loaded,
+ * on localhost, or without a project ID. Never throws.
+ */
+export function loadClarity(clarityId: string | undefined): void {
+  if (!clarityId || isLocalhost() || window.clarity) return;
+
+  try {
+    (function (c: any, l: Document, a: string, r: string, i: string) {
+      c[a] =
+        c[a] ||
+        function (...args: unknown[]) {
+          (c[a].q = c[a].q || []).push(args);
+        };
+      const t = l.createElement(r) as HTMLScriptElement;
+      t.async = true;
+      t.src = 'https://www.clarity.ms/tag/' + i;
+      const y = l.getElementsByTagName(r)[0];
+      y.parentNode?.insertBefore(t, y);
+    })(window, document, 'clarity', 'script', clarityId);
+  } catch {
+    // Analytics must never break the site.
+  }
+}
+
+/**
+ * A small set of Clarity-native custom events (recordings/heatmaps context,
+ * not a second analytics system) — safe no-op if Clarity never loaded or
+ * consent wasn't granted. Never pass PII as the event name or elsewhere.
+ */
+export function trackClarityEvent(name: string): void {
+  try {
+    window.clarity?.('event', name);
+  } catch {
+    // Analytics must never break the site.
+  }
+}

@@ -5,13 +5,16 @@
  * Not a full GDPR modal by design — two clear actions plus a link to the
  * Cookie Policy, matching the rest of the site's plain, direct tone.
  */
+import { getGlobalSettings } from '@lib/content';
+
+const settings = await getGlobalSettings();
 ---
 
-<div class="cookie-notice" data-cookie-notice hidden>
+<div class="cookie-notice" data-cookie-notice data-clarity-id={settings.clarityProjectId} hidden>
   <p class="cookie-notice__text">
     We use necessary technologies to operate this website. With your
-    permission, we also use Google Analytics to understand how visitors use
-    the site and improve it.
+    permission, we also use Google Analytics and Microsoft Clarity to
+    understand how visitors use the site and improve it.
   </p>
   <div class="cookie-notice__actions">
     <a href="/cookie-policy/" class="cookie-notice__link">Cookie Policy</a>
@@ -78,7 +81,7 @@
 </style>
 
 <script>
-  import { getStoredConsent, setStoredConsent, updateAnalyticsConsent } from '@lib/consent';
+  import { getStoredConsent, setStoredConsent, updateAnalyticsConsent, loadClarity } from '@lib/consent';
 
   const notice = document.querySelector<HTMLElement>('[data-cookie-notice]');
   if (notice) {
@@ -99,6 +102,7 @@
     notice.querySelector('[data-cookie-accept]')?.addEventListener('click', () => {
       setStoredConsent('analytics');
       updateAnalyticsConsent(true);
+      loadClarity(notice.dataset.clarityId);
       hideNotice();
     });
 

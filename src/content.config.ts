@@ -155,6 +155,11 @@ const settings = defineCollection({
 
     leadWebhookUrl: z.string().optional(),
     analyticsId: z.string().optional(),
+    // Google Tag Manager container ID and Microsoft Clarity project ID —
+    // public, client-side identifiers, not secrets. See BaseLayout.astro
+    // (GTM) and src/lib/consent.ts (Clarity) for how each loads.
+    gtmContainerId: z.string().optional(),
+    clarityProjectId: z.string().optional(),
   }),
 });
 

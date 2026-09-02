@@ -29,27 +29,27 @@ const serviceOptions = [
       <div class="form-row">
         <div class="form-field">
           <label for="cf-name">Name *</label>
-          <input id="cf-name" type="text" name="name" autocomplete="name" required />
+          <input id="cf-name" type="text" name="name" autocomplete="name" required data-clarity-mask="true" />
         </div>
         <div class="form-field">
           <label for="cf-phone">Phone *</label>
-          <input id="cf-phone" type="tel" name="phone" autocomplete="tel" required />
+          <input id="cf-phone" type="tel" name="phone" autocomplete="tel" required data-clarity-mask="true" />
         </div>
       </div>
 
       <div class="form-field">
         <label for="cf-email">Email *</label>
-        <input id="cf-email" type="email" name="email" autocomplete="email" required />
+        <input id="cf-email" type="email" name="email" autocomplete="email" required data-clarity-mask="true" />
       </div>
 
       <div class="form-row">
         <div class="form-field">
           <label for="cf-address">Property Address</label>
-          <input id="cf-address" type="text" name="address" autocomplete="street-address" />
+          <input id="cf-address" type="text" name="address" autocomplete="street-address" data-clarity-mask="true" />
         </div>
         <div class="form-field form-field--zip">
           <label for="cf-zip">ZIP Code</label>
-          <input id="cf-zip" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" name="zip" autocomplete="postal-code" />
+          <input id="cf-zip" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" name="zip" autocomplete="postal-code" data-clarity-mask="true" />
         </div>
       </div>
 
@@ -63,11 +63,11 @@ const serviceOptions = [
 
       <div class="form-field">
         <label for="cf-message">Message / Notes</label>
-        <textarea id="cf-message" name="message" rows="4" placeholder="Tell us what's going on with your roof."></textarea>
+        <textarea id="cf-message" name="message" rows="4" placeholder="Tell us what's going on with your roof." data-clarity-mask="true"></textarea>
       </div>
 
       <label class="photo-upload">
-        <input type="file" name="photo" accept="image/*" capture="environment" data-photo-input />
+        <input type="file" name="photo" accept="image/*" capture="environment" data-photo-input data-clarity-mask="true" />
         <svg class="photo-upload__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.25" stroke="currentColor" stroke-width="1.6"/></svg>
         <span data-photo-label>Add a photo (optional)</span>
       </label>
@@ -216,6 +216,7 @@ const serviceOptions = [
 
 <script>
   import { trackContactFormStart, trackContactFormSuccess } from '@lib/analytics';
+  import { trackClarityEvent } from '@lib/consent';
   import { submitToWeb3Forms } from '@lib/web3forms';
 
   const form = document.getElementById('contact-form') as HTMLFormElement;
@@ -331,6 +332,7 @@ const serviceOptions = [
 
       if (result.ok) {
         trackContactFormSuccess();
+        trackClarityEvent('contact_form_completed');
         showStep('confirm');
       } else {
         if (status) {

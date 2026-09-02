@@ -123,6 +123,7 @@ const {
 
 <script>
   import { trackVideoPlay } from '@lib/analytics';
+  import { trackClarityEvent } from '@lib/consent';
 
   // One RoofTipVideo instance per <video> element, possibly several per
   // page (e.g. About's video library) — track the first intentional play
@@ -132,6 +133,7 @@ const {
       'play',
       () => {
         trackVideoPlay(video.dataset.videoTitle ?? 'unknown', video.dataset.videoTopic);
+        trackClarityEvent('roofing_video_played');
       },
       { once: true }
     );

@@ -271,7 +271,17 @@ content:
             required: false
             description: "Technical — set only by the developer/agency. Leave blank unless instructed."
           - name: analyticsId
-            label: Analytics ID
+            label: Analytics ID (Google Analytics 4)
+            type: string
+            required: false
+            description: "Technical — set only by the developer/agency."
+          - name: gtmContainerId
+            label: Google Tag Manager Container ID
+            type: string
+            required: false
+            description: "Technical — set only by the developer/agency. Format: GTM-XXXXXXX."
+          - name: clarityProjectId
+            label: Microsoft Clarity Project ID
             type: string
             required: false
             description: "Technical — set only by the developer/agency."
