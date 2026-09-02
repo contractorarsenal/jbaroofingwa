@@ -3,6 +3,8 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
 import InstagramEmbed from '@components/ui/InstagramEmbed.astro';
+import GafCredential from '@components/sections/GafCredential.astro';
+import ReviewCard from '@components/reviews/ReviewCard.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import { getPublishedTeam, getGlobalSettings } from '@lib/content';
 import { getEntry } from 'astro:content';
@@ -10,17 +12,16 @@ import { getEntry } from 'astro:content';
 const team = await getPublishedTeam();
 const settings = await getGlobalSettings();
 
-const credentials = [
-  settings.credential.verified && settings.credential.name,
-  settings.contractorLicense.verified && settings.contractorLicense.value && `WA Contractor License #${settings.contractorLicense.value}`,
-  settings.insuranceBonded.verified && 'Licensed & Insured',
-].filter(Boolean) as string[];
+const insuranceOnly = settings.insuranceBonded.verified && settings.insuranceBonded.value;
 
-const [project02, project05, project06] = await Promise.all([
+const [project02, project05, project06, reviewPrakash, reviewThao] = await Promise.all([
   getEntry('projects', 'project-02-metal-roof'),
   getEntry('projects', 'project-05-shingle-installation'),
   getEntry('projects', 'project-06-aging-roof-replacement'),
+  getEntry('reviews', 'prakash-karuppusamy'),
+  getEntry('reviews', 'thao-luanglath'),
 ]);
+const aboutReviews = [reviewPrakash, reviewThao].filter((r): r is NonNullable<typeof r> => Boolean(r?.data.published));
 ---
 
 <BaseLayout
@@ -57,6 +58,24 @@ const [project02, project05, project06] = await Promise.all([
       </div>
     </div>
   </section>
+
+  <GafCredential
+    eyebrow="Certified Roofing"
+    heading="GAF Master Elite® Contractor"
+    body="GAF Master Elite® is a selective contractor certification. Only about 2% of roofers in North America are invited to become Master Elite contractors."
+  />
+
+  {aboutReviews.length > 0 && (
+    <section class="section section--off-white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow eyebrow--center">What Homeowners Say</p>
+        <h2 class="h2 about-reviews__heading">Straight From Recent Customers.</h2>
+        <div class="grid grid--2 about-reviews__grid" data-reveal-group>
+          {aboutReviews.map((review) => <ReviewCard review={review} data-reveal="up" />)}
+        </div>
+      </div>
+    </section>
+  )}
 
   <section class="section section--alt" data-nav-theme="light">
     <div class="container about-split">
@@ -109,12 +128,12 @@ const [project02, project05, project06] = await Promise.all([
     </div>
   </section>
 
-  {credentials.length > 0 && (
+  {insuranceOnly && (
     <section class="section section--alt">
       <div class="container">
         <p class="eyebrow">Credentials</p>
         <ul class="about-credentials">
-          {credentials.map((c) => <li class="badge">{c}</li>)}
+          <li class="badge">{settings.insuranceBonded.value}</li>
         </ul>
       </div>
     </section>
@@ -184,6 +203,8 @@ const [project02, project05, project06] = await Promise.all([
     border-radius: var(--radius-sm);
   }
   .about-credentials { display: flex; flex-wrap: wrap; gap: var(--space-3); margin-top: var(--space-4); }
+  .about-reviews__heading { text-align: center; margin-top: var(--space-2); margin-bottom: var(--space-6); }
+  .about-reviews__grid { max-width: 900px; margin-inline: auto; }
   .about-team__grid { margin-top: var(--space-6); }
   .about-team__empty { max-width: 60ch; margin-top: var(--space-4); }
   .team-card__photo { aspect-ratio: 1; margin-bottom: var(--space-3); border: 1px solid var(--color-border-dark); border-radius: var(--radius-md); overflow: hidden; }

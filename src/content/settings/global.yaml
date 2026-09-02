@@ -22,19 +22,24 @@ global:
     - Skagit County, WA
 
   contractorLicense:
-    value: ""
-    verified: false
+    value: "JBACOCL765OZ"
+    verified: true
 
-  # The client has indicated a GAF certification exists, but the exact
-  # designation (e.g. Master Elite vs Certified vs another tier) has not
-  # been confirmed. Do not guess it. Fill in name/badgeImage/description/
-  # verificationUrl and set verified: true only once it's confirmed.
+  # Verified via the client-supplied GAF contractor profile. The official
+  # GAF Master Elite badge PNG could not be downloaded automatically in
+  # this environment (gaf.com blocks this environment's network egress
+  # with a 403 on every path, homepage included, not just the badge file) —
+  # badgeImage is left blank so templates fall back to a text-based badge
+  # treatment instead of a broken image. Once someone with normal browser
+  # access saves the real badge to public/images/credentials/gaf-master-elite.png,
+  # set badgeImage to that path to switch templates over to the real artwork.
   credential:
-    verified: false
-    name: ""
+    verified: true
+    name: "GAF Master Elite®"
     badgeImage: ""
-    description: ""
-    verificationUrl: ""
+    description: "Only about 2% of roofers in North America are invited to become GAF Master Elite Contractors."
+    verificationUrl: "https://www.gaf.com/en-us/roofing-contractors/residential"
+    contractorId: "1150466"
 
   insuranceBonded:
     value: ""
@@ -44,8 +49,10 @@ global:
     value: "24-Hour Service"
     verified: true
 
+  # GAF lists JBA as in business since 2024, so this must read as crew/trade
+  # experience, never "8+ years in business" or "established 2024" claims.
   yearsExperience:
-    value: "8+ Years"
+    value: "8+ Years Roofing Experience"
     verified: true
 
   googleRating: 5.0

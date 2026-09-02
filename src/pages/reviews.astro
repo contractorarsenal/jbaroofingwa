@@ -1,0 +1,67 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import PageHero from '@components/sections/PageHero.astro';
+import ReviewCard from '@components/reviews/ReviewCard.astro';
+import FinalCTA from '@components/sections/FinalCTA.astro';
+import { getPublishedReviews } from '@lib/content';
+import { getEntry } from 'astro:content';
+
+const reviews = await getPublishedReviews();
+const replacementReviews = reviews.filter((r) => r.data.service?.id === 'roof-replacement');
+const cleaningReviews = reviews.filter((r) => r.data.service?.id === 'roof-cleaning');
+const otherReviews = reviews.filter((r) => !r.data.service);
+
+const heroProject = await getEntry('projects', 'project-01-shingle-roof-replacement');
+---
+
+<BaseLayout title="Reviews" description="Real reviews from JBA Roofing customers, pulled from our Google Business Profile. 100+ Google Reviews.">
+  <PageHero
+    eyebrow="Reviews"
+    title="Real Reviews From JBA Customers"
+    description="100+ Google Reviews from homeowners across King, Snohomish, and Skagit counties."
+    image={heroProject?.data.droneImages[0] ?? heroProject?.data.afterImages[0]}
+    primaryCta={{ label: 'Get a Free Estimate', href: '/assessment/' }}
+  />
+
+  {replacementReviews.length > 0 && (
+    <section class="section section--white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow">Roof Replacement</p>
+        <h2 class="h2">What Replacement Customers Say</h2>
+        <div class="grid grid--3 reviews-grid" data-reveal-group>
+          {replacementReviews.map((review) => <ReviewCard review={review} data-reveal="up" />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {cleaningReviews.length > 0 && (
+    <section class="section section--off-white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow">Roof Cleaning</p>
+        <h2 class="h2">What Cleaning Customers Say</h2>
+        <div class="grid grid--2 reviews-grid" data-reveal-group>
+          {cleaningReviews.map((review) => <ReviewCard review={review} data-reveal="up" />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {otherReviews.length > 0 && (
+    <section class="section section--white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow">General Customer Experience</p>
+        <h2 class="h2">More From Our Customers</h2>
+        <div class="grid grid--3 reviews-grid" data-reveal-group>
+          {otherReviews.map((review) => <ReviewCard review={review} data-reveal="up" />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <FinalCTA />
+</BaseLayout>
+
+<style>
+  .reviews-grid { margin-top: var(--space-6); }
+</style>

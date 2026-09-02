@@ -43,13 +43,10 @@ export function buildLocalBusinessSchema(settings: Settings, siteUrl: string) {
     };
   }
 
-  if (settings.googleRating && settings.googleReviewCount) {
-    schema.aggregateRating = {
-      '@type': 'AggregateRating',
-      ratingValue: settings.googleRating,
-      reviewCount: settings.googleReviewCount,
-    };
-  }
+  // Deliberately no aggregateRating here: an exact average rating has not
+  // been independently verified (only "100+ Google Reviews" has), and
+  // forcing a star-rating rich snippet from an unverified figure risks a
+  // structured-data mismatch with what the page actually shows.
 
   return schema;
 }

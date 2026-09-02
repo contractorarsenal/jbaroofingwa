@@ -23,6 +23,7 @@ const roofServices = [
 const quickLinks = [
   { href: '/about/', label: 'About Us' },
   { href: '/projects/', label: 'Our Work' },
+  { href: '/reviews/', label: 'Reviews' },
   { href: '/service-areas/', label: 'Service Areas' },
   { href: '/contact/', label: 'Contact' },
   { href: '/#financing', label: 'Financing' },
@@ -42,6 +43,9 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
           {settings.primaryCtaLabel} <span aria-hidden="true">→</span>
         </Button>
       </div>
+      {settings.credential.verified && settings.credential.name && (
+        <p class="site-footer__credential">{settings.credential.name} Contractor</p>
+      )}
       {hasSocial && (
         <div class="site-footer__social">
           {settings.socialUrls.facebook && (
@@ -161,6 +165,14 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
   }
   .site-footer__desc { margin-bottom: var(--space-1); }
   .site-footer__cta { margin-top: var(--space-2); }
+  .site-footer__credential {
+    margin-top: var(--space-3);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
   .site-footer__social { display: flex; gap: var(--space-3); margin-top: var(--space-3); }
   .site-footer__social a {
     display: flex;

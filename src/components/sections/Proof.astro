@@ -1,26 +1,32 @@
 ---
-import { getPublishedReviews, getGlobalSettings } from '@lib/content';
+import { getEntry } from 'astro:content';
 import ReviewCard from '@components/reviews/ReviewCard.astro';
 import Button from '@components/ui/Button.astro';
+import { getGlobalSettings } from '@lib/content';
 
 const settings = await getGlobalSettings();
-const reviews = (await getPublishedReviews()).slice(0, 6);
+
+// A specific, deliberately chosen set (GAF product mention + cleanup/decking
+// proof + communication proof + property-care proof) rather than "whichever
+// reviews happen to sort first" — see the homeowner-proof pass for why.
+const featuredIds = ['ajeet-singh', 'prakash-karuppusamy', 'nhat-le'];
+const reviews = (
+  await Promise.all(featuredIds.map((id) => getEntry('reviews', id)))
+).filter((r): r is NonNullable<typeof r> => Boolean(r?.data.published));
 ---
 
 <section class="section section--black proof" data-nav-theme="dark">
   <div class="container">
     <div class="proof__header" data-reveal="up">
-      <p class="eyebrow eyebrow--inverse eyebrow--center">Customer Reviews</p>
+      <p class="eyebrow eyebrow--inverse eyebrow--center">Real Customer Feedback</p>
       <h2 class="h2 proof__heading">Homeowners Trust <span class="accent-text">JBA.</span></h2>
-      {settings.googleRating && settings.googleReviewCount && (
-        <p class="text-muted proof__rating">★ {settings.googleRating.toFixed(1)} Google Rating</p>
-      )}
+      <p class="text-muted proof__count">100+ Google Reviews</p>
     </div>
 
     {reviews.length > 0 ? (
       <>
         <div class="grid grid--3" data-reveal-group>
-          {reviews.slice(0, 3).map((review) => <ReviewCard review={review} data-reveal="up" />)}
+          {reviews.map((review) => <ReviewCard review={review} data-reveal="up" />)}
         </div>
         {settings.googleBusinessProfileUrl && (
           <div class="proof__footer" data-reveal="up">
@@ -47,7 +53,7 @@ const reviews = (await getPublishedReviews()).slice(0, 6);
 
 <style>
   .proof__header { text-align: center; max-width: 640px; margin: 0 auto var(--space-6); }
-  .proof__rating { margin-top: var(--space-2); font-weight: 700; }
+  .proof__count { margin-top: var(--space-2); font-weight: 700; letter-spacing: 0.02em; }
   .proof__footer { text-align: center; margin-top: var(--space-6); }
   .proof__empty {
     text-align: center;

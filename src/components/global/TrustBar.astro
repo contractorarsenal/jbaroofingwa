@@ -24,9 +24,7 @@ if (mode === 'hero') {
     items.push({ icon: '✓', label: 'Financing Available' });
   }
 } else {
-  if (settings.googleRating && settings.googleReviewCount) {
-    items.push({ icon: '★', label: `${settings.googleRating.toFixed(1)} Google Rating` });
-  }
+  items.push({ icon: '★', label: '100+ Google Reviews' });
 
   items.push({ icon: '●', label: `Serving ${settings.primaryServiceArea.replace(', WA', '')}` });
 

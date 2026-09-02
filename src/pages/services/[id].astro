@@ -13,6 +13,7 @@ import Button from '@components/ui/Button.astro';
 import FaqList from '@components/faqs/FaqList.astro';
 import ServiceAreasCTA from '@components/sections/ServiceAreasCTA.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
+import GafCredential from '@components/sections/GafCredential.astro';
 import {
   getPublishedServices,
   getProjectsForService,
@@ -22,6 +23,7 @@ import {
 import { buildServiceSchema, buildFaqSchema, buildBreadcrumbSchema } from '@lib/schema';
 import { getGlobalSettings } from '@lib/content';
 import ReviewCard from '@components/reviews/ReviewCard.astro';
+import { getEntry } from 'astro:content';
 
 export async function getStaticPaths() {
   const services = await getPublishedServices();
@@ -39,11 +41,22 @@ const settings = await getGlobalSettings();
 const siteUrl = Astro.site?.toString() ?? 'https://jbaroofpro.com';
 const pageUrl = new URL(Astro.url.pathname, siteUrl).toString();
 
-const [projects, faqs, reviews] = await Promise.all([
+// Roof Replacement specifically connects the verified GAF credential to a
+// real customer review that names GAF products, per the trust/proof pass.
+const ajeetReview = service.id === 'roof-replacement' ? await getEntry('reviews', 'ajeet-singh') : undefined;
+
+const [projects, faqs, reviewsRaw] = await Promise.all([
   getProjectsForService(service.id),
   getFaqsForService(service.id),
   getReviewsForService(service.id),
 ]);
+// Featured reviews first, so a deliberately curated set surfaces instead of
+// whichever review happens to sort first alphabetically by filename. Ajeet's
+// review is excluded here when it's already shown in the GAF credential
+// section above, so the same reviewer doesn't appear twice on one page.
+const reviews = reviewsRaw
+  .filter((r) => r.id !== ajeetReview?.id)
+  .sort((a, b) => Number(b.data.featured) - Number(a.data.featured));
 
 const serviceSchema = buildServiceSchema({
   serviceName: data.schemaServiceName ?? data.title,
@@ -133,6 +146,20 @@ const restEducation = data.educationSections.slice(1);
   {data.journey === 'repair' && <ProblemSelector />}
   {data.journey === 'replacement' && <RepairVsReplace />}
   {data.journey === 'maintenance' && <MaintenanceTeaser />}
+
+  {ajeetReview?.data.published && (
+    <GafCredential
+      compact
+      eyebrow="Why GAF Master Elite® Status Matters"
+      heading="Another factor to weigh when comparing roofing companies."
+      body="Manufacturer certification gives homeowners another factor to consider when comparing roof replacement companies and roofing systems. Qualifying GAF roofing systems installed by eligible contractors may have access to enhanced GAF warranty options."
+    >
+      <div class="gaf-review-slot">
+        <p class="gaf-review-slot__label">Real Customer Experience</p>
+        <ReviewCard review={ajeetReview} />
+      </div>
+    </GafCredential>
+  )}
 
   {midEducation.map((section) => (
     <section class:list={['section', section.tone === 'dark' ? 'section--dark-charcoal' : 'section--white']} data-nav-theme={section.tone}>
@@ -236,4 +263,14 @@ const restEducation = data.educationSections.slice(1);
 
   .service-body :global(p) { margin-bottom: var(--space-4); font-size: var(--step-0); line-height: 1.7; }
   .service-body :global(a) { text-decoration: underline; text-decoration-color: var(--color-accent); }
+
+  .gaf-review-slot { margin-top: var(--space-6); max-width: 420px; }
+  .gaf-review-slot__label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-text-inverse-muted);
+    margin-bottom: var(--space-3);
+  }
 </style>

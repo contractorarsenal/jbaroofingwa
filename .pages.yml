@@ -71,15 +71,37 @@ content:
                 label: Verified — OK to show publicly
                 type: boolean
                 default: false
-          - name: gafMasterElite
-            label: GAF Master Elite Certification
+          - name: credential
+            label: Manufacturer Certification (GAF)
             type: object
-            description: Only turn this on once GAF Master Elite status is confirmed — it will not be claimed anywhere on the site until then.
+            description: Only turn "Verified" on once the certification is confirmed — it will not be claimed anywhere on the site until then.
             fields:
               - name: verified
                 label: Verified — OK to show publicly
                 type: boolean
                 default: false
+              - name: name
+                label: Certification Name
+                type: string
+                required: false
+                description: "e.g. 'GAF Master Elite®'"
+              - name: badgeImage
+                label: Official Badge Image
+                type: image
+                required: false
+              - name: description
+                label: Short Description
+                type: text
+                required: false
+              - name: verificationUrl
+                label: Verification Link
+                type: string
+                required: false
+                description: Official manufacturer contractor locator or profile page.
+              - name: contractorId
+                label: Manufacturer Contractor ID
+                type: string
+                required: false
           - name: insuranceBonded
             label: Insurance / Bonding
             type: object
