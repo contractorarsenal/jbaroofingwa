@@ -2,6 +2,7 @@
 import { render, getEntry } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
+import Breadcrumb from '@components/global/Breadcrumb.astro';
 import ProjectCard from '@components/projects/ProjectCard.astro';
 import ReviewCard from '@components/reviews/ReviewCard.astro';
 import InfoCardGrid from '@components/ui/InfoCardGrid.astro';
@@ -57,9 +58,14 @@ const commonSigns = data.commonSigns.length > 0 ? data.commonSigns : fallbackSig
 
 const breadcrumbSchema = buildBreadcrumbSchema([
   { name: 'Home', url: siteUrl },
-  { name: 'Service Areas', url: `${siteUrl}/service-areas/` },
+  { name: 'Service Areas', url: new URL('/service-areas/', siteUrl).toString() },
   { name: data.cityName, url: pageUrl },
 ]);
+const breadcrumbItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Service Areas', href: '/service-areas/' },
+  { label: data.cityName },
+];
 const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, answer: f.data.answer })));
 ---
 
@@ -70,6 +76,7 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
   noindex={data.seo.noindex}
   jsonLd={[breadcrumbSchema, faqSchema]}
 >
+  <Breadcrumb items={breadcrumbItems} />
   <PageHero eyebrow="Service Area" title={data.heroTitle} description={data.heroDescription} image={data.heroImage} />
 
   <section class="section section--white" data-nav-theme="light">

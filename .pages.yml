@@ -418,6 +418,14 @@ content:
         required: false
         options:
           collection: locations
+      - name: relatedServiceLinks
+        label: Related Services Links (shown near the bottom of the page)
+        type: object
+        list: true
+        required: false
+        fields:
+          - { name: label, label: Link Text, type: string }
+          - { name: href, label: Link URL, type: string }
       - name: faqHeading
         label: FAQ Section Heading
         type: string

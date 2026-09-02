@@ -57,8 +57,8 @@ cta:
   href: /assessment/
 
 seo:
-  title: Snohomish County Roofing Services | JBA Roofing
-  description: Roof replacement, repair, inspection, cleaning, and maintenance for homeowners throughout Snohomish County, Washington.
+  title: Snohomish County Roofing Contractor | JBA Roofing
+  description: GAF Master Elite roofing contractor serving Snohomish County's heavily tree-covered neighborhoods. Roof replacement, repair, inspection, cleaning, and moss-focused maintenance.
 ---
 
 Snohomish County is part of our core service area. Reach out for repair, maintenance, or replacement anywhere in the county.

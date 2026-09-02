@@ -59,8 +59,8 @@ cta:
   href: /assessment/
 
 seo:
-  title: King County Roofing Services | JBA Roofing
-  description: Roof replacement, repair, inspection, cleaning, and maintenance for homeowners throughout King County, Washington.
+  title: King County Roofing Contractor | JBA Roofing
+  description: GAF Master Elite roofing contractor serving King County, from older Seattle-area homes to newer eastside construction. Replacement, repair, inspection, cleaning, and maintenance.
 ---
 
 King County is our primary service area. If you're outside the specific cities listed in our service area pages, reach out anyway. We likely still cover it.

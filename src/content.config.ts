@@ -189,9 +189,16 @@ const services = defineCollection({
     // via ComparisonPanel when present.
     comparison: z
       .object({
+        // Optional exact-question heading (e.g. "Does Every Roof Leak
+        // Require Replacement?") shown instead of the generic "X vs. Y"
+        // auto-generated title, plus a short direct answer beneath it.
+        heading: z.string().optional(),
+        directAnswer: z.string().optional(),
         leftLabel: z.string(),
         rightLabel: z.string(),
         rows: z.array(z.object({ label: z.string(), left: z.string(), right: z.string() })),
+        linkText: z.string().optional(),
+        linkHref: z.string().optional(),
       })
       .optional(),
 
@@ -235,6 +242,14 @@ const services = defineCollection({
     relatedFaqIds: z.array(reference('faqs')).default([]),
     relatedReviewIds: z.array(reference('reviews')).default([]),
     relatedLocationIds: z.array(reference('locations')).default([]),
+
+    // Descriptive-anchor cross-links to other services/pages, shown near
+    // the bottom of the page. Kept as plain {label, href} pairs (not a
+    // `reference`) so a link can point anywhere on the site, not only at
+    // another service entry.
+    relatedServiceLinks: z
+      .array(z.object({ label: z.string(), href: z.string() }))
+      .default([]),
 
     faqHeading: z.string().optional(),
     ctaHeading: z.string().optional(),

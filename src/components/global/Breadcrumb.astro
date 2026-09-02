@@ -1,0 +1,70 @@
+---
+/**
+ * Small, text-only breadcrumb trail for inner pages. Deliberately not used
+ * on the homepage. The label/URL list should mirror whatever hierarchy is
+ * passed to buildBreadcrumbSchema on the same page, so the visible trail
+ * and the BreadcrumbList schema never drift apart.
+ */
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="breadcrumb" aria-label="Breadcrumb">
+  <div class="container">
+    <ol class="breadcrumb__list">
+      {items.map((item, i) => (
+        <li class="breadcrumb__item">
+          {item.href && i < items.length - 1 ? (
+            <a href={item.href}>{item.label}</a>
+          ) : (
+            <span aria-current="page">{item.label}</span>
+          )}
+          {i < items.length - 1 && <span class="breadcrumb__sep" aria-hidden="true">/</span>}
+        </li>
+      ))}
+    </ol>
+  </div>
+</nav>
+
+<style>
+  .breadcrumb {
+    background: var(--color-off-white);
+    border-bottom: 1px solid var(--color-border);
+  }
+  .breadcrumb__list {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.4em;
+    padding-block: var(--space-2);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    color: var(--color-text-muted);
+  }
+  .breadcrumb__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+  }
+  .breadcrumb__item a {
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+  .breadcrumb__item a:hover {
+    color: var(--color-accent-dark);
+    text-decoration: underline;
+  }
+  .breadcrumb__item span[aria-current] {
+    color: var(--color-text);
+  }
+  .breadcrumb__sep { color: var(--color-border); }
+</style>

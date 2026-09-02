@@ -12,8 +12,13 @@ interface Props {
 const { title, description, ogImage, noindex = false, jsonLd = null } = Astro.props;
 const settings = await getGlobalSettings();
 
+// Some content-authored SEO titles (services, projects, locations) already
+// include the "| Business Name" suffix themselves, matching the exact title
+// the CMS editor was given to enter — don't double it in that case.
 const pageTitle = title
-  ? `${title} | ${settings.businessName}`
+  ? title.endsWith(settings.businessName)
+    ? title
+    : `${title} | ${settings.businessName}`
   : settings.defaultSeoTitle;
 const pageDescription = description ?? settings.defaultMetaDescription;
 const image = new URL(ogImage ?? settings.defaultOgImage, Astro.site).toString();

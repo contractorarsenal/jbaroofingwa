@@ -1,0 +1,12 @@
+question: "Do you repair storm damage?"
+answer: >-
+  Yes. Wind, hail, and falling debris can lift or crack shingles, damage
+  flashing, or expose the roof deck. We inspect the full roof after storm
+  damage, not just the obviously affected area, since wind can lift
+  shingles in spots that aren't visible from the ground.
+category: repair
+relatedServices: [roof-repair]
+relatedLocations: []
+featured: false
+schemaEligible: true
+published: true

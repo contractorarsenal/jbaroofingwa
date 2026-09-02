@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
+import Breadcrumb from '@components/global/Breadcrumb.astro';
 import BeforeAfterSlider from '@components/projects/BeforeAfterSlider.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
 import InfoCardGrid from '@components/ui/InfoCardGrid.astro';
@@ -32,9 +33,14 @@ const review = data.relatedReview ? await getEntry(data.relatedReview) : undefin
 
 const breadcrumbSchema = buildBreadcrumbSchema([
   { name: 'Home', url: siteUrl },
-  { name: 'Our Work', url: `${siteUrl}/projects/` },
+  { name: 'Our Work', url: new URL('/projects/', siteUrl).toString() },
   { name: data.projectName, url: pageUrl },
 ]);
+const breadcrumbItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Our Work', href: '/projects/' },
+  { label: data.projectName },
+];
 
 const heroImage = data.droneImages[0] ?? data.afterImages[0];
 
@@ -79,6 +85,7 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
   noindex={data.seo.noindex}
   jsonLd={breadcrumbSchema}
 >
+  <Breadcrumb items={breadcrumbItems} />
   <PageHero
     eyebrow={[data.city, service?.data.title].filter(Boolean).join(' · ') || 'Our Work'}
     title={data.projectName}

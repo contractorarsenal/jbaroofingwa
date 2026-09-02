@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
+import Breadcrumb from '@components/global/Breadcrumb.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import { getPublishedArticles } from '@lib/content';
 import { buildBreadcrumbSchema } from '@lib/schema';
@@ -22,9 +23,14 @@ const siteUrl = Astro.site?.toString() ?? 'https://jbaroofpro.com';
 const pageUrl = new URL(Astro.url.pathname, siteUrl).toString();
 const breadcrumbSchema = buildBreadcrumbSchema([
   { name: 'Home', url: siteUrl },
-  { name: 'Resources', url: `${siteUrl}/resources/` },
+  { name: 'Resources', url: new URL('/resources/', siteUrl).toString() },
   { name: data.title, url: pageUrl },
 ]);
+const breadcrumbItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Resources', href: '/resources/' },
+  { label: data.title },
+];
 ---
 
 <BaseLayout
@@ -34,6 +40,7 @@ const breadcrumbSchema = buildBreadcrumbSchema([
   noindex={data.seo.noindex}
   jsonLd={breadcrumbSchema}
 >
+  <Breadcrumb items={breadcrumbItems} />
   <PageHero eyebrow="Resources" title={data.title} description={data.excerpt} image={data.featuredImage} />
 
   <section class="section container container--narrow article-body">

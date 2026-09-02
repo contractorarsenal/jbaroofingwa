@@ -21,9 +21,11 @@ secondaryCta:
   href: /maintenance-plans/
 
 overviewText: >-
-  Catching a roof issue early is usually simpler and less costly than
-  waiting until it's gotten worse. An inspection tells you where your roof
-  currently stands, before you have to guess.
+  A roof inspection is a visual assessment of a roof's current condition,
+  covering the roofing surface, flashing, penetrations, and drainage. It
+  tells you what's actually going on up there, whether that's confirming
+  the roof is fine or identifying a problem worth addressing, so any
+  decision is based on what was found rather than a guess.
 
 quickFacts:
   - title: When To Inspect
@@ -33,12 +35,20 @@ quickFacts:
   - title: What You Receive
     description: A summary of condition and recommendations.
 
-problemHeading: When Should You Schedule An Inspection?
+problemHeading: When Should I Have My Roof Inspected?
+problemStatement: >-
+  An inspection makes sense any time you want a clear answer on roof
+  condition rather than a guess. That includes before buying or selling a
+  home, after a severe storm, when a roof hasn't been looked at in
+  several years, or when you notice a stain, sagging, or anything else
+  that seems off.
 problemsSolved:
   - Buying or selling a home
-  - After a storm
+  - After severe weather
+  - Before larger roofing work
   - Roof hasn't been checked in years
-  - You see something concerning
+  - Leaks or stains have appeared
+  - Planning ahead
 
 benefits:
   - title: A summary you can keep
@@ -61,7 +71,7 @@ processHeading: What happens during an inspection.
 
 educationSections:
   - eyebrow: The Checklist
-    heading: What Do We Look At?
+    heading: What Do We Look At During A Roof Inspection?
     intro: "A roof inspection covers what's visible and reasonably accessible, including:"
     items:
       - title: Shingles and roofing surface
@@ -82,14 +92,14 @@ educationSections:
         description: Signs of decking issues where accessible, without opening up the roof.
 
   - eyebrow: Before You Decide
-    heading: Repair, Maintain, Or Replace?
+    heading: Can An Inspection Tell Me If I Need A Repair Or Replacement?
     tone: dark
     paragraphs:
       - >-
-        The point of an inspection is to give you enough information to
-        make that call yourself, not to push you toward one option. If the
-        roof just needs cleaning or a small repair, that's what we'll
-        recommend.
+        Indirectly, yes. An inspection doesn't predetermine the outcome; it
+        gives you enough information to make that call based on what's
+        actually there. If the roof just needs cleaning or a small repair,
+        that's what we'll recommend.
       - >-
         If the findings point toward something bigger, like widespread wear
         or a roof at the end of its expected life, we'll explain why and
@@ -97,7 +107,7 @@ educationSections:
         actually found.
 
   - eyebrow: What Happens Next
-    heading: After The Inspection
+    heading: What Happens After The Inspection?
     paragraphs:
       - >-
         We explain what we see and go over practical next steps with you
@@ -106,6 +116,14 @@ educationSections:
 faqHeading: Inspection Questions
 ctaHeading: Get a clear picture of where your roof stands.
 ctaDescription: No pressure, just a documented assessment.
+
+relatedServiceLinks:
+  - label: Found an isolated issue? See Roof Repair.
+    href: /services/roof-repair/
+  - label: Roof in good shape? Keep it that way with Roof Maintenance.
+    href: /services/roof-maintenance/
+  - label: Roof at the end of its life? See Roof Replacement.
+    href: /services/roof-replacement/
 
 schemaServiceName: Roof Inspection
 seo:

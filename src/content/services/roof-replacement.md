@@ -22,9 +22,11 @@ secondaryCta:
   href: /projects/
 
 overviewText: >-
-  The hardest part of replacing a roof usually isn't the roof. It's not
-  knowing whether you actually need one, what's included in a quote, or
-  what happens if the crew finds rotted decking once the old roof comes off.
+  A roof replacement removes the existing roofing system down to the deck
+  and installs a complete new one, rather than repairing isolated problem
+  areas. It's the right approach when a roof is at or past its expected
+  lifespan, or when damage is too widespread for a targeted repair to
+  reasonably address.
 
 quickFacts:
   - title: Is It Time?
@@ -34,7 +36,13 @@ quickFacts:
   - title: What's Included
     description: Material, tear-off scope, and timeline, spelled out upfront.
 
-problemHeading: Is It Time To Replace Your Roof?
+problemHeading: How Do I Know If My Roof Needs To Be Replaced?
+problemStatement: >-
+  No single sign guarantees a roof needs replacing, including age alone.
+  Replacement becomes the likely answer when several of these show up
+  together: repeated leaks in different spots, widespread shingle wear
+  rather than one damaged area, or repairs that keep failing in the same
+  places. An inspection confirms which situation you're actually in.
 problemsSolved:
   - Roofs at or past their expected material lifespan
   - Widespread granule loss, curling, or cracking shingles
@@ -88,8 +96,23 @@ educationSections:
       - title: Access and site conditions
         description: Driveway access, landscaping, and the property layout affect how a job is set up and protected.
 
+  - eyebrow: A Common Question
+    heading: What Happens If Damaged Decking Is Found?
+    paragraphs:
+      - >-
+        New roofing material is installed directly on the roof deck, so if
+        a section of decking is rotted or damaged, it needs to be replaced
+        before the new roofing goes down, not left underneath it. Decking
+        condition often can't be fully confirmed until the old roof comes
+        off, which is why it's addressed during tear-off rather than
+        promised upfront.
+      - >-
+        We'll show you what we found before proceeding with any decking
+        work, rather than deciding on your behalf and billing it as a
+        surprise on the final invoice.
+
   - eyebrow: Get Ready
-    heading: Before Installation Day
+    heading: How Should I Prepare For A Roof Replacement?
     tone: dark
     items:
       - title: Vehicles
@@ -118,6 +141,18 @@ educationSections:
 faqHeading: Roof Replacement Questions
 ctaHeading: Find out what your roof actually needs.
 ctaDescription: Get a straight assessment before you commit to anything.
+
+relatedServiceLinks:
+  - label: Think a repair might be enough instead? See Roof Repair.
+    href: /services/roof-repair/
+  - label: Read more about our GAF Master Elite certification.
+    href: /about/
+  - label: See more completed roof replacement projects.
+    href: /projects/
+  - label: See financing options for a roof replacement.
+    href: /#financing
+  - label: Check roof replacement coverage across our service area.
+    href: /service-areas/
 
 schemaServiceName: Roof Replacement
 seo:

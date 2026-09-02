@@ -2,6 +2,7 @@
 import { render } from 'astro:content';
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
+import Breadcrumb from '@components/global/Breadcrumb.astro';
 import Process from '@components/sections/Process.astro';
 import ProblemSelector from '@components/sections/ProblemSelector.astro';
 import RepairVsReplace from '@components/sections/RepairVsReplace.astro';
@@ -51,9 +52,14 @@ const ajeetReview = service.id === 'roof-replacement' ? await getEntry('reviews'
 // checklist rather than tacked on at the bottom of the page.
 const inspectionVideo = service.id === 'roof-inspection' ? await getEntry('videos', 'what-an-aging-roof-can-hide') : undefined;
 
-// Roof Maintenance gets the rainy-season prep video, since it's the same
-// "don't wait for a problem to show up" idea maintenance is about.
-const maintenanceVideo = service.id === 'roof-maintenance' ? await getEntry('videos', 'beat-the-rain') : undefined;
+// Roof Maintenance and Roof Cleaning both get the rainy-season prep video
+// (same underlying clip), each with its own framing: Maintenance treats it
+// as a general "don't wait for a problem" prompt, Cleaning ties it
+// specifically to moss/debris buildup before wet weather sets in.
+const maintenanceVideo =
+  service.id === 'roof-maintenance' || service.id === 'roof-cleaning'
+    ? await getEntry('videos', 'beat-the-rain')
+    : undefined;
 
 const [projects, faqs, reviewsRaw] = await Promise.all([
   getProjectsForService(service.id),
@@ -81,9 +87,14 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
 
 const breadcrumbSchema = buildBreadcrumbSchema([
   { name: 'Home', url: siteUrl },
-  { name: 'Services', url: `${siteUrl}/services/` },
+  { name: 'Roof Services', url: new URL('/services/', siteUrl).toString() },
   { name: data.title, url: pageUrl },
 ]);
+const breadcrumbItems = [
+  { label: 'Home', href: '/' },
+  { label: 'Roof Services', href: '/services/' },
+  { label: data.title },
+];
 
 const midEducation = data.educationSections.slice(0, 1);
 const restEducation = data.educationSections.slice(1);
@@ -96,6 +107,7 @@ const restEducation = data.educationSections.slice(1);
   noindex={data.seo.noindex}
   jsonLd={[serviceSchema, faqSchema, breadcrumbSchema]}
 >
+  <Breadcrumb items={breadcrumbItems} />
   <PageHero
     eyebrow={data.heroEyebrow}
     title={data.heroTitle}
@@ -113,7 +125,7 @@ const restEducation = data.educationSections.slice(1);
           {data.overviewText && (
             <>
               <p class="eyebrow">Overview</p>
-              <h2 class="h2">{data.title}, In Plain Terms.</h2>
+              <h2 class="h2">What Is {data.title}?</h2>
               <p class="text-muted service-overview__text">{data.overviewText}</p>
             </>
           )}
@@ -126,7 +138,8 @@ const restEducation = data.educationSections.slice(1);
   {(data.problemStatement || data.problemsSolved.length > 0) && (
     <section class="section section--off-white" data-nav-theme="light">
       <div class="container">
-        <p class="eyebrow">{data.problemHeading ?? 'Signs To Watch For'}</p>
+        <p class="eyebrow">Signs To Watch For</p>
+        <h2 class="h2">{data.problemHeading ?? 'What should you watch for?'}</h2>
         {data.problemStatement && <p class="text-muted service-signs__intro">{data.problemStatement}</p>}
         {data.problemsSolved.length > 0 && (
           <div class="service-signs__grid">
@@ -155,7 +168,9 @@ const restEducation = data.educationSections.slice(1);
 
   {data.journey === 'repair' && <ProblemSelector />}
   {data.journey === 'replacement' && <RepairVsReplace />}
-  {data.journey === 'maintenance' && <MaintenanceTeaser />}
+  {data.journey === 'maintenance' && service.id !== 'roof-maintenance' && (
+    <MaintenanceTeaser image="/images/projects/project-06-aging-roof-replacement/before.jpg" />
+  )}
 
   {ajeetReview?.data.published && (
     <GafCredential
@@ -229,11 +244,29 @@ const restEducation = data.educationSections.slice(1);
         </div>
         <div>
           <p class="eyebrow" data-reveal="up">Before The Rain</p>
-          <h2 class="h2" data-reveal="up">Check Your Roof Before Washington Weather Does.</h2>
-          <p class="text-muted service-overview__text" data-reveal="up">{maintenanceVideo.data.shortDescription}</p>
+          <h2 class="h2" data-reveal="up">
+            {service.id === 'roof-cleaning'
+              ? 'Why Check Your Roof Before The Rainy Season?'
+              : "Check Your Roof Before Washington Weather Does."}
+          </h2>
+          {service.id === 'roof-cleaning' ? (
+            <p class="text-muted service-overview__text" data-reveal="up">
+              Moss and debris that build up over the dry months hold even
+              more water once the rain starts, which is exactly when a
+              small amount of buildup turns into a bigger problem. Clearing
+              it beforehand gives the roof a clean start heading into wet
+              weather.
+            </p>
+          ) : (
+            <p class="text-muted service-overview__text" data-reveal="up">{maintenanceVideo.data.shortDescription}</p>
+          )}
           <div data-reveal="up">
-            <Button href="/assessment/?need=maintenance" analyticsEvent="quote_started" analyticsLocation="maintenance_video">
-              Schedule Roof Maintenance
+            <Button
+              href="/assessment/?need=maintenance"
+              analyticsEvent="quote_started"
+              analyticsLocation="maintenance_video"
+            >
+              {service.id === 'roof-cleaning' ? 'Schedule Roof Cleaning' : 'Schedule Roof Maintenance'}
             </Button>
           </div>
         </div>
@@ -245,8 +278,14 @@ const restEducation = data.educationSections.slice(1);
     <section class="section section--off-white" data-nav-theme="light">
       <div class="container container--narrow">
         <p class="eyebrow">Compare Your Options</p>
-        <h2 class="h2 longform__heading">{data.comparison.leftLabel} vs. {data.comparison.rightLabel}</h2>
+        <h2 class="h2 longform__heading">{data.comparison.heading ?? `${data.comparison.leftLabel} vs. ${data.comparison.rightLabel}`}</h2>
+        {data.comparison.directAnswer && <p class="text-muted longform__text">{data.comparison.directAnswer}</p>}
         <ComparisonPanel leftLabel={data.comparison.leftLabel} rightLabel={data.comparison.rightLabel} rows={data.comparison.rows} />
+        {data.comparison.linkHref && data.comparison.linkText && (
+          <p class="longform__text">
+            <a href={data.comparison.linkHref} class="link-underline">{data.comparison.linkText}</a>
+          </p>
+        )}
       </div>
     </section>
   )}
@@ -291,6 +330,20 @@ const restEducation = data.educationSections.slice(1);
     </div>
   </section>
 
+  {data.relatedServiceLinks.length > 0 && (
+    <section class="section section--tight section--off-white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow">Related</p>
+        <h3 class="h3 related-services__heading">You Might Also Need</h3>
+        <ul class="related-services__list">
+          {data.relatedServiceLinks.map((link) => (
+            <li><a href={link.href} class="link-underline">{link.label}</a></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
   {reviews.length > 0 && (
     <section class="section section--alt">
       <div class="container">
@@ -317,6 +370,14 @@ const restEducation = data.educationSections.slice(1);
   .service-signs__grid { margin-top: var(--space-6); }
 
   .service-benefits { margin-top: var(--space-6); }
+
+  .related-services__heading { margin-top: var(--space-1); }
+  .related-services__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    margin-top: var(--space-4);
+  }
 
   .service-work__header {
     display: flex;

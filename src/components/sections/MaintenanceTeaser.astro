@@ -8,13 +8,24 @@ import { getActiveMaintenancePlans } from '@lib/content';
 import Button from '@components/ui/Button.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
 
+interface Props {
+  image?: string;
+}
+
+const { image } = Astro.props;
 const plans = await getActiveMaintenancePlans();
 ---
 
 <section class="section section--light maintenance-teaser">
   <div class="container maintenance-teaser__layout">
     <div class="maintenance-teaser__art">
-      <MediaSlot tone="light" variant={2} label="Roof cleaning and maintenance photography pending" />
+      <MediaSlot
+        image={image}
+        alt="Moss and debris on an aging roof before maintenance"
+        tone="light"
+        variant={2}
+        label="Roof cleaning and maintenance photography pending"
+      />
     </div>
     <div>
       <p class="eyebrow">Roof Cleaning &amp; Maintenance</p>

@@ -22,9 +22,10 @@ secondaryCta:
   href: /maintenance-plans/
 
 overviewText: >-
-  Western Washington roofs age faster than the shingle warranty assumes,
-  mostly because of moss and standing water, not the shingles themselves.
-  Routine attention catches both while they're still cheap to fix.
+  Roof maintenance is routine, preventative care for a roof that's still in
+  good condition. It combines a roof walk, debris and moss removal, and
+  gutter clearing so small issues get caught early, rather than fixing
+  damage or replacing a roof that's already failed.
 
 quickFacts:
   - title: What It Includes
@@ -127,6 +128,16 @@ educationSections:
 faqHeading: Roof Maintenance Questions
 ctaHeading: Don't wait for the leak to tell you it's time.
 ctaDescription: Routine attention costs far less than the repair it prevents.
+
+relatedServiceLinks:
+  - label: Moss is the only concern? See Roof Cleaning.
+    href: /services/roof-cleaning/
+  - label: Want a full look at roof condition? See Roof Inspection.
+    href: /services/roof-inspection/
+  - label: Found actual damage? See Roof Repair.
+    href: /services/roof-repair/
+  - label: Roof past routine care? See Roof Replacement.
+    href: /services/roof-replacement/
 
 schemaServiceName: Roof Maintenance
 seo:
