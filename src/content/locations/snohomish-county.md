@@ -5,24 +5,37 @@ tier: county
 county: Snohomish County, WA
 
 heroTitle: Roofing Across Snohomish County
+heroImage: "/images/projects/project-05-shingle-installation/after.jpg"
 heroDescription: >-
-  Repair, maintenance, and replacement for homes throughout Snohomish County.
+  Roof replacement, repair, inspection, cleaning, and roof care for
+  homeowners throughout Snohomish County.
 localIntro: >-
   Snohomish County's heavier tree cover in many areas means moss and debris
   buildup tend to show up faster than in more open neighborhoods, one of the
   reasons routine maintenance matters more here than it might elsewhere.
 neighborhoods: []
-localRoofingConsiderations: >-
-  Permit requirements vary by city within the county. We confirm and handle
-  the correct permitting process as part of any full replacement.
+
+considerations:
+  - title: Weather
+    description: Heavy tree cover and consistent moisture mean moss and debris tend to build up faster than in more open areas.
+  - title: Roof Age
+    description: A mix of older and newer construction across the county means roof condition varies significantly by neighborhood.
+  - title: Permits & Project Planning
+    description: Depending on the property and scope of work, permits or local requirements may apply. We review that before work begins.
 
 regionalContext: >-
   Rain, moisture, and heavy tree cover are the main factors shaping roof
-  condition across Snohomish County. Shaded properties tend to see moss
-  build up faster than more open lots, and consistent moisture gives small
-  issues, like a slightly lifted shingle or a gap in flashing, more chances
-  to turn into water intrusion over time. Seasonal windstorms are also part
-  of the picture, especially for older roofing systems already showing wear.
+  condition across Snohomish County.
+
+regionalFactors:
+  - title: Rain & Moisture
+    description: Consistent moisture gives small issues, like a lifted shingle or a gap in flashing, more chances to become water intrusion.
+  - title: Moss & Organic Growth
+    description: Shaded properties tend to see moss build up faster than more open lots.
+  - title: Tree Cover & Debris
+    description: Heavier tree cover across much of the county means more frequent debris buildup.
+  - title: Seasonal Wind
+    description: Windstorms are part of the picture too, especially for older roofing systems already showing wear.
 
 commonSigns:
   - Moss or algae growth, especially on shaded roof sections
@@ -36,8 +49,7 @@ decisionHelp: >-
   What we recommend depends on what an inspection actually turns up.
   Moss and light buildup usually points toward cleaning. Localized damage
   points toward repair. Widespread wear or a roof well past its expected
-  lifespan points toward replacement. We'll walk you through which
-  situation applies to your roof and why.
+  lifespan points toward replacement.
 
 cta:
   label: Get a Free Roof Assessment

@@ -20,26 +20,35 @@ secondaryCta:
   label: Call Now
   href: /contact/
 
-problemHeading: What's Happening With Your Roof?
+quickFacts:
+  - title: Common Problems
+    description: Leaks, damaged shingles, flashing, and storm damage.
+  - title: When Repair Makes Sense
+    description: Damage is localized and the rest of the roof is sound.
+  - title: When Replacement May Make Sense
+    description: Damage is widespread, repeated, or the roof is significantly aged.
+
+problemHeading: What Are You Seeing?
 problemStatement: >-
   A leak rarely shows up where the water is actually entering. By the time you
   see a stain, it may have been tracking along framing for a while. Guessing at
-  the source (or ignoring it) is how a $400 repair turns into a $4,000 one.
+  the source, or ignoring it, is how a small repair turns into a much bigger one.
 
 problemsSolved:
-  - Active leaks and ceiling water stains
-  - Missing, cracked, or lifted shingles
-  - Wind and storm damage
-  - Failed or damaged flashing around chimneys, vents, and valleys
-  - Damaged decking discovered during a repair
+  - Leak or water stain
+  - Missing or damaged shingles
+  - Flashing or roof detail issue
+  - Storm damage
+  - Localized damage
+  - Not sure
 
 benefits:
   - title: Two-step process, not one guess
     description: We stabilize the problem first, then confirm the permanent fix once we can see the full extent of the damage.
   - title: Repair-first, by default
     description: If a targeted repair will hold for the roof's remaining life, that's what we recommend, not a replacement quote.
-  - title: Photos of what we actually found
-    description: You see the damage and the fix, not just a line item on an invoice.
+  - title: You see what we actually found
+    description: We walk you through the damage and the fix, not just a line item on an invoice.
 
 process:
   - step: "01"
@@ -47,49 +56,40 @@ process:
     description: If it's actively leaking, our first priority is stopping water from getting further into the house.
   - step: "02"
     title: Inspect
-    description: We get a full look at the roof, not just the spot that's leaking, and document it with photos.
+    description: We get a full look at the roof, not just the spot that's leaking, and document what we find.
   - step: "03"
     title: Fix it permanently
     description: Once conditions allow a proper bond (dry decking, workable weather), we complete the lasting repair.
+processEyebrow: How It Works
+processHeading: How a repair project works.
 
 educationSections:
-  - heading: Common Roof Problems We Help With
-    items:
-      - title: Leaks
-        description: Active water intrusion, wherever it's coming from.
-      - title: Damaged or missing shingles
-        description: Cracked, lifted, or missing shingles from age, wind, or storms.
-      - title: Flashing issues
-        description: Failed or damaged flashing around chimneys, vents, and valleys.
-      - title: Storm damage
-        description: Wind, hail, or fallen debris affecting a section of the roof.
-      - title: Localized water intrusion
-        description: Water getting in at one specific point rather than across the whole roof.
-      - title: Damaged roof details
-        description: Issues at penetrations, edges, and other roof-specific details found during inspection.
-
-  - heading: Repair Or Replacement?
-    paragraphs:
-      - >-
-        Repair makes sense when the damage is localized and the rest of the
-        roof is still in serviceable condition. Most of what we see falls
-        into this category.
-      - >-
-        Replacement may make more sense when problems are widespread,
-        repeated in the same areas over time, or the roof itself is
-        significantly aged. We'll tell you honestly which situation applies
-        to yours.
-
-  - heading: What Happens During A Repair Visit?
+  - eyebrow: What Happens On-Site
+    heading: What Happens During A Repair Visit?
+    tone: dark
     paragraphs:
       - >-
         Generally, we inspect the affected area and the surrounding roof,
-        document what we find with photos, and confirm the repair approach
-        before starting. If conditions require stabilizing something first,
-        like an active leak, that happens before the permanent fix.
+        document what we find, and confirm the repair approach before
+        starting. If conditions require stabilizing something first, like
+        an active leak, that happens before the permanent fix.
       - >-
         Timing depends on the specific issue, the weather, and scheduling.
         We'll give you a realistic estimate once we've seen the roof.
+
+comparison:
+  leftLabel: Repair
+  rightLabel: Replacement
+  rows:
+    - label: Makes sense when
+      left: Damage is localized and the rest of the roof is still serviceable.
+      right: Problems are widespread, repeated, or the roof is significantly aged.
+    - label: What it addresses
+      left: A specific leak, damaged section, or flashing issue.
+      right: The entire roofing system, from tear-off to installation.
+    - label: What we tell you
+      left: If a targeted repair will hold for the roof's remaining life.
+      right: If the roof's overall condition no longer supports a repair.
 
 faqHeading: Roof Repair Questions
 ctaHeading: See what's actually going on with your roof.

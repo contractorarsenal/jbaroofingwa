@@ -1,0 +1,30 @@
+---
+/**
+ * A compact, polished CTA pointing to /service-areas/ — replaces the old
+ * full-width black strip that just contained a single link.
+ */
+import Button from '@components/ui/Button.astro';
+---
+
+<section class="section section--tight section--off-white service-areas-cta" data-nav-theme="light">
+  <div class="container container--narrow service-areas-cta__inner">
+    <div>
+      <p class="eyebrow">Service Areas</p>
+      <h2 class="h3 service-areas-cta__heading">Serving King, Snohomish &amp; Skagit Counties</h2>
+    </div>
+    <Button href="/service-areas/" variant="outline">View Service Areas</Button>
+  </div>
+</section>
+
+<style>
+  .service-areas-cta__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
+  }
+  .service-areas-cta__heading { margin-top: var(--space-1); }
+  @media (min-width: 640px) {
+    .service-areas-cta__inner { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+</style>

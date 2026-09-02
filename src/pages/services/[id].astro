@@ -6,8 +6,12 @@ import Process from '@components/sections/Process.astro';
 import ProblemSelector from '@components/sections/ProblemSelector.astro';
 import RepairVsReplace from '@components/sections/RepairVsReplace.astro';
 import MaintenanceTeaser from '@components/sections/MaintenanceTeaser.astro';
-import FeaturedWork from '@components/sections/FeaturedWork.astro';
+import ProjectCard from '@components/projects/ProjectCard.astro';
+import InfoCardGrid from '@components/ui/InfoCardGrid.astro';
+import ComparisonPanel from '@components/ui/ComparisonPanel.astro';
+import Button from '@components/ui/Button.astro';
 import FaqList from '@components/faqs/FaqList.astro';
+import ServiceAreasCTA from '@components/sections/ServiceAreasCTA.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import {
   getPublishedServices,
@@ -58,11 +62,8 @@ const breadcrumbSchema = buildBreadcrumbSchema([
   { name: data.title, url: pageUrl },
 ]);
 
-// Roof Replacement gets a bespoke flow instead of the generic problem/benefit
-// template: signs it's time to replace, then how a replacement actually
-// happens, then what JBA checks before recommending it — rather than a
-// mechanically-repeated "The Problem" block sitting right under the hero.
-const isReplacement = service.id === 'roof-replacement';
+const midEducation = data.educationSections.slice(0, 1);
+const restEducation = data.educationSections.slice(1);
 ---
 
 <BaseLayout
@@ -82,100 +83,118 @@ const isReplacement = service.id === 'roof-replacement';
     tone={data.journey === 'repair' ? 'urgent' : 'default'}
   />
 
-  {isReplacement ? (
-    <>
-      {data.problemsSolved.length > 0 && (
-        <section class="section container container--narrow service-signs">
-          <p class="eyebrow">Is It Time To Replace Your Roof?</p>
-          <ul class="service-signs__list">
-            {data.problemsSolved.map((sign) => (
-              <li>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                {sign}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+  {(data.overviewText || data.quickFacts.length > 0) && (
+    <section class="section section--white" data-nav-theme="light">
+      <div class="container split">
+        <div>
+          {data.overviewText && (
+            <>
+              <p class="eyebrow">Overview</p>
+              <h2 class="h2">{data.title}, In Plain Terms.</h2>
+              <p class="text-muted service-overview__text">{data.overviewText}</p>
+            </>
+          )}
+        </div>
+        {data.quickFacts.length > 0 && <InfoCardGrid items={data.quickFacts} columns={1} />}
+      </div>
+    </section>
+  )}
 
-      {data.process.length > 0 && <Process steps={data.process} heading="What happens during a roof replacement." eyebrow="The Process" />}
-
-      {data.benefits.length > 0 && (
-        <section class="section section--alt">
-          <div class="container">
-            <p class="eyebrow">What We Check Before Recommending Replacement</p>
-            <h2 class="h2">We don't default to the bigger job.</h2>
-            <div class="grid grid--3 service-benefits">
-              {data.benefits.map((b) => (
-                <div class="service-benefit">
-                  <h3 class="service-benefit__title">{b.title}</h3>
-                  <p class="text-muted">{b.description}</p>
-                </div>
-              ))}
-            </div>
+  {(data.problemStatement || data.problemsSolved.length > 0) && (
+    <section class="section section--off-white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow">{data.problemHeading ?? 'Signs To Watch For'}</p>
+        {data.problemStatement && <p class="text-muted service-signs__intro">{data.problemStatement}</p>}
+        {data.problemsSolved.length > 0 && (
+          <div class="service-signs__grid">
+            <InfoCardGrid items={data.problemsSolved.map((s) => ({ title: s }))} columns={2} />
           </div>
-        </section>
-      )}
-    </>
-  ) : (
-    <>
-      {data.problemStatement && (
-        <section class="container container--narrow service-problem">
-          <p class="eyebrow">{data.problemHeading ?? 'The Problem'}</p>
-          <p class="service-problem__text">{data.problemStatement}</p>
-        </section>
-      )}
+        )}
+      </div>
+    </section>
+  )}
 
-      {data.benefits.length > 0 && (
-        <section class="section section--alt">
-          <div class="container">
-            <p class="eyebrow">What You Get</p>
-            <h2 class="h2">Why work with JBA on this.</h2>
-            <div class="grid grid--3 service-benefits">
-              {data.benefits.map((b) => (
-                <div class="service-benefit">
-                  <h3 class="service-benefit__title">{b.title}</h3>
-                  <p class="text-muted">{b.description}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+  {data.benefits.length > 0 && (
+    <section class="section section--charcoal" data-nav-theme="dark">
+      <div class="container">
+        <p class="eyebrow eyebrow--inverse">{data.benefitsEyebrow ?? 'What You Get'}</p>
+        <h2 class="h2">{data.benefitsHeading ?? 'Why work with JBA on this.'}</h2>
+        <div class="service-benefits">
+          <InfoCardGrid items={data.benefits} tone="dark" columns={3} />
+        </div>
+      </div>
+    </section>
+  )}
 
-      {data.process.length > 0 && <Process steps={data.process} heading="How it works" eyebrow="Process" />}
-    </>
+  {data.process.length > 0 && (
+    <Process steps={data.process} heading={data.processHeading ?? 'How it works'} eyebrow={data.processEyebrow ?? 'Process'} />
   )}
 
   {data.journey === 'repair' && <ProblemSelector />}
   {data.journey === 'replacement' && <RepairVsReplace />}
   {data.journey === 'maintenance' && <MaintenanceTeaser />}
 
-  {data.educationSections.map((section, i) => (
-    <section class:list={['section', i % 2 === 1 && 'section--alt']}>
-      <div class="container container--narrow longform">
+  {midEducation.map((section) => (
+    <section class:list={['section', section.tone === 'dark' ? 'section--dark-charcoal' : 'section--white']} data-nav-theme={section.tone}>
+      <div class="container longform">
+        {section.eyebrow && <p class:list={['eyebrow', section.tone === 'dark' && 'eyebrow--inverse']}>{section.eyebrow}</p>}
         <h2 class="h2 longform__heading">{section.heading}</h2>
         {section.intro && <p class="text-muted longform__text">{section.intro}</p>}
         {section.paragraphs.map((p) => <p class="text-muted longform__text">{p}</p>)}
-        {section.items.length > 0 && (
-          <div class="longform__items">
-            {section.items.map((item) => (
-              <div class="longform__item">
-                <h3 class="longform__item-title">{item.title}</h3>
-                <p class="text-muted">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        )}
+        {section.items.length > 0 && <InfoCardGrid items={section.items} tone={section.tone} columns={section.items.length >= 6 ? 4 : 2} />}
       </div>
     </section>
   ))}
 
-  <section class="section container container--narrow service-body">
-    <Content />
-  </section>
+  {data.comparison && (
+    <section class="section section--off-white" data-nav-theme="light">
+      <div class="container container--narrow">
+        <p class="eyebrow">Compare Your Options</p>
+        <h2 class="h2 longform__heading">{data.comparison.leftLabel} vs. {data.comparison.rightLabel}</h2>
+        <ComparisonPanel leftLabel={data.comparison.leftLabel} rightLabel={data.comparison.rightLabel} rows={data.comparison.rows} />
+      </div>
+    </section>
+  )}
 
-  {projects.length > 0 && <FeaturedWork />}
+  {restEducation.map((section, i) => (
+    <section class:list={['section', section.tone === 'dark' ? 'section--dark-charcoal' : i % 2 === 0 ? 'section--white' : 'section--off-white']} data-nav-theme={section.tone}>
+      <div class="container longform">
+        {section.eyebrow && <p class:list={['eyebrow', section.tone === 'dark' && 'eyebrow--inverse']}>{section.eyebrow}</p>}
+        <h2 class="h2 longform__heading">{section.heading}</h2>
+        {section.intro && <p class="text-muted longform__text">{section.intro}</p>}
+        {section.paragraphs.map((p) => <p class="text-muted longform__text">{p}</p>)}
+        {section.items.length > 0 && <InfoCardGrid items={section.items} tone={section.tone} columns={section.items.length >= 6 ? 4 : 2} />}
+      </div>
+    </section>
+  ))}
+
+  {!!service.body?.trim() && (
+    <section class="section container container--narrow service-body">
+      <Content />
+    </section>
+  )}
+
+  <section class="section section--charcoal service-work" data-nav-theme="dark" data-nav-section="work">
+    <div class="container">
+      <div class="service-work__header" data-reveal="up">
+        <div>
+          <p class="eyebrow eyebrow--inverse">Real JBA Work</p>
+          <h2 class="h2">See This Service <span class="accent-text">In Action.</span></h2>
+        </div>
+        <Button href="/projects/" variant="outline">View All Work</Button>
+      </div>
+
+      {projects.length > 0 ? (
+        <div class="grid grid--3" data-reveal-group>
+          {projects.slice(0, 3).map((project) => <ProjectCard project={project} data-reveal="up" />)}
+        </div>
+      ) : (
+        <p class="text-muted">
+          See more of our completed roofing projects on the <a href="/projects/" class="link-underline">Our Work</a> page.
+        </p>
+      )}
+    </div>
+  </section>
 
   {reviews.length > 0 && (
     <section class="section section--alt">
@@ -191,49 +210,30 @@ const isReplacement = service.id === 'roof-replacement';
 
   <FaqList faqs={faqs} heading={data.faqHeading ?? 'Frequently Asked Questions'} />
 
-  <section class="section container container--narrow service-areas-link">
-    <a href="/service-areas/" class="link-underline">See the areas we serve →</a>
-  </section>
+  <ServiceAreasCTA />
 
   <FinalCTA />
 </BaseLayout>
 
 <style>
-  .service-areas-link { padding-block: 0 var(--space-6); font-weight: 700; }
+  .service-overview__text { margin-top: var(--space-3); max-width: 56ch; }
 
-  .service-problem {
-    padding-top: var(--space-6);
-    padding-bottom: var(--space-2);
-  }
-  .service-problem__text {
-    font-size: var(--step-1);
-    line-height: var(--leading-normal);
-    margin-top: var(--space-2);
-  }
+  .service-signs__intro { max-width: 62ch; margin-top: var(--space-2); }
+  .service-signs__grid { margin-top: var(--space-6); }
+
   .service-benefits { margin-top: var(--space-6); }
-  .service-benefit__title { font-size: var(--step-1); margin-bottom: var(--space-1); }
 
-  .service-signs {
-    padding-top: var(--space-6);
-    padding-bottom: var(--space-2);
-  }
-  .service-signs__list {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: var(--space-2) var(--space-4);
-    margin-top: var(--space-4);
-  }
-  .service-signs__list li {
+  .service-work__header {
     display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    color: var(--color-text-muted);
-    font-size: 0.95rem;
+    flex-direction: column;
+    gap: var(--space-4);
+    align-items: flex-start;
+    margin-bottom: var(--space-6);
   }
-  .service-signs__list svg { color: var(--color-accent-dark); flex-shrink: 0; }
-  @media (max-width: 480px) {
-    .service-signs__list { grid-template-columns: 1fr; }
+  @media (min-width: 720px) {
+    .service-work__header { flex-direction: row; align-items: flex-end; justify-content: space-between; }
   }
-  .service-body :global(p) { margin-bottom: var(--space-4); font-size: var(--step-0); }
+
+  .service-body :global(p) { margin-bottom: var(--space-4); font-size: var(--step-0); line-height: 1.7; }
   .service-body :global(a) { text-decoration: underline; text-decoration-color: var(--color-accent); }
 </style>

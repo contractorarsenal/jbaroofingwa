@@ -20,11 +20,6 @@ const roofServices = [
   { slug: 'roof-rejuvenation', label: 'Roof Rejuvenation' },
 ];
 
-const moreServices = [
-  { slug: 'siding-installation', label: 'Siding Installation' },
-  { slug: 'siding-replacement', label: 'Siding Replacement' },
-];
-
 const quickLinks = [
   { href: '/about/', label: 'About Us' },
   { href: '/projects/', label: 'Our Work' },
@@ -76,15 +71,6 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
       <h3 class="site-footer__heading">Roof Services</h3>
       <ul>
         {roofServices.map((s) => (
-          <li><a href={`/services/${s.slug}/`}>{s.label}</a></li>
-        ))}
-      </ul>
-    </div>
-
-    <div class="site-footer__col">
-      <h3 class="site-footer__heading">More Services</h3>
-      <ul>
-        {moreServices.map((s) => (
           <li><a href={`/services/${s.slug}/`}>{s.label}</a></li>
         ))}
       </ul>
@@ -254,7 +240,7 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
   .site-footer__copyright { text-align: center; }
 
   @media (min-width: 720px) {
-    .site-footer__top { grid-template-columns: 1.6fr 1fr 1fr 1fr 1fr; }
+    .site-footer__top { grid-template-columns: 1.6fr 1fr 1fr 1fr; }
     .site-footer__legal { flex-direction: row; align-items: center; justify-content: space-between; }
     .site-footer__copyright { text-align: right; }
   }

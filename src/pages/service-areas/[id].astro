@@ -4,6 +4,9 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
 import ProjectCard from '@components/projects/ProjectCard.astro';
 import ReviewCard from '@components/reviews/ReviewCard.astro';
+import InfoCardGrid from '@components/ui/InfoCardGrid.astro';
+import DecisionBand from '@components/sections/DecisionBand.astro';
+import Button from '@components/ui/Button.astro';
 import FaqList from '@components/faqs/FaqList.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import {
@@ -69,39 +72,73 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
 >
   <PageHero eyebrow="Service Area" title={data.heroTitle} description={data.heroDescription} image={data.heroImage} />
 
-  <section class="section container container--narrow location-body">
-    <h2 class="h3">Roofing Services in {data.cityName}</h2>
-    {data.localIntro && <p class="text-muted location-body__intro">{data.localIntro}</p>}
-    <Content />
-    {data.localRoofingConsiderations && (
-      <div class="location-body__block">
-        <h3 class="h4">Local Considerations</h3>
-        <p class="text-muted">{data.localRoofingConsiderations}</p>
+  <section class="section section--white" data-nav-theme="light">
+    <div class="container split">
+      <div>
+        <p class="eyebrow">Roofing in {data.cityName}</p>
+        <h2 class="h2">Roofing For Western Washington Homes</h2>
+        {data.localIntro && <p class="text-muted location-overview__text">{data.localIntro}</p>}
+        <div class="service-body location-overview__content"><Content /></div>
       </div>
-    )}
+      <div class="glance-panel">
+        <p class="glance-panel__label">Services</p>
+        <ul class="glance-panel__list">
+          {services.map((service) => service && (
+            <li><a href={`/services/${service.id}/`} class="link-underline">{service.data.title}</a></li>
+          ))}
+        </ul>
+        <Button href="/assessment/" block>Get a Free Estimate</Button>
+      </div>
+    </div>
   </section>
 
-  {data.regionalContext && (
-    <section class="section section--alt">
-      <div class="container container--narrow longform">
-        <p class="eyebrow">Regional Factors</p>
-        <h2 class="h2 longform__heading">Roofing In The Pacific Northwest</h2>
-        <p class="text-muted longform__text">{data.regionalContext}</p>
+  {data.considerations.length > 0 && (
+    <section class="section section--off-white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow">Local Considerations</p>
+        <h2 class="h2">What {data.cityName} Homeowners Should Know</h2>
+        <div class="considerations-grid">
+          <InfoCardGrid items={data.considerations} columns={3} />
+        </div>
       </div>
     </section>
   )}
 
+  {(data.regionalContext || data.regionalFactors.length > 0) && (
+    <section class="section section--dark-charcoal" data-nav-theme="dark">
+      <div class="container split">
+        <div>
+          <p class="eyebrow eyebrow--inverse">Pacific Northwest Roofing</p>
+          <h2 class="h2">Rain, Moisture, And Moss Change How A Roof Ages.</h2>
+          {data.regionalContext && <p class="text-muted regional__intro">{data.regionalContext}</p>}
+        </div>
+        {data.regionalFactors.length > 0 && <InfoCardGrid items={data.regionalFactors} tone="dark" columns={2} />}
+      </div>
+    </section>
+  )}
+
+  <section class="section section--white" data-nav-theme="light">
+    <div class="container">
+      <p class="eyebrow">Know The Signs</p>
+      <h2 class="h2">Signs Your Roof May Need Attention</h2>
+      <div class="signs-grid">
+        <InfoCardGrid items={commonSigns.map((s) => ({ title: s }))} columns={3} />
+      </div>
+    </div>
+  </section>
+
   {services.length > 0 && (
-    <section class="section">
+    <section class="section section--off-white" data-nav-theme="light">
       <div class="container">
-        <p class="eyebrow">Services Available</p>
-        <h2 class="h2">Services in {data.cityName}</h2>
+        <p class="eyebrow">Roofing Services</p>
+        <h2 class="h2">Roofing Services in {data.cityName}</h2>
         <ul class="location-services">
           {services.map((service) => service && (
             <li>
               <a href={`/services/${service.id}/`} class="location-services__link">
                 <span class="location-services__title">{service.data.title}</span>
                 <span class="text-muted location-services__desc">{service.data.shortDescription}</span>
+                <span class="location-services__cta">Learn More <span class="hover-arrow" aria-hidden="true">→</span></span>
               </a>
             </li>
           ))}
@@ -110,26 +147,12 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
     </section>
   )}
 
-  <section class="section section--alt">
-    <div class="container container--narrow location-body">
-      <h2 class="h3">Common Signs Your Roof Needs Attention</h2>
-      <ul class="location-issues">
-        {commonSigns.map((issue) => <li>{issue}</li>)}
-      </ul>
-    </div>
-  </section>
+  <DecisionBand />
 
-  {data.decisionHelp && (
-    <section class="section container container--narrow longform">
-      <h2 class="h2 longform__heading">How We Help Homeowners Decide What To Do Next</h2>
-      <p class="text-muted longform__text">{data.decisionHelp}</p>
-    </section>
-  )}
-
-  {citiesInCounty.length > 0 && (
-    <section class="section section--alt">
+  {citiesInCounty.length > 0 ? (
+    <section class="section section--charcoal" data-nav-theme="dark">
       <div class="container">
-        <p class="eyebrow">Areas We Serve</p>
+        <p class="eyebrow eyebrow--inverse">Areas We Serve</p>
         <h2 class="h2">Cities in {data.cityName}</h2>
         <ul class="location-services location-services--compact">
           {citiesInCounty.map((city) => (
@@ -138,13 +161,22 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
         </ul>
       </div>
     </section>
+  ) : (
+    <section class="section section--off-white" data-nav-theme="light">
+      <div class="container container--narrow dont-see-city">
+        <p class="eyebrow">Don't See Your City?</p>
+        <h2 class="h3">We May Still Cover It.</h2>
+        <p class="text-muted">Contact JBA and we can confirm service availability for your specific address.</p>
+        <Button href="/contact/" variant="outline">Contact JBA</Button>
+      </div>
+    </section>
   )}
 
   {projects.length > 0 && (
-    <section class="section">
+    <section class="section section--white" data-nav-theme="light">
       <div class="container">
         <p class="eyebrow">Local Work</p>
-        <h2 class="h2">Recent projects in {data.cityName}</h2>
+        <h2 class="h2">Recent Projects in {data.cityName}</h2>
         <div class="grid grid--3">
           {projects.map((project) => <ProjectCard project={project} />)}
         </div>
@@ -153,7 +185,7 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
   )}
 
   {reviews.length > 0 && (
-    <section class="section section--alt">
+    <section class="section section--off-white" data-nav-theme="light">
       <div class="container">
         <p class="eyebrow">Reviews</p>
         <h2 class="h2">{data.cityName} homeowners on working with JBA.</h2>
@@ -170,17 +202,22 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
 </BaseLayout>
 
 <style>
-  .location-body__intro { margin-top: var(--space-3); }
-  .location-body__block { margin-top: var(--space-5); }
-  .location-issues {
-    display: grid;
-    gap: var(--space-2) var(--space-5);
-    margin-top: var(--space-3);
-    padding-left: var(--space-4);
-    list-style: disc;
-    color: var(--color-text-muted);
+  .location-overview__text { margin-top: var(--space-3); max-width: 56ch; }
+  .location-overview__content :global(p) { margin-top: var(--space-3); max-width: 56ch; color: var(--color-text-muted); }
+
+  .glance-panel {
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-off-white);
   }
-  .location-services { display: grid; gap: var(--space-3); margin-top: var(--space-5); }
+  .glance-panel__label { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: var(--space-3); }
+  .glance-panel__list { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-4); font-weight: 700; }
+
+  .considerations-grid, .signs-grid { margin-top: var(--space-6); }
+  .regional__intro { margin-top: var(--space-3); max-width: 52ch; color: var(--color-text-inverse-muted); }
+
+  .location-services { display: grid; gap: var(--space-3); margin-top: var(--space-6); }
   .location-services__link {
     display: flex;
     flex-direction: column;
@@ -188,11 +225,13 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
     padding: var(--space-4);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
+    background: var(--color-white);
     transition: border-color var(--duration-base) var(--ease-out);
   }
   .location-services__link:hover { border-color: var(--color-accent); }
   .location-services__title { font-weight: 700; font-size: var(--step-0); }
   .location-services__desc { font-size: 0.9rem; }
+  .location-services__cta { margin-top: auto; padding-top: var(--space-2); font-size: 0.8125rem; font-weight: 700; color: var(--color-accent-dark); }
   .location-services--compact {
     display: flex;
     flex-direction: row;
@@ -200,8 +239,16 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
     gap: var(--space-3);
     font-weight: 600;
   }
+  .location-services--compact .link-underline { color: var(--color-text-inverse); }
+
+  .dont-see-city { text-align: center; }
+  .dont-see-city h3 { margin-top: var(--space-2); margin-bottom: var(--space-3); }
+  .dont-see-city p { max-width: 52ch; margin-inline: auto; margin-bottom: var(--space-5); }
+
   @media (min-width: 640px) {
-    .location-issues { grid-template-columns: repeat(2, 1fr); }
     .location-services { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 900px) {
+    .location-services { grid-template-columns: repeat(3, 1fr); }
   }
 </style>

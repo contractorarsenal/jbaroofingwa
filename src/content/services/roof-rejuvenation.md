@@ -9,6 +9,7 @@ published: true
 
 heroEyebrow: Roof Rejuvenation
 heroTitle: "Not Every Aging Roof Needs to Come Off Yet."
+heroImage: "/images/projects/project-06-aging-roof-replacement/before.jpg"
 heroDescription: >-
   If your roof is getting older but isn't failing, rejuvenation may extend
   its usable life before a full replacement is the right call.
@@ -18,6 +19,14 @@ primaryCta:
 secondaryCta:
   label: See Roof Replacement
   href: /services/roof-replacement/
+
+quickFacts:
+  - title: What It Is
+    description: A treatment aimed at extending the life of an aging roof.
+  - title: Who It's For
+    description: Roofs showing age, with a sound underlying structure.
+  - title: Where To Start
+    description: An inspection, to confirm it's actually a fit.
 
 problemHeading: Is Your Roof A Candidate?
 problemStatement: >-
@@ -43,24 +52,26 @@ process:
   - step: "02"
     title: Discuss options
     description: If it's a fit, we'll walk you through what's involved. If not, we'll tell you that too.
+processEyebrow: How It Works
+processHeading: How we figure out if it's a fit.
 
 educationSections:
-  - heading: What Is Roof Rejuvenation?
+  - eyebrow: What It Is
+    heading: What Is Roof Rejuvenation?
     paragraphs:
       - >-
         Roof rejuvenation is a treatment aimed at extending the usable life
         of an aging roof that isn't yet failing, rather than replacing it
         outright. The specific product and process JBA uses is confirmed
         with each homeowner directly, since it depends on the roof itself.
-
-  - heading: Who Might Consider It?
-    paragraphs:
       - >-
         Homeowners with a roof that's showing its age, but whose underlying
         structure is still sound, and who want to delay the cost of a full
         replacement, are the most likely fit. It's not a fit for every roof.
 
-  - heading: What It Is Not
+  - eyebrow: Set Expectations
+    heading: What It Cannot Fix
+    tone: dark
     paragraphs:
       - >-
         Rejuvenation is not a substitute for repair on a roof with active
@@ -68,21 +79,19 @@ educationSections:
         avoid an eventual replacement. It's one option among several, and
         only the right one when the roof's condition supports it.
 
-  - heading: When Replacement May Be The Better Option
+  - eyebrow: Compare Your Options
+    heading: Rejuvenation vs. Repair vs. Replacement
     paragraphs:
+      - >-
+        Repair fixes a specific damaged area. Replacement is a full new
+        roofing system. Rejuvenation sits between the two, extending the
+        life of a roof that's aging but not yet damaged enough to need
+        either one.
       - >-
         If a roof has widespread damage, structural issues, or has already
         reached the point where repairs keep recurring, replacement is
         usually the more realistic path. We'll tell you if that's the
         situation rather than recommending rejuvenation as a workaround.
-
-  - heading: Why An Inspection Comes First
-    paragraphs:
-      - >-
-        Because eligibility depends entirely on the actual condition of
-        your roof, every rejuvenation conversation starts with an
-        inspection. That's what tells us whether it's a realistic option
-        for your specific roof.
 
 faqHeading: Roof Rejuvenation Questions
 ctaHeading: Wondering if your roof is a candidate?

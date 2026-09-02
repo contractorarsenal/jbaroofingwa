@@ -63,7 +63,8 @@ homeownerTakeaways:
     underneath the shingles matters as much as the shingles themselves.
 
 educationSections:
-  - heading: How Water Gets Into A Roof
+  - eyebrow: Homeowner Guide
+    heading: How Water Gets Into A Roof
     intro: >-
       Water intrusion usually comes from one of a handful of places, not a
       mystery leak that shows up out of nowhere.
@@ -79,7 +80,9 @@ educationSections:
       - title: Aging materials
         description: Roofing materials lose their protective qualities over time, even without any single obvious point of failure.
 
-  - heading: Why Fixing The Source Matters
+  - eyebrow: What To Know
+    heading: Why Fixing The Source Matters
+    tone: dark
     paragraphs:
       - >-
         Covering water damage without addressing what let the water in

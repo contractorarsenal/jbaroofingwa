@@ -1,31 +1,79 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
+import Button from '@components/ui/Button.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
-import { getPublishedLocations, getGlobalSettings } from '@lib/content';
+import { getPublishedLocations, getPublishedServices, getGlobalSettings } from '@lib/content';
 
 const locations = await getPublishedLocations();
+const counties = locations.filter((l) => l.data.tier === 'county');
 const settings = await getGlobalSettings();
+
+const roofServices = [
+  { slug: 'roof-replacement', label: 'Roof Replacement' },
+  { slug: 'roof-inspection', label: 'Roof Inspection' },
+  { slug: 'roof-cleaning', label: 'Roof Cleaning' },
+  { slug: 'roof-repair', label: 'Roof Repair' },
+  { slug: 'roof-rejuvenation', label: 'Roof Rejuvenation' },
+];
+const allServices = await getPublishedServices();
 ---
 
-<BaseLayout title="Service Areas" description={`Roofing services across ${settings.primaryServiceArea} and surrounding counties in Washington.`}>
-  <PageHero eyebrow="Service Areas" title={`Working throughout ${settings.primaryServiceArea.replace(', WA', '')} and beyond.`} />
+<BaseLayout title="Service Areas" description="JBA Roofing serves homeowners throughout King, Snohomish, and Skagit Counties with roof replacement, repair, inspection, cleaning, and roof care.">
+  <PageHero
+    eyebrow="Service Areas"
+    title="Roofing Across Northwest Washington"
+    description="JBA Roofing serves homeowners throughout King, Snohomish, and Skagit Counties with roof replacement, repair, inspection, cleaning, and roof care."
+    primaryCta={{ label: 'Get a Free Estimate', href: '/assessment/' }}
+    image="/images/projects/project-02-metal-roof/after-front.jpg"
+  />
 
-  <section class="section section--light">
+  <section class="section section--white" data-nav-theme="light">
     <div class="container">
-      <div class="grid grid--3">
-        {locations.map((location) => (
-          <a href={`/service-areas/${location.id}/`} class="location-tile">
-            <p class="eyebrow">{location.data.tier === 'county' ? 'County' : location.data.county}</p>
-            <h2 class="location-tile__title">{location.data.cityName}</h2>
-            <span class="location-tile__link">View Details →</span>
+      <p class="eyebrow">Where We Work</p>
+      <h2 class="h2">Our Primary Service Counties</h2>
+      <div class="county-cards" data-reveal-group>
+        {counties.map((county) => (
+          <a href={`/service-areas/${county.id}/`} class="county-card" data-reveal="up">
+            <span class="county-card__badge" aria-hidden="true">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21V9l9-6 9 6v12" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </span>
+            <h3 class="county-card__title">{county.data.cityName}</h3>
+            <p class="text-muted county-card__desc">{county.data.localIntro?.slice(0, 140) ?? county.data.heroDescription}</p>
+            <span class="county-card__link">View Service Area <span class="hover-arrow" aria-hidden="true">→</span></span>
           </a>
         ))}
       </div>
+    </div>
+  </section>
 
-      <p class="text-muted service-areas__note">
-        Don't see your specific city listed? We likely still cover it. <a href="/contact/" class="link-underline">Reach out with your address</a> to confirm.
+  <section class="section section--charcoal" data-nav-theme="dark">
+    <div class="container">
+      <p class="eyebrow eyebrow--inverse">Roofing Services Available</p>
+      <h2 class="h2">Every County, The Same Five Services.</h2>
+      <div class="service-links" data-reveal-group>
+        {roofServices.map((s) => {
+          const entry = allServices.find((svc) => svc.id === s.slug);
+          return (
+            <a href={`/services/${s.slug}/`} class="service-links__item" data-reveal="up">
+              <span class="service-links__title">{s.label}</span>
+              {entry && <span class="text-muted service-links__desc">{entry.data.shortDescription}</span>}
+              <span class="service-links__cta">Learn More <span class="hover-arrow" aria-hidden="true">→</span></span>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--off-white" data-nav-theme="light">
+    <div class="container container--narrow service-areas__note">
+      <p class="eyebrow">Don't See Your City?</p>
+      <h2 class="h3">We May Still Cover It.</h2>
+      <p class="text-muted">
+        Our published pages cover our primary county service areas. If you don't see your city listed, contact us and we can confirm availability.
       </p>
+      <Button href="/contact/" variant="outline">Contact JBA</Button>
     </div>
   </section>
 
@@ -33,22 +81,68 @@ const settings = await getGlobalSettings();
 </BaseLayout>
 
 <style>
-  .location-tile {
+  .county-cards {
+    display: grid;
+    gap: var(--space-4);
+    margin-top: var(--space-6);
+  }
+  .county-card {
     display: flex;
     flex-direction: column;
     gap: var(--space-2);
-    padding: var(--space-5);
+    padding: var(--space-6);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     background: var(--color-white);
     transition: border-color var(--duration-base) var(--ease-out), transform var(--duration-base) var(--ease-out);
   }
-  .location-tile:hover { border-color: var(--color-accent); transform: translateY(-2px); }
-  .location-tile__title {
+  .county-card:hover { border-color: var(--color-accent); transform: translateY(-2px); }
+  .county-card__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    background: var(--color-off-white);
+    color: var(--color-accent-dark);
+    margin-bottom: var(--space-2);
+  }
+  .county-card__title {
     font-family: var(--font-display);
     font-size: var(--step-3);
     text-transform: uppercase;
   }
-  .location-tile__link { margin-top: auto; padding-top: var(--space-2); font-weight: 700; color: var(--color-accent-dark); }
-  .service-areas__note { margin-top: var(--space-6); }
+  .county-card__desc { flex: 1; }
+  .county-card__link { margin-top: var(--space-2); font-weight: 700; color: var(--color-accent-dark); }
+
+  .service-links {
+    display: grid;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+  }
+  .service-links__item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3em;
+    padding: var(--space-4) var(--space-5);
+    border: 1px solid var(--color-border-dark);
+    border-left: 3px solid var(--color-accent);
+    border-radius: var(--radius-md);
+    background: var(--color-charcoal-raised);
+    transition: border-color var(--duration-base) var(--ease-out);
+  }
+  .service-links__item:hover { border-left-color: var(--color-accent-light); }
+  .service-links__title { font-family: var(--font-display); font-size: var(--step-1); font-weight: 700; text-transform: uppercase; color: var(--color-text-inverse); }
+  .service-links__desc { font-size: 0.875rem; }
+  .service-links__cta { font-size: 0.8125rem; font-weight: 700; color: var(--color-accent); margin-top: 0.2em; }
+
+  .service-areas__note { text-align: center; }
+  .service-areas__note h3 { margin-top: var(--space-2); margin-bottom: var(--space-3); }
+  .service-areas__note p { max-width: 56ch; margin-inline: auto; margin-bottom: var(--space-5); }
+
+  @media (min-width: 720px) {
+    .county-cards { grid-template-columns: repeat(3, 1fr); }
+    .service-links { grid-template-columns: repeat(3, 1fr); }
+  }
 </style>

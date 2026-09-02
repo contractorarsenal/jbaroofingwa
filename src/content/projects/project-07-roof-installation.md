@@ -33,7 +33,8 @@ homeownerTakeaways:
     underlayment, flashing, then the field shingles, in that order.
 
 educationSections:
-  - heading: Why The Roof Deck Matters
+  - eyebrow: Roof Care
+    heading: Why The Roof Deck Matters
     paragraphs:
       - >-
         Everything about a roofing system depends on the deck underneath
@@ -43,7 +44,9 @@ educationSections:
         Any soft spots, rot, or damage found at this stage get addressed
         before installation continues, not discovered later as a leak.
 
-  - heading: What We Look At Before Installation
+  - eyebrow: What We Look For
+    heading: What We Look At Before Installation
+    tone: dark
     items:
       - title: Deck condition
         description: Confirming the deck is solid and properly fastened before anything new goes on top of it.

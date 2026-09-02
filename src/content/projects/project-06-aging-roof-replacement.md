@@ -35,7 +35,8 @@ homeownerTakeaways:
     system rather than patching one symptom at a time.
 
 educationSections:
-  - heading: When A Shingle Roof May Need Replacement
+  - eyebrow: Before You Decide
+    heading: When A Shingle Roof May Need Replacement
     intro: >-
       Age alone doesn't automatically mean replacement, but a roof this far
       past its expected lifespan usually shows several signs at once.
@@ -47,7 +48,9 @@ educationSections:
       - title: Age past the material's expected lifespan
         description: Every roofing material has a general expected service life. A roof well past that point is a reasonable candidate for replacement even without an active leak.
 
-  - heading: What Happens After Tear-Off
+  - eyebrow: What To Know
+    heading: What Happens After Tear-Off
+    tone: dark
     paragraphs:
       - >-
         Removing an aged roof down to the deck shows exactly what's been

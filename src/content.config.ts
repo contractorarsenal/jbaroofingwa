@@ -144,6 +144,22 @@ const services = defineCollection({
     primaryCta: ctaSchema.optional(),
     secondaryCta: ctaSchema.optional(),
 
+    // Short intro paragraph + a 3-item "quick answer" panel used in the
+    // split section directly under the hero (distinct from heroDescription,
+    // which already appears in the hero itself).
+    overviewText: z.string().optional(),
+    quickFacts: z.array(z.object({ title: z.string(), description: z.string() })).default([]),
+
+    // Optional two-column comparison (e.g. Cleaning vs. Repair), rendered
+    // via ComparisonPanel when present.
+    comparison: z
+      .object({
+        leftLabel: z.string(),
+        rightLabel: z.string(),
+        rows: z.array(z.object({ label: z.string(), left: z.string(), right: z.string() })),
+      })
+      .optional(),
+
     // Homeowner-specific heading shown above problemStatement (e.g. "Is It
     // Time To Replace Your Roof?"), instead of a generic, mechanically
     // repeated "The Problem" label on every service page.
@@ -153,9 +169,13 @@ const services = defineCollection({
     benefits: z
       .array(z.object({ title: z.string(), description: z.string() }))
       .default([]),
+    benefitsEyebrow: z.string().optional(),
+    benefitsHeading: z.string().optional(),
     process: z
       .array(z.object({ step: z.string(), title: z.string(), description: z.string() }))
       .default([]),
+    processEyebrow: z.string().optional(),
+    processHeading: z.string().optional(),
 
     gallery: z.array(galleryImageSchema).default([]),
 
@@ -166,10 +186,12 @@ const services = defineCollection({
     educationSections: z
       .array(
         z.object({
+          eyebrow: z.string().optional(),
           heading: z.string(),
           intro: z.string().optional(),
           paragraphs: z.array(z.string()).default([]),
           items: z.array(z.object({ title: z.string(), description: z.string() })).default([]),
+          tone: z.enum(['light', 'dark']).default('light'),
         })
       )
       .default([]),
@@ -247,10 +269,12 @@ const projects = defineCollection({
     educationSections: z
       .array(
         z.object({
+          eyebrow: z.string().optional(),
           heading: z.string(),
           intro: z.string().optional(),
           paragraphs: z.array(z.string()).default([]),
           items: z.array(z.object({ title: z.string(), description: z.string() })).default([]),
+          tone: z.enum(['light', 'dark']).default('light'),
         })
       )
       .default([]),
@@ -287,12 +311,18 @@ const locations = defineCollection({
     servicesAvailable: z.array(reference('services')).default([]),
     neighborhoods: z.array(z.string()).default([]),
     localRoofingConsiderations: z.string().optional(),
+    // 3 compact cards (e.g. Weather / Roof Age / Permits & Project Planning)
+    // shown as their own "Local Considerations" section, distinct from the
+    // hero and intro. Kept conservative — no specific permit/jurisdiction
+    // claims unless independently verified.
+    considerations: z.array(z.object({ title: z.string(), description: z.string() })).default([]),
     nearbyAreas: z.array(reference('locations')).default([]),
 
     // General Pacific Northwest roofing context (rain, moss, seasonal storms),
     // and a short paragraph on how JBA helps a homeowner decide next steps.
     // Kept general, never claiming unsupported climate statistics.
     regionalContext: z.string().optional(),
+    regionalFactors: z.array(z.object({ title: z.string(), description: z.string() })).default([]),
     commonSigns: z.array(z.string()).default([]),
     decisionHelp: z.string().optional(),
 

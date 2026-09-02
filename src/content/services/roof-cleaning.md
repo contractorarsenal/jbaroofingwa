@@ -20,6 +20,14 @@ secondaryCta:
   label: View Maintenance Plans
   href: /maintenance-plans/
 
+quickFacts:
+  - title: Why Clean
+    description: Moss holds moisture and can lift shingle edges over time.
+  - title: What We Remove
+    description: Moss, algae streaking, and general organic buildup.
+  - title: When Cleaning Isn't Enough
+    description: If damage has already reached the decking, that's a repair.
+
 problemHeading: Why Roof Cleaning Matters
 problemStatement: >-
   Moss and algae streaking are common on Western Washington roofs with tree
@@ -49,7 +57,8 @@ process:
     description: Remove debris and treated growth from the roof surface and gutters.
 
 educationSections:
-  - heading: What Builds Up On Northwest Roofs?
+  - eyebrow: What Builds Up
+    heading: What Builds Up On Northwest Roofs?
     intro: A few things account for most of what ends up on a roof around here.
     items:
       - title: Moss
@@ -61,50 +70,48 @@ educationSections:
       - title: General buildup over time
         description: Dirt and grime that accumulate gradually and hold moisture against the roof surface.
 
-  - heading: How Moss Can Affect A Roof
+  - eyebrow: The Risk
+    heading: How Moss Affects A Roof Over Time
+    tone: dark
     paragraphs:
       - >-
         Moss doesn't just sit on top of shingles. As it grows, it can lift
         shingle edges and work its way underneath them, which gives water a
-        path it wouldn't otherwise have.
-      - >-
-        Left long enough, that moisture held against the roof deck can lead
-        to the kind of decking damage that turns a cleaning job into a
-        repair.
-
-  - heading: When Should You Consider Cleaning?
-    paragraphs:
+        path it wouldn't otherwise have. Left long enough, that moisture
+        held against the roof deck can lead to the kind of decking damage
+        that turns a cleaning job into a repair.
       - >-
         Visible moss, black streaking, or a roof that hasn't been cleaned in
-        several years are the usual signs. Heavier tree cover generally
-        means more frequent attention.
+        several years are the usual signs it's time to look at cleaning.
+        Heavier tree cover generally means more frequent attention.
 
-  - heading: Cleaning Vs. Repair
-    paragraphs:
-      - >-
-        Cleaning addresses moss and buildup on an otherwise sound roof.
-        It's not a substitute for repairing shingles that are already
-        damaged or decking that's already compromised.
-      - >-
-        If cleaning uncovers a problem underneath, like lifted shingles or
-        soft decking, that's a repair conversation, and we'll tell you
-        directly rather than just cleaning around it.
-
-  - heading: When Cleaning Isn't Enough
+  - eyebrow: Know The Limits
+    heading: When Cleaning Isn't Enough
     paragraphs:
       - >-
         If moss has already caused shingle damage or water has reached the
-        decking, cleaning alone won't fix that. At that point, a repair
-        (or in some cases replacement) addresses the underlying damage,
-        with cleaning as part of getting the roof back to a maintainable
+        decking, cleaning alone won't fix that. At that point, a repair (or
+        in some cases replacement) addresses the underlying damage, with
+        cleaning as part of getting the roof back to a maintainable
         condition.
-
-  - heading: How To Keep The Roof In Better Condition
-    paragraphs:
       - >-
-        Keeping gutters clear, trimming back overhanging branches where
-        practical, and having the roof looked at periodically all help
-        slow how quickly moss and debris build back up.
+        Between cleanings, keeping gutters clear and trimming back
+        overhanging branches where practical both help slow how quickly
+        moss and debris build back up.
+
+comparison:
+  leftLabel: Cleaning
+  rightLabel: Repair
+  rows:
+    - label: Addresses
+      left: Moss, algae, and buildup on an otherwise sound roof.
+      right: Damaged shingles, decking, or flashing.
+    - label: When it applies
+      left: The roof surface itself is intact underneath the growth.
+      right: Growth or wear has already caused actual damage.
+    - label: What we do
+      left: Low-pressure treatment to kill growth at the root.
+      right: Repair or replace the specific damaged material.
 
 faqHeading: Roof Cleaning Questions
 ctaHeading: Get the moss handled before it lifts another shingle.

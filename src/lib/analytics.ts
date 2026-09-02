@@ -21,7 +21,8 @@ export type AnalyticsEvent =
   | 'financing_clicked'
   | 'emergency_clicked'
   | 'photo_uploaded'
-  | 'location_page_viewed';
+  | 'location_page_viewed'
+  | 'contact_form_submitted';
 
 export interface AnalyticsPayload {
   [key: string]: string | number | boolean | undefined;

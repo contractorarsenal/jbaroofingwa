@@ -1,0 +1,78 @@
+---
+/**
+ * A row of compact, bordered information cards — signs to watch for, an
+ * inspection checklist, regional factors, preparation steps. Replaces bare
+ * bullet lists / floating text with an actual card treatment, tone-aware so
+ * it reads correctly on both light and dark section backgrounds.
+ */
+interface Item {
+  title: string;
+  description?: string;
+}
+
+interface Props {
+  items: Item[];
+  tone?: 'light' | 'dark';
+  columns?: 1 | 2 | 3 | 4;
+}
+
+const { items, tone = 'light', columns = 3 } = Astro.props;
+---
+
+<div class:list={['info-grid', `info-grid--${tone}`, `info-grid--cols-${columns}`]} data-reveal-group>
+  {items.map((item) => (
+    <div class="info-grid__item" data-reveal="up">
+      <svg class="info-grid__icon" width="16" height="16" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+        <path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <h3 class="info-grid__title">{item.title}</h3>
+        {item.description && <p class="info-grid__desc">{item.description}</p>}
+      </div>
+    </div>
+  ))}
+</div>
+
+<style>
+  .info-grid {
+    display: grid;
+    gap: var(--space-3);
+    grid-template-columns: 1fr;
+  }
+  .info-grid__item {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--color-border);
+    background: var(--color-white);
+    transition: border-color var(--duration-base) var(--ease-out);
+  }
+  .info-grid__item:hover { border-color: var(--color-accent); }
+  .info-grid__icon {
+    flex-shrink: 0;
+    margin-top: 0.2em;
+    color: var(--color-accent-dark);
+  }
+  .info-grid__title { font-size: var(--step-0); font-weight: 700; }
+  .info-grid__desc { margin-top: 0.3em; font-size: 0.875rem; color: var(--color-text-muted); }
+
+  .info-grid--dark .info-grid__item {
+    background: var(--color-charcoal-raised);
+    border-color: var(--color-border-dark);
+  }
+  .info-grid--dark .info-grid__title { color: var(--color-text-inverse); }
+  .info-grid--dark .info-grid__desc { color: var(--color-text-inverse-muted); }
+  .info-grid--dark .info-grid__icon { color: var(--color-accent); }
+
+  @media (min-width: 640px) {
+    .info-grid--cols-2 { grid-template-columns: repeat(2, 1fr); }
+    .info-grid--cols-3 { grid-template-columns: repeat(2, 1fr); }
+    .info-grid--cols-4 { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 900px) {
+    .info-grid--cols-3 { grid-template-columns: repeat(3, 1fr); }
+    .info-grid--cols-4 { grid-template-columns: repeat(4, 1fr); }
+  }
+</style>

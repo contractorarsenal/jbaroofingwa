@@ -2,6 +2,7 @@
 import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
+import InstagramEmbed from '@components/ui/InstagramEmbed.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import { getPublishedTeam, getGlobalSettings } from '@lib/content';
 import { getEntry } from 'astro:content';
@@ -71,6 +72,22 @@ const [project02, project05, project06] = await Promise.all([
       </div>
       <div class="about-split__art" data-reveal="image">
         <MediaSlot image={project05?.data.duringImages[0]} alt="Crew installing new shingles during a roofing project" tone="light" variant={2} sizes="(min-width: 900px) 50vw, 100vw" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--charcoal about-instagram" data-nav-theme="dark">
+    <div class="container about-split about-split--ig">
+      <div>
+        <p class="eyebrow eyebrow--inverse" data-reveal="up">See JBA In Action</p>
+        <h2 class="h2" data-reveal="up">Real Work. <span class="accent-text">Real Projects.</span></h2>
+        <p class="text-muted about-split__body" data-reveal="up">
+          We share completed roofs and job-site photos on Instagram as we
+          finish them. Take a look at recent work directly from the source.
+        </p>
+      </div>
+      <div data-reveal="up">
+        <InstagramEmbed url="https://www.instagram.com/p/DcubreIjYt5/" />
       </div>
     </div>
   </section>
@@ -151,6 +168,7 @@ const [project02, project05, project06] = await Promise.all([
   .about-split__body { max-width: 52ch; margin-block: var(--space-3) var(--space-2); }
   @media (min-width: 900px) {
     .about-split { grid-template-columns: 1fr 1fr; }
+    .about-split--ig { grid-template-columns: 2fr 3fr; }
   }
 
   .about-intro__facts {

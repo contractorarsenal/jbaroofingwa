@@ -4,6 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
 import BeforeAfterSlider from '@components/projects/BeforeAfterSlider.astro';
 import MediaSlot from '@components/ui/MediaSlot.astro';
+import InfoCardGrid from '@components/ui/InfoCardGrid.astro';
 import ReviewCard from '@components/reviews/ReviewCard.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
 import { getPublishedProjects } from '@lib/content';
@@ -36,6 +37,15 @@ const breadcrumbSchema = buildBreadcrumbSchema([
 ]);
 
 const heroImage = data.droneImages[0] ?? data.afterImages[0];
+
+// Only verified fields ever appear here — no blank city/date/manufacturer.
+const snapshot = [
+  service && { title: 'Service', description: service.data.title },
+  data.roofMaterial && { title: 'Roof Material', description: data.roofMaterial },
+  data.roofType && { title: 'Roof Type', description: data.roofType },
+].filter((v): v is { title: string; description: string } => Boolean(v));
+
+const hasOverview = !!(data.customerProblem || data.inspectionFindings || data.solution);
 
 // A during/progress shot (falling back to an after shot) illustrates "What
 // This Project Involved" without reusing the hero or before/after pair.
@@ -76,47 +86,62 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
     image={heroImage}
   />
 
-  <section class="section container container--narrow project-detail">
-    <p class="eyebrow">Project Overview</p>
-    {data.customerProblem && (
-      <div class="project-detail__block" data-reveal="up">
-        <h2 class="h4">The Problem</h2>
-        <p class="text-muted">{data.customerProblem}</p>
+  {snapshot.length > 0 && (
+    <section class="section section--tight section--off-white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow eyebrow--center">Project Snapshot</p>
+        <div class="snapshot-grid">
+          <InfoCardGrid items={snapshot} columns={3} />
+        </div>
       </div>
-    )}
-    {data.inspectionFindings && (
-      <div class="project-detail__block" data-reveal="up">
-        <h2 class="h4">What We Found</h2>
-        <p class="text-muted">{data.inspectionFindings}</p>
-      </div>
-    )}
-    {data.solution && (
-      <div class="project-detail__block" data-reveal="up">
-        <h2 class="h4">The Work</h2>
-        <p class="text-muted">{data.solution}</p>
-      </div>
-    )}
+    </section>
+  )}
 
-    {(data.roofMaterial || data.roofType || data.manufacturer) && (
-      <div class="project-detail__meta">
-        {data.roofMaterial && <span class="badge">{data.roofMaterial}</span>}
-        {data.roofType && <span class="badge">{data.roofType}</span>}
-        {data.manufacturer && <span class="badge">{data.manufacturer}</span>}
+  {hasOverview && (
+    <section class="section section--white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow eyebrow--center">Project Overview</p>
+        <div class="overview-grid" data-reveal-group>
+          {data.customerProblem && (
+            <div class="overview-card" data-reveal="up">
+              <span class="overview-card__num">01</span>
+              <h3 class="overview-card__title">The Condition</h3>
+              <p class="text-muted">{data.customerProblem}</p>
+            </div>
+          )}
+          {data.inspectionFindings && (
+            <div class="overview-card" data-reveal="up">
+              <span class="overview-card__num">02</span>
+              <h3 class="overview-card__title">What We Found</h3>
+              <p class="text-muted">{data.inspectionFindings}</p>
+            </div>
+          )}
+          {data.solution && (
+            <div class="overview-card" data-reveal="up">
+              <span class="overview-card__num">03</span>
+              <h3 class="overview-card__title">The Work</h3>
+              <p class="text-muted">{data.solution}</p>
+            </div>
+          )}
+        </div>
+        {!!project.body?.trim() && (
+          <div class="service-body overview-content"><Content /></div>
+        )}
       </div>
-    )}
-
-    <Content />
-  </section>
+    </section>
+  )}
 
   {data.storyStages.length > 0 ? (
     data.storyStages.map((stage, i) => (
-      <section class="section">
+      <section class:list={['section', i % 2 === 1 ? 'section--off-white' : 'section--white']} data-nav-theme="light">
         <div class="container project-split">
           <div class:list={['project-split__art', i % 2 === 1 && 'project-split__art--second']} data-reveal="image">
+            <span class="project-split__num">{String(i + 1).padStart(2, '0')}</span>
             <MediaSlot image={stage.image} alt={projectImageAlt(stage.image, stage.heading)} tone="light" variant={((i % 3) + 1) as 1 | 2 | 3} sizes="(min-width: 900px) 50vw, 100vw" />
           </div>
           <div>
-            <p class="eyebrow">{stage.heading}</p>
+            <p class="eyebrow">Step {String(i + 1).padStart(2, '0')}</p>
+            <h2 class="h3">{stage.heading}</h2>
             <p class="text-muted longform__text">{stage.text}</p>
           </div>
         </div>
@@ -125,9 +150,10 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
   ) : (
     <>
       {data.beforeImages[0] && data.afterImages[0] && (
-        <section class="section section--alt">
-          <div class="container container--narrow" data-reveal="up">
-            <p class="eyebrow">Before &amp; After</p>
+        <section class="section section--charcoal" data-nav-theme="dark">
+          <div class="container container--narrow ba-feature" data-reveal="up">
+            <p class="eyebrow eyebrow--inverse eyebrow--center">Before &amp; After</p>
+            <h2 class="h2 ba-feature__heading">See The Difference</h2>
             <BeforeAfterSlider
               beforeImage={data.beforeImages[0]}
               afterImage={data.afterImages[0]}
@@ -139,7 +165,7 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
       )}
 
       {data.whatThisInvolved && (
-        <section class="section">
+        <section class="section section--white" data-nav-theme="light">
           <div class="container project-split">
             <div class="project-split__art" data-reveal="image">
               <MediaSlot image={involvedImage} alt={projectImageAlt(involvedImage, data.projectName)} tone="light" variant={2} sizes="(min-width: 900px) 50vw, 100vw" />
@@ -155,60 +181,43 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
   )}
 
   {data.homeownerTakeaways.length > 0 && (
-    <section class="section section--alt">
-      <div class="container container--narrow longform">
-        <p class="eyebrow">What Homeowners Can Learn From This Project</p>
-        <ul class="longform__list">
-          {data.homeownerTakeaways.map((item) => (
-            <li>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              {item}
-            </li>
-          ))}
-        </ul>
+    <section class="section section--dark-charcoal" data-nav-theme="dark">
+      <div class="container">
+        <p class="eyebrow eyebrow--inverse">What Homeowners Can Learn</p>
+        <h2 class="h2">From This Project</h2>
+        <div class="takeaways-grid">
+          <InfoCardGrid items={data.homeownerTakeaways.map((t) => ({ title: t }))} tone="dark" columns={3} />
+        </div>
       </div>
     </section>
   )}
 
   {data.educationSections.map((section, i) => (
-    <section class:list={['section', i % 2 === 1 && 'section--alt']}>
-      <div class="container container--narrow longform">
-        <p class="eyebrow">Service Education</p>
+    <section class:list={['section', section.tone === 'dark' ? 'section--dark-charcoal' : i % 2 === 0 ? 'section--white' : 'section--off-white']} data-nav-theme={section.tone}>
+      <div class="container longform">
+        {section.eyebrow && <p class:list={['eyebrow', section.tone === 'dark' && 'eyebrow--inverse']}>{section.eyebrow}</p>}
         <h2 class="h2 longform__heading">{section.heading}</h2>
         {section.intro && <p class="text-muted longform__text">{section.intro}</p>}
         {section.paragraphs.map((p) => <p class="text-muted longform__text">{p}</p>)}
-        {section.items.length > 0 && (
-          <div class="longform__items">
-            {section.items.map((item) => (
-              <div class="longform__item">
-                <h3 class="longform__item-title">{item.title}</h3>
-                <p class="text-muted">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        )}
+        {section.items.length > 0 && <InfoCardGrid items={section.items} tone={section.tone} columns={section.items.length >= 6 ? 4 : 2} />}
       </div>
     </section>
   ))}
 
   {data.watchFor.length > 0 && (
-    <section class="section section--alt">
-      <div class="container container--narrow longform">
-        <p class="eyebrow">What To Watch For</p>
-        <ul class="longform__list">
-          {data.watchFor.map((item) => (
-            <li>
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7l3.5 3.5L12 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              {item}
-            </li>
-          ))}
-        </ul>
+    <section class="section section--off-white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow">Know The Signs</p>
+        <h2 class="h2">What To Watch For</h2>
+        <div class="watch-grid">
+          <InfoCardGrid items={data.watchFor.map((w) => ({ title: w }))} columns={3} />
+        </div>
       </div>
     </section>
   )}
 
   {galleryImages.length > 0 && (
-    <section class="section section--charcoal">
+    <section class="section section--charcoal" data-nav-theme="dark">
       <div class="container">
         <p class="eyebrow eyebrow--inverse">Project Gallery</p>
         <div class="project-gallery" data-reveal-group>
@@ -223,18 +232,22 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
   )}
 
   {service && (
-    <section class="section">
+    <section class="section section--tight section--white" data-nav-theme="light">
       <div class="container container--narrow">
-        <a href={`/services/${service.id}/`} class="project-related-service" data-analytics-event="service_clicked" data-analytics-location="project_detail_related">
-          <span class="eyebrow">Related Service</span>
-          <span class="h3 project-related-service__title">{service.data.title} <span class="hover-arrow" aria-hidden="true">→</span></span>
+        <a href={`/services/${service.id}/`} class="related-service-card" data-analytics-event="service_clicked" data-analytics-location="project_detail_related">
+          <div>
+            <p class="eyebrow">Related Service</p>
+            <h2 class="h3">Need {service.data.title}?</h2>
+            <p class="text-muted">Learn about JBA's {service.data.title.toLowerCase()} service.</p>
+          </div>
+          <span class="related-service-card__cta">View {service.data.title} <span class="hover-arrow" aria-hidden="true">→</span></span>
         </a>
       </div>
     </section>
   )}
 
   {review && (
-    <section class="section section--alt">
+    <section class="section section--off-white" data-nav-theme="light">
       <div class="container container--narrow">
         <p class="eyebrow">Customer Review</p>
         <ReviewCard review={review} />
@@ -243,18 +256,18 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
   )}
 
   {next && next.id !== project.id && (
-    <section class="section project-next">
+    <section class="section section--tight project-next" data-nav-theme="light">
       <div class="container">
         <p class="eyebrow project-next__eyebrow">Next Project</p>
         <a href={`/projects/${next.id}/`} class="project-next__card" data-analytics-event="project_opened" data-analytics-location="project_detail_next">
           <div class="project-next__media">
-            <MediaSlot image={next.data.afterImages[0] ?? next.data.droneImages[0]} alt="" tone="light" sizes="120px" />
+            <MediaSlot image={next.data.afterImages[0] ?? next.data.droneImages[0]} alt="" tone="light" sizes="360px" />
           </div>
           <div class="project-next__body">
             <span class="project-next__title">{next.data.projectName}</span>
             {next.data.roofMaterial && <span class="text-muted project-next__meta">{next.data.roofMaterial}</span>}
+            <span class="project-next__cta">View Project <span class="hover-arrow" aria-hidden="true">→</span></span>
           </div>
-          <span class="project-next__cta">View Project <span class="hover-arrow" aria-hidden="true">→</span></span>
         </a>
       </div>
     </section>
@@ -264,29 +277,78 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
 </BaseLayout>
 
 <style>
-  .project-detail__block { margin-bottom: var(--space-5); }
-  .project-detail__meta { display: flex; flex-wrap: wrap; gap: var(--space-2); margin-bottom: var(--space-5); }
+  .snapshot-grid, .overview-grid, .takeaways-grid, .watch-grid { margin-top: var(--space-6); }
 
-  /* Split section ("What This Project Involved"): standardized image | copy
-     rhythm, image and text each roughly half width at desktop. */
+  .overview-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+  .overview-card {
+    padding: var(--space-5);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+  }
+  .overview-card__num {
+    display: block;
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--color-accent-dark);
+    opacity: 0.7;
+    margin-bottom: var(--space-2);
+  }
+  .overview-card__title { font-size: var(--step-1); margin-bottom: var(--space-2); }
+  .overview-content { margin-top: var(--space-6); }
+  .overview-content :global(p) { max-width: 68ch; margin-inline: auto; text-align: left; }
+
+  .ba-feature__heading { text-align: center; margin-top: var(--space-2); margin-bottom: var(--space-6); }
+
+  /* Split section ("What This Project Involved" / story stages): standardized
+     image | copy rhythm, image and text each roughly half width at desktop. */
   .project-split {
     display: grid;
     gap: var(--space-6);
     align-items: center;
   }
   .project-split__art {
+    position: relative;
     aspect-ratio: 4 / 3;
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     overflow: hidden;
+  }
+  .project-split__num {
+    position: absolute;
+    top: var(--space-3);
+    left: var(--space-3);
+    z-index: 1;
+    font-family: var(--font-display);
+    font-size: var(--step-1);
+    font-weight: 700;
+    color: var(--color-white);
+    background: rgba(8, 8, 8, 0.65);
+    padding: 0.2em 0.6em;
+    border-radius: var(--radius-sm);
   }
   @media (min-width: 900px) {
     .project-split { grid-template-columns: 1fr 1fr; }
     .project-split__art--second { order: 2; }
   }
 
-  .project-related-service { display: flex; flex-direction: column; gap: var(--space-2); }
-  .project-related-service__title { display: inline-flex; align-items: center; gap: 0.4em; }
+  .related-service-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    padding: var(--space-6);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    transition: border-color var(--duration-base) var(--ease-out);
+  }
+  .related-service-card:hover { border-color: var(--color-accent); }
+  .related-service-card h2 { margin-top: var(--space-2); margin-bottom: var(--space-2); }
+  .related-service-card__cta { font-weight: 700; color: var(--color-accent-dark); }
+  @media (min-width: 640px) {
+    .related-service-card { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
 
   .project-gallery {
     display: grid;
@@ -302,15 +364,14 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
   .project-gallery__item :global(img) { transition: transform 500ms var(--ease-out); }
   .project-gallery__item:hover :global(img) { transform: scale(1.035); }
 
-  /* Compact "Next Project" card — a small link row, not a full-bleed banner. */
-  .project-next { padding-block: var(--space-6); }
+  /* Compact "Next Project" card. */
   .project-next__eyebrow { margin-bottom: var(--space-3); }
   .project-next__card {
     display: flex;
     align-items: center;
-    gap: var(--space-4);
-    max-width: 560px;
-    padding: var(--space-3);
+    gap: var(--space-5);
+    max-width: 960px;
+    padding: var(--space-4);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-md);
     transition: border-color var(--duration-base) var(--ease-out);
@@ -318,18 +379,19 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
   .project-next__card:hover { border-color: var(--color-accent); }
   .project-next__media {
     flex-shrink: 0;
-    width: 72px;
+    width: 35%;
     aspect-ratio: 4 / 3;
     border-radius: var(--radius-sm);
     overflow: hidden;
   }
-  .project-next__body { display: flex; flex-direction: column; gap: 0.2em; min-width: 0; flex: 1; }
-  .project-next__title { font-weight: 700; font-size: var(--step-0); }
-  .project-next__meta { font-size: 0.8rem; }
-  .project-next__cta { flex-shrink: 0; font-size: 0.8125rem; font-weight: 700; color: var(--color-accent-dark); white-space: nowrap; }
+  .project-next__body { display: flex; flex-direction: column; gap: 0.3em; min-width: 0; flex: 1; }
+  .project-next__title { font-family: var(--font-display); font-size: var(--step-2); text-transform: uppercase; }
+  .project-next__meta { font-size: 0.85rem; }
+  .project-next__cta { margin-top: var(--space-2); font-size: 0.8125rem; font-weight: 700; color: var(--color-accent-dark); }
 
   @media (min-width: 720px) {
     .project-gallery { grid-template-columns: repeat(3, 1fr); }
+    .overview-grid { grid-template-columns: repeat(3, 1fr); }
   }
   @media (prefers-reduced-motion: reduce) {
     .project-gallery__item :global(img) { transition: none; }

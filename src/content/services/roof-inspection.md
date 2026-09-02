@@ -20,46 +20,48 @@ secondaryCta:
   label: View Maintenance Plans
   href: /maintenance-plans/
 
-problemHeading: What An Inspection Can Help You Understand
-problemStatement: >-
-  Most roof problems are cheapest to fix in the first year they appear and most
-  expensive in the last. An inspection tells you which stage you're at.
+overviewText: >-
+  Catching a roof issue early is usually simpler and less costly than
+  waiting until it's gotten worse. An inspection tells you where your roof
+  currently stands, before you have to guess.
 
+quickFacts:
+  - title: When To Inspect
+    description: Buying, selling, after a storm, or if it's just been a while.
+  - title: What We Look At
+    description: Shingles, flashing, penetrations, and more.
+  - title: What You Receive
+    description: A summary of condition and recommendations.
+
+problemHeading: When Should You Schedule An Inspection?
 problemsSolved:
-  - Pre-purchase home roof condition checks
-  - Roofs that haven't been looked at in several years
-  - General "is this normal?" concerns about wear or moss
+  - Buying or selling a home
+  - After a storm
+  - Roof hasn't been checked in years
+  - You see something concerning
 
 benefits:
-  - title: Written report with photos
-    description: Not just a verbal opinion, something you can keep or share.
+  - title: A summary you can keep
+    description: Not just a verbal opinion in the moment.
   - title: No pressure toward a specific outcome
     description: An inspection is not a sales call. If everything's fine, we'll tell you that.
 
 process:
   - step: "01"
     title: Walk the roof
-    description: Full visual inspection of the roof surface, flashing, and vents.
+    description: Visual inspection of the roof surface, flashing, and vents.
   - step: "02"
     title: Check the attic
-    description: Interior signs of moisture, ventilation issues, or past leaks.
+    description: Interior signs of moisture or past leaks, where the attic is accessible.
   - step: "03"
-    title: Report
-    description: A written summary of condition and recommendations, if any.
+    title: Summarize
+    description: A summary of condition and recommendations, if any.
+processEyebrow: The Process
+processHeading: What happens during an inspection.
 
 educationSections:
-  - heading: When Should You Have Your Roof Inspected?
-    paragraphs:
-      - >-
-        A few situations come up most often: buying or selling a home,
-        after a significant storm, before winter, or simply because it's
-        been several years since anyone looked at the roof closely.
-      - >-
-        None of these require something to already be wrong. An inspection
-        is just as useful for confirming a roof is in good shape as it is
-        for finding a problem.
-
-  - heading: What Do We Look At?
+  - eyebrow: The Checklist
+    heading: What Do We Look At?
     intro: "A roof inspection covers what's visible and reasonably accessible, including:"
     items:
       - title: Shingles and roofing surface
@@ -79,7 +81,9 @@ educationSections:
       - title: Visible decking concerns
         description: Signs of decking issues where accessible, without opening up the roof.
 
-  - heading: Repair, Maintain, Or Replace?
+  - eyebrow: Before You Decide
+    heading: Repair, Maintain, Or Replace?
+    tone: dark
     paragraphs:
       - >-
         The point of an inspection is to give you enough information to
@@ -92,12 +96,12 @@ educationSections:
         what that would involve, so the decision is based on what we
         actually found.
 
-  - heading: After The Inspection
+  - eyebrow: What Happens Next
+    heading: After The Inspection
     paragraphs:
       - >-
         We explain what we see and go over practical next steps with you
-        directly, in plain language. You'll also get a written summary you
-        can keep or share, not just a verbal opinion.
+        directly, in plain language, along with a summary you can keep.
 
 faqHeading: Inspection Questions
 ctaHeading: Get a clear picture of where your roof stands.
@@ -106,7 +110,7 @@ ctaDescription: No pressure, just a documented assessment.
 schemaServiceName: Roof Inspection
 seo:
   title: Roof Inspection | JBA Roofing
-  description: Documented roof condition inspections across King, Snohomish, and Skagit counties, with a written report and no pressure toward any outcome.
+  description: Roof condition inspections across King, Snohomish, and Skagit counties, with a clear summary and no pressure toward any outcome.
 ---
 
 An inspection is a good idea before buying a home, before winter, or any time you just haven't had eyes on your roof in a while. It's also the first step in every repair or replacement assessment we do.

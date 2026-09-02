@@ -39,7 +39,8 @@ homeownerTakeaways:
     the installation method, not a defect.
 
 educationSections:
-  - heading: Why Homeowners Consider Metal Roofing
+  - eyebrow: Material Options
+    heading: Why Homeowners Consider Metal Roofing
     intro: >-
       Metal isn't the right fit for every home or every budget, but it's
       worth understanding what it offers before ruling it out.
@@ -73,7 +74,9 @@ educationSections:
           Homeowners weigh that against the potential for a longer service
           life before deciding.
 
-  - heading: Metal Roof vs. Asphalt Shingles
+  - eyebrow: Compare Your Options
+    heading: Metal Roof vs. Asphalt Shingles
+    tone: dark
     intro: >-
       Neither material is universally better. The right choice depends on
       the home, the budget, and what the homeowner is optimizing for.
@@ -91,7 +94,8 @@ educationSections:
       - title: Homeowner goals
         description: Homeowners planning to sell soon may prioritize upfront cost. Homeowners planning to stay long-term may weigh service life more heavily.
 
-  - heading: When Does A Metal Roof Make Sense?
+  - eyebrow: Before You Decide
+    heading: When Does A Metal Roof Make Sense?
     paragraphs:
       - >-
         A metal roof tends to make the most sense for homeowners planning to
@@ -105,7 +109,9 @@ educationSections:
         straight conversation about your goals is the best way to figure
         out which direction fits your situation.
 
-  - heading: What A Professional Installation Should Address
+  - eyebrow: What We Look For
+    heading: What A Professional Installation Should Address
+    tone: dark
     intro: >-
       The quality of a metal roof depends heavily on the installation
       itself, not just the material. A professional installation should

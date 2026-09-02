@@ -1,18 +1,19 @@
 ---
 import BaseLayout from '@layouts/BaseLayout.astro';
-import AssessmentForm from '@components/forms/AssessmentForm.astro';
+import ContactForm from '@components/forms/ContactForm.astro';
+import Button from '@components/ui/Button.astro';
 import { getGlobalSettings } from '@lib/content';
 
 const settings = await getGlobalSettings();
 ---
 
-<BaseLayout title="Contact" description={`Contact ${settings.businessName}. Call, email, or start a free roof estimate.`}>
+<BaseLayout title="Contact" description={`Contact ${settings.businessName}. Call, email, or send us the details below.`}>
   <section class="contact-intro" data-nav-theme="dark">
     <div class="container container--narrow">
       <p class="eyebrow eyebrow--inverse">Contact JBA</p>
       <h1 class="h2 contact-intro__heading">Need Help With <span class="accent-text">Your Roof?</span></h1>
       <p class="text-muted contact-intro__text">
-        Call, email, or start a free estimate below and tell us what's going on.
+        Call, email, or send us the details below and tell us what's going on.
       </p>
 
       <div class="contact-intro__actions">
@@ -36,14 +37,21 @@ const settings = await getGlobalSettings();
     </div>
   </section>
 
-  <section class="section--light assessment">
+  <section class="section section--white contact-form-section" data-nav-theme="light">
     <div class="container container--narrow">
-      <p class="eyebrow assessment__eyebrow">Free Estimate</p>
-      <h2 class="h3 assessment__heading">Get A <span class="accent-text">Free Estimate</span></h2>
-      <p class="text-muted assessment__sub">
-        Tell us what's happening with your roof and we'll help you figure out the next step.
-      </p>
-      <AssessmentForm />
+      <p class="eyebrow eyebrow--center">Get In Touch</p>
+      <h2 class="h3 contact-form-section__heading">Send Us A Message</h2>
+      <ContactForm />
+    </div>
+  </section>
+
+  <section class="section section--tight section--off-white book-cta" data-nav-theme="light">
+    <div class="container container--narrow book-cta__inner">
+      <div>
+        <p class="eyebrow">Looking To Book A Roof Assessment?</p>
+        <p class="text-muted">Our guided assessment walks you through what you need and gets you a free estimate.</p>
+      </div>
+      <Button href="/assessment/" variant="outline">Book an Appointment</Button>
     </div>
   </section>
 </BaseLayout>
@@ -84,15 +92,16 @@ const settings = await getGlobalSettings();
     color: var(--color-text-inverse-muted);
   }
 
-  /* The form section below reuses the exact same section/container/heading
-     structure as /assessment/, so the two pages are guaranteed to render
-     the AssessmentForm at identical size, no separate CSS system. */
-  .assessment {
-    padding-block: var(--space-7) var(--space-9);
-    background: var(--color-bg);
-    color: var(--color-text);
+  .contact-form-section__heading { text-align: center; margin-top: var(--space-2); margin-bottom: var(--space-6); }
+
+  .book-cta__inner {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-4);
   }
-  .assessment__eyebrow { justify-content: center; }
-  .assessment__heading { text-align: center; margin-top: var(--space-2); }
-  .assessment__sub { text-align: center; max-width: 46ch; margin: var(--space-3) auto var(--space-6); }
+  .book-cta__inner p.text-muted { margin-top: var(--space-1); max-width: 48ch; }
+  @media (min-width: 640px) {
+    .book-cta__inner { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
 </style>

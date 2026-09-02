@@ -35,7 +35,8 @@ homeownerTakeaways:
     are installed.
 
 educationSections:
-  - heading: What We Look At Before Installation
+  - eyebrow: What We Look For
+    heading: What We Look At Before Installation
     items:
       - title: Deck condition
         description: The deck needs to be sound and properly fastened before underlayment and shingles go on.
@@ -46,7 +47,9 @@ educationSections:
       - title: Roof geometry
         description: Valleys, dormers, and roof lines all affect how shingle courses are laid out for a clean, consistent finish.
 
-  - heading: Maintaining A New Shingle Roof
+  - eyebrow: Roof Care
+    heading: Maintaining A New Shingle Roof
+    tone: dark
     paragraphs:
       - >-
         A new shingle roof still benefits from periodic attention. Keeping

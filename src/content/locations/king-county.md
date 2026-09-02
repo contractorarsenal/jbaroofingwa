@@ -5,29 +5,38 @@ tier: county
 county: King County, WA
 
 heroTitle: Roofing Across King County
+heroImage: "/images/projects/project-01-shingle-roof-replacement/after-front.jpg"
 heroDescription: >-
-  Repair, maintenance, and replacement for homes throughout King County,
-  from Seattle city lots to the eastside suburbs.
+  Roof replacement, repair, inspection, cleaning, and roof care for
+  homeowners throughout King County.
 localIntro: >-
   King County covers a wide range of roof types and ages, from older
-  Seattle-area homes with steep-slope craftsman roofs to newer construction
-  in the eastside suburbs. Tree cover and rain exposure vary block by block,
-  which is part of why we inspect in person rather than quoting from a
-  satellite photo.
+  Seattle-area homes to newer construction in the eastside suburbs. Rain
+  exposure and tree cover vary block by block, which is part of why we
+  inspect in person rather than quoting from a satellite photo.
 neighborhoods: []
-localRoofingConsiderations: >-
-  Full roof tear-offs in King County typically require a permit through the
-  local jurisdiction (Seattle SDCI or King County DPER, depending on the
-  property). We handle that process as part of a replacement project.
+
+considerations:
+  - title: Weather
+    description: Consistent rain and moisture are the biggest factor in how roofs age here, especially on shaded lots.
+  - title: Roof Age
+    description: Older homes in established neighborhoods often have roofing systems approaching or past their expected lifespan.
+  - title: Permits & Project Planning
+    description: Depending on the property and scope of work, permits or local requirements may apply. We review that before work begins.
 
 regionalContext: >-
   Western Washington's rain and moisture are the main factors behind most of
-  what we see on local roofs. Consistent dampness gives moss and organic
-  growth a place to take hold, especially on shaded or north-facing slopes,
-  and it means a small gap in flashing or a lifted shingle has more chances
-  to let water in over the course of a year. Seasonal windstorms add to
-  that, and older roofing systems that were fine for years can start
-  showing their age faster once a few of these factors combine.
+  what we see on local roofs.
+
+regionalFactors:
+  - title: Rain & Moisture
+    description: Consistent dampness gives small issues, like a lifted shingle, more chances to turn into water intrusion.
+  - title: Moss & Organic Growth
+    description: Shaded or north-facing roofs tend to develop moss faster than more exposed ones.
+  - title: Tree Cover & Debris
+    description: Heavier tree cover means more debris collecting in valleys and gutters.
+  - title: Seasonal Wind
+    description: Windstorms can lift or damage shingles, especially on roofs already showing wear.
 
 commonSigns:
   - Moss or algae growth on the roof surface
@@ -42,8 +51,7 @@ decisionHelp: >-
   actually finds, not on guessing from a list of symptoms. If a roof just
   needs cleaning or a small repair, that's what we'll recommend. If the
   issues are more widespread or the roof is significantly aged, we'll
-  explain why and what a replacement would involve. Either way, you get a
-  documented answer before deciding anything.
+  explain why and what a replacement would involve.
 
 cta:
   label: Get a Free Roof Assessment

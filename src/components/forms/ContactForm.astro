@@ -1,0 +1,245 @@
+---
+/**
+ * A traditional, single-page contact form (name/phone/email/address/zip/
+ * service/message), distinct from the multi-step qualification funnel at
+ * /assessment/. Submits to Web3Forms via the same shared helper.
+ */
+import { getGlobalSettings } from '@lib/content';
+
+const settings = await getGlobalSettings();
+
+const serviceOptions = [
+  'Roof Replacement',
+  'Roof Repair',
+  'Roof Inspection',
+  'Roof Cleaning',
+  'Roof Rejuvenation',
+  'Not Sure',
+];
+---
+
+<div class="contact-form">
+  <form id="contact-form" novalidate>
+    <input type="hidden" name="access_key" value="1ca2a091-176a-4429-a2c2-7510f8daa07e" />
+    <input type="hidden" name="subject" value="New Contact Form Message, JBA Roofing Website" />
+    <input type="hidden" name="from_name" value="JBA Roofing Website" />
+    <input type="text" name="company_website" class="sr-only" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+    <div class="contact-form__step" data-step="form">
+      <div class="form-row">
+        <div class="form-field">
+          <label for="cf-name">Name *</label>
+          <input id="cf-name" type="text" name="name" autocomplete="name" required />
+        </div>
+        <div class="form-field">
+          <label for="cf-phone">Phone *</label>
+          <input id="cf-phone" type="tel" name="phone" autocomplete="tel" required />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="cf-email">Email *</label>
+        <input id="cf-email" type="email" name="email" autocomplete="email" required />
+      </div>
+
+      <div class="form-row">
+        <div class="form-field">
+          <label for="cf-address">Property Address</label>
+          <input id="cf-address" type="text" name="address" autocomplete="street-address" />
+        </div>
+        <div class="form-field form-field--zip">
+          <label for="cf-zip">ZIP Code</label>
+          <input id="cf-zip" type="text" inputmode="numeric" pattern="[0-9]{5}" maxlength="5" name="zip" autocomplete="postal-code" />
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="cf-service">What Can We Help With?</label>
+        <select id="cf-service" name="service">
+          <option value="">Select one (optional)</option>
+          {serviceOptions.map((s) => <option value={s}>{s}</option>)}
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="cf-message">Message / Notes</label>
+        <textarea id="cf-message" name="message" rows="4" placeholder="Tell us what's going on with your roof."></textarea>
+      </div>
+
+      <label class="photo-upload">
+        <input type="file" name="photo" accept="image/*" capture="environment" data-photo-input />
+        <svg class="photo-upload__icon" width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 8h3l1.5-2h7L17 8h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><circle cx="12" cy="13.5" r="3.25" stroke="currentColor" stroke-width="1.6"/></svg>
+        <span data-photo-label>Add a photo (optional)</span>
+      </label>
+      <p class="photo-upload__error" data-photo-error role="alert" hidden></p>
+
+      <button type="submit" class="btn btn--primary btn--block" data-submit>Send Request</button>
+      <p class="contact-form__status" data-form-status role="status" aria-live="polite"></p>
+    </div>
+
+    <div class="contact-form__step contact-form__step--confirm" data-step="confirm" hidden>
+      <svg class="contact-form__icon" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+        <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="2"/>
+        <path d="M12 20.5l5.2 5.2L28.5 14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <h2 class="h3">Thanks, We Received Your Message.</h2>
+      <p class="text-muted">We'll use the information you provided to follow up.</p>
+      <a href="/" class="btn btn--outline">Back to Home</a>
+    </div>
+
+    <div class="contact-form__step contact-form__step--error" data-step="error" hidden>
+      <h2 class="h3">We Couldn't Send Your Message</h2>
+      <p class="text-muted">Please try again, or call JBA directly and we'll help you right away.</p>
+      <div class="contact-form__actions">
+        <button type="button" class="btn btn--outline" data-retry>Try Again</button>
+        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="contact_form_error">Call Now</a>
+      </div>
+    </div>
+  </form>
+</div>
+
+<style>
+  .form-row { display: grid; gap: var(--space-4); }
+  .form-field { display: flex; flex-direction: column; gap: var(--space-1); font-weight: 600; font-size: var(--step--1); margin-bottom: var(--space-4); }
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-body);
+    font-size: var(--step-0);
+    font-weight: 400;
+    background: var(--color-white);
+    color: var(--color-text);
+    resize: vertical;
+  }
+  .form-field input:focus,
+  .form-field select:focus,
+  .form-field textarea:focus { border-color: var(--color-accent); }
+
+  .photo-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    min-height: 100px;
+    border: 1.5px dashed var(--color-border);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--space-5);
+    font-weight: 600;
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+    cursor: pointer;
+  }
+  .photo-upload__icon { color: var(--color-accent-dark); }
+  .photo-upload input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .photo-upload:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+  .photo-upload__error {
+    color: var(--color-urgent);
+    font-size: var(--step--1);
+    font-weight: 600;
+    margin-top: calc(var(--space-3) * -1);
+    margin-bottom: var(--space-5);
+  }
+
+  .contact-form__status { margin-top: var(--space-3); font-weight: 600; font-size: var(--step--1); min-height: 1.2em; }
+  .contact-form__status[data-state="error"] { color: var(--color-urgent); }
+  .contact-form__status[data-state="pending"] { color: var(--color-text-muted); }
+
+  .contact-form__step--confirm, .contact-form__step--error { text-align: center; padding-block: var(--space-6); }
+  .contact-form__icon { color: var(--color-accent); margin-bottom: var(--space-4); }
+  .contact-form__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); margin-top: var(--space-5); }
+
+  [data-submit]:disabled { opacity: 0.65; cursor: wait; }
+
+  @media (min-width: 560px) {
+    .form-row { grid-template-columns: 1fr 1fr; }
+    .form-field--zip input { max-width: 140px; }
+  }
+</style>
+
+<script>
+  import { trackEvent } from '@lib/analytics';
+  import { submitToWeb3Forms } from '@lib/web3forms';
+
+  const form = document.getElementById('contact-form') as HTMLFormElement;
+  const status = form.querySelector<HTMLElement>('[data-form-status]');
+
+  function showStep(name: 'form' | 'confirm' | 'error') {
+    form.querySelectorAll<HTMLElement>('[data-step]').forEach((step) => {
+      step.hidden = step.dataset.step !== name;
+    });
+  }
+
+  form.querySelectorAll<HTMLButtonElement>('[data-retry]').forEach((btn) =>
+    btn.addEventListener('click', () => showStep('form'))
+  );
+
+  const MAX_PHOTO_BYTES = 6 * 1024 * 1024;
+  const photoInput = form.querySelector<HTMLInputElement>('[data-photo-input]');
+  const photoLabel = form.querySelector<HTMLElement>('[data-photo-label]');
+  const photoError = form.querySelector<HTMLElement>('[data-photo-error]');
+
+  function setPhotoError(message: string | null) {
+    if (!photoError) return;
+    photoError.textContent = message ?? '';
+    photoError.hidden = !message;
+  }
+
+  photoInput?.addEventListener('change', () => {
+    const file = photoInput.files?.[0];
+    setPhotoError(null);
+    if (!file) {
+      if (photoLabel) photoLabel.textContent = 'Add a photo (optional)';
+      return;
+    }
+    if (file.size > MAX_PHOTO_BYTES) {
+      setPhotoError('That photo is a bit too large. Try one under 6MB, or continue without it.');
+      photoInput.value = '';
+      if (photoLabel) photoLabel.textContent = 'Add a photo (optional)';
+      return;
+    }
+    if (photoLabel) photoLabel.textContent = `${file.name} selected`;
+  });
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const data = new FormData(form);
+    if (data.get('company_website')) return; // honeypot
+
+    const name = String(data.get('name') ?? '');
+    const phone = String(data.get('phone') ?? '');
+    const email = String(data.get('email') ?? '');
+
+    if (!name || !phone || !email) {
+      if (status) {
+        status.textContent = 'Please fill in name, phone, and email.';
+        status.dataset.state = 'error';
+      }
+      return;
+    }
+
+    const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]');
+    if (submitBtn) submitBtn.disabled = true;
+    if (status) {
+      status.textContent = 'Sending...';
+      status.dataset.state = 'pending';
+    }
+
+    const result = await submitToWeb3Forms(data);
+
+    if (result.ok) {
+      trackEvent('contact_form_submitted', {});
+      showStep('confirm');
+    } else {
+      if (status) {
+        status.textContent = '';
+        status.dataset.state = '';
+      }
+      if (submitBtn) submitBtn.disabled = false;
+      showStep('error');
+    }
+  });
+</script>

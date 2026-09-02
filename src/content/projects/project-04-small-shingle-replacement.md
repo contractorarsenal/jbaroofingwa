@@ -29,7 +29,8 @@ homeownerTakeaways:
     goes on, which a repair or overlay wouldn't provide.
 
 educationSections:
-  - heading: What Happens After Tear-Off
+  - eyebrow: What To Know
+    heading: What Happens After Tear-Off
     paragraphs:
       - >-
         Once the old shingles come off, the roof deck is exposed for the
@@ -41,7 +42,9 @@ educationSections:
         system begin, following the manufacturer's specifications for the
         chosen shingle product.
 
-  - heading: Why The Roof Deck Matters
+  - eyebrow: Roof Care
+    heading: Why The Roof Deck Matters
+    tone: dark
     paragraphs:
       - >-
         The roof deck is the structural surface everything else attaches

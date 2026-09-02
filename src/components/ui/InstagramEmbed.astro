@@ -1,0 +1,78 @@
+---
+/**
+ * Click-to-load Instagram embed. No Instagram/Meta script or iframe is
+ * requested on page load — only after the visitor explicitly clicks "Load
+ * Instagram Post" does this injects the official embed markup and Meta's
+ * embed.js script. Until then it's just a static, branded card with a link
+ * out to Instagram, so nothing loads unnecessarily for anyone who doesn't
+ * ask for it. See the Cookie Policy for what this loads when activated.
+ */
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+---
+
+<div class="ig-embed" data-ig-embed data-ig-url={url}>
+  <div class="ig-embed__card" data-ig-card>
+    <svg class="ig-embed__icon" width="32" height="32" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.6"/>
+      <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+    </svg>
+    <p class="ig-embed__label">View This Project On Instagram</p>
+    <button type="button" class="btn btn--outline" data-ig-load>Load Instagram Post</button>
+    <a href={url} target="_blank" rel="noopener noreferrer" class="ig-embed__link">Open on Instagram ↗</a>
+  </div>
+</div>
+
+<style>
+  .ig-embed__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    min-height: 340px;
+    padding: var(--space-6);
+    border-radius: var(--radius-md);
+    background: var(--color-charcoal);
+    border: 1px solid var(--color-border-dark);
+    text-align: center;
+  }
+  .ig-embed__icon { color: var(--color-accent); }
+  .ig-embed__label {
+    font-weight: 700;
+    color: var(--color-text-inverse);
+    max-width: 30ch;
+  }
+  .ig-embed__link {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    color: var(--color-text-inverse-muted);
+  }
+  .ig-embed__link:hover { color: var(--color-accent); }
+
+  .ig-embed :global(.instagram-media) { margin: 0 auto !important; }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-ig-embed]').forEach((container) => {
+    const loadBtn = container.querySelector<HTMLButtonElement>('[data-ig-load]');
+    const url = container.dataset.igUrl;
+    if (!loadBtn || !url) return;
+
+    loadBtn.addEventListener('click', () => {
+      loadBtn.disabled = true;
+      loadBtn.textContent = 'Loading…';
+
+      container.innerHTML = `<blockquote class="instagram-media" data-instgrm-permalink="${url}" data-instgrm-version="14"></blockquote>`;
+
+      const script = document.createElement('script');
+      script.async = true;
+      script.src = 'https://www.instagram.com/embed.js';
+      document.body.appendChild(script);
+    });
+  });
+</script>

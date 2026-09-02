@@ -29,7 +29,8 @@ homeownerTakeaways:
     once, rather than leaving older sections mixed in with new ones.
 
 educationSections:
-  - heading: Why Asphalt Shingles Remain Common
+  - eyebrow: Material Options
+    heading: Why Asphalt Shingles Remain Common
     paragraphs:
       - >-
         Asphalt shingles are the most common roofing material for a reason.
@@ -41,7 +42,9 @@ educationSections:
         homes they offer a reasonable balance of cost, appearance, and
         performance.
 
-  - heading: When A Shingle Roof May Need Replacement
+  - eyebrow: Before You Decide
+    heading: When A Shingle Roof May Need Replacement
+    tone: dark
     items:
       - title: Widespread granule loss
         description: Bald patches where the protective granules have worn away expose the shingle underneath to the sun and weather.
