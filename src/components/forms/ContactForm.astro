@@ -77,19 +77,22 @@ const serviceOptions = [
       <p class="contact-form__status" data-form-status role="status" aria-live="polite"></p>
     </div>
 
-    <div class="contact-form__step contact-form__step--confirm" data-step="confirm" hidden>
+    <div class="contact-form__step contact-form__step--outcome" data-step="confirm" role="status" aria-live="polite" hidden>
       <svg class="contact-form__icon" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
         <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="2"/>
         <path d="M12 20.5l5.2 5.2L28.5 14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <h2 class="h3">Thanks, We Received Your Message.</h2>
-      <p class="text-muted">We'll use the information you provided to follow up.</p>
-      <a href="/" class="btn btn--outline">Back to Home</a>
+      <h2 class="contact-form__outcome-heading" tabindex="-1">Message Received</h2>
+      <p class="contact-form__outcome-body">Thanks. JBA Roofing has received your message. We'll use the information you provided to follow up.</p>
+      <div class="contact-form__actions">
+        <a href="/" class="btn btn--outline">Back to Home</a>
+        <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="contact_form_success">Call Now</a>
+      </div>
     </div>
 
-    <div class="contact-form__step contact-form__step--error" data-step="error" hidden>
-      <h2 class="h3">We Couldn't Send Your Message</h2>
-      <p class="text-muted">Please try again, or call JBA directly and we'll help you right away.</p>
+    <div class="contact-form__step contact-form__step--outcome" data-step="error" role="alert" aria-live="assertive" hidden>
+      <h2 class="contact-form__outcome-heading" tabindex="-1">We Couldn't Send Your Message</h2>
+      <p class="contact-form__outcome-body">Something went wrong while sending your message. Please try again or call JBA Roofing.</p>
       <div class="contact-form__actions">
         <button type="button" class="btn btn--outline" data-retry>Try Again</button>
         <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="contact_form_error">Call Now</a>
@@ -148,9 +151,60 @@ const serviceOptions = [
   .contact-form__status[data-state="error"] { color: var(--color-urgent); }
   .contact-form__status[data-state="pending"] { color: var(--color-text-muted); }
 
-  .contact-form__step--confirm, .contact-form__step--error { text-align: center; padding-block: var(--space-6); }
-  .contact-form__icon { color: var(--color-accent); margin-bottom: var(--space-4); }
-  .contact-form__actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-3); margin-top: var(--space-5); }
+  /* Same centered composition as the Assessment form's outcome screens —
+     one flex column so the icon shares the exact center line as the
+     heading/body/buttons, rather than text-align:center over a
+     left-aligned block layout. */
+  .contact-form__step--outcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 640px;
+    margin-inline: auto;
+    padding-block: clamp(2.75rem, 2.2rem + 2.5vw, 4.5rem) var(--space-6);
+  }
+  /* [hidden] and .contact-form__step--outcome are equal-specificity
+     selectors — without this, display:flex above wins over the browser's
+     default [hidden]{display:none} and both outcome states render at once. */
+  .contact-form__step--outcome[hidden] { display: none; }
+  .contact-form__icon {
+    width: 44px;
+    height: 44px;
+    color: var(--color-accent);
+    margin-bottom: var(--space-5);
+    flex-shrink: 0;
+  }
+  @media (min-width: 640px) {
+    .contact-form__icon { width: 56px; height: 56px; }
+  }
+  .contact-form__outcome-heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(2rem, 1.6rem + 1.85vw, 3.25rem);
+    line-height: 1.1;
+  }
+  .contact-form__outcome-body {
+    margin-top: var(--space-4);
+    max-width: 54ch;
+    font-size: var(--step-0);
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+  .contact-form__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    width: 100%;
+  }
+  .contact-form__actions .btn { width: 100%; max-width: 320px; }
+  @media (min-width: 480px) {
+    .contact-form__actions { width: auto; }
+    .contact-form__actions .btn { width: auto; }
+  }
 
   [data-submit]:disabled { opacity: 0.65; cursor: wait; }
 
@@ -168,9 +222,23 @@ const serviceOptions = [
   const status = form.querySelector<HTMLElement>('[data-form-status]');
 
   function showStep(name: 'form' | 'confirm' | 'error') {
+    let target: HTMLElement | null = null;
     form.querySelectorAll<HTMLElement>('[data-step]').forEach((step) => {
-      step.hidden = step.dataset.step !== name;
+      const match = step.dataset.step === name;
+      step.hidden = !match;
+      if (match) target = step;
     });
+
+    // Move focus to the outcome heading so screen readers announce it
+    // immediately, without scrolling the page (no scrollIntoView here —
+    // that's the jump bug this form already avoids elsewhere).
+    if (name !== 'form' && target) {
+      const heading = (target as HTMLElement).querySelector<HTMLElement>('h2');
+      if (heading) {
+        if (!heading.hasAttribute('tabindex')) heading.setAttribute('tabindex', '-1');
+        heading.focus({ preventScroll: true });
+      }
+    }
   }
 
   form.querySelectorAll<HTMLButtonElement>('[data-retry]').forEach((btn) =>
@@ -204,8 +272,18 @@ const serviceOptions = [
     if (photoLabel) photoLabel.textContent = `${file.name} selected`;
   });
 
+  const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]');
+  const submitBtnDefaultText = submitBtn?.textContent ?? '';
+  let isSubmitting = false;
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // Guards against a duplicate Web3Forms request from a rapid double
+    // click, Enter-plus-click, or a repeated tap while the first request
+    // is still in flight — checked first, before any other work.
+    if (isSubmitting) return;
+
     const data = new FormData(form);
     if (data.get('company_website')) return; // honeypot
 
@@ -218,28 +296,42 @@ const serviceOptions = [
         status.textContent = 'Please fill in name, phone, and email.';
         status.dataset.state = 'error';
       }
+      const firstInvalid = form.querySelector<HTMLInputElement>(
+        !name ? '#cf-name' : !phone ? '#cf-phone' : '#cf-email'
+      );
+      firstInvalid?.focus();
       return;
     }
 
-    const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]');
-    if (submitBtn) submitBtn.disabled = true;
+    isSubmitting = true;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+    }
     if (status) {
       status.textContent = 'Sending...';
       status.dataset.state = 'pending';
     }
 
-    const result = await submitToWeb3Forms(data);
+    try {
+      const result = await submitToWeb3Forms(data);
 
-    if (result.ok) {
-      trackEvent('contact_form_submitted', {});
-      showStep('confirm');
-    } else {
-      if (status) {
-        status.textContent = '';
-        status.dataset.state = '';
+      if (result.ok) {
+        trackEvent('contact_form_submitted', {});
+        showStep('confirm');
+      } else {
+        if (status) {
+          status.textContent = '';
+          status.dataset.state = '';
+        }
+        showStep('error');
       }
-      if (submitBtn) submitBtn.disabled = false;
-      showStep('error');
+    } finally {
+      isSubmitting = false;
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitBtnDefaultText;
+      }
     }
   });
 </script>

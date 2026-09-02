@@ -1,9 +1,9 @@
 ---
 /**
- * The single, shared roof-assessment funnel, used on both /assessment/ and
- * the Contact page's right panel. All submit/validation/photo-upload logic
- * lives here once; hosting pages only supply their own surrounding chrome
- * (heading, layout, background). Submits to Web3Forms.
+ * The single, shared roof-assessment funnel, used on the /assessment/ page.
+ * All submit/validation/photo-upload logic lives here once; hosting pages
+ * only supply their own surrounding chrome (heading, layout, background).
+ * Submits to Web3Forms.
  */
 import { getGlobalSettings } from '@lib/content';
 
@@ -98,6 +98,7 @@ const progressSteps = [
         <button type="button" class="option-card option-card--compact" data-value="yes">Yes</button>
         <button type="button" class="option-card option-card--compact" data-value="no">No</button>
       </div>
+      <p class="step__error" data-step-error role="alert" hidden></p>
       <div class="step__actions">
         <button type="button" class="btn btn--outline" data-back>Back</button>
         <button type="button" class="btn btn--primary" data-next>Continue</button>
@@ -157,29 +158,29 @@ const progressSteps = [
     </fieldset>
 
     <!-- SUCCESS -->
-    <div class="step step--confirm" data-step="confirm" hidden>
-      <svg class="step--confirm__icon" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+    <div class="step step--outcome" data-step="confirm" role="status" aria-live="polite" hidden>
+      <svg class="step--outcome__icon" width="40" height="40" viewBox="0 0 40 40" fill="none" aria-hidden="true">
         <circle cx="20" cy="20" r="19" stroke="currentColor" stroke-width="2"/>
         <path d="M12 20.5l5.2 5.2L28.5 14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
-      <h2 class="h3">Request Received</h2>
-      <p class="text-muted">
+      <h2 class="step--outcome__heading" tabindex="-1">Request Received</h2>
+      <p class="step--outcome__body">
         Thanks. JBA Roofing has received your request. We'll use the
         information you provided to follow up.
       </p>
-      <div class="step--confirm__actions">
+      <div class="step--outcome__actions">
         <a href="/" class="btn btn--outline">Back to Home</a>
         <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="assessment_success">Call Now</a>
       </div>
     </div>
 
     <!-- ERROR -->
-    <div class="step step--error" data-step="error" hidden>
-      <h2 class="h3">We Couldn't Send Your Request</h2>
-      <p class="text-muted">
-        Please try again, or contact JBA directly and we'll help you right away.
+    <div class="step step--outcome" data-step="error" role="alert" aria-live="assertive" hidden>
+      <h2 class="step--outcome__heading" tabindex="-1">We Couldn't Send Your Request</h2>
+      <p class="step--outcome__body">
+        Something went wrong while sending your request. Please try again or call JBA Roofing.
       </p>
-      <div class="step--confirm__actions">
+      <div class="step--outcome__actions">
         <button type="button" class="btn btn--outline" data-retry>Try Again</button>
         <a href={`tel:${settings.primaryPhone}`} class="btn btn--primary" data-analytics-event="phone_click" data-analytics-location="assessment_error">Call Now</a>
       </div>
@@ -333,6 +334,14 @@ const progressSteps = [
     margin-bottom: var(--space-5);
   }
 
+  .step__error {
+    color: var(--color-urgent);
+    font-size: var(--step--1);
+    font-weight: 600;
+    margin-top: calc(var(--space-3) * -1);
+    margin-bottom: var(--space-4);
+  }
+
   .step__actions { display: flex; gap: var(--space-3); }
   .step__actions .btn { flex: 1; }
 
@@ -341,14 +350,62 @@ const progressSteps = [
   .assessment-form__status[data-state="error"] { color: var(--color-urgent); }
   .assessment-form__status[data-state="pending"] { color: var(--color-text-muted); }
 
-  .step--confirm, .step--error { text-align: center; padding-block: var(--space-6); }
-  .step--confirm__icon { color: var(--color-accent); margin-bottom: var(--space-4); }
-  .step--confirm__actions {
+  /* Success/error outcome: one centered composition (icon, heading, body,
+     buttons all sharing the same centered column), not text-align:center
+     applied to a left-aligned block layout — that's what previously left
+     the icon looking stranded at the edge while the text centered. */
+  .step--outcome {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 640px;
+    margin-inline: auto;
+    padding-block: clamp(2.75rem, 2.2rem + 2.5vw, 4.5rem) var(--space-6);
+  }
+  /* [hidden] and .step--outcome are equal-specificity selectors — without
+     this, display:flex above wins over the browser's default [hidden]
+     {display:none} and both outcome states render at once. */
+  .step--outcome[hidden] { display: none; }
+  .step--outcome__icon {
+    width: 44px;
+    height: 44px;
+    color: var(--color-accent);
+    margin-bottom: var(--space-5);
+    flex-shrink: 0;
+  }
+  @media (min-width: 640px) {
+    .step--outcome__icon { width: 56px; height: 56px; }
+  }
+  .step--outcome__heading {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: clamp(2rem, 1.6rem + 1.85vw, 3.25rem);
+    line-height: 1.1;
+  }
+  .step--outcome__body {
+    margin-top: var(--space-4);
+    max-width: 54ch;
+    font-size: var(--step-0);
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+  .step--outcome__actions {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     gap: var(--space-3);
-    margin-top: var(--space-5);
+    margin-top: var(--space-6);
+    width: 100%;
+  }
+  .step--outcome__actions .btn {
+    width: 100%;
+    max-width: 320px;
+  }
+  @media (min-width: 480px) {
+    .step--outcome__actions { width: auto; }
+    .step--outcome__actions .btn { width: auto; }
   }
 
   /* step transition, plays whenever a step goes from hidden to visible */
@@ -441,6 +498,11 @@ const progressSteps = [
     button.setAttribute('aria-pressed', 'true');
     (answers as Record<string, unknown>)[key] = button.dataset.value;
 
+    if (key === 'timeline' || key === 'insurance') {
+      const stepError = steps[4]?.querySelector<HTMLElement>('[data-step-error]');
+      if (stepError && answers.timeline && answers.insurance) stepError.hidden = true;
+    }
+
     if (autoAdvance) {
       window.setTimeout(() => goNext(), 200);
     }
@@ -456,7 +518,22 @@ const progressSteps = [
       if (!answers.need) return;
     }
     if (currentIndex === 4) {
-      if (!answers.timeline || !answers.insurance) return;
+      const stepError = steps[4]?.querySelector<HTMLElement>('[data-step-error]');
+      if (!answers.timeline || !answers.insurance) {
+        // A silent, unexplained no-op here is what made this step feel like
+        // it needed a second click — show exactly what's missing instead.
+        if (stepError) {
+          const missing = !answers.timeline && !answers.insurance
+            ? 'a timeline and whether this involves an insurance claim'
+            : !answers.timeline
+              ? 'how soon you need help'
+              : 'whether this involves an insurance claim';
+          stepError.textContent = `Please select ${missing} above.`;
+          stepError.hidden = false;
+        }
+        return;
+      }
+      if (stepError) stepError.hidden = true;
     }
     if (currentIndex < steps.length - 1) showStep(currentIndex + 1);
   }
@@ -533,8 +610,18 @@ const progressSteps = [
     }
   }
 
+  const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]');
+  const submitBtnDefaultText = submitBtn?.textContent ?? '';
+  let isSubmitting = false;
+
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
+
+    // Guards against a duplicate Web3Forms request from a rapid double
+    // click, Enter-plus-click, or a repeated tap while the first request
+    // is still in flight — checked first, before any other work.
+    if (isSubmitting) return;
+
     const data = new FormData(form);
     if (data.get('company_website')) return; // honeypot
 
@@ -547,11 +634,18 @@ const progressSteps = [
         status.textContent = 'Please fill in name, phone, and email.';
         status.dataset.state = 'error';
       }
+      const firstInvalid = form.querySelector<HTMLInputElement>(
+        !name ? '#af-name' : !phone ? '#af-phone' : '#af-email'
+      );
+      firstInvalid?.focus();
       return;
     }
 
-    const submitBtn = form.querySelector<HTMLButtonElement>('[data-submit]');
-    if (submitBtn) submitBtn.disabled = true;
+    isSubmitting = true;
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+    }
     if (status) {
       status.textContent = 'Sending...';
       status.dataset.state = 'pending';
@@ -567,18 +661,25 @@ const progressSteps = [
     data.set('insurance_claim', answers.insurance ?? '');
     data.set('preferred_contact', answers.preferredContact ?? '');
 
-    const result = await submitToWeb3Forms(data);
+    try {
+      const result = await submitToWeb3Forms(data);
 
-    if (result.ok) {
-      trackEvent('quote_submitted', { need: answers.need ?? 'unknown', timeline: answers.timeline ?? 'unknown' });
-      showOutcome('confirm');
-    } else {
-      if (status) {
-        status.textContent = '';
-        status.dataset.state = '';
+      if (result.ok) {
+        trackEvent('quote_submitted', { need: answers.need ?? 'unknown', timeline: answers.timeline ?? 'unknown' });
+        showOutcome('confirm');
+      } else {
+        if (status) {
+          status.textContent = '';
+          status.dataset.state = '';
+        }
+        showOutcome('error');
       }
-      if (submitBtn) submitBtn.disabled = false;
-      showOutcome('error');
+    } finally {
+      isSubmitting = false;
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = submitBtnDefaultText;
+      }
     }
   });
 
