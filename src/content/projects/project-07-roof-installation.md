@@ -19,6 +19,10 @@ customerProblem: ""
 inspectionFindings: ""
 solution: ""
 
+beforeImages: ["/images/projects/project-07-roof-installation/before.jpg"]
+duringImages: ["/images/projects/project-07-roof-installation/progress.jpg"]
+afterImages: ["/images/projects/project-07-roof-installation/after.jpg"]
+
 whatThisInvolved: >-
   This project covers a complete roof installation on a fully stripped
   deck. The photos show the bare deck, the installation in progress, and

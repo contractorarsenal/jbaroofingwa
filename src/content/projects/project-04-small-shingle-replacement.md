@@ -19,6 +19,9 @@ customerProblem: "Visible moss growth and an aging shingle roof."
 inspectionFindings: ""
 solution: "The existing shingle roof was removed and replaced with a new shingle roofing system."
 
+beforeImages: ["/images/projects/project-04-small-shingle-replacement/before.jpg"]
+afterImages: ["/images/projects/project-04-small-shingle-replacement/after.jpg"]
+
 homeownerTakeaways:
   - >-
     Moss growth is often the most visible sign of an aging roof, but the

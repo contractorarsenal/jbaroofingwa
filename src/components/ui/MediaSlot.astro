@@ -11,10 +11,10 @@
  * screen reader still gets an honest description without the visual
  * looking incomplete. Swap real photography in by passing `image`.
  *
- * Real project photography (anything under /images/projects/.../*.jpg) was
- * pre-optimized by scripts/optimize-project-images into matched -sm/large
- * AVIF + WebP + JPEG siblings — when `image` matches that convention this
- * renders a real <picture> with srcset/sizes instead of a single flat <img>.
+ * Real photography under /images/projects/.../*.jpg or /images/general/.../*.jpg
+ * is pre-optimized into matched -sm/large AVIF + WebP + JPEG siblings — when
+ * `image` matches that convention this renders a real <picture> with
+ * srcset/sizes instead of a single flat <img>.
  */
 interface Props {
   image?: string;
@@ -41,7 +41,7 @@ const {
   objectPosition,
 } = Astro.props;
 
-const isOptimizedProjectPhoto = !!image && /^\/images\/projects\/.+\.jpg$/i.test(image);
+const isOptimizedProjectPhoto = !!image && /^\/images\/(projects|general)\/.+\.jpg$/i.test(image);
 const base = isOptimizedProjectPhoto ? image!.slice(0, -4) : null;
 const imgStyle = objectPosition ? `object-position: ${objectPosition};` : undefined;
 ---

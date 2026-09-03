@@ -19,6 +19,10 @@ customerProblem: ""
 inspectionFindings: ""
 solution: ""
 
+beforeImages: ["/images/projects/project-05-shingle-installation/before-deck.jpg"]
+duringImages: ["/images/projects/project-05-shingle-installation/progress.jpg"]
+afterImages: ["/images/projects/project-05-shingle-installation/after.jpg"]
+
 whatThisInvolved: >-
   This project shows the roof deck prepared and ready, the shingle
   installation in progress, and the completed roof. The deck was fully

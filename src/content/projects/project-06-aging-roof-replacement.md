@@ -19,6 +19,10 @@ customerProblem: "A roof well past its expected service life."
 inspectionFindings: ""
 solution: "The aged roofing system was fully torn off and replaced with a new shingle roof."
 
+beforeImages: ["/images/projects/project-06-aging-roof-replacement/before.jpg"]
+duringImages: ["/images/projects/project-06-aging-roof-replacement/progress-1.jpg", "/images/projects/project-06-aging-roof-replacement/progress-2.jpg"]
+afterImages: ["/images/projects/project-06-aging-roof-replacement/after.jpg"]
+
 whatThisInvolved: >-
   This project replaced a roof that had reached the end of its useful
   life. The photos here show the roof mid-tear-off and installation,
