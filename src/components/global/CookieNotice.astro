@@ -45,9 +45,10 @@ const settings = await getGlobalSettings();
     color: var(--color-text-inverse-muted);
     opacity: 0;
     transform: translateY(12px);
+    pointer-events: none;
     transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
   }
-  .cookie-notice.is-visible { opacity: 1; transform: translateY(0); }
+  .cookie-notice.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
   .cookie-notice__text { font-size: 0.85rem; line-height: 1.5; max-width: 44ch; }
   .cookie-notice__actions {
     display: flex;
@@ -73,6 +74,15 @@ const settings = await getGlobalSettings();
     .cookie-notice__actions { justify-content: space-between; }
     .cookie-notice__necessary,
     .cookie-notice__accept { flex: 1; }
+  }
+
+  /* Below 1080px the sticky mobile CTA occupies the bottom of the viewport
+     (see StickyMobileCTA.astro) — the banner must clear it, not sit on top
+     of it, or its tap area overlaps the CTA buttons underneath. */
+  @media (max-width: 1079.98px) {
+    .cookie-notice {
+      bottom: calc(var(--space-4) + 56px + env(safe-area-inset-bottom, 0px));
+    }
   }
 
   @media (prefers-reduced-motion: reduce) {
