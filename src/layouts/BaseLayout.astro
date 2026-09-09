@@ -36,6 +36,12 @@ const combinedJsonLd = [localBusinessSchema, ...(Array.isArray(jsonLd) ? jsonLd 
 // the custom domain is live if preview traffic needs its own filter.
 const gaEnabled = Boolean(settings.analyticsId) && import.meta.env.PROD;
 const gtmEnabled = Boolean(settings.gtmContainerId) && import.meta.env.PROD;
+
+// Second, independent GTM container for the advertising/marketing team.
+// Runs alongside (not in place of) the primary GTM-TRSW9C3F container above
+// — separate <head> script, separate <noscript> iframe, same dataLayer.
+const secondaryGtmId = 'GTM-MKQRZX5F';
+const secondaryGtmEnabled = import.meta.env.PROD;
 ---
 
 <!doctype html>
@@ -45,6 +51,22 @@ const gtmEnabled = Boolean(settings.gtmContainerId) && import.meta.env.PROD;
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" href={settings.favicon} type="image/svg+xml" />
     <meta name="theme-color" content="#080808" />
+
+    {secondaryGtmEnabled && (
+      <script define:vars={{ secondaryGtmId }} is:inline>
+        (function (w, d, s, l, i) {
+          w[l] = w[l] || [];
+          w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+          var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+          j.async = true;
+          j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+          f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', secondaryGtmId);
+      </script>
+    )}
+
     <script is:inline>
       document.documentElement.classList.add('js-reveal');
       // Explicit, defensive: this is already the browser default for a
@@ -118,6 +140,17 @@ const gtmEnabled = Boolean(settings.gtmContainerId) && import.meta.env.PROD;
     )}
   </head>
   <body class={hideStickyCta ? '' : 'has-sticky-cta'}>
+    {secondaryGtmEnabled && (
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${secondaryGtmId}`}
+          height="0"
+          width="0"
+          style="display:none;visibility:hidden"
+          title="Google Tag Manager (secondary)"
+        ></iframe>
+      </noscript>
+    )}
     {gtmEnabled && (
       <noscript>
         <iframe
