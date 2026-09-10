@@ -37,10 +37,10 @@ const combinedJsonLd = [localBusinessSchema, ...(Array.isArray(jsonLd) ? jsonLd 
 const gaEnabled = Boolean(settings.analyticsId) && import.meta.env.PROD;
 const gtmEnabled = Boolean(settings.gtmContainerId) && import.meta.env.PROD;
 
-// Second, independent GTM container for the advertising/marketing team.
+// Second, independent GTM container — Brand Market Media's own container.
 // Runs alongside (not in place of) the primary GTM-TRSW9C3F container above
 // — separate <head> script, separate <noscript> iframe, same dataLayer.
-const secondaryGtmId = 'GTM-MKQRZX5F';
+const secondaryGtmId = 'GTM-599J59F2';
 const secondaryGtmEnabled = import.meta.env.PROD;
 ---
 
