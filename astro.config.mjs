@@ -9,11 +9,21 @@ import sitemap from '@astrojs/sitemap';
 //   1. SITE_URL          — set explicitly per Cloudflare Pages environment
 //                           (e.g. only on "Production", once the real domain
 //                           is live: https://jbaroofpro.com).
-//   2. CF_PAGES_URL       — auto-provided by Cloudflare Pages at build time
-//                           for every deployment (staging and production
-//                           branch alike) — the deployment's own live URL.
-//   3. Hardcoded fallback — for local builds run outside Cloudflare Pages.
-const site = process.env.SITE_URL || process.env.CF_PAGES_URL || 'https://jbaroofpro.com';
+//   2. Production branch  — CF_PAGES_BRANCH === "main" → the real domain. Without
+//                           this, CF_PAGES_URL (below) put the per-deployment
+//                           *.pages.dev hash into canonicals, og:url, JSON-LD,
+//                           and the sitemap of the live site.
+//   3. CF_PAGES_URL       — auto-provided by Cloudflare Pages at build time
+//                           for every deployment — the deployment's own URL.
+//                           Used by preview/branch builds.
+//   4. Hardcoded fallback — for local builds run outside Cloudflare Pages.
+const PRODUCTION_BRANCH = 'main';
+const PRODUCTION_URL = 'https://jbaroofpro.com';
+const site =
+  process.env.SITE_URL ||
+  (process.env.CF_PAGES_BRANCH === PRODUCTION_BRANCH ? PRODUCTION_URL : '') ||
+  process.env.CF_PAGES_URL ||
+  PRODUCTION_URL;
 
 export default defineConfig({
   site,

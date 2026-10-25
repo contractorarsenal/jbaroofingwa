@@ -20,16 +20,21 @@ import ServiceAreaBand from '@components/sections/ServiceAreaBand.astro';
 import Proof from '@components/sections/Proof.astro';
 import FaqList from '@components/faqs/FaqList.astro';
 import FinalCTA from '@components/sections/FinalCTA.astro';
-import { getPublishedFaqs } from '@lib/content';
+import { getGlobalSettings, getPublishedFaqs } from '@lib/content';
+import { buildWebSiteSchema } from '@lib/schema';
 
 const allFaqs = await getPublishedFaqs();
 const featuredFaqs = allFaqs.filter((f) => f.data.featured);
 const homeFaqs = (featuredFaqs.length >= 6 ? featuredFaqs : allFaqs).slice(0, 8);
+const settings = await getGlobalSettings();
+const siteUrl = Astro.site?.toString() ?? 'https://jbaroofpro.com/';
+const webSiteSchema = buildWebSiteSchema(settings, siteUrl);
 ---
 
 <BaseLayout
   title="Roofing Contractor in King, Snohomish & Skagit Counties"
   description="JBA Roofing provides roof replacement, repair, inspection, cleaning, and maintenance across King, Snohomish, and Skagit Counties. Get a free estimate."
+  jsonLd={webSiteSchema}
 >
   <Hero />
   <CredentialsStrip />

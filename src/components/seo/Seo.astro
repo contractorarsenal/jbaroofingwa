@@ -7,9 +7,11 @@ interface Props {
   ogImage?: string;
   noindex?: boolean;
   jsonLd?: Record<string, unknown> | (Record<string, unknown> | null)[] | null;
+  /** Overrides the canonical path (default: the current page). Used by the 404 page, which must not canonicalize to itself. */
+  canonicalPath?: string;
 }
 
-const { title, description, ogImage, noindex = false, jsonLd = null } = Astro.props;
+const { title, description, ogImage, noindex = false, jsonLd = null, canonicalPath } = Astro.props;
 const settings = await getGlobalSettings();
 
 // Some content-authored SEO titles (services, projects, locations) already
@@ -22,7 +24,7 @@ const pageTitle = title
   : settings.defaultSeoTitle;
 const pageDescription = description ?? settings.defaultMetaDescription;
 const image = new URL(ogImage ?? settings.defaultOgImage, Astro.site).toString();
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site).toString();
+const canonicalUrl = new URL(canonicalPath ?? Astro.url.pathname, Astro.site).toString();
 
 const jsonLdList = Array.isArray(jsonLd) ? jsonLd.filter(Boolean) : jsonLd ? [jsonLd] : [];
 ---

@@ -96,7 +96,8 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
   {snapshot.length > 0 && (
     <section class="section section--tight section--off-white" data-nav-theme="light">
       <div class="container">
-        <p class="eyebrow eyebrow--center">Project Snapshot</p>
+        <p class="eyebrow eyebrow--center" aria-hidden="true">Project Snapshot</p>
+        <h2 class="sr-only">Project snapshot</h2>
         <div class="snapshot-grid">
           <InfoCardGrid items={snapshot} columns={3} />
         </div>
@@ -107,7 +108,8 @@ const galleryImages = [...data.beforeImages, ...data.duringImages, ...data.after
   {hasOverview && (
     <section class="section section--white" data-nav-theme="light">
       <div class="container">
-        <p class="eyebrow eyebrow--center">Project Overview</p>
+        <p class="eyebrow eyebrow--center" aria-hidden="true">Project Overview</p>
+        <h2 class="sr-only">Project overview</h2>
         <div class="overview-grid" data-reveal-group>
           {data.customerProblem && (
             <div class="overview-card" data-reveal="up">

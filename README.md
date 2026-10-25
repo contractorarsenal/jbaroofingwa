@@ -15,7 +15,7 @@ deployed via GitHub → Cloudflare Pages, with content managed through
 
 ## Local Development
 
-Requires Node.js 18+.
+Requires Node.js 22.19+ (see `engines` in `package.json`).
 
 ```bash
 npm install
@@ -105,27 +105,38 @@ each one on.
 
 ## Forms & Lead Delivery
 
-All lead capture (the Roof Assessment funnel, the Contact page form) calls
-`submitLead()` in `src/lib/leads.ts`, which POSTs to `/api/lead` — a
-Cloudflare Pages Function at `functions/api/lead.ts`. That function is
-adapter-based:
+The contact page form and the Roof Assessment funnel submit **directly from the
+browser to Web3Forms** (`https://api.web3forms.com/submit`). Both forms use the
+same helper, `submitToWeb3Forms()` in `src/lib/web3forms.ts`, which adds a
+public access key. Where submissions are delivered is set in the Web3Forms
+dashboard, not in this repository.
 
-- `LEAD_WEBHOOK_URL` (Cloudflare Pages environment variable) — if set, forwards
-  the lead JSON to a CRM/GoHighLevel webhook.
-- `RESEND_API_KEY` + `LEAD_NOTIFY_EMAIL` — if both are set, sends an email
-  notification via Resend.
-- If neither is configured, submissions still succeed (nothing is lost — every
-  submission is logged server-side) but no one is notified. **Set at least
-  one of these in the Cloudflare Pages dashboard before launch.**
+- The Cloudflare Pages Function `functions/api/lead.ts` and the client helper
+  `submitLead()` in `src/lib/leads.ts` are **not used by any form**. They are
+  kept as legacy code. The `LEAD_WEBHOOK_URL`, `RESEND_API_KEY`, and
+  `LEAD_NOTIFY_EMAIL` variables only affect that unused endpoint, so setting
+  them does not change where leads go.
+- Spam protection: a hidden `company_website` honeypot field. Real visitors
+  leave it empty; if it is filled, the form stops without sending.
+- Web3Forms dashboard items to confirm (do not assume):
+  - The notification recipient address.
+  - The plan. The pricing page lists 250 submissions per month on the free plan.
+    Confirm current usage and the limit behavior.
+  - The upload limit. The docs describe 5 MB for single-file uploads. The
+    Assessment photo cap in `AssessmentForm.astro` is 6 MB, so photos between
+    5 and 6 MB may be rejected. Confirm before changing the cap.
+  - Submission history retention on the current plan.
+- Testing: never send live test submissions to the client. Test with mocked
+  responses for the Web3Forms endpoint.
 
-Set these under Cloudflare Pages → Settings → Environment variables. Never
-commit real credentials into this repo.
+Environment variables are set under Cloudflare Pages → Settings → Environment
+variables. Never commit real credentials into this repo.
 
 ## Deployment (Cloudflare Pages)
 
 - **Build command:** `npm run build`
 - **Build output directory:** `dist`
-- **Node version:** 18 or later (set via Cloudflare Pages environment settings if needed)
+- **Node version:** 22.19 or later (`engines` in `package.json`; `.node-version`)
 - `functions/` is auto-detected by Cloudflare Pages as Pages Functions — no extra config needed.
 - `public/_headers` and `public/_redirects` are applied automatically by Cloudflare Pages at the output root.
 

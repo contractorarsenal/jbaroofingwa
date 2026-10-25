@@ -1,4 +1,6 @@
 ---
+import { getImageSize } from '@lib/image-size';
+
 interface Props {
   beforeImage: string;
   afterImage: string;
@@ -17,12 +19,16 @@ const {
   beforeAlt,
   afterAlt,
 } = Astro.props;
+
+// Intrinsic sizes reserve each photo's aspect ratio before load (no layout
+// shift). The slider CSS still sizes both images explicitly.
+const [beforeSize, afterSize] = await Promise.all([getImageSize(beforeImage), getImageSize(afterImage)]);
 ---
 
 <div class="ba-slider" data-ba-slider>
-  <img src={afterImage} alt={afterAlt ?? afterLabel} class="ba-slider__image ba-slider__image--after" />
+  <img src={afterImage} alt={afterAlt ?? afterLabel} width={afterSize?.width} height={afterSize?.height} class="ba-slider__image ba-slider__image--after" />
   <div class="ba-slider__before-wrap" data-ba-before-wrap style="width: 50%;">
-    <img src={beforeImage} alt={beforeAlt ?? beforeLabel} class="ba-slider__image ba-slider__image--before" />
+    <img src={beforeImage} alt={beforeAlt ?? beforeLabel} width={beforeSize?.width} height={beforeSize?.height} class="ba-slider__image ba-slider__image--before" />
   </div>
   <span class="ba-slider__tag ba-slider__tag--before">{beforeLabel}</span>
   <span class="ba-slider__tag ba-slider__tag--after">{afterLabel}</span>
