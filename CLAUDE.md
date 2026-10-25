@@ -15,7 +15,7 @@ Project instructions for Claude Code working on this repo. Facts here come from 
 
 ## Business
 
-- **Legal name:** JBA Roofing & Remodeling LLC. **Display name:** "JBA Roofing." (CLIENT-CONTENT-NEEDED.md and the header wordmark use "JBA Construction." Unresolved; confirm before changing any name.)
+- **Legal name:** JBA Roofing & Remodeling LLC. **Display name:** "JBA Roofing." (CLIENT-CONTENT-NEEDED.md and the unused logo file `public/images/brand/jba-logo.svg` say "JBA Construction." The header, footer, and hero use the image `jba-nav-logo.webp`. Four customer review quotes also say "JBA Construction"; do not edit those quotes. Unresolved; confirm before changing any name.)
 - **Phone:** (206) 474-5996 (`+12064745996`). **Email:** contact.jbaroofing@gmail.com.
 - **Address:** not verified. `displayPublicly: false`. Do not display an address.
 - **Primary service area:** King County, WA. **Secondary:** Snohomish County, WA; Skagit County, WA.
@@ -60,7 +60,8 @@ Never invent warranty terms, award counts, project counts, or response-time SLAs
 - `src/components/`: `global/` (Header, Footer, StickyMobileCTA, TrustBar, CookieNotice, CredentialsStrip), `sections/` (Hero, WhyJBA, FinalCTA, GafCredential, ProblemSelector), `ui/` (Button, Accordion, TrustFacts, ComparisonPanel, InfoCardGrid, MediaSlot). ARCHITECTURE.md's mention of `PlaceholderArt` is stale; that component is not in the repo., `forms/` (ContactForm, AssessmentForm), `projects/`, `reviews/`, `faqs/`, `media/`, `seo/`.
 - `src/lib/`: `content.ts` (published-only query helpers), `schema.ts` (JSON-LD builders), `analytics.ts`, `consent.ts`, `motion.ts`, `web3forms.ts`, `leads.ts`, `project-media.ts`.
 - `functions/api/lead.ts`: Cloudflare Pages Function. **Not used by the current UI** (see Forms).
-- `public/`: `_headers`, `_redirects`, `robots.txt`, `favicon.svg`, `images/` (brand, credentials, general, og, projects, videos).
+- `functions/_middleware.ts`: adds `X-Robots-Tag: noindex` on `*.pages.dev` hosts only.
+- `public/`: `_headers`, `_redirects`, `robots.txt`, `favicon.svg`, `apple-touch-icon.png` (180px, rendered from the approved bear logo `images/brand/jba-nav-logo.webp` on `#080808`; the favicon is a different chevron mark), `images/` (brand, credentials, general, og, projects, videos).
 
 ### Publish gating
 
@@ -113,8 +114,12 @@ Components check `verified` before rendering. The same flags gate the JSON-LD in
 - GA4 `G-YR9BH2V793`. Configured with `gtag('config')` on every production page, alongside the client's GA4.
 - GTM `GTM-599J59F2`. Loads on **every production page with no consent gating.** It is injected in `<head>` on every production build and runs before any consent choice. (The client's GTM `GTM-TRSW9C3F` and GA4 `G-56TWWG48L5` load under the same Consent Mode defaults, and analytics storage stays denied until the visitor accepts.)
 - **Ownership and disclosure: UNVERIFIED.** The privacy policy should be checked against this. Commits `1aca2c5`, `3754d65`, and `371ce0c` added them.
+- Public container scripts (read-only fetch of `googletagmanager.com/gtm.js`): `GTM-599J59F2` contains Google Ads ID `AW-18373436953` (10 `awct` conversion tags) and the client's GA4 `G-56TWWG48L5`. `BaseLayout.astro` says "We are not installing Google Ads." **That conflicts with the container. Unresolved.** `GTM-TRSW9C3F` (client) also contains GA4 configuration tags, although `global.yaml` calls it empty. These findings come from public script contents, not the GTM admin UI. `GTM-TRSW9C3F` also contains Clarity project `yc85tlw8bi`, so Clarity fires on every production page **even with analytics consent denied** (observed). That contradicts the settings comment and `BaseLayout.astro`, which load Clarity only after consent. The fix belongs in the client's GTM (add a consent trigger to the Clarity tag), which needs owner access.
+- Consent is initialized too late for the Brand Market container. In `BaseLayout.astro`, `GTM-599J59F2` is injected before the `gtag('consent','default')` block. Observed: with consent denied, page-view pings still reached `G-56TWWG48L5`, `G-YR9BH2V793`, and `AW-18373436953`. Consent Mode defaults do not block these tags. Each property received one page view per load (no duplicate page views observed).
 
 Consent model: Google Consent Mode defaults are `analytics_storage: denied` unless the visitor previously accepted (`localStorage` key `jba_cookie_consent`). `ad_*` signals are always denied. `src/layouts/BaseLayout.astro` and `src/lib/consent.ts` both read the key.
+
+Event routing (observed in a mocked-route test that blocked all analytics hosts from leaving the machine): page views reach both `G-56TWWG48L5` and `G-YR9BH2V793`. Custom events were not captured by that test, so their routing is **UNVERIFIED**. The config (both IDs in one `gtag` instance) suggests both properties receive them.
 
 Event bus: `src/lib/analytics.ts` exposes `trackEvent()` and `data-analytics-event` attributes. Never pass PII (name, phone, email, address, ZIP, form answers) as an event parameter.
 
@@ -124,8 +129,8 @@ Event bus: `src/lib/analytics.ts` exposes `trackEvent()` and `data-analytics-eve
 
 - `@astrojs/sitemap` generates the sitemap at build time from real routes. Filters out `/thank-you` and `/preview`.
 - `public/robots.txt` points to `https://jbaroofpro.com/sitemap-index.xml`.
-- `astro.config.mjs` canonical URL resolution: `SITE_URL` env → `CF_PAGES_URL` → `https://jbaroofpro.com`. Staging deploys must not claim production canonicals.
-- Per-page meta via `src/components/seo/Seo.astro`. JSON-LD via `src/lib/schema.ts`: `RoofingContractor` (every page), `Service`, `FAQPage`, `BreadcrumbList`. No `Review` or `AggregateRating` schema is emitted from data that isn't on the page.
+- `astro.config.mjs` canonical URL resolution: `SITE_URL` env → on branch `main` (`CF_PAGES_BRANCH`), `https://jbaroofpro.com` → `CF_PAGES_URL` (the per-deployment `*.pages.dev` URL, used by preview builds) → `https://jbaroofpro.com`. Before this rule, the live site's canonicals, `og:url`, JSON-LD, and sitemap all pointed at a `*.pages.dev` hash host (verified on the live site; fixed on branch `seo/jba-search-audit`, not yet deployed). Staging deploys must not claim production canonicals.
+- Per-page meta via `src/components/seo/Seo.astro`. JSON-LD via `src/lib/schema.ts`: `RoofingContractor` (every page), `Service`, `FAQPage`, `BreadcrumbList`. No `Review` or `AggregateRating` schema is emitted from data that isn't on the page. The homepage also has a `WebSite` entity (`buildWebSiteSchema` in `src/lib/schema.ts`: name "JBA Roofing", alternateName the legal name), passed through the layout's `jsonLd` prop. The layout and `Seo.astro` accept `canonicalPath`; the 404 page uses `canonicalPath="/"` so it does not canonicalize to a nonexistent URL.
 
 ## GitHub and deployment workflow
 
@@ -160,10 +165,15 @@ Event bus: `src/lib/analytics.ts` exposes `trackEvent()` and `data-analytics-eve
 6. **GitHub Pages legacy build** fails on recent runs and remains enabled on `main`.
 7. **`pages.yml` branch** with `index.html` only. Purpose unknown.
 8. **Cloudflare custom-domain mapping** for `jbaroofpro.com` not independently verified.
-9. **Missing content**: no published real projects, no team entries, no individual review text, no articles, text wordmark only (no logo file), no drone footage.
+9. **Missing content**: no published real projects, no team entries, no individual review text, no articles, no drone footage. (The header, footer, and hero use `jba-nav-logo.webp`; `jba-logo.svg` is unused.)
 10. **Maintenance pricing and financing claims** require client verification.
 11. **CLIENT-CONTENT-NEEDED.md says the analytics ID is still needed**, but `global.yaml` has GA4 `G-56TWWG48L5`. Stale.
 12. **No Content-Security-Policy header** (deliberately deferred per DEPLOYMENT §9).
+13. **Canonical host** (fixed on `seo/jba-search-audit`, not yet deployed): production canonicals, `og:url`, JSON-LD, and sitemap pointed at a `*.pages.dev` hash. After the next `main` deploy, verify these show `https://jbaroofpro.com/`.
+14. **Google Ads tag `AW-18373436953`** inside `GTM-599J59F2`, which conflicts with the code comment saying Google Ads is not installed. Ownership decision needed before any change.
+15. **Preview hosts (fixed on branch, not yet deployed).** `functions/_middleware.ts` adds `X-Robots-Tag: noindex, nofollow` to every response on `*.pages.dev` hosts (hash deployments, branch aliases). Verified under `wrangler pages dev` with Host headers. The production host is unaffected. Deployments already live keep their old headers until redeployed. Do not add `*.pages.dev` to robots.txt (blocking would hide the noindex).
+16. **Clarity loads without consent** through the client's GTM `GTM-TRSW9C3F` (see Tracking). Client-owner fix needed.
+17. **Brand Market container loads before the consent default** (`BaseLayout.astro` ordering). Changing it alters tracking, so it needs approval.
 
 ## Working with this repo efficiently
 

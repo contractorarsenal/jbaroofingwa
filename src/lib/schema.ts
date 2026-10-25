@@ -51,6 +51,20 @@ export function buildLocalBusinessSchema(settings: Settings, siteUrl: string) {
   return schema;
 }
 
+/**
+ * WebSite entity for the homepage. Google uses the `name` as the site name
+ * shown above search results, so it must match the visible brand name.
+ */
+export function buildWebSiteSchema(settings: Settings, siteUrl: string) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: settings.businessName,
+    alternateName: settings.legalBusinessName,
+    url: siteUrl,
+  };
+}
+
 export function buildServiceSchema(params: {
   serviceName: string;
   description: string;

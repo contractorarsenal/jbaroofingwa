@@ -68,7 +68,7 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
     </div>
 
     <div class="site-footer__col">
-      <h3 class="site-footer__heading">Quick Links</h3>
+      <h2 class="site-footer__heading">Quick Links</h2>
       <ul>
         {quickLinks.map((l) => (
           <li><a href={l.href}>{l.label}</a></li>
@@ -77,7 +77,7 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
     </div>
 
     <div class="site-footer__col">
-      <h3 class="site-footer__heading">Roof Services</h3>
+      <h2 class="site-footer__heading">Roof Services</h2>
       <ul>
         {roofServices.map((s) => (
           <li><a href={`/services/${s.slug}/`}>{s.label}</a></li>
@@ -86,7 +86,7 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
     </div>
 
     <div class="site-footer__col">
-      <h3 class="site-footer__heading">Contact</h3>
+      <h2 class="site-footer__heading">Contact</h2>
       <ul class="site-footer__contact-list">
         <li><a href={`tel:${settings.primaryPhone}`} data-analytics-event="call_click" data-analytics-location="footer_contact_col">Call Now</a></li>
         <li><a href={`mailto:${settings.email}`} data-analytics-event="email_click" data-analytics-location="footer_contact_col">Email Us</a></li>

@@ -16,6 +16,8 @@
  * `image` matches that convention this renders a real <picture> with
  * srcset/sizes instead of a single flat <img>.
  */
+import { getImageSize } from '@lib/image-size';
+
 interface Props {
   image?: string;
   alt?: string;
@@ -44,6 +46,10 @@ const {
 const isOptimizedProjectPhoto = !!image && /^\/images\/(projects|general)\/.+\.jpg$/i.test(image);
 const base = isOptimizedProjectPhoto ? image!.slice(0, -4) : null;
 const imgStyle = objectPosition ? `object-position: ${objectPosition};` : undefined;
+// Intrinsic size of the base image (the variants share its aspect ratio), so
+// the browser reserves the correct box before the photo loads. The CSS below
+// still sizes the image to fill the slot, so this changes no layout.
+const size = image ? await getImageSize(image) : null;
 ---
 
 {image ? (
@@ -56,6 +62,8 @@ const imgStyle = objectPosition ? `object-position: ${objectPosition};` : undefi
           src={image}
           srcset={`${base}-sm.jpg 800w, ${base}.jpg 1600w`}
           sizes={sizes}
+          width={size?.width}
+          height={size?.height}
           alt={alt}
           loading={loading}
           decoding={loading === 'eager' ? 'sync' : 'async'}
@@ -64,7 +72,7 @@ const imgStyle = objectPosition ? `object-position: ${objectPosition};` : undefi
         />
       </picture>
     ) : (
-      <img src={image} alt={alt} loading={loading} style={imgStyle} />
+      <img src={image} alt={alt} loading={loading} width={size?.width} height={size?.height} style={imgStyle} />
     )}
   </div>
 ) : (
