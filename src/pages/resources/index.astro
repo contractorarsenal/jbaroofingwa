@@ -6,7 +6,7 @@ import { getPublishedArticles } from '@lib/content';
 const articles = await getPublishedArticles();
 ---
 
-<BaseLayout title="Resources" description="Guides on roof maintenance, replacement, permits, and Pacific Northwest roofing conditions.">
+<BaseLayout title="Resources" description="Guides on roof maintenance, replacement, permits, and Pacific Northwest roofing conditions." noindex={articles.length === 0}>
   <PageHero eyebrow="Resources" title="Straight answers on roofing in the Pacific Northwest." />
 
   <section class="section section--light">
