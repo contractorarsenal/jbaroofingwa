@@ -21,8 +21,35 @@
 /services/roof-leak-repair/             /services/roof-repair/                   301
 /services/storm-damage-repair/          /services/roof-repair/                   301
 /services/gutter-services/              /services/roof-cleaning/                 301
-/services/siding-installation/          /                                        301
-/services/siding-replacement/           /                                        301
+
+# Siding services were unpublished because JBA no longer offers siding. No page
+# offers an equivalent service, so these paths intentionally return 404 rather
+# than redirecting to the homepage (redirecting unrelated URLs to the homepage
+# risks being treated as soft 404s by Google).
+# Do not add a redirect here without a matching live page.
+
+# Legacy service-in-city and "-2" URLs from the previous site (Search Console, 2026).
+# City pages are not published. Each maps to the service page whose content
+# matches the URL's intent: the county pages are general regional guides that
+# mention repair or replacement only in passing, while the service pages are
+# the complete answer to the query. The "-2" duplicates map to the same target
+# as their originals.
+/roof-replacement-in-king-county-2/     /services/roof-replacement/              301
+/roof-installation-in-king-county-2/    /services/roof-replacement/              301
+/roof-replacement-in-kirkland/          /services/roof-replacement/              301
+/roof-repair-in-seattle/                /services/roof-repair/                   301
+/roof-repair-in-kirkland/               /services/roof-repair/                   301
+/roof-repair-in-mercer-island/          /services/roof-repair/                   301
+/roof-repair-in-lynnwood/               /services/roof-repair/                   301
+/roof-repair-in-anacortes/              /services/roof-repair/                   301
+
+# Policy-page URLs under other paths from the old site. The policy is published
+# at /privacy-policy/ on the new site.
+/about/privacy-policy/                  /privacy-policy/                         301
+/contact/privacy-policy/                /privacy-policy/                         301
+/services/privacy-policy/               /privacy-policy/                         301
+/gallery/privacy-policy/                /privacy-policy/                         301
+/roof-inspection-in-king-county/privacy-policy/  /privacy-policy/                301
 
 # /about/, /services/, /contact/, and /privacy-policy/ keep the same path on the
 # new site, so no redirect is needed for those.

@@ -1,5 +1,19 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
+import { existsSync, readdirSync, readFileSync } from 'node:fs';
+
+// The /resources/ index is empty until an article is published. Keep it out of
+// the sitemap (and it is noindexed on the page itself) until then. This mirrors
+// the articles collection: the glob is recursive (**/*.md) and `published` is a
+// YAML boolean, so match a line starting `published: true` (any case, optional comment).
+const articlesDir = 'src/content/articles';
+const hasPublishedArticles =
+  existsSync(articlesDir) &&
+  readdirSync(articlesDir, { recursive: true }).some(
+    (f) =>
+      String(f).endsWith('.md') &&
+      /^published:\s*true\b/im.test(readFileSync(`${articlesDir}/${f}`, 'utf8'))
+  );
 
 // Canonical/OG/sitemap URLs must match wherever the build is actually being
 // served — a staging deploy on *.pages.dev must NOT claim canonical URLs on
@@ -31,7 +45,10 @@ export default defineConfig({
   trailingSlash: 'always',
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/thank-you') && !page.includes('/preview'),
+      filter: (page) =>
+        !page.includes('/thank-you') &&
+        !page.includes('/preview') &&
+        (hasPublishedArticles || !page.endsWith('/resources/')),
     }),
   ],
   build: {
