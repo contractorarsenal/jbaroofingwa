@@ -1,0 +1,121 @@
+<!--
+  Floating "Made by Contractor Arsenal" badge.
+
+  Stays out of the way of the rest of the page:
+  - Sits above the mobile call/estimate bar (body.has-sticky-cta).
+  - Hidden while the cookie notice is showing (CSS sibling rule, no JS).
+  - Hidden while a form, the footer, or a call/estimate control is inside the
+    bottom band of the viewport, so it never covers a field, submit button,
+    call link, estimate button, or footer text.
+-->
+<a
+  class="powered-badge"
+  href="https://contractorarsenal.com"
+  target="_blank"
+  rel="noopener noreferrer"
+  data-powered-badge
+>
+  <span class="powered-badge__dot" aria-hidden="true"></span>
+  <span>Made by Contractor Arsenal</span>
+  <span class="sr-only">(opens in a new tab)</span>
+</a>
+
+<style>
+  .powered-badge {
+    position: fixed;
+    right: var(--space-4);
+    bottom: var(--space-4);
+    z-index: var(--z-sticky-cta);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 0.9rem;
+    border-radius: 999px;
+    background: var(--color-dark-charcoal);
+    border: 1px solid var(--color-border-dark);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+    color: var(--color-text-inverse-muted);
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1;
+    text-decoration: none;
+    transition: color 200ms var(--ease-out), border-color 200ms var(--ease-out), opacity 200ms var(--ease-out);
+  }
+  .powered-badge:hover {
+    color: var(--color-text-inverse);
+    border-color: rgba(209, 155, 42, 0.45);
+  }
+  .powered-badge:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+  }
+  .powered-badge__dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  /* Hidden while the cookie notice is showing (it is a sibling rendered before this badge). */
+  :global(.cookie-notice:not([hidden])) ~ .powered-badge { opacity: 0; pointer-events: none; }
+
+  /* Hidden while a form or the footer is in the bottom band of the viewport (see script). */
+  .powered-badge--hidden { opacity: 0; pointer-events: none; }
+
+  /* Mobile: smaller, and lifted above the sticky call/estimate bar. */
+  @media (max-width: 1079px) {
+    :global(body.has-sticky-cta) .powered-badge {
+      bottom: calc(56px + env(safe-area-inset-bottom, 0px) + var(--space-3));
+      right: var(--space-3);
+      padding: 0.4rem 0.7rem;
+      font-size: 0.7rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .powered-badge { transition: none; }
+  }
+</style>
+
+<script>
+  // Hide the badge while a form or the footer occupies the bottom band of the
+  // viewport. The band is the bottom 160px, where the badge itself sits.
+  const badge = document.querySelector<HTMLElement>('[data-powered-badge]');
+  const BAND = 160;
+
+  if (badge && 'IntersectionObserver' in window) {
+    const visible = new Set<Element>();
+    let observer: IntersectionObserver | undefined;
+
+    const build = () => {
+      observer?.disconnect();
+      visible.clear();
+      observer = new IntersectionObserver(
+        (entries) => {
+          for (const entry of entries) {
+            if (entry.isIntersecting) visible.add(entry.target);
+            else visible.delete(entry.target);
+          }
+          badge.classList.toggle('powered-badge--hidden', visible.size > 0);
+        },
+        { rootMargin: `-${Math.max(0, window.innerHeight - BAND)}px 0px 0px 0px` }
+      );
+      // Forms, the footer, and page call/estimate controls. The fixed call bar,
+      // cookie notice, and this badge are excluded: they are always in the band.
+      document
+        .querySelectorAll('form, .site-footer, a[href^="tel:"], a[href="/assessment/"], a.btn, button.btn')
+        .forEach((el) => {
+          if (!el.closest('.sticky-cta, .cookie-notice, .powered-badge')) observer!.observe(el);
+        });
+    };
+
+    build();
+    let resizeTimer: number | undefined;
+    window.addEventListener('resize', () => {
+      window.clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(build, 150);
+    });
+  }
+</script>

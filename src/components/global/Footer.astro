@@ -130,6 +130,12 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
       {settings.contractorLicense.verified && settings.contractorLicense.value && (
         <> · WA Contractor License #{settings.contractorLicense.value}</>
       )}
+      <span class="site-footer__powered">
+        Website powered by{' '}
+        <a href="https://contractorarsenal.com" target="_blank" rel="noopener noreferrer">
+          Contractor Arsenal<span class="sr-only"> (opens in a new tab)</span>
+        </a>
+      </span>
     </p>
   </div>
 </footer>
@@ -267,6 +273,15 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
   .site-footer__legal-links a { color: var(--color-text-inverse-muted); }
   .site-footer__legal-links a:hover { color: var(--color-text-inverse); }
   .site-footer__copyright { text-align: center; }
+  .site-footer__powered { display: block; margin-top: 0.35rem; }
+  .site-footer__powered a {
+    color: var(--color-text-inverse-muted);
+    text-decoration: underline;
+    text-decoration-color: var(--color-border-dark);
+    text-underline-offset: 3px;
+  }
+  .site-footer__powered a:hover { color: var(--color-text-inverse); }
+  .site-footer__powered a:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
 
   @media (min-width: 720px) {
     .site-footer__top { grid-template-columns: 1.6fr 1fr 1fr 1fr; }
