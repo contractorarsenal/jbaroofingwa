@@ -48,6 +48,7 @@ const settings = await getGlobalSettings();
     pointer-events: none;
     transition: opacity 260ms var(--ease-out), transform 260ms var(--ease-out);
   }
+  .cookie-notice[hidden] { display: none; }
   .cookie-notice.is-visible { opacity: 1; transform: translateY(0); pointer-events: auto; }
   .cookie-notice__text { font-size: 0.85rem; line-height: 1.5; max-width: 44ch; }
   .cookie-notice__actions {
