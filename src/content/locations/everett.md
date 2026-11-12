@@ -18,9 +18,13 @@ neighborhoods: []
 
 servicesAvailable: [roof-replacement, roof-repair, roof-inspection]
 
+# Everett is a confirmed target service area (confirmed by Jay, 2026-11-12).
+# No project has a verified city, so these are shown as examples of JBA's
+# work, never as Everett work. Assign a city to a project only once verified.
 exampleProjects:
   - project-01-shingle-roof-replacement
   - project-03-water-damage-roof-repair
+  - project-04-small-shingle-replacement
 
 considerations:
   - title: Repair Or Replace?

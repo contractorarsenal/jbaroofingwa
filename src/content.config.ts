@@ -256,6 +256,24 @@ const services = defineCollection({
       .array(z.object({ label: z.string(), href: z.string() }))
       .default([]),
 
+    // Optional control over the project section near the bottom of the page.
+    // variant "documented" (default) shows "See This Service In Action" and is
+    // only for projects that actually document this service. variant
+    // "related" shows "Related Roofing Projects" for projects that are
+    // connected to the topic but don't document the service itself. An
+    // explicit projects list overrides the automatic selection (published
+    // projects only). links are descriptive text links under the cards.
+    workSection: z
+      .object({
+        variant: z.enum(['documented', 'related']).default('documented'),
+        intro: z.string().optional(),
+        projects: z.array(reference('projects')).default([]),
+        links: z
+          .array(z.object({ label: z.string(), href: z.string(), description: z.string().optional() }))
+          .default([]),
+      })
+      .optional(),
+
     faqHeading: z.string().optional(),
     ctaHeading: z.string().optional(),
     ctaDescription: z.string().optional(),

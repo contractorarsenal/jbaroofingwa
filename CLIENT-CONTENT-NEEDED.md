@@ -56,6 +56,12 @@ turning the safeguards off with real, confirmed information.
       the confirmed broad service area. Publishing individual city pages
       needs real local project photos/reviews for each city to avoid thin,
       duplicate-feeling content (see CMS-GUIDE.md).
+      **Update 2026-11-12:** Jay confirmed Everett as a target service area.
+      The Everett page is built on `feat/everett-service-area` for review and
+      is not yet merged. Individual project locations remain unverified, so
+      its projects are labeled as examples of JBA's work, not Everett work.
+      Still needed for Everett: any project JBA can verify as Everett work,
+      with permission to name the city.
 - [ ] **Team names, roles, and photos.** Team collection has only an
       unpublished template entry.
 - [ ] **Owner photo and short bio**, if JBA wants a "founder-led trust"
