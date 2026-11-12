@@ -7,6 +7,7 @@ import { getPublishedLocations, getPublishedServices, getGlobalSettings } from '
 
 const locations = await getPublishedLocations();
 const counties = locations.filter((l) => l.data.tier === 'county');
+const cities = locations.filter((l) => l.data.tier === 'city');
 const settings = await getGlobalSettings();
 
 const roofServices = [
@@ -46,6 +47,27 @@ const allServices = await getPublishedServices();
       </div>
     </div>
   </section>
+
+  {cities.length > 0 && (
+    <section class="section section--off-white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow">Cities We Serve</p>
+        <h2 class="h2">City Service Areas</h2>
+        <div class="county-cards" data-reveal-group>
+          {cities.map((city) => (
+            <a href={`/service-areas/${city.id}/`} class="county-card" data-reveal="up">
+              <span class="county-card__badge" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 21V9l9-6 9 6v12" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>
+              </span>
+              <h3 class="county-card__title">{city.data.cityName}</h3>
+              <p class="text-muted county-card__desc">{city.data.localIntro?.slice(0, 140) ?? city.data.heroDescription}</p>
+              <span class="county-card__link">View Service Area <span class="hover-arrow" aria-hidden="true">→</span></span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
 
   <section class="section section--charcoal" data-nav-theme="dark">
     <div class="container">

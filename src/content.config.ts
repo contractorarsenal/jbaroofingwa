@@ -381,6 +381,9 @@ const locations = defineCollection({
     // claims unless independently verified.
     considerations: z.array(z.object({ title: z.string(), description: z.string() })).default([]),
     nearbyAreas: z.array(reference('locations')).default([]),
+    // Examples of JBA work shown on a city page. Labeled as examples on the
+    // page, never as local work, unless the project's location is verified.
+    exampleProjects: z.array(reference('projects')).default([]),
 
     // General Pacific Northwest roofing context (rain, moss, seasonal storms),
     // and a short paragraph on how JBA helps a homeowner decide next steps.
