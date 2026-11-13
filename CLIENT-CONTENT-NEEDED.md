@@ -266,12 +266,14 @@ can be asked later):
 > types you don't take there (for example, certain roof types or services). A line
 > per city is plenty. Thank you!
 
-**JBA's answer: pending.** Record it here once, when provided, then resolve the
-conflicting coverage wording in one pass: the Skagit County page
-(`skagit-county.md`), the Skagit coverage FAQ, the "What areas do you serve?" FAQ,
-and each held preview's city-specific coverage FAQ (`mount-vernon`, `burlington`,
-`sedro-woolley`, `anacortes`, `bellingham`), then publish only the cities JBA
-accepts.
+**JBA's answer (recorded once, 2026-11-12, relayed by Jay Duran): confirmed.** JBA
+takes roofing jobs in **Mount Vernon, Burlington, Sedro-Woolley, Anacortes, and
+Bellingham**. No excluded areas or job-type limits were reported. Applied in one pass:
+the five city pages and their coverage FAQs now state confirmed service (scoped to
+the city, never to every address in a ZIP), and the Skagit coverage FAQ names the four
+Skagit cities. Elsewhere in Skagit County coverage is still described as not uniform.
+Not asked or confirmed: La Conner, Bow, Concrete, Rockport, Marblemount (no pages).
+Project locations stay unspecified: no project has a verified city.
 
 ### What each answer changes
 
