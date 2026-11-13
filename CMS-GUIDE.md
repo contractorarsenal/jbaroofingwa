@@ -115,8 +115,8 @@ those control which page layout is used and were set up by your developer.
 
 Go to **Service Areas**. King County, Snohomish County, and Skagit County
 are live. Seattle, Bellevue, and Kirkland exist as drafts (**Published**
-is off). Everett, Marysville, and Lake Stevens are built for release review
-and go live when their pull requests are merged. See
+is off). Everett, Marysville, Lake Stevens, and Arlington are live. Mount Vernon and
+Burlington are held previews. See
 `CLIENT-CONTENT-NEEDED.md` for the target list and what's still needed. When you're ready to launch one:
 
 1. Open the city.
