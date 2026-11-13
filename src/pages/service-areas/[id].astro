@@ -4,6 +4,7 @@ import BaseLayout from '@layouts/BaseLayout.astro';
 import PageHero from '@components/sections/PageHero.astro';
 import Breadcrumb from '@components/global/Breadcrumb.astro';
 import ProjectCard from '@components/projects/ProjectCard.astro';
+import MediaSlot from '@components/ui/MediaSlot.astro';
 import ReviewCard from '@components/reviews/ReviewCard.astro';
 import InfoCardGrid from '@components/ui/InfoCardGrid.astro';
 import DecisionBand from '@components/sections/DecisionBand.astro';
@@ -207,6 +208,36 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
     </section>
   )}
 
+  {data.exampleGallery.length > 0 && (
+    <section class="section section--white" data-nav-theme="light">
+      <div class="container">
+        <p class="eyebrow">Our Work</p>
+        <h2 class="h2">Examples of JBA's Roofing Work</h2>
+        <p class="text-muted location-overview__text">
+          Explore roof repairs and replacements completed by JBA.
+        </p>
+        <div class="grid grid--3 example-gallery">
+          {data.exampleGallery.map((photo) => (
+            <figure class="example-figure">
+              <div class="example-figure__media">
+                <MediaSlot image={photo.image} alt={photo.alt} tone="dark" variant={2} sizes="(min-width: 900px) 33vw, 100vw" />
+              </div>
+              <figcaption class="text-muted example-figure__caption">
+                {photo.caption}
+                {photo.project && (
+                  <>
+                    {' '}
+                    <a href={`/projects/${photo.project.id}/`} class="link-underline">View project</a>
+                  </>
+                )}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
   {reviews.length > 0 && (
     <section class="section section--off-white" data-nav-theme="light">
       <div class="container">
@@ -236,6 +267,12 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
   }
   .glance-panel__label { font-size: 0.7rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--color-text-muted); margin-bottom: var(--space-3); }
   .glance-panel__list { display: flex; flex-direction: column; gap: var(--space-2); margin-bottom: var(--space-4); font-weight: 700; }
+
+  .example-gallery { margin-top: var(--space-6); }
+  .example-figure { display: flex; flex-direction: column; gap: var(--space-3); }
+  .example-figure__media { aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--radius-md); }
+  .example-figure__media :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .example-figure__caption { font-size: 0.9rem; line-height: 1.5; }
 
   .considerations-grid, .signs-grid { margin-top: var(--space-6); }
   .regional__intro { margin-top: var(--space-3); max-width: 52ch; color: var(--color-text-inverse-muted); }

@@ -402,6 +402,13 @@ const locations = defineCollection({
     // Examples of JBA work shown on a city page. Labeled as examples on the
     // page, never as local work, unless the project's location is verified.
     exampleProjects: z.array(reference('projects')).default([]),
+    // Captioned photos from JBA projects, shown as examples of JBA's work.
+    // Each caption must describe only what the photo shows. Link a photo to
+    // its project with `project`. Never label one as local work unless the
+    // project's city is verified.
+    exampleGallery: z
+      .array(galleryImageSchema.extend({ project: reference('projects').optional() }))
+      .default([]),
 
     // General Pacific Northwest roofing context (rain, moss, seasonal storms),
     // and a short paragraph on how JBA helps a homeowner decide next steps.
