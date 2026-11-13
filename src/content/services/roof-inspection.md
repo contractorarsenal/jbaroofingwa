@@ -127,6 +127,11 @@ relatedServiceLinks:
 
 schemaServiceName: Roof Inspection
 workSection:
+  variant: related
+  intro: >-
+    This project is mainly a repair. It shows what a closer inspection found,
+    a drainage detail letting water into the roofing system, and the repair
+    that followed.
   links:
     - label: "How an inspection found the drainage problem"
       href: /projects/project-03-water-damage-roof-repair/

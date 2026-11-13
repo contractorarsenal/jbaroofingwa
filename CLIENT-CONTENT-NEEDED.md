@@ -103,6 +103,39 @@ turning the safeguards off with real, confirmed information.
       the current static hero treatment (kept static intentionally for
       performance — see ARCHITECTURE.md on Core Web Vitals).
 
+## Client-Requested Marketing Targets (ZIP Codes)
+
+Supplied by Jay (recorded 2026-11-12). These are **client-requested
+marketing targets**, not verified service coverage and not completed-project
+locations. A project's city must be verified separately before any page calls
+it local work.
+
+Target ZIPs (35): 98201, 98203, 98204, 98206, 98207, 98208, 98213, 98221,
+98223, 98225, 98226, 98227, 98228, 98229, 98232, 98233, 98235, 98237, 98238,
+98241, 98252, 98255, 98257, 98258, 98259, 98263, 98267, 98270, 98271, 98273,
+98274, 98283, 98284, 98287, 98292.
+
+Mapped on 2026-11-12 from zip-codes.com (a compilation of USPS data) with
+place names cross-checked against GeoNames. USPS's own lookup could not be
+queried by script, so confirm any ZIP before excluding it from a page.
+
+| Area | ZIPs | Notes |
+|---|---|---|
+| Everett (Snohomish) | 98201, 98203, 98204, 98208 | Standard delivery. Page built for preview. |
+| Everett (non-delivery) | 98206, 98213 (PO box), 98207 (unique) | No separate page. |
+| Marysville (Snohomish) | 98270, 98271 | Both Marysville. 98271 also lists Tulalip and Quil Ceda Village as city aliases. |
+| Lake Stevens (Snohomish) | 98258 | 98259 is a PO box (North Lakewood). |
+| Other Snohomish | 98223 Arlington, 98252 Granite Falls, 98292 Stanwood, 98241 Darrington | 98287 Silvana is a PO box. Stanwood and Darrington ZIPs also touch Skagit County. |
+| Mount Vernon / Burlington (Skagit) | 98273, 98274, 98233 | Standard delivery. |
+| Other Skagit | 98221 Anacortes, 98284 Sedro-Woolley, 98257 La Conner, 98232 Bow, 98237 Concrete, 98267 Marblemount, 98283 Rockport | Standard delivery. Anacortes also touches San Juan County. |
+| Skagit PO boxes | 98235 Clearlake, 98238 Conway, 98255 Hamilton, 98263 Lyman | No separate page. |
+| Bellingham (Whatcom) | 98225, 98226, 98229 (standard), 98227, 98228 (PO box) | **Whatcom County is not a documented JBA service area.** Do not advertise Bellingham until JBA confirms coverage. |
+
+Special-use ZIPs (10 PO box, 1 unique) should not become location pages.
+Lynnwood is not on this list. It remains a separate candidate (a metal-roof
+inquiry and a legacy `/roof-repair-in-lynnwood/` URL), pending confirmation
+of its targeting with Jay.
+
 ## Explicitly NOT Guessed or Fabricated
 
 Per direct instruction, the following were deliberately left unset rather

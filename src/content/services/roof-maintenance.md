@@ -143,10 +143,9 @@ schemaServiceName: Roof Maintenance
 workSection:
   variant: related
   intro: >-
-    None of JBA's published projects documents a maintenance visit. This one
-    shows an aging roof with visible moss that JBA ultimately replaced. Moss
-    alone doesn't decide it. The decision depends on the overall condition of
-    the roof.
+    This project shows visible moss on an aging shingle roof that JBA
+    replaced. View the before-and-after photos and see how the roof's overall
+    condition, not moss alone, informs the next step.
   projects:
     - project-04-small-shingle-replacement
 seo:

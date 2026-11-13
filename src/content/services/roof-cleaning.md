@@ -164,10 +164,9 @@ schemaServiceName: Roof Cleaning
 workSection:
   variant: related
   intro: >-
-    None of JBA's published projects documents a cleaning job. This one shows
-    an aging roof with visible moss that JBA ultimately replaced. Moss was one
-    visible sign, and the decision to replace depends on the overall condition
-    of the roof, not moss alone.
+    This project shows visible moss on an aging shingle roof that JBA
+    replaced. View the before-and-after photos and see how the roof's overall
+    condition, not moss alone, informs the next step.
   projects:
     - project-04-small-shingle-replacement
 seo:
