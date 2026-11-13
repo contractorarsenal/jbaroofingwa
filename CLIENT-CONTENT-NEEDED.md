@@ -54,10 +54,10 @@ turning the safeguards off with real, confirmed information.
       the confirmed broad service area. Seattle, Bellevue, and Kirkland
       remain drafts (`published: false`); they are not in the client's
       supplied target list. **Everett is a confirmed target** (confirmed by
-      Jay, 2026-11-12). **Marysville and Lake Stevens are client-requested
-      marketing targets** (see the ZIP list below). Their pages are built for
-      release review (PR #11 for Everett and Marysville, a stacked PR for Lake
-      Stevens) and are not live until merged. Project locations remain
+      Jay, 2026-11-12). **Marysville, Lake Stevens, and Arlington are
+      client-requested marketing targets** (see the ZIP list below). Their
+      pages, with Everett's, are live (see the release record below). Mount
+      Vernon and Burlington are built as held previews. Project locations remain
       unverified, so each page shows JBA project photos as examples of JBA's
       roofing work and does not call any project local. Still needed for
       each city: any project JBA can verify by city, with permission to name
@@ -132,10 +132,10 @@ queried by script, so confirm any ZIP before excluding it from a page.
 | Skagit PO boxes | 98235 Clearlake, 98238 Conway, 98255 Hamilton, 98263 Lyman | No separate page. |
 | Bellingham (Whatcom) | 98225, 98226, 98229 (standard), 98227, 98228 (PO box) | **Whatcom County is not a documented JBA service area.** Do not advertise Bellingham until JBA confirms coverage. |
 
-Page status: Everett and Marysville are in PR #11. Lake Stevens is in a
-stacked PR against `feat/everett-service-area` (retarget it to `main` after
-PR #11 merges). None of the three has a project with a verified
-city, so each shows JBA project photos as examples, not local work.
+Page status: Everett, Marysville, Lake Stevens, and Arlington are live (see
+the release record below). Mount Vernon and Burlington are held previews. None
+has a project with a verified city, so each page shows JBA project photos as
+examples, not local work.
 
 Special-use ZIPs (10 PO box, 1 unique) should not become location pages.
 Lynnwood is not on this list. It remains a separate candidate (a metal-roof
@@ -150,3 +150,43 @@ suggested a specific number: years in business, project count, award count,
 exact response-time SLAs, and specific warranty terms (e.g. "25-year
 workmanship," "Golden Pledge"). These require direct confirmation from JBA
 before they can be stated anywhere on the site or in its structured data.
+
+## City Page Release Record (2026-11-12)
+
+Released on approval from Jay. Each live page was checked after Cloudflare
+production success: HTTP 200, title, H1, self-canonical on `jbaroofpro.com`,
+no `X-Robots-Tag`, `index, follow`, present in the sitemap (31 entries) and on
+the service-areas hub and Snohomish County page, estimate links pointing to
+`/assessment/`, and no horizontal overflow at 390 px or 1440 px.
+
+| Page | Live URL | PR | Merge commit on `main` |
+|---|---|---|---|
+| Everett, Marysville, and the five service-to-project sections | https://jbaroofpro.com/service-areas/everett/ and `/marysville/` | #11 | 626809c |
+| Lake Stevens | https://jbaroofpro.com/service-areas/lake-stevens/ | #12 | e89fab3 |
+| Arlington | https://jbaroofpro.com/service-areas/arlington/ | #13 | 85cf3f7 |
+
+Held previews: Mount Vernon and Burlington (draft PR #14, branch
+`feat/skagit-city-previews`), pending the Skagit coverage question above.
+
+Search Console: no access was available in the release environment, so the
+sitemap (`https://jbaroofpro.com/sitemap-index.xml`) and the four new URLs
+still need to be submitted and requested for indexing by the property owner.
+
+## City Page Rollout Plan (from the recorded target ZIPs)
+
+The 35 ZIPs above are preserved unchanged. Grouping, in suggested order:
+
+| Order | Page | Recorded ZIPs | Basis and gate |
+|---|---|---|---|
+| Held | Mount Vernon; Burlington | 98273, 98274; 98233 | Built as previews. Gated on the Skagit coverage question. |
+| 1 | Stanwood | 98292 | Snohomish primary (also touches Skagit); next to Arlington. Supported by Snohomish coverage. |
+| 2 | Granite Falls and Darrington | 98252; 98241 | Snohomish foothills, small. One page only if it has distinct content; otherwise fold into the Snohomish County page. |
+| 3 | Sedro-Woolley | 98284 | Skagit. Gated on the coverage question. |
+| 4 | Anacortes | 98221 | Skagit, and the ZIP also touches San Juan County (confirm island coverage). The legacy site had `/roof-repair-in-anacortes/`. Gated on the coverage question. |
+| 5 | La Conner and Bow | 98257; 98232 | Skagit, small. Gated. |
+| 6 | Upper Skagit (Concrete, Rockport, Marblemount) | 98237; 98283; 98267 | Rural and small. One regional page or fold into the Skagit County page. Gated. |
+| Hold | Bellingham | 98225, 98226, 98229 | Whatcom County is not a documented service area. Do not advertise until JBA confirms. |
+| No page | PO box and unique ZIPs | 98206, 98213, 98207, 98227, 98228, 98235, 98238, 98255, 98259, 98263, 98287 | Special-use ZIPs; no separate location pages. |
+
+Lynnwood is not on the ZIP list and remains a separate candidate pending
+confirmation of its targeting with Jay.
