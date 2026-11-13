@@ -8,26 +8,17 @@ heroTitle: Roofing Contractor in Anacortes, WA
 heroDescription: >-
   Roof replacement, repair, and inspections for Anacortes homeowners, with a
   step-by-step look at how a replacement runs from first inspection to final
-  walkthrough. Coverage for your address is confirmed first.
+  walkthrough.
 heroImage: "/images/projects/project-01-shingle-roof-replacement/after-aerial.jpg"
 localIntro: >-
-  JBA Roofing extends its King and Snohomish County service into parts of
-  Skagit County, so the first step for an Anacortes homeowner is confirming
-  that JBA covers your address. This page is about homes in the city of
-  Anacortes. After that, it walks through a roof replacement in the five
-  steps JBA follows.
+  JBA Roofing takes roofing jobs for homeowners in Anacortes. This page is about homes in the city of Anacortes, and it walks through a roof replacement in the five steps JBA follows.
 neighborhoods: []
 
 servicesAvailable: [roof-replacement, roof-repair, roof-inspection]
 
-# HELD (published: false). Anacortes is a client-requested marketing target (ZIP
-# 98221; this page is scoped to the city of Anacortes, not to every address in
-# the ZIP, and makes no claim about islands or other counties). Release only through a reviewed one-line release PR after JBA confirms whether it takes jobs in
-# Anacortes: site records conflict on Skagit coverage (see the Remaining
-# Coverage Decisions table in CLIENT-CONTENT-NEEDED.md). The old site had an
-# Anacortes repair page, which shows past interest, not current coverage. No
-# project has a verified city, so the photos below are examples of JBA's work
-# and never Anacortes work.
+# Coverage confirmed by JBA on 2026-11-12 for the city of Anacortes; this page is scoped to
+# the city, not to every address in a ZIP. No project has a verified city, so the
+# photos below are examples of JBA's work and never Anacortes work.
 exampleGallery:
   - image: "/images/projects/project-01-shingle-roof-replacement/before-aerial.jpg"
     alt: "Aerial view looking straight down at a roof with the old roofing removed and the deck exposed, with crew members working on it"
@@ -43,8 +34,8 @@ exampleGallery:
     project: project-01-shingle-roof-replacement
 
 considerations:
-  - title: Confirm Coverage First
-    description: Coverage isn't uniform across Skagit County. Send your address and JBA confirms whether it covers your area before anything else.
+  - title: Serving Anacortes
+    description: JBA Roofing takes roofing jobs for homeowners in Anacortes. Contact JBA with your address to book an appointment.
   - title: Five Steps, Start To Finish
     description: Assess, plan, protect, install, and document. A replacement starts with an inspection to confirm replacement is the right call and ends with a walkthrough and photos.
   - title: What Can Change The Scope
@@ -52,10 +43,10 @@ considerations:
 
 seo:
   title: Roofing Contractor in Anacortes, WA | JBA Roofing
-  description: Roof replacement, repair, and inspections for Anacortes, WA homeowners, with the five steps of a replacement explained. Confirm coverage with JBA Roofing.
+  description: Roof replacement, repair, and inspections for Anacortes, WA homeowners, with the five steps of a replacement explained. Book an appointment with JBA Roofing.
 ---
 
-**Start by confirming coverage.** JBA extends its King and Snohomish County service into parts of Skagit County, and coverage isn't uniform across the whole county. This page is about homes in the city of Anacortes. Reach out through the [contact page](/contact/) or [start an assessment](/assessment/) with your address, and JBA confirms whether it covers your area before anything else.
+**Serving Anacortes.** JBA Roofing takes roofing jobs for homeowners in Anacortes. This page is about homes in the city of Anacortes. Reach out through the [contact page](/contact/) or [start an assessment](/assessment/) with your address.
 
 **Step one: assess.** A replacement starts with a roof inspection, to confirm replacement is actually the right call. If the roof just needs cleaning or a small repair, that's what JBA recommends.
 

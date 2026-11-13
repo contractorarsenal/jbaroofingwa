@@ -8,26 +8,17 @@ heroTitle: Roofing Contractor in Bellingham, WA
 heroDescription: >-
   Roof replacement, repair, and inspections for Bellingham homeowners, plus
   cleaning and maintenance, in a plain guide to matching what you see on your
-  roof to the right service. Coverage for your address is confirmed first.
+  roof to the right service.
 heroImage: "/images/projects/project-07-roof-installation/after.jpg"
 localIntro: >-
-  Bellingham is in Whatcom County, and the counties JBA Roofing has published
-  as its service areas are King, Snohomish, and Skagit, so the first step for a
-  Bellingham homeowner is confirming that JBA takes jobs at your address. This
-  page is about homes in the city of Bellingham. After that, it helps you match
-  what you are seeing on your roof to the service that fits.
+  JBA Roofing takes roofing jobs for homeowners in Bellingham. This page is about homes in the city of Bellingham, and it helps you match what you are seeing on your roof to the service that fits.
 neighborhoods: []
 
 servicesAvailable: [roof-inspection, roof-repair, roof-replacement, roof-cleaning, roof-maintenance]
 
-# HELD (published: false). Bellingham is a client-requested marketing target (ZIPs
-# 98225, 98226, and 98229; PO box ZIPs 98227 and 98228 get no page). Do not
-# publish until JBA confirms whether it takes jobs in Bellingham. The site
-# records say nothing about Whatcom County either way, so it is not treated as
-# excluded; the ZIP list is the evidence of requested targeting. This page is
-# scoped to the city of Bellingham, not to every address in these ZIPs . If JBA says yes, the coverage wording in this file and
-# in bellingham-coverage.yaml should be updated. No project has a verified city,
-# so the photos below are examples of JBA's work and never Bellingham work.
+# Coverage confirmed by JBA on 2026-11-12 for the city of Bellingham; this page is scoped to
+# the city, not to every address in a ZIP. No project has a verified city, so the
+# photos below are examples of JBA's work and never Bellingham work.
 exampleGallery:
   - image: "/images/projects/project-04-small-shingle-replacement/before.jpg"
     alt: "Aerial view of an aging shingle roof surrounded by tall trees, with moss and debris on the surface"
@@ -43,8 +34,8 @@ exampleGallery:
     project: project-06-aging-roof-replacement
 
 considerations:
-  - title: Confirm Coverage First
-    description: Bellingham is outside the counties JBA has published as its service areas, so JBA confirms whether it takes the job at your address before anything else.
+  - title: Serving Bellingham
+    description: JBA Roofing takes roofing jobs for homeowners in Bellingham. Contact JBA with your address to book an appointment.
   - title: Match What You See To The Service
     description: Moss and debris point toward cleaning or maintenance, leaks and damaged shingles toward repair, and widespread wear toward replacement.
   - title: Not Sure? Start With An Inspection
@@ -52,10 +43,10 @@ considerations:
 
 seo:
   title: Roofing Contractor in Bellingham, WA | JBA Roofing
-  description: Roof replacement, repair, inspection, cleaning, and maintenance for Bellingham, WA homeowners, and how to match symptoms to a service. Confirm coverage first.
+  description: Roof replacement, repair, inspection, cleaning, and maintenance for Bellingham, WA homeowners, and how to match symptoms to a service. Book an appointment with JBA Roofing.
 ---
 
-**Start by confirming coverage.** Bellingham is in Whatcom County, which is not among the counties JBA has published as its service areas (King, Snohomish, and Skagit). This page is about homes in the city of Bellingham. Reach out through the [contact page](/contact/) or [start an assessment](/assessment/) with your address, and JBA confirms whether it takes the job before anything else.
+**Serving Bellingham.** JBA Roofing takes roofing jobs for homeowners in Bellingham. This page is about homes in the city of Bellingham. Reach out through the [contact page](/contact/) or [start an assessment](/assessment/) with your address.
 
 **If you see moss, algae, or debris.** That points toward [roof cleaning](/services/roof-cleaning/) or [roof maintenance](/services/roof-maintenance/). Cleaning applies a low-pressure treatment to kill growth at the root, then clears the treated growth and debris from the roof surface and gutters. Maintenance is broader: a roof walk, debris removal, gutter clearing, and moss treatment where needed, annually or any time you notice moss, debris buildup, or clogged gutters. Neither is a substitute for repairing existing damage. If moss has already lifted shingle edges and water has reached the decking, that is a repair.
 

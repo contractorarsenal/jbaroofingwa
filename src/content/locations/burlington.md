@@ -11,21 +11,14 @@ heroDescription: >-
   involves.
 heroImage: "/images/projects/project-05-shingle-installation/after.jpg"
 localIntro: >-
-  JBA Roofing extends its King and Snohomish County service into parts of
-  Skagit County, so a Burlington homeowner starts by confirming that JBA
-  covers the address. From there, most roof questions come down to one
-  decision: repair the roof you have, or replace it. This page walks through
-  how to tell, and what a replacement involves.
+  JBA Roofing takes roofing jobs for homeowners in Burlington. Most roof questions come down to one decision: repair the roof you have, or replace it. This page walks through how to tell, and what a replacement involves.
 neighborhoods: []
 
 servicesAvailable: [roof-replacement, roof-repair, roof-inspection]
 
-# HELD (published: false). Burlington is a client-requested marketing target (ZIP
-# 98233). Release only through a reviewed one-line release PR after JBA confirms whether it covers addresses in
-# Burlington: site records conflict ("serve ... Skagit County" in the FAQ,
-# footer, and meta text vs. "parts of Skagit County, coverage isn't uniform" on
-# the Skagit page). No project has a verified city, so the photos below are
-# examples of JBA's work and never Burlington work.
+# Coverage confirmed by JBA on 2026-11-12 for the city of Burlington; this page is scoped to
+# the city, not to every address in a ZIP. No project has a verified city, so the
+# photos below are examples of JBA's work and never Burlington work.
 exampleGallery:
   - image: "/images/projects/project-01-shingle-roof-replacement/before-aerial.jpg"
     alt: "Aerial view of a roof with the old roofing removed and the deck exposed, with crew members working on it"
@@ -41,8 +34,8 @@ exampleGallery:
     project: project-07-roof-installation
 
 considerations:
-  - title: Confirm Coverage First
-    description: Coverage isn't uniform across Skagit County, so JBA confirms your address before anything else.
+  - title: Serving Burlington
+    description: JBA Roofing takes roofing jobs for homeowners in Burlington. Contact JBA with your address to book an appointment.
   - title: Signs The Roof Is Near The End
     description: Widespread wear, repeated repairs in the same spots, or a roof well past its expected lifespan point toward replacement. A roof doesn't need to be leaking to be there.
   - title: Know What Replacement Involves
@@ -53,7 +46,7 @@ seo:
   description: Roof replacement, repair, and inspections for Burlington, WA homeowners. How to tell repair from replacement and what a replacement involves, from JBA Roofing.
 ---
 
-**Start by confirming coverage.** Coverage isn't uniform across Skagit County, so JBA confirms whether it covers your address before anything else. [Contact JBA](/contact/) with your address, or [start an assessment](/assessment/).
+**Serving Burlington.** JBA Roofing takes roofing jobs for homeowners in Burlington. This page is about homes in the city of Burlington. Reach out through the [contact page](/contact/) or [start an assessment](/assessment/) with your address.
 
 **Repair or replace?** One damaged area on a roof with plenty of life left is usually a repair, and missing or damaged shingles in a specific area can often be replaced without touching the rest of the roof. Widespread wear, repeated repairs in the same spots, or a roof already past its expected lifespan usually points toward [replacement](/services/roof-replacement/). A [roof inspection](/services/roof-inspection/) gives you a straight answer rather than a default toward the bigger job.
 

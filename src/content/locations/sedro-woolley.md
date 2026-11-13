@@ -8,24 +8,16 @@ heroTitle: Roofing Contractor in Sedro-Woolley, WA
 heroDescription: >-
   Roof repair, replacement, and inspections for Sedro-Woolley homeowners, with
   a look at how a repair unfolds from the first call to the lasting fix.
-  Coverage for your address is confirmed first.
 heroImage: "/images/projects/project-03-water-damage-roof-repair/after-shingles.jpg"
 localIntro: >-
-  JBA Roofing extends its King and Snohomish County service into parts of
-  Skagit County, so the first step for a Sedro-Woolley homeowner is confirming
-  that JBA covers your address. This page is about homes in the city of
-  Sedro-Woolley. After that, it walks through what a repair looks like, step
-  by step, and when the answer turns out to be a bigger job.
+  JBA Roofing takes roofing jobs for homeowners in Sedro-Woolley. This page is about homes in the city of Sedro-Woolley, and it follows a roof repair from the first call to the lasting fix.
 neighborhoods: []
 
 servicesAvailable: [roof-repair, roof-inspection, roof-replacement]
 
-# HELD (published: false). Sedro-Woolley is a client-requested marketing target (ZIP
-# 98284; this page is scoped to the city, not to every address in the ZIP). Release only through a reviewed one-line release PR after JBA confirms whether it
-# takes jobs in Sedro-Woolley: site records conflict on Skagit coverage (see the
-# Remaining Coverage Decisions table in CLIENT-CONTENT-NEEDED.md). No project has
-# a verified city, so the photos below are examples of JBA's work and never
-# Sedro-Woolley work.
+# Coverage confirmed by JBA on 2026-11-12 for the city of Sedro-Woolley; this page is scoped to
+# the city, not to every address in a ZIP. No project has a verified city, so the
+# photos below are examples of JBA's work and never Sedro-Woolley work.
 exampleGallery:
   - image: "/images/projects/project-03-water-damage-roof-repair/damage.jpg"
     alt: "Dark water staining on the underside of a plywood roof deck, seen from inside the attic between rafters"
@@ -41,8 +33,8 @@ exampleGallery:
     project: project-03-water-damage-roof-repair
 
 considerations:
-  - title: Confirm Coverage First
-    description: Coverage isn't uniform across Skagit County. Send your address and JBA confirms whether it covers your area before anything else.
+  - title: Serving Sedro-Woolley
+    description: JBA Roofing takes roofing jobs for homeowners in Sedro-Woolley. Contact JBA with your address to book an appointment.
   - title: Stop The Water, Then Look Wider
     description: If a roof is actively leaking, stopping water from getting further into the house comes first. Then the whole roof gets a look, not just the leaking spot.
   - title: Lasting Repairs Need Dry Conditions
@@ -50,10 +42,10 @@ considerations:
 
 seo:
   title: Roofing Contractor in Sedro-Woolley, WA | JBA Roofing
-  description: Roof repair, replacement, and inspections for Sedro-Woolley, WA homeowners, from first call to lasting fix. Confirm coverage for your address with JBA Roofing.
+  description: Roof repair, replacement, and inspections for Sedro-Woolley, WA homeowners, from first call to lasting fix. Book an appointment with JBA Roofing.
 ---
 
-**Start by confirming coverage.** JBA extends its King and Snohomish County service into parts of Skagit County, and coverage isn't uniform across the whole county. This page is about homes in the city of Sedro-Woolley. Reach out through the [contact page](/contact/) or [start an assessment](/assessment/) with your address, and JBA confirms whether it covers your area before anything else.
+**Serving Sedro-Woolley.** JBA Roofing takes roofing jobs for homeowners in Sedro-Woolley. This page is about homes in the city of Sedro-Woolley. Reach out through the [contact page](/contact/) or [start an assessment](/assessment/) with your address.
 
 **Step one: stop the water.** If a roof is actively leaking, JBA's first priority is stopping water from getting further into the house. If water is coming in right now, treat it as urgent and call or start a repair request right away. A stain that isn't growing can usually wait for a scheduled inspection.
 

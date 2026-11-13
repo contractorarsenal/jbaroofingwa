@@ -1,12 +1,12 @@
 question: "Do you serve my part of Skagit County?"
 answer: >-
-  We extend our King and Snohomish County service into parts of Skagit
-  County, but coverage isn't uniform across the whole county. Reach out
-  with your address and we'll confirm whether we cover your specific area
-  before anything else.
+  We serve homeowners in Mount Vernon, Burlington, Sedro-Woolley, and
+  Anacortes. Coverage elsewhere in Skagit County isn't uniform, so reach
+  out with your address and we'll confirm whether we cover your specific
+  area.
 category: general
 relatedServices: []
-relatedLocations: [skagit-county, mount-vernon, burlington]
+relatedLocations: [skagit-county, mount-vernon, burlington, sedro-woolley, anacortes]
 featured: true
 schemaEligible: true
 published: true
