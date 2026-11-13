@@ -124,15 +124,16 @@ queried by script, so confirm any ZIP before excluding it from a page.
 | Everett (Snohomish) | 98201, 98203, 98204, 98208 | Standard delivery. Page built for preview. |
 | Everett (non-delivery) | 98206, 98213 (PO box), 98207 (unique) | No separate page. |
 | Marysville (Snohomish) | 98270, 98271 | Both Marysville. 98271 also lists Tulalip and Quil Ceda Village as city aliases. |
-| Lake Stevens (Snohomish) | 98258 | 98259 is a PO box (North Lakewood), so it needs no page. Page built on `feat/lake-stevens-service-area` for preview. |
+| Lake Stevens (Snohomish) | 98258 | Client-requested marketing target. 98259 is a PO box (North Lakewood), so it needs no page. Stacked PR against `feat/everett-service-area`. |
 | Other Snohomish | 98223 Arlington, 98252 Granite Falls, 98292 Stanwood, 98241 Darrington | 98287 Silvana is a PO box. Stanwood and Darrington ZIPs also touch Skagit County. |
 | Mount Vernon / Burlington (Skagit) | 98273, 98274, 98233 | Standard delivery. |
 | Other Skagit | 98221 Anacortes, 98284 Sedro-Woolley, 98257 La Conner, 98232 Bow, 98237 Concrete, 98267 Marblemount, 98283 Rockport | Standard delivery. Anacortes also touches San Juan County. |
 | Skagit PO boxes | 98235 Clearlake, 98238 Conway, 98255 Hamilton, 98263 Lyman | No separate page. |
 | Bellingham (Whatcom) | 98225, 98226, 98229 (standard), 98227, 98228 (PO box) | **Whatcom County is not a documented JBA service area.** Do not advertise Bellingham until JBA confirms coverage. |
 
-Page status: Everett and Marysville are in PR #11. Lake Stevens is on a
-separate preview branch. None of the three has a project with a verified
+Page status: Everett and Marysville are in PR #11. Lake Stevens is in a
+stacked PR against `feat/everett-service-area` (retarget it to `main` after
+PR #11 merges). None of the three has a project with a verified
 city, so each shows JBA project photos as examples, not local work.
 
 Special-use ZIPs (10 PO box, 1 unique) should not become location pages.
