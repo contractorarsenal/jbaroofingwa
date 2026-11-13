@@ -1,6 +1,6 @@
 ---
 cityName: Anacortes
-published: false
+published: true
 tier: city
 county: Skagit County, WA
 
