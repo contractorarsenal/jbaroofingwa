@@ -173,6 +173,10 @@ the service-areas hub and Snohomish County page, estimate links pointing to
 | Darrington | https://jbaroofpro.com/service-areas/darrington/ | #17 | 843184f |
 | Docs: Stanwood record, Search Console handoff, rollout notes | (no new page) | #18 | fa589e9 |
 
+Image privacy cleanup (strip embedded GPS metadata, crop two photos that show
+house numbers): PR #23, open for review, not merged. Earlier file versions remain in
+this public repository's git history.
+
 Held previews (not live, noindexed): Mount Vernon and Burlington (draft PR #14, branch
 `feat/skagit-city-previews`).
 
@@ -238,16 +242,39 @@ records (no city), and legacy redirects.
 |---|---|---|---|---|
 | Mount Vernon (98273, 98274) | Skagit is a secondary service area in settings; the FAQ, footer, and meta say JBA serves Skagit County | Skagit page and FAQ: "parts of Skagit County... coverage isn't uniform" | Held preview, draft PR #14 | Does JBA take roofing jobs at addresses in Mount Vernon (98273, 98274)? |
 | Burlington (98233) | Same as above | Same | Held preview, draft PR #14 | Does JBA take roofing jobs at addresses in Burlington (98233)? |
-| Sedro-Woolley (98284) | Same. The ZIP also touches Whatcom County | Same | Not built | Does JBA take jobs in Sedro-Woolley (98284), and do Whatcom-side addresses of the ZIP count? |
-| Anacortes (98221) | Same. The old site had an Anacortes repair page (`/roof-repair-in-anacortes/`), which shows past interest, not current coverage. The ZIP also touches San Juan County | Same. No record mentions San Juan County | Not built | Does JBA take jobs in Anacortes (98221), and any San Juan County island addresses? |
+| Sedro-Woolley (98284) | Same. The ZIP also touches Whatcom County | Same | Held preview, draft PR #20 | Does JBA take jobs in Sedro-Woolley (98284), and do Whatcom-side addresses of the ZIP count? |
+| Anacortes (98221) | Same. The old site had an Anacortes repair page (`/roof-repair-in-anacortes/`), which shows past interest, not current coverage. The ZIP also touches San Juan County | Same. No record mentions San Juan County | Held preview, draft PR #21 | Does JBA take jobs in Anacortes (98221), and any San Juan County island addresses? |
 | La Conner (98257), Bow (98232) | Same | Same | Not built | Does JBA take jobs in La Conner and Bow? |
 | Concrete (98237), Rockport (98283), Marblemount (98267) | Same | Same | Not built | How far east in the Skagit Valley does JBA take jobs (which of the three)? |
-| Bellingham (98225, 98226, 98229; PO boxes 98227, 98228 get no page) | No coverage statement in the site records either way. The client's ZIP list is the request evidence | The site lists "King, Snohomish, and Skagit" counties, but no record says Whatcom is excluded | Not built, no preview | Does JBA take roofing jobs at addresses in Bellingham (98225, 98226, 98229)? |
+| Bellingham (98225, 98226, 98229; PO boxes 98227, 98228 get no page) | No coverage statement in the site records either way. The client's ZIP list is the request evidence | The site lists "King, Snohomish, and Skagit" counties, but no record says Whatcom is excluded | Held preview, draft PR #22 | Does JBA take roofing jobs at addresses in Bellingham (98225, 98226, 98229)? |
 | Skagit-side addresses in the Stanwood (98292) and Darrington (98241) ZIPs | Snohomish County is described as core coverage ("anywhere in the county") and both pages are live | The ZIPs also touch Skagit County, so the Skagit conflict applies to those addresses | Live | Same answer as the Mount Vernon and Burlington rows, for Skagit-side addresses |
 
 The Skagit rows share one underlying question, recorded once in the release
 record above. Lynnwood is not on the ZIP list and is a separate candidate
 (see above).
+
+## Coverage Message For JBA (ready to send)
+
+One message covers every open coverage decision above:
+
+> Hi, quick coverage question so our new city pages describe your service area
+> accurately. Do you accept residential roofing jobs in each of these?
+>
+> - Mount Vernon and Burlington
+> - Sedro-Woolley and Anacortes
+> - Bellingham
+> - La Conner, Bow, Concrete, Rockport, and Marblemount
+>
+> For each, please tell us yes, no, or only some parts, and name any areas you
+> exclude or any job types you don't take there (for example, certain roof types
+> or services). A line per city is plenty. Thank you!
+
+**JBA's answer: pending.** Record it here once, when provided, then resolve the
+conflicting coverage wording in one pass: the Skagit County page
+(`skagit-county.md`), the Skagit coverage FAQ, the "What areas do you serve?" FAQ,
+and each held preview's city-specific coverage FAQ (`mount-vernon`, `burlington`,
+`sedro-woolley`, `anacortes`, `bellingham`), then publish only the cities JBA
+accepts.
 
 ## City Page Rollout Plan (from the recorded target ZIPs)
 
@@ -258,11 +285,11 @@ The 35 ZIPs above are preserved unchanged. Grouping, in suggested order:
 | Held | Mount Vernon; Burlington | 98273, 98274; 98233 | Built as previews. Gated on the Skagit coverage question. |
 | Done | Stanwood | 98292 | Live (PR #16). Snohomish primary; the ZIP also touches Skagit. |
 | Done | Granite Falls; Darrington | 98252; 98241 | Live (PR #17), maintenance-led and repair-led. Darrington's ZIP also touches Skagit. |
-| Next | Sedro-Woolley | 98284 | Skagit. Gated on the coverage question. |
-| Then | Anacortes | 98221 | Skagit, and the ZIP also touches San Juan County (confirm island coverage). The legacy site had `/roof-repair-in-anacortes/`. Gated on the coverage question. |
+| Held | Sedro-Woolley | 98284 | Preview built (draft PR #20). Gated on the coverage question. |
+| Held | Anacortes | 98221 | Skagit, and the ZIP also touches San Juan County (confirm island coverage). The legacy site had `/roof-repair-in-anacortes/`. Preview built (draft PR #21). Gated on the coverage question. |
 | Then | La Conner and Bow | 98257; 98232 | Skagit, small. Gated. |
 | Then | Upper Skagit (Concrete, Rockport, Marblemount) | 98237; 98283; 98267 | Rural and small. One regional page or fold into the Skagit County page. Gated. |
-| Pending answer | Bellingham | 98225, 98226, 98229 | Requested by the client (ZIP list). The site records say nothing about Whatcom either way, so it is not treated as excluded. Do not advertise until JBA confirms (see Remaining Coverage Decisions). |
+| Held | Bellingham | 98225, 98226, 98229 | Requested by the client (ZIP list). The site records say nothing about Whatcom either way, so it is not treated as excluded. Preview built (draft PR #22). Do not advertise until JBA confirms (see Remaining Coverage Decisions). |
 | No page | PO box and unique ZIPs | 98206, 98213, 98207, 98227, 98228, 98235, 98238, 98255, 98259, 98263, 98287 | Special-use ZIPs; no separate location pages. |
 
 Lynnwood is not on the ZIP list and remains a separate candidate pending
