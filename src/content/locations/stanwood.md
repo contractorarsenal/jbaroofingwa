@@ -20,8 +20,9 @@ servicesAvailable: [roof-replacement, roof-repair, roof-inspection]
 
 # Stanwood is a client-requested marketing target (ZIP 98292). No project has a
 # verified city, so the photos below are shown as examples of JBA's work and
-# never as Stanwood work. Do not use project-02/after-front.jpg here: it shows a
-# recognizable downtown skyline that would suggest a location. Assign a city to a
+# never as Stanwood work. Do not use project-02/after-front.jpg here: a city
+# skyline is visible in its background, which could suggest a location (the
+# project's actual location is unverified; the photo has no metadata). Assign a city to a
 # project only once verified. Captions describe only what each photo shows or
 # repeat the project record.
 exampleGallery:
