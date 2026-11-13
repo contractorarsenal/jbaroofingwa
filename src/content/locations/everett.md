@@ -58,7 +58,7 @@ seo:
 
 **What a replacement quote should cover.** A useful estimate spells out the material and quality being installed, the tear-off scope, how decking damage would be handled if it turns up, a realistic timeline, and what is included, such as cleanup and disposal. If a quote is vague on any of those, ask before you sign.
 
-**How rain affects scheduling.** Wet weather can delay exterior work. Before you sign, ask how the proposed schedule accounts for rain days and what happens to the timeline if the weather turns.
+**How weather affects scheduling.** Weather can change when exterior roofing work can happen, and shingle manufacturers set installation requirements of their own. Before you sign, ask how weather and those requirements affect the proposed schedule, and what happens to the timeline if conditions change.
 
 **Leaks.** If water is actively coming into the house, treat it as urgent and request service right away. A stain that isn't growing can usually wait for a scheduled inspection, though it is still worth having looked at soon.
 
