@@ -1,6 +1,6 @@
 ---
 cityName: Mount Vernon
-published: false
+published: true
 tier: city
 county: Skagit County, WA
 
