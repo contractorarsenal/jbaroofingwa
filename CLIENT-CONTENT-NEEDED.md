@@ -127,7 +127,8 @@ queried by script, so confirm any ZIP before excluding it from a page.
 | Lake Stevens (Snohomish) | 98258 | Client-requested marketing target. 98259 is a PO box (North Lakewood), so it needs no page. Stacked PR against `feat/everett-service-area`. |
 | Arlington (Snohomish) | 98223 | Client-requested marketing target (the City of Arlington lists 98223 as its own ZIP). Inspection-led page; permit wording checked against the City of Arlington and Snohomish County official pages. |
 | Other Snohomish | 98252 Granite Falls, 98292 Stanwood, 98241 Darrington | 98287 Silvana is a PO box. Stanwood and Darrington ZIPs also touch Skagit County. |
-| Mount Vernon / Burlington (Skagit) | 98273, 98274, 98233 | Standard delivery. |
+| Mount Vernon (Skagit) | 98273, 98274 | Standard delivery. Preview page built on `feat/skagit-city-previews`; **publication held** pending one coverage answer (below). |
+| Burlington (Skagit) | 98233 | Standard delivery. Preview page built on `feat/skagit-city-previews`; **publication held** pending the same coverage answer. |
 | Other Skagit | 98221 Anacortes, 98284 Sedro-Woolley, 98257 La Conner, 98232 Bow, 98237 Concrete, 98267 Marblemount, 98283 Rockport | Standard delivery. Anacortes also touches San Juan County. |
 | Skagit PO boxes | 98235 Clearlake, 98238 Conway, 98255 Hamilton, 98263 Lyman | No separate page. |
 | Bellingham (Whatcom) | 98225, 98226, 98229 (standard), 98227, 98228 (PO box) | **Whatcom County is not a documented JBA service area.** Do not advertise Bellingham until JBA confirms coverage. |
@@ -136,6 +137,15 @@ Page status: Everett and Marysville are in PR #11. Lake Stevens is in a
 stacked PR against `feat/everett-service-area` (retarget it to `main` after
 PR #11 merges). None of the three has a project with a verified
 city, so each shows JBA project photos as examples, not local work.
+
+**Open coverage question (holds Mount Vernon and Burlington):** site records
+conflict on Skagit. The FAQ, footer, and meta text say JBA serves Skagit County,
+while the Skagit page and FAQ say "parts of Skagit County... coverage isn't
+uniform." Settings list Skagit as a secondary service area; reviews carry no
+city; the legacy site had a single Skagit page (Anacortes). Question for JBA:
+**Does JBA take roofing jobs at addresses in Mount Vernon (98273, 98274) and
+Burlington (98233), or only some parts of Skagit County, and if only some,
+which of those two cities?**
 
 Special-use ZIPs (10 PO box, 1 unique) should not become location pages.
 Lynnwood is not on this list. It remains a separate candidate (a metal-roof
