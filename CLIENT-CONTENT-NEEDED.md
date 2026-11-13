@@ -50,18 +50,18 @@ turning the safeguards off with real, confirmed information.
       Replacement, Roof Installation. Confirm this matches what JBA
       actually wants to advertise — anything not offered should be
       unpublished.
-- [ ] **Confirm which cities to actively target.** Seattle, Bellevue,
-      Kirkland, and Everett exist as drafts (`published: false`) per the
-      research strategy — King, Snohomish, and Skagit counties are live as
-      the confirmed broad service area. Publishing individual city pages
-      needs real local project photos/reviews for each city to avoid thin,
-      duplicate-feeling content (see CMS-GUIDE.md).
-      **Update 2026-11-12:** Jay confirmed Everett as a target service area.
-      The Everett page is built on `feat/everett-service-area` for review and
-      is not yet merged. Individual project locations remain unverified, so
-      its projects are labeled as examples of JBA's work, not Everett work.
-      Still needed for Everett: any project JBA can verify as Everett work,
-      with permission to name the city.
+- [ ] **City page targets.** King, Snohomish, and Skagit counties are live as
+      the confirmed broad service area. Seattle, Bellevue, and Kirkland
+      remain drafts (`published: false`); they are not in the client's
+      supplied target list. **Everett is a confirmed target** (confirmed by
+      Jay, 2026-11-12). **Marysville and Lake Stevens are client-requested
+      marketing targets** (see the ZIP list below). Their pages are built for
+      release review (PR #11 for Everett and Marysville, a stacked PR for Lake
+      Stevens) and are not live until merged. Project locations remain
+      unverified, so each page shows JBA project photos as examples of JBA's
+      roofing work and does not call any project local. Still needed for
+      each city: any project JBA can verify by city, with permission to name
+      it (see CMS-GUIDE.md on avoiding thin city pages).
 - [ ] **Team names, roles, and photos.** Team collection has only an
       unpublished template entry.
 - [ ] **Owner photo and short bio**, if JBA wants a "founder-led trust"
