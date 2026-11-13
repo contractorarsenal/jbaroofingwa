@@ -41,8 +41,8 @@ considerations:
     description: The roof's approximate age, when you first noticed the problem, and a photo of any stain or damage make the assessment request quick to fill in.
   - title: Compare Like With Like
     description: Line estimates up item by item, including material, tear-off scope, decking, timeline, and cleanup, so you are comparing the same work and not only the totals.
-  - title: Plan For Rain
-    description: Wet weather can move a start date or pause a job. Ask how rain days are handled before you sign.
+  - title: Ask About Weather
+    description: Weather and manufacturer installation requirements can both affect the schedule. Ask how they do before you sign.
 
 seo:
   title: Roofing Contractor in Lake Stevens, WA | JBA Roofing
@@ -55,6 +55,6 @@ seo:
 
 **If the decking is damaged.** New roofing sits directly on the deck, so rotted or damaged decking has to be replaced first. Whether it is damaged often can't be confirmed until the old roof comes off, so ask each contractor what happens if it turns up: how you will be told, and how the work will be written down. JBA shows you what it finds before proceeding. The photos below show what an exposed deck looks like.
 
-**Weather and scheduling.** Asphalt shingles are normally installed on dry decking, so a rainy stretch can delay a start or pause a job. Ask each contractor how rain days are handled and how schedule changes are communicated.
+**Weather and scheduling.** Weather can move a start date or pause a job, and shingle manufacturers set installation requirements of their own. Ask each contractor how weather and those requirements affect the schedule, and how schedule changes are communicated.
 
 Choose [roof repair](/services/roof-repair/) for a leak or damaged shingles, a [roof inspection](/services/roof-inspection/) if you want a clear read on condition, or [roof replacement](/services/roof-replacement/) when the roof is at the end of its life. When you're ready, [start an assessment](/assessment/). Nearby cities: [Everett](/service-areas/everett/) and [Marysville](/service-areas/marysville/). You can also see the wider [Snohomish County](/service-areas/snohomish-county/) page.
