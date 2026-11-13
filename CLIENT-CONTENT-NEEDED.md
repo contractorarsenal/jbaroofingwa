@@ -127,20 +127,19 @@ queried by script, so confirm any ZIP before excluding it from a page.
 | Lake Stevens (Snohomish) | 98258 | Client-requested marketing target. 98259 is a PO box (North Lakewood), so it needs no page. Stacked PR against `feat/everett-service-area`. |
 | Arlington (Snohomish) | 98223 | Client-requested marketing target (the City of Arlington lists 98223 as its own ZIP). Inspection-led page; permit wording checked against the City of Arlington and Snohomish County official pages. |
 | Stanwood (Snohomish) | 98292 | Client-requested target. Live. The ZIP also touches Skagit County. |
-| Granite Falls (Snohomish) | 98252 | Client-requested target. Preview in PR #17, awaiting review. |
-| Darrington (Snohomish) | 98241 | Client-requested target. Preview in PR #17, awaiting review. The ZIP also touches Skagit County. |
+| Granite Falls (Snohomish) | 98252 | Client-requested target. Live (PR #17). |
+| Darrington (Snohomish) | 98241 | Client-requested target. Live (PR #17). The ZIP also touches Skagit County. |
 | Silvana | 98287 | PO box; no page. |
 | Mount Vernon (Skagit) | 98273, 98274 | Standard delivery. Held preview (draft PR #14); see the open Skagit coverage question in the release record below. |
 | Burlington (Skagit) | 98233 | Standard delivery. Held preview (draft PR #14); same coverage question. |
 | Other Skagit | 98221 Anacortes, 98284 Sedro-Woolley, 98257 La Conner, 98232 Bow, 98237 Concrete, 98267 Marblemount, 98283 Rockport | Standard delivery. Anacortes also touches San Juan County. |
 | Skagit PO boxes | 98235 Clearlake, 98238 Conway, 98255 Hamilton, 98263 Lyman | No separate page. |
-| Bellingham (Whatcom) | 98225, 98226, 98229 (standard), 98227, 98228 (PO box) | **Whatcom County is not a documented JBA service area.** Do not advertise Bellingham until JBA confirms coverage. |
+| Bellingham (Whatcom) | 98225, 98226, 98229 (standard), 98227, 98228 (PO box) | Client-requested target. The site records have no Whatcom coverage statement either way. Do not advertise Bellingham until JBA confirms coverage. |
 
-Page status: Everett, Marysville, Lake Stevens, Arlington, and Stanwood are live
-(see the release record below). Granite Falls and Darrington are previews
-awaiting review (PR #17). Mount Vernon and Burlington are held previews. None
-has a project with a verified city, so each page shows JBA project photos as
-examples, not local work.
+Page status: Everett, Marysville, Lake Stevens, Arlington, Stanwood, Granite
+Falls, and Darrington are live (see the release record below). Mount Vernon and
+Burlington are held previews. None has a project with a verified city, so each
+page shows JBA project photos as examples, not local work.
 
 Special-use ZIPs (10 PO box, 1 unique) should not become location pages.
 Lynnwood is not on this list. It remains a separate candidate (a metal-roof
@@ -160,21 +159,22 @@ before they can be stated anywhere on the site or in its structured data.
 
 Released on approval from Jay. Each live page was checked after Cloudflare
 production success: HTTP 200, title, H1, self-canonical on `jbaroofpro.com`,
-no `X-Robots-Tag`, `index, follow`, present in the sitemap (31 entries after Arlington, 32 after Stanwood) and on
+no `X-Robots-Tag`, `index, follow`, present in the sitemap (34 entries after Granite Falls and Darrington) and on
 the service-areas hub and Snohomish County page, estimate links pointing to
 `/assessment/`, and no horizontal overflow at 390 px or 1440 px.
 
 | Page | Live URL | PR | Merge commit on `main` |
 |---|---|---|---|
-| Everett, Marysville, and the five service-to-project sections | https://jbaroofpro.com/service-areas/everett/ and `/marysville/` | #11 | 626809c |
+| Everett, and the five service-to-project sections | https://jbaroofpro.com/service-areas/everett/ | #11 | 626809c |
+| Marysville | https://jbaroofpro.com/service-areas/marysville/ | #11 | 626809c |
 | Lake Stevens | https://jbaroofpro.com/service-areas/lake-stevens/ | #12 | e89fab3 |
 | Arlington | https://jbaroofpro.com/service-areas/arlington/ | #13 | 85cf3f7 |
-| Stanwood (released 2026-11-12) | https://jbaroofpro.com/service-areas/stanwood/ | #16 | 3271242 |
+| Stanwood | https://jbaroofpro.com/service-areas/stanwood/ | #16 | 3271242 |
+| Granite Falls | https://jbaroofpro.com/service-areas/granite-falls/ | #17 | 843184f |
+| Darrington | https://jbaroofpro.com/service-areas/darrington/ | #17 | 843184f |
+| Docs: Stanwood record, Search Console handoff, rollout notes | (no new page) | #18 | fa589e9 |
 
-Previews awaiting review (not live, noindexed): Granite Falls and Darrington
-(PR #17).
-
-Held previews: Mount Vernon and Burlington (draft PR #14, branch
+Held previews (not live, noindexed): Mount Vernon and Burlington (draft PR #14, branch
 `feat/skagit-city-previews`).
 
 **Open Skagit coverage question (recorded once; it holds Mount Vernon and
@@ -191,31 +191,64 @@ Skagit areas, and any Skagit-side addresses in the Stanwood and Darrington ZIPs.
 ## Search Console Handoff (submission pending)
 
 No Search Console access was available in the release environment, so
-**nothing below has been submitted.** Someone with access to the
-`jbaroofpro.com` property completes it and records the date and result here.
+**nothing below has been submitted.** Submission stays **pending** until someone
+with access to the `jbaroofpro.com` property completes it and confirms it here
+(fill in the "Confirmed by" and date columns).
 
-- Sitemap to submit (Sitemaps report): `https://jbaroofpro.com/sitemap-index.xml`
-  (it points to `https://jbaroofpro.com/sitemap-0.xml`, currently 32 URLs).
-  Status: **pending**.
-- Request indexing (URL Inspection, then "Request indexing") for each newly
-  published page:
+**Sitemap to submit** (Sitemaps report):
 
-| URL | Published | Sitemap | Indexing requested |
+`https://jbaroofpro.com/sitemap-index.xml`
+
+It points to `https://jbaroofpro.com/sitemap-0.xml`, currently 34 URLs. Status:
+**pending**. Confirmed by / date: ____________
+
+**URLs to request indexing for** (URL Inspection, then "Request indexing"). All
+seven are live and in the sitemap:
+
+| # | Complete URL | Published | Indexing requested |
 |---|---|---|---|
-| https://jbaroofpro.com/service-areas/everett/ | PR #11, 626809c | included | pending |
-| https://jbaroofpro.com/service-areas/marysville/ | PR #11, 626809c | included | pending |
-| https://jbaroofpro.com/service-areas/lake-stevens/ | PR #12, e89fab3 | included | pending |
-| https://jbaroofpro.com/service-areas/arlington/ | PR #13, 85cf3f7 | included | pending |
-| https://jbaroofpro.com/service-areas/stanwood/ | PR #16, 3271242 | included | pending |
+| 1 | https://jbaroofpro.com/service-areas/everett/ | PR #11, 626809c | pending |
+| 2 | https://jbaroofpro.com/service-areas/marysville/ | PR #11, 626809c | pending |
+| 3 | https://jbaroofpro.com/service-areas/lake-stevens/ | PR #12, e89fab3 | pending |
+| 4 | https://jbaroofpro.com/service-areas/arlington/ | PR #13, 85cf3f7 | pending |
+| 5 | https://jbaroofpro.com/service-areas/stanwood/ | PR #16, 3271242 | pending |
+| 6 | https://jbaroofpro.com/service-areas/granite-falls/ | PR #17, 843184f | pending |
+| 7 | https://jbaroofpro.com/service-areas/darrington/ | PR #17, 843184f | pending |
 
 - Optional re-crawl requests for existing pages that gained links or sections:
-  the five service pages (`/services/roof-replacement/`, `/roof-repair/`,
-  `/roof-inspection/`, `/roof-cleaning/`, `/roof-maintenance/`),
-  `/service-areas/`, and `/service-areas/snohomish-county/`.
-- Do **not** submit preview hosts (`*.pages.dev`; they are noindexed) or pages
-  that are not live (Granite Falls, Darrington, Mount Vernon, Burlington).
+  `https://jbaroofpro.com/services/roof-replacement/`, `/services/roof-repair/`,
+  `/services/roof-inspection/`, `/services/roof-cleaning/`,
+  `/services/roof-maintenance/`, `https://jbaroofpro.com/service-areas/`, and
+  `https://jbaroofpro.com/service-areas/snohomish-county/`.
+- Do **not** submit preview hosts (`*.pages.dev`; they are noindexed) or the
+  held pages (Mount Vernon, Burlington), which are not live.
 - Follow-up: check the Pages report about one to two weeks later and record
   whether each URL is indexed.
+
+## Remaining Coverage Decisions (2026-11-12)
+
+The supplied ZIP list is the evidence of **requested targeting**. The old
+website's silence about an area is not treated as proof that JBA excludes it.
+Records examined: settings (Skagit listed as a secondary service area), the
+"What areas do you serve?" FAQ, footer, and meta text ("serving King,
+Snohomish, and Skagit counties"), the Skagit page and coverage FAQ ("parts of
+Skagit County... coverage isn't uniform"), review records (no city), project
+records (no city), and legacy redirects.
+
+| Requested target (ZIPs) | Existing coverage evidence | Conflicting business statement | Page status | Exact fact needed before publication |
+|---|---|---|---|---|
+| Mount Vernon (98273, 98274) | Skagit is a secondary service area in settings; the FAQ, footer, and meta say JBA serves Skagit County | Skagit page and FAQ: "parts of Skagit County... coverage isn't uniform" | Held preview, draft PR #14 | Does JBA take roofing jobs at addresses in Mount Vernon (98273, 98274)? |
+| Burlington (98233) | Same as above | Same | Held preview, draft PR #14 | Does JBA take roofing jobs at addresses in Burlington (98233)? |
+| Sedro-Woolley (98284) | Same. The ZIP also touches Whatcom County | Same | Not built | Does JBA take jobs in Sedro-Woolley (98284), and do Whatcom-side addresses of the ZIP count? |
+| Anacortes (98221) | Same. The old site had an Anacortes repair page (`/roof-repair-in-anacortes/`), which shows past interest, not current coverage. The ZIP also touches San Juan County | Same. No record mentions San Juan County | Not built | Does JBA take jobs in Anacortes (98221), and any San Juan County island addresses? |
+| La Conner (98257), Bow (98232) | Same | Same | Not built | Does JBA take jobs in La Conner and Bow? |
+| Concrete (98237), Rockport (98283), Marblemount (98267) | Same | Same | Not built | How far east in the Skagit Valley does JBA take jobs (which of the three)? |
+| Bellingham (98225, 98226, 98229; PO boxes 98227, 98228 get no page) | No coverage statement in the site records either way. The client's ZIP list is the request evidence | The site lists "King, Snohomish, and Skagit" counties, but no record says Whatcom is excluded | Not built, no preview | Does JBA take roofing jobs at addresses in Bellingham (98225, 98226, 98229)? |
+| Skagit-side addresses in the Stanwood (98292) and Darrington (98241) ZIPs | Snohomish County is described as core coverage ("anywhere in the county") and both pages are live | The ZIPs also touch Skagit County, so the Skagit conflict applies to those addresses | Live | Same answer as the Mount Vernon and Burlington rows, for Skagit-side addresses |
+
+The Skagit rows share one underlying question, recorded once in the release
+record above. Lynnwood is not on the ZIP list and is a separate candidate
+(see above).
 
 ## City Page Rollout Plan (from the recorded target ZIPs)
 
@@ -225,12 +258,12 @@ The 35 ZIPs above are preserved unchanged. Grouping, in suggested order:
 |---|---|---|---|
 | Held | Mount Vernon; Burlington | 98273, 98274; 98233 | Built as previews. Gated on the Skagit coverage question. |
 | Done | Stanwood | 98292 | Live (PR #16). Snohomish primary; the ZIP also touches Skagit. |
-| Review | Granite Falls; Darrington | 98252; 98241 | Separate previews in PR #17 (maintenance-led and repair-led). Darrington's ZIP also touches Skagit. |
-| 1 | Sedro-Woolley | 98284 | Skagit. Gated on the coverage question. |
-| 2 | Anacortes | 98221 | Skagit, and the ZIP also touches San Juan County (confirm island coverage). The legacy site had `/roof-repair-in-anacortes/`. Gated on the coverage question. |
-| 3 | La Conner and Bow | 98257; 98232 | Skagit, small. Gated. |
-| 4 | Upper Skagit (Concrete, Rockport, Marblemount) | 98237; 98283; 98267 | Rural and small. One regional page or fold into the Skagit County page. Gated. |
-| Hold | Bellingham | 98225, 98226, 98229 | Whatcom County is not a documented service area. Do not advertise until JBA confirms. |
+| Done | Granite Falls; Darrington | 98252; 98241 | Live (PR #17), maintenance-led and repair-led. Darrington's ZIP also touches Skagit. |
+| Next | Sedro-Woolley | 98284 | Skagit. Gated on the coverage question. |
+| Then | Anacortes | 98221 | Skagit, and the ZIP also touches San Juan County (confirm island coverage). The legacy site had `/roof-repair-in-anacortes/`. Gated on the coverage question. |
+| Then | La Conner and Bow | 98257; 98232 | Skagit, small. Gated. |
+| Then | Upper Skagit (Concrete, Rockport, Marblemount) | 98237; 98283; 98267 | Rural and small. One regional page or fold into the Skagit County page. Gated. |
+| Pending answer | Bellingham | 98225, 98226, 98229 | Requested by the client (ZIP list). The site records say nothing about Whatcom either way, so it is not treated as excluded. Do not advertise until JBA confirms (see Remaining Coverage Decisions). |
 | No page | PO box and unique ZIPs | 98206, 98213, 98207, 98227, 98228, 98235, 98238, 98255, 98259, 98263, 98287 | Special-use ZIPs; no separate location pages. |
 
 Lynnwood is not on the ZIP list and remains a separate candidate pending
