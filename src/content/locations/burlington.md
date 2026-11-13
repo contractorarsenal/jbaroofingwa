@@ -63,4 +63,4 @@ seo:
 
 **Getting the house ready.** On replacement days, move vehicles away from the driveway and work area, clear patio furniture and fragile items near the house, and move valuables stored in the attic or near exterior walls. Tear-off and installation are loud, so plan around that, and keep pets and kids away from the work zone until the crew finishes for the day.
 
-For a leak or damaged shingles, start with [roof repair](/services/roof-repair/). Nearby: [Mount Vernon](/service-areas/mount-vernon/), and the wider [Skagit County](/service-areas/skagit-county/) page.
+For a leak or damaged shingles, start with [roof repair](/services/roof-repair/). The wider [Skagit County](/service-areas/skagit-county/) page covers the county as a whole.

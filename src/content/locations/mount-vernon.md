@@ -71,4 +71,4 @@ seo:
 
 **Permits.** It depends on the property and the scope of the project. JBA checks what applies to your specific job once coverage for your address is confirmed, and handles the permit process if one is needed.
 
-Start with a [roof inspection](/services/roof-inspection/), choose [roof repair](/services/roof-repair/) for a leak or damaged shingles, or ask about [roof replacement](/services/roof-replacement/) if the roof is at the end of its life. Nearby: [Burlington](/service-areas/burlington/), and the wider [Skagit County](/service-areas/skagit-county/) page.
+Start with a [roof inspection](/services/roof-inspection/), choose [roof repair](/services/roof-repair/) for a leak or damaged shingles, or ask about [roof replacement](/services/roof-replacement/) if the roof is at the end of its life. The wider [Skagit County](/service-areas/skagit-county/) page covers the county as a whole.
