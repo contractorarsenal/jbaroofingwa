@@ -130,7 +130,8 @@ queried by script, so confirm any ZIP before excluding it from a page.
 | Granite Falls (Snohomish) | 98252 | Client-requested target. Live (PR #17). |
 | Darrington (Snohomish) | 98241 | Client-requested target. Live (PR #17). The ZIP also touches Skagit County. |
 | Silvana | 98287 | PO box; no page. |
-| Mount Vernon / Burlington (Skagit) | 98273, 98274, 98233 | Standard delivery. |
+| Mount Vernon (Skagit) | 98273, 98274 | Standard delivery. Held preview (draft PR #14); see the open Skagit coverage question in the release record below. |
+| Burlington (Skagit) | 98233 | Standard delivery. Held preview (draft PR #14); same coverage question. |
 | Other Skagit | 98221 Anacortes, 98284 Sedro-Woolley, 98257 La Conner, 98232 Bow, 98237 Concrete, 98267 Marblemount, 98283 Rockport | Standard delivery. Anacortes also touches San Juan County. |
 | Skagit PO boxes | 98235 Clearlake, 98238 Conway, 98255 Hamilton, 98263 Lyman | No separate page. |
 | Bellingham (Whatcom) | 98225, 98226, 98229 (standard), 98227, 98228 (PO box) | Client-requested target. The site records have no Whatcom coverage statement either way. Do not advertise Bellingham until JBA confirms coverage. |
