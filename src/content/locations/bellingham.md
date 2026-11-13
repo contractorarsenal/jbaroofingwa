@@ -1,6 +1,6 @@
 ---
 cityName: Bellingham
-published: false
+published: true
 tier: city
 county: Whatcom County, WA
 
