@@ -255,19 +255,16 @@ record above. Lynnwood is not on the ZIP list and is a separate candidate
 
 ## Coverage Message For JBA (ready to send)
 
-One message covers every open coverage decision above:
+One message covers the five built city pages (the other towns are not built and
+can be asked later):
 
 > Hi, quick coverage question so our new city pages describe your service area
-> accurately. Do you accept residential roofing jobs in each of these?
+> accurately. Do you accept residential roofing jobs in each of these cities?
+> Mount Vernon, Burlington, Sedro-Woolley, Anacortes, Bellingham.
 >
-> - Mount Vernon and Burlington
-> - Sedro-Woolley and Anacortes
-> - Bellingham
-> - La Conner, Bow, Concrete, Rockport, and Marblemount
->
-> For each, please tell us yes, no, or only some parts, and name any areas you
-> exclude or any job types you don't take there (for example, certain roof types
-> or services). A line per city is plenty. Thank you!
+> For each, please tell us yes, no, or only some of it, and name any areas or job
+> types you don't take there (for example, certain roof types or services). A line
+> per city is plenty. Thank you!
 
 **JBA's answer: pending.** Record it here once, when provided, then resolve the
 conflicting coverage wording in one pass: the Skagit County page
