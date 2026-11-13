@@ -178,6 +178,7 @@ the service-areas hub and Snohomish County page, estimate links pointing to
 | Anacortes | https://jbaroofpro.com/service-areas/anacortes/ | #29 | a0fc25d |
 | Bellingham | https://jbaroofpro.com/service-areas/bellingham/ | #30 | 834285c |
 | Docs and shared content for the five Skagit/Whatcom cities | (no new page) | #24, #25 | 1d44903, e22c0be |
+| Coverage wording: "What areas do you serve?" FAQ, "city not listed" FAQ, service-areas hub summary | https://jbaroofpro.com/service-areas/ | #32 | 4ccaddc |
 
 **Skagit/Whatcom release (2026-11-12, approved by Jay after JBA confirmed coverage).**
 Mount Vernon, Burlington, Sedro-Woolley, Anacortes, and Bellingham went live as one
@@ -192,6 +193,29 @@ decision), estimate links to `/assessment/`, project and service links, every in
 link and image returning 200, and no horizontal overflow at 390 px or 1440 px. The
 legacy GitHub Pages `build` check still fails separately and is unrelated. Preview
 hosts remain noindexed. Image cleanup PR #23 is separate and still open.
+
+**Rollout complete (2026-11-12): 12 city pages live.** Final site deployment: `main`
+commit `4ccaddc` (PR #32; Cloudflare Pages check completed successfully; production
+checked: all 12 city pages pass; the corrected FAQ text and its FAQPage structured
+data match on the King, Snohomish, and Skagit county pages). Live city URLs:
+Everett, Marysville, Lake Stevens, Arlington, Stanwood, Granite Falls, Darrington,
+Mount Vernon, Burlington, Sedro-Woolley, Anacortes, and Bellingham, each at
+`https://jbaroofpro.com/service-areas/<city>/` (slugs `everett`, `marysville`,
+`lake-stevens`, `arlington`, `stanwood`, `granite-falls`, `darrington`,
+`mount-vernon`, `burlington`, `sedro-woolley`, `anacortes`, `bellingham`).
+
+Open items after the rollout:
+- **Search Console:** sitemap and indexing requests are assigned to Jay; pending his
+  confirmation (see the handoff below).
+- **Image cleanup PR #23:** still open, awaiting visual review of the two crops.
+- **Coverage still to confirm with JBA** (no pages exist): La Conner and Bow;
+  Concrete, Rockport, and Marblemount; Skagit-side addresses in the Stanwood and
+  Darrington ZIPs; Lynnwood (not on the ZIP list). Bellingham's confirmation applies to
+  Bellingham only; a Whatcom County page is a separate decision.
+- **Site-wide wording still says "King, Snohomish, and Skagit counties"** in the
+  homepage, about, service-page and other titles and meta text, the footer, and
+  several sections, and the `RoofingContractor` `areaServed` schema lists the three
+  counties. That is a separate marketing-copy and structured-data decision for Jay and JBA.
 
 **JBA's coverage confirmation (2026-11-12) for these five cities is recorded below
 and applied to the pages and coverage FAQs.** Project locations remain unspecified.
