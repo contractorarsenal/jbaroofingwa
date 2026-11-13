@@ -126,6 +126,16 @@ relatedServiceLinks:
     href: /services/roof-replacement/
 
 schemaServiceName: Roof Inspection
+workSection:
+  variant: related
+  intro: >-
+    This project is mainly a repair. It shows what a closer inspection found,
+    a drainage detail letting water into the roofing system, and the repair
+    that followed.
+  links:
+    - label: "How an inspection found the drainage problem"
+      href: /projects/project-03-water-damage-roof-repair/
+      description: A closer inspection identified a drainage detail that was letting water into the roofing system, which led to the repair.
 seo:
   title: Roof Inspection | JBA Roofing
   description: Roof condition inspections across King, Snohomish, and Skagit counties, with a clear summary and no pressure toward any outcome.

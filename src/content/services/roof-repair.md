@@ -139,6 +139,11 @@ relatedServiceLinks:
     href: /service-areas/
 
 schemaServiceName: Roof Repair
+workSection:
+  links:
+    - label: "Water-damaged decking repair"
+      href: /projects/project-03-water-damage-roof-repair/
+      description: A drainage detail had let water into the roofing system. The damaged decking was removed rather than covered over, and new shingles went on sound decking.
 seo:
   title: Roof Repair | JBA Roofing
   description: Roof repair for leaks, storm damage, and missing shingles across King, Snohomish, and Skagit counties, with a straight answer on repair versus replacement.

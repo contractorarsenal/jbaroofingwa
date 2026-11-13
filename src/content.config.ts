@@ -256,6 +256,24 @@ const services = defineCollection({
       .array(z.object({ label: z.string(), href: z.string() }))
       .default([]),
 
+    // Optional control over the project section near the bottom of the page.
+    // variant "documented" (default) shows "See This Service In Action" and is
+    // only for projects that actually document this service. variant
+    // "related" shows "Related Roofing Projects" for projects that are
+    // connected to the topic but don't document the service itself. An
+    // explicit projects list overrides the automatic selection (published
+    // projects only). links are descriptive text links under the cards.
+    workSection: z
+      .object({
+        variant: z.enum(['documented', 'related']).default('documented'),
+        intro: z.string().optional(),
+        projects: z.array(reference('projects')).default([]),
+        links: z
+          .array(z.object({ label: z.string(), href: z.string(), description: z.string().optional() }))
+          .default([]),
+      })
+      .optional(),
+
     faqHeading: z.string().optional(),
     ctaHeading: z.string().optional(),
     ctaDescription: z.string().optional(),
@@ -381,6 +399,9 @@ const locations = defineCollection({
     // claims unless independently verified.
     considerations: z.array(z.object({ title: z.string(), description: z.string() })).default([]),
     nearbyAreas: z.array(reference('locations')).default([]),
+    // Examples of JBA work shown on a city page. Labeled as examples on the
+    // page, never as local work, unless the project's location is verified.
+    exampleProjects: z.array(reference('projects')).default([]),
 
     // General Pacific Northwest roofing context (rain, moss, seasonal storms),
     // and a short paragraph on how JBA helps a homeowner decide next steps.

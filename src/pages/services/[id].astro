@@ -66,6 +66,16 @@ const [projects, faqs, reviewsRaw] = await Promise.all([
   getFaqsForService(service.id),
   getReviewsForService(service.id),
 ]);
+// Optional per-service control of the project section (see workSection in
+// content.config.ts). An explicit list wins over the automatic selection;
+// either way only published projects are shown.
+const work = data.workSection;
+const explicitProjects = (work ? await Promise.all(work.projects.map((ref) => getEntry(ref))) : []).flatMap(
+  (project) => (project && project.data.published ? [project] : [])
+);
+const workProjects = (explicitProjects.length > 0 ? explicitProjects : projects).slice(0, 3);
+const workIsRelated = work?.variant === 'related';
+
 // Featured reviews first, so a deliberately curated set surfaces instead of
 // whichever review happens to sort first alphabetically by filename. Ajeet's
 // review is excluded here when it's already shown in the GAF credential
@@ -315,20 +325,41 @@ const restEducation = data.educationSections.slice(1);
     <div class="container">
       <div class="service-work__header" data-reveal="up">
         <div>
-          <p class="eyebrow eyebrow--inverse">Real JBA Work</p>
-          <h2 class="h2">See This Service <span class="accent-text">In Action.</span></h2>
+          {workIsRelated ? (
+            <>
+              <p class="eyebrow eyebrow--inverse">Related Work</p>
+              <h2 class="h2">Related Roofing <span class="accent-text">Projects.</span></h2>
+            </>
+          ) : (
+            <>
+              <p class="eyebrow eyebrow--inverse">Real JBA Work</p>
+              <h2 class="h2">See This Service <span class="accent-text">In Action.</span></h2>
+            </>
+          )}
+          {data.workSection?.intro && <p class="text-muted service-work__intro">{data.workSection.intro}</p>}
         </div>
         <Button href="/projects/" variant="outline">View All Work</Button>
       </div>
 
-      {projects.length > 0 ? (
+      {workProjects.length > 0 ? (
         <div class="grid grid--3" data-reveal-group>
-          {projects.slice(0, 3).map((project) => <ProjectCard project={project} data-reveal="up" />)}
+          {workProjects.map((project) => <ProjectCard project={project} data-reveal="up" />)}
         </div>
       ) : (
         <p class="text-muted">
           See more of our completed roofing projects on the <a href="/projects/" class="link-underline">Our Work</a> page.
         </p>
+      )}
+
+      {data.workSection && data.workSection.links.length > 0 && (
+        <ul class="service-work__links">
+          {data.workSection.links.map((link) => (
+            <li>
+              <a href={link.href} class="link-underline">{link.label}</a>
+              {link.description && <span class="text-muted">{link.description}</span>}
+            </li>
+          ))}
+        </ul>
       )}
     </div>
   </section>
@@ -392,6 +423,10 @@ const restEducation = data.educationSections.slice(1);
   @media (min-width: 720px) {
     .service-work__header { flex-direction: row; align-items: flex-end; justify-content: space-between; }
   }
+  .service-work__intro { margin-top: var(--space-3); max-width: 60ch; }
+  .service-work__links { display: grid; gap: var(--space-3); margin-top: var(--space-6); }
+  .service-work__links li { display: flex; flex-direction: column; gap: 0.2em; }
+  .service-work__links a { color: var(--color-text-inverse); font-weight: 700; }
 
   .service-body :global(p) { margin-bottom: var(--space-4); font-size: var(--step-0); line-height: 1.7; }
   .service-body :global(a) { text-decoration: underline; text-decoration-color: var(--color-accent); }

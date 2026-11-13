@@ -161,6 +161,14 @@ relatedServiceLinks:
     href: /services/roof-repair/
 
 schemaServiceName: Roof Cleaning
+workSection:
+  variant: related
+  intro: >-
+    This project shows visible moss on an aging shingle roof that JBA
+    replaced. View the before-and-after photos and see how the roof's overall
+    condition, not moss alone, informs the next step.
+  projects:
+    - project-04-small-shingle-replacement
 seo:
   title: Roof Cleaning | JBA Roofing
   description: Low-pressure roof cleaning and moss removal across King, Snohomish, and Skagit counties, using warranty-safe methods instead of pressure washing.

@@ -30,11 +30,18 @@ export async function getFeaturedProjects(limit = 3): Promise<CollectionEntry<'p
 
 export async function getProjectsForService(serviceSlug: string): Promise<CollectionEntry<'projects'>[]> {
   const projects = await getPublishedProjects();
-  return projects.filter(
+  const matches = projects.filter(
     (p) =>
       p.data.service?.id === serviceSlug ||
       p.data.relatedServices.some((s) => s.id === serviceSlug)
   );
+  // Projects whose primary service is this one come first, so a related
+  // project (for example a repair listed under replacement) never displaces
+  // a project that is primarily this service. Order is otherwise unchanged.
+  return [
+    ...matches.filter((p) => p.data.service?.id === serviceSlug),
+    ...matches.filter((p) => p.data.service?.id !== serviceSlug),
+  ];
 }
 
 export async function getProjectsForLocation(locationSlug: string): Promise<CollectionEntry<'projects'>[]> {

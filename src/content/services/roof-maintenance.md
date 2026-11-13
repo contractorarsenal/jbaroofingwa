@@ -140,6 +140,14 @@ relatedServiceLinks:
     href: /services/roof-replacement/
 
 schemaServiceName: Roof Maintenance
+workSection:
+  variant: related
+  intro: >-
+    This project shows visible moss on an aging shingle roof that JBA
+    replaced. View the before-and-after photos and see how the roof's overall
+    condition, not moss alone, informs the next step.
+  projects:
+    - project-04-small-shingle-replacement
 seo:
   title: Roof Maintenance | JBA Roofing
   description: Roof maintenance across King, Snohomish, and Skagit counties, including debris removal, gutter clearing, and moss treatment.
