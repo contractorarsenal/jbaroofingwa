@@ -195,10 +195,10 @@ const faqSchema = buildFaqSchema(faqs.map((f) => ({ question: f.data.question, a
   {exampleProjects.some(Boolean) && (
     <section class="section section--white" data-nav-theme="light">
       <div class="container">
-        <p class="eyebrow">Examples Of Our Work</p>
-        <h2 class="h2">Examples of JBA's work</h2>
+        <p class="eyebrow">Our Work</p>
+        <h2 class="h2">Examples of JBA's Roofing Work</h2>
         <p class="text-muted location-overview__text">
-          These are examples of JBA projects. They are not listed as {data.cityName} work.
+          Explore roof repairs and replacements completed by JBA.
         </p>
         <div class="grid grid--3">
           {exampleProjects.map((project) => project && <ProjectCard project={project} />)}

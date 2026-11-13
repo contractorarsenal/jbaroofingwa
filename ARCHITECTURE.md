@@ -89,9 +89,11 @@ to `true` since they're low-risk). All page-generating routes
 (`getStaticPaths`) and all listing helpers in `src/lib/content.ts` filter on
 `published`, so:
 
-- Draft city pages (Seattle, Bellevue, Kirkland, Everett) exist as real CMS
-  entries with the correct schema, but don't generate a live route or appear
-  in navigation until `published: true`.
+- Draft city pages (Seattle, Bellevue, Kirkland) exist as real CMS entries
+  with the correct schema, but don't generate a live route or appear in
+  navigation until `published: true`. City pages that are `published: true`
+  (Everett, Marysville, Lake Stevens once merged) get a route, a sitemap
+  entry, and a link on the service-areas hub and their county page.
 - The example project/team entries under `src/content/projects/` and
   `src/content/team/` are templates for the shape of a real entry — never
   live.
