@@ -276,6 +276,27 @@ and each held preview's city-specific coverage FAQ (`mount-vernon`, `burlington`
 `sedro-woolley`, `anacortes`, `bellingham`), then publish only the cities JBA
 accepts.
 
+### What each answer changes
+
+Targeting is already established by the client's ZIP list. The only open fact is
+**actual service availability and exclusions**. Once JBA answers, apply it in one pass:
+
+| JBA answer | Wording and pages affected |
+|---|---|
+| Accepts the city | Publish that city's held preview as-is; its coverage FAQ stays ("send your address and JBA confirms"). Add the city to the "What areas do you serve?" FAQ and, for Skagit cities, tighten the Skagit page and Skagit coverage FAQ only if JBA says coverage is uniform. |
+| Only some parts or addresses | Keep the city page; edit the city's coverage FAQ and the page's coverage sentence (`localIntro`/`considerations`) to name the limits. Do not claim every address sharing a ZIP. |
+| Job-type limits (for example certain roof types or services) | Edit `servicesAvailable` on that city page and any service wording that implies availability there. |
+| Does not accept the city | Leave the preview unpublished (do not merge its PR), remove it from the rollout plan, and keep the ZIP on the no-page list. |
+| Island or Whatcom-side addresses (Anacortes, Sedro-Woolley, Bellingham) | Edit that city's coverage FAQ only. Bellingham has no Whatcom County page; the hub card explains that. |
+
+### Review and merge order (2026-11-12)
+
+Previews are stacked because they share FAQ relation lines (conflicts were resolved
+by keeping the union). Each branch includes its predecessors, so merge in this order:
+docs #24, then image cleanup #23 (independent), then #14, #20, #21, #22 only after
+JBA answers. Releasing a subset means unpublishing the others in that merge, which
+needs a small edit, so decide after the answer.
+
 ## City Page Rollout Plan (from the recorded target ZIPs)
 
 The 35 ZIPs above are preserved unchanged. Grouping, in suggested order:
