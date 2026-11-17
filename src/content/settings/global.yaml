@@ -6,20 +6,33 @@ global:
   email: contact.jbaroofing@gmail.com
 
   businessAddress:
-    # This address has not been verified as correct — do not display it
-    # anywhere until a confirmed address is supplied. displayPublicly must
-    # stay false until then; every template and the LocalBusiness schema
-    # gate on this flag before rendering an address.
-    street: ""
-    city: ""
-    state: ""
-    zip: ""
-    displayPublicly: false
+    # JBA's office address, as listed on its verified Google Business
+    # Profile, GAF, and BBB profiles; the business owner confirmed it is a
+    # dedicated staffed office (2026-11-17). Templates and the LocalBusiness
+    # schema gate on displayPublicly. Do not add opening hours or walk-in
+    # language until reception and hours are verified.
+    street: "11400 Airport Rd, Suite 214"
+    city: "Everett"
+    state: "WA"
+    zip: "98204"
+    displayPublicly: true
 
   primaryServiceArea: King County, WA
   secondaryServiceAreas:
     - Snohomish County, WA
     - Skagit County, WA
+
+  # Used only for structured data (areaServed). Matches the coverage JBA
+  # confirmed (2026-11-12): King and Snohomish counties, four Skagit County
+  # cities, and Bellingham. Leave empty to fall back to the list above.
+  structuredServiceAreas:
+    - King County, WA
+    - Snohomish County, WA
+    - Mount Vernon, WA
+    - Burlington, WA
+    - Sedro-Woolley, WA
+    - Anacortes, WA
+    - Bellingham, WA
 
   contractorLicense:
     value: "JBACOCL765OZ"
@@ -35,7 +48,7 @@ global:
     name: "GAF Master Elite®"
     badgeImage: "/images/credentials/gaf-master-elite.webp"
     description: "Only about 2% of roofers in North America are invited to become GAF Master Elite Contractors."
-    verificationUrl: "https://www.gaf.com/en-us/roofing-contractors/residential"
+    verificationUrl: "https://www.gaf.com/en-us/roofing-contractors/residential/usa/wa/lynnwood/jba-roofing-remodeling-llc-1150466"
     contractorId: "1150466"
 
   insuranceBonded:
@@ -54,7 +67,9 @@ global:
 
   googleRating: 5.0
   googleReviewCount: 101
-  googleBusinessProfileUrl: ""
+  # Public Maps page for the verified listing (CID from the Google Business
+  # Profile feature ID; place ID ChIJTRjwbFdQTWQR3YTixS0SM80).
+  googleBusinessProfileUrl: "https://www.google.com/maps?cid=14786181989390255325"
 
   primaryCtaLabel: Book an Appointment
   primaryCtaDestination: /assessment/

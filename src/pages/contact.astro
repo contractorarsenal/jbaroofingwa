@@ -34,6 +34,11 @@ const settings = await getGlobalSettings();
       {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && (
         <p class="contact-intro__hours">{settings.emergencyAvailability.value}</p>
       )}
+      {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
+        <p class="contact-intro__hours">
+          Office: {settings.businessAddress.street}, {settings.businessAddress.city}, {settings.businessAddress.state} {settings.businessAddress.zip}
+        </p>
+      )}
     </div>
   </section>
 

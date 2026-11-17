@@ -11,6 +11,13 @@ import type { CollectionEntry } from 'astro:content';
 
 type Settings = CollectionEntry<'settings'>['data'];
 
+/** Service areas for structured data: the confirmed list when set, else the county settings. */
+export function getAreaServed(settings: Settings): string[] {
+  return settings.structuredServiceAreas.length > 0
+    ? settings.structuredServiceAreas
+    : [settings.primaryServiceArea, ...settings.secondaryServiceAreas];
+}
+
 export function buildLocalBusinessSchema(settings: Settings, siteUrl: string) {
   const schema: Record<string, unknown> = {
     '@context': 'https://schema.org',
@@ -20,9 +27,17 @@ export function buildLocalBusinessSchema(settings: Settings, siteUrl: string) {
     url: siteUrl,
     telephone: settings.primaryPhoneDisplay,
     email: settings.email,
-    areaServed: [settings.primaryServiceArea, ...settings.secondaryServiceAreas],
+    areaServed: getAreaServed(settings),
     image: siteUrl.replace(/\/$/, '') + settings.defaultOgImage,
+    logo: siteUrl.replace(/\/$/, '') + '/images/brand/jba-nav-logo.webp',
   };
+
+  // Verified public profiles of the same business (no unverified social handles).
+  const sameAs = [
+    settings.googleBusinessProfileUrl,
+    settings.credential.verified ? settings.credential.verificationUrl : undefined,
+  ].filter((u): u is string => !!u);
+  if (sameAs.length > 0) schema.sameAs = sameAs;
 
   if (settings.businessAddress.displayPublicly && settings.businessAddress.street) {
     schema.address = {

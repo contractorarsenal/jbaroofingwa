@@ -58,6 +58,12 @@ content:
             label: Other Service Areas
             type: string
             list: true
+          - name: structuredServiceAreas
+            label: Service Areas for Search Engines (counties and cities)
+            type: string
+            list: true
+            required: false
+            description: "Only used in hidden structured data. List only places JBA has confirmed it serves."
           - name: contractorLicense
             label: WA Contractor License
             type: object
