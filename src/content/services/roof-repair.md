@@ -145,8 +145,8 @@ workSection:
       href: /projects/project-03-water-damage-roof-repair/
       description: A drainage detail had let water into the roofing system. The damaged decking was removed rather than covered over, and new shingles went on sound decking.
 seo:
-  title: Roof Repair | JBA Roofing
-  description: Roof repair for leaks, storm damage, and missing shingles across King, Snohomish, and Skagit counties, with a straight answer on repair versus replacement.
+  title: Roof Repair in Everett & Snohomish County | JBA Roofing
+  description: Roof repair for leaks, storm damage, and missing shingles in King and Snohomish counties, with a straight answer on repair versus replacement.
 ---
 
 Most roof leaks in Western Washington come from three places: failed flashing around a penetration (chimney, vent pipe, skylight), wind-lifted or cracked shingles, or moss and debris holding water against the roof deck longer than the material was built to handle. We check all three before we write up a recommendation.

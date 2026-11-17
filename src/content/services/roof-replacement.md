@@ -161,8 +161,8 @@ workSection:
       href: /projects/project-06-aging-roof-replacement/
       description: Photos of a roof well past its service life, from mid-tear-off through installation to the finished roof.
 seo:
-  title: Roof Replacement | JBA Roofing
-  description: Roof replacement across King, Snohomish, and Skagit counties, with the inspection, materials, and process explained before you commit to anything.
+  title: Roof Replacement in Everett & Snohomish County | JBA Roofing
+  description: Roof replacement in King and Snohomish counties, with the inspection, materials, and process explained before you commit to anything.
 ---
 
 We'll walk you through material options and what we found during inspection as part of every assessment.

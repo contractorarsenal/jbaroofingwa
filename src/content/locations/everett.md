@@ -10,13 +10,14 @@ heroDescription: >-
   Roofing.
 heroImage: "/images/projects/project-01-shingle-roof-replacement/after-front.jpg"
 localIntro: >-
-  JBA Roofing serves Everett homeowners with roof replacement, roof repair,
-  and roof inspections. If you're not sure whether a stain, a leak, or an
+  JBA Roofing is based in Everett, at 11400 Airport Rd, Suite 214, and serves
+  Everett homeowners with roof replacement, roof repair, roof inspections,
+  roof cleaning, and roof maintenance. If you're not sure whether a stain, a leak, or an
   aging roof needs repair or replacement, an inspection gives you a direct
   answer before you commit to a scope of work.
 neighborhoods: []
 
-servicesAvailable: [roof-replacement, roof-repair, roof-inspection]
+servicesAvailable: [roof-replacement, roof-repair, roof-inspection, roof-cleaning, roof-maintenance]
 
 # Everett is a confirmed target service area (confirmed by Jay, 2026-11-12).
 # No project has a verified city, so these are shown as examples of JBA's
@@ -49,7 +50,7 @@ commonSigns:
 
 seo:
   title: Roofing Contractor in Everett, WA | JBA Roofing
-  description: Roof replacement, repair, and inspections for Everett, WA homeowners. Request an estimate from JBA Roofing.
+  description: Roof replacement, repair, inspection, cleaning, and maintenance for Everett, WA homeowners from JBA Roofing, based on Airport Rd in Everett. Request an estimate.
 ---
 
 **When a repair may be enough.** A single damaged area on a roof with a lot of life left is usually a repair. Widespread wear, repeated repairs in the same spots, or a roof already near the end of its expected lifespan usually points toward replacement. The inspection is what separates the two.

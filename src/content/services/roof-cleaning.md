@@ -170,8 +170,8 @@ workSection:
   projects:
     - project-04-small-shingle-replacement
 seo:
-  title: Roof Cleaning | JBA Roofing
-  description: Low-pressure roof cleaning and moss removal across King, Snohomish, and Skagit counties, using warranty-safe methods instead of pressure washing.
+  title: Roof Cleaning & Moss Removal in Everett, WA | JBA Roofing
+  description: Low-pressure roof cleaning and moss removal in King and Snohomish counties, using warranty-safe methods instead of pressure washing.
 ---
 
 If you're comparing quotes and one of them mentions a pressure washer for your asphalt shingle roof, ask about it directly. It's one of the more common ways a roof cleaning job accidentally shortens the life of the roof it was meant to help.
