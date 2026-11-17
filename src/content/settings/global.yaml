@@ -100,13 +100,13 @@ global:
   heroVideoUrl: ""
 
   defaultSeoTitle: "JBA Roofing | Roof Replacement & Repair in King County, WA"
-  defaultMetaDescription: "JBA Roofing provides roof replacement, repair, inspection, cleaning, and maintenance across King, Snohomish, and Skagit counties in Washington. Free estimates, financing available."
+  defaultMetaDescription: "JBA Roofing provides roof replacement, repair, inspection, cleaning, and maintenance across King and Snohomish counties, select Skagit County cities, and Bellingham in Washington. Free estimates, financing available."
   defaultOgImage: /images/og/default-og.jpg
   logo: /images/brand/jba-logo.svg
   logoDark: /images/brand/jba-logo-dark.svg
   favicon: /favicon.svg
 
-  footerDescription: "JBA Roofing is a Washington-based roofing company serving King, Snohomish, and Skagit counties with roofing systems, craftsmanship, and long-term protection."
+  footerDescription: "JBA Roofing is a Washington-based roofing company serving King and Snohomish counties, select Skagit County cities, and Bellingham with roofing systems, craftsmanship, and long-term protection."
 
   businessHours:
     - days: "Every day"

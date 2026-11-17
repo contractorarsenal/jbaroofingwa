@@ -135,7 +135,7 @@ relatedServiceLinks:
     href: /services/roof-replacement/
   - label: See a real water damage repair project.
     href: /projects/project-03-water-damage-roof-repair/
-  - label: Check our coverage across King, Snohomish, and Skagit counties.
+  - label: Check our coverage across King and Snohomish counties, select Skagit County cities, and Bellingham.
     href: /service-areas/
 
 schemaServiceName: Roof Repair
