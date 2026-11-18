@@ -22,7 +22,7 @@ import {
   getFaqsForService,
   getReviewsForService,
 } from '@lib/content';
-import { buildServiceSchema, buildFaqSchema, buildBreadcrumbSchema } from '@lib/schema';
+import { buildServiceSchema, buildFaqSchema, buildBreadcrumbSchema, getAreaServed } from '@lib/schema';
 import { getGlobalSettings } from '@lib/content';
 import ReviewCard from '@components/reviews/ReviewCard.astro';
 import { getEntry } from 'astro:content';
@@ -89,7 +89,7 @@ const serviceSchema = buildServiceSchema({
   description: data.seo.description ?? data.shortDescription,
   siteUrl,
   pageUrl,
-  areaServed: [settings.primaryServiceArea, ...settings.secondaryServiceAreas],
+  areaServed: getAreaServed(settings),
   providerName: settings.businessName,
 });
 

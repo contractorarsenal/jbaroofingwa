@@ -93,6 +93,11 @@ const hasSocial = !!(settings.socialUrls?.facebook || settings.socialUrls?.insta
         {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && (
           <li class="text-muted">{settings.emergencyAvailability.value}</li>
         )}
+        {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
+          <li class="text-muted">
+            Office: {settings.businessAddress.street}, {settings.businessAddress.city}, {settings.businessAddress.state} {settings.businessAddress.zip}
+          </li>
+        )}
       </ul>
     </div>
   </div>

@@ -43,6 +43,15 @@
 /roof-repair-in-lynnwood/               /services/roof-repair/                   301
 /roof-repair-in-anacortes/              /services/roof-repair/                   301
 
+# Legacy service-in-city URLs still crawled by Google and returning 404 (Search
+# Console, 2026-11). Same intent-to-service mapping rule as above; "installation"
+# was consolidated into replacement.
+/roof-installation-in-marysville/       /services/roof-replacement/              301
+/roof-installation-in-lynnwood/         /services/roof-replacement/              301
+/roof-installation-in-mount-vernon/     /services/roof-replacement/              301
+/roof-replacement-in-sedro-woolley/     /services/roof-replacement/              301
+/roof-inspection-in-marysville/         /services/roof-inspection/               301
+
 # Policy-page URLs under other paths from the old site. The policy is published
 # at /privacy-policy/ on the new site.
 /about/privacy-policy/                  /privacy-policy/                         301

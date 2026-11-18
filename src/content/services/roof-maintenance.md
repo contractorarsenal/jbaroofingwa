@@ -149,8 +149,8 @@ workSection:
   projects:
     - project-04-small-shingle-replacement
 seo:
-  title: Roof Maintenance | JBA Roofing
-  description: Roof maintenance across King, Snohomish, and Skagit counties, including debris removal, gutter clearing, and moss treatment.
+  title: Roof Maintenance in Everett & Snohomish County | JBA Roofing
+  description: Roof maintenance in King and Snohomish counties, including debris removal, gutter clearing, and moss treatment.
 ---
 
 If your roof has visible moss, especially on north-facing slopes or under tree cover, it's worth having someone look at how far it's progressed. Moss that's just on the surface is a straightforward treatment. Moss that's been there for a season or two may have already lifted shingle edges, which is a different conversation, and one we'll have honestly with you.

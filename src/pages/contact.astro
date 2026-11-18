@@ -28,11 +28,17 @@ const settings = await getGlobalSettings();
       <ul class="contact-intro__areas">
         <li>King County</li>
         <li>Snohomish County</li>
-        <li>Skagit County</li>
+        <li>Select Skagit County cities</li>
+        <li>Bellingham</li>
       </ul>
 
       {settings.emergencyAvailability.verified && settings.emergencyAvailability.value && (
         <p class="contact-intro__hours">{settings.emergencyAvailability.value}</p>
+      )}
+      {settings.businessAddress.displayPublicly && settings.businessAddress.street && (
+        <p class="contact-intro__hours">
+          Office: {settings.businessAddress.street}, {settings.businessAddress.city}, {settings.businessAddress.state} {settings.businessAddress.zip}
+        </p>
       )}
     </div>
   </section>

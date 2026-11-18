@@ -137,8 +137,8 @@ workSection:
       href: /projects/project-03-water-damage-roof-repair/
       description: A closer inspection identified a drainage detail that was letting water into the roofing system, which led to the repair.
 seo:
-  title: Roof Inspection | JBA Roofing
-  description: Roof condition inspections across King, Snohomish, and Skagit counties, with a clear summary and no pressure toward any outcome.
+  title: Roof Inspection in Everett & Snohomish County | JBA Roofing
+  description: Roof condition inspections in King and Snohomish counties, with a clear summary and no pressure toward any outcome.
 ---
 
 An inspection is a good idea before buying a home, before winter, or any time you just haven't had eyes on your roof in a while. It's also the first step in every repair or replacement assessment we do.

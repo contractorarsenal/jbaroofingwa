@@ -49,6 +49,8 @@ const settings = defineCollection({
       .default({ displayPublicly: false }),
     primaryServiceArea: z.string(),
     secondaryServiceAreas: z.array(z.string()).default([]),
+    // Structured-data-only service areas (counties and cities). Optional.
+    structuredServiceAreas: z.array(z.string()).default([]),
 
     // Verification-gated trust claims. Each has a boolean "verified" flag —
     // the frontend must never render the value unless verified === true.
