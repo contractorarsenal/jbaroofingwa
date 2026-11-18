@@ -408,6 +408,16 @@ const roofServices = [
     trigger.setAttribute('aria-expanded', String(!expanded));
     if (menu) menu.hidden = expanded;
     if (stickyCta) stickyCta.hidden = !expanded;
+    // lets the cookie notice step aside while the menu is open (see CookieNotice.astro)
+    document.documentElement.toggleAttribute('data-menu-open', !expanded);
+  });
+
+  // Escape closes the open mobile menu and returns focus to the menu button
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && trigger?.getAttribute('aria-expanded') === 'true') {
+      trigger.click();
+      trigger.focus();
+    }
   });
 
   const updateScrolled = () => {
