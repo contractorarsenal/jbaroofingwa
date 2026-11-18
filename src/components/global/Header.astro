@@ -412,6 +412,14 @@ const roofServices = [
     document.documentElement.toggleAttribute('data-menu-open', !expanded);
   });
 
+  // Escape closes the open mobile menu and returns focus to the menu button
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && trigger?.getAttribute('aria-expanded') === 'true') {
+      trigger.click();
+      trigger.focus();
+    }
+  });
+
   const updateScrolled = () => {
     if (!header) return;
     if (window.scrollY > 40) header.setAttribute('data-scrolled', '');
