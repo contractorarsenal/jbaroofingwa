@@ -408,6 +408,8 @@ const roofServices = [
     trigger.setAttribute('aria-expanded', String(!expanded));
     if (menu) menu.hidden = expanded;
     if (stickyCta) stickyCta.hidden = !expanded;
+    // lets the cookie notice step aside while the menu is open (see CookieNotice.astro)
+    document.documentElement.toggleAttribute('data-menu-open', !expanded);
   });
 
   const updateScrolled = () => {
